@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Room5_documentatie</string>
+    <string name="meniu_ecrane">Meniu lista ecrane</string>
+    <string name="active">Active</string>
+    <string name="pasive">Pasive</string>
+    <string name="datorii">Datorii</string>
+    <string name="confirmare">Confirmare</string>
+    <string name="renuntare">Renuntare</string>
+    <string name="mesaj_adaugare_subcategorie">Introduceti numele subcategoriei pe care vreti sa o adaugati</string>
+    <string name="mesaj_eliminare_subcategorie">Introduceti numele subcategoriei pe care vreti sa o eliminati</string>
+    <string name="mesaj_selectare_categorie_principala">Alegeti categoria principala (obligatoriu):</string>
+    <string name="prescurtareActive">A</string>
+    <string name="prescurtarePasive">P</string>
+    <string name="prescurtareDatorii">D</string>
+</resources>
