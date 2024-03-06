@@ -25,46 +25,39 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 
-class MeniuEcrane {
+class MeniuSubcategorii {
     @Composable
-    fun showMenu() {
+    fun showMenu(selected: String,
+                 lSubcategorii: MutableList<String>,
+                 onSelect: (String) -> Unit) {
         var expanded by remember { mutableStateOf(false) }
-        val list = listOf(
-            "Ecran principal",
-            "Tranzactii",
-            "Categorii",
-            "Mementouri",
-            "Valute",
-            "Sumar buget",
-            "Calendar",
-            "Grafice"
-        )
         var selectedItem by remember { mutableStateOf("") }
         var textFilledSize by remember { mutableStateOf(Size.Zero) }
         val icon =  if (expanded) { Icons.Filled.KeyboardArrowUp }
-                    else { Icons.Filled.KeyboardArrowDown }
+        else { Icons.Filled.KeyboardArrowDown }
 
         Column(modifier = Modifier.padding(top = 100.dp)) {
             OutlinedTextField(
                 value = selectedItem,
                 onValueChange = { selectedItem = it },
                 modifier = Modifier.fillMaxWidth().onGloballyPositioned { coordinates ->
-                        textFilledSize = coordinates.size.toSize()
-                    },
-                label = { Text(text = "Selecteaza ecran") },
+                    textFilledSize = coordinates.size.toSize()
+                },
+                label = { Text(text = "Selecteaza subcategoria") },
                 trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
                 modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
             ) {
-                list.forEach { label ->
+                lSubcategorii.forEach { label ->
                     DropdownMenuItem(onClick = {
-                                                    selectedItem = label
-                                                    expanded = false
-                                               },
-                                    text = { Text(text = label) }
-                                    )
+                        selectedItem = label
+                        expanded = false
+                        onSelect(label) //
+                    },
+                        text = { Text(text = label) }
+                    )
                 }
             }
         }

@@ -25,33 +25,35 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 
-class MeniuEcrane {
+class MeniuValute {
     @Composable
-    fun showMenu() {
+    fun showMenu(selected: String,
+                 onSelect: (String) -> Unit,) {
         var expanded by remember { mutableStateOf(false) }
-        val list = listOf(
-            "Ecran principal",
-            "Tranzactii",
-            "Categorii",
-            "Mementouri",
-            "Valute",
-            "Sumar buget",
-            "Calendar",
-            "Grafice"
+        val list = mutableListOf(
+            "Dolar American",
+            "Euro",
+            "Yen Japonez",
+            "Lira sterlina",
+            "Dolar australian",
+            "Dolar canadian",
+            "Franc elvetian",
+            "Coroana norvegiana",
+            "Rubla ruseasca"
         )
         var selectedItem by remember { mutableStateOf("") }
         var textFilledSize by remember { mutableStateOf(Size.Zero) }
         val icon =  if (expanded) { Icons.Filled.KeyboardArrowUp }
-                    else { Icons.Filled.KeyboardArrowDown }
+        else { Icons.Filled.KeyboardArrowDown }
 
         Column(modifier = Modifier.padding(top = 100.dp)) {
             OutlinedTextField(
                 value = selectedItem,
                 onValueChange = { selectedItem = it },
                 modifier = Modifier.fillMaxWidth().onGloballyPositioned { coordinates ->
-                        textFilledSize = coordinates.size.toSize()
-                    },
-                label = { Text(text = "Selecteaza ecran") },
+                    textFilledSize = coordinates.size.toSize()
+                },
+                label = { Text(text = "Selecteaza valuta") },
                 trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
             DropdownMenu(
                 expanded = expanded,
@@ -60,11 +62,12 @@ class MeniuEcrane {
             ) {
                 list.forEach { label ->
                     DropdownMenuItem(onClick = {
-                                                    selectedItem = label
-                                                    expanded = false
-                                               },
-                                    text = { Text(text = label) }
-                                    )
+                        selectedItem = label
+                        expanded = false
+                        onSelect(label) //
+                    },
+                        text = { Text(text = label) }
+                    )
                 }
             }
         }
