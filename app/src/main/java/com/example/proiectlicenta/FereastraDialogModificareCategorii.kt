@@ -3,6 +3,7 @@ package com.example.proiectlicenta
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -116,59 +117,84 @@ class FereastraDialogModificareCategorii {
                             }) { Text(stringResource(R.string.prescurtareDatorii)) }
                         }
                     }
+
                     Text(
                         text = specificMessage,
                         modifier = Modifier.fillMaxWidth(),
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold
                     )
-                    var filledText by remember {
-                        mutableStateOf("")
-                    }
-                    TextField(  value = filledText, onValueChange = {filledText = it},
-                        textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Right),
-                        label = { Text(text = "Denumire") },
-                        placeholder = { Text(text = "_____") },
-                        leadingIcon = { Icon(imageVector = Icons.Outlined.ModeEdit, contentDescription = "Add") },
-                        trailingIcon = { Icon(imageVector = Icons.Outlined.Category, contentDescription = "Add") },
-                        modifier = Modifier.padding(horizontal = 5.dp, vertical = 50.dp)
-                    )
-                    Row(
-                        modifier = Modifier.fillMaxWidth().padding(10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(30.dp)
-                    ) {
-                        val words = specificMessage.trim().split("\\s+".toRegex())
-                        val lastWord = words.last()
-                        Button(onClick = {
-                            val firstLetter = filledText[0].toString().uppercase()
-                            if (lastWord == "adaugati") {
-                                if (showA.value && !showP.value && !showD.value) {
-                                    adaugareSubcategorie(lActive, firstLetter, filledText)
-                                } else if (showP.value && !showA.value && !showD.value) {
-                                    adaugareSubcategorie(lPasive, firstLetter, filledText)
-                                } else if (showD.value && !showA.value && !showP.value) {
-                                    adaugareSubcategorie(lDatorii, firstLetter, filledText)
+
+                    if (!(showA.value && showD.value && showP.value)) {
+                        var filledText by remember {
+                            mutableStateOf("")
+                        }
+                        TextField(
+                            value = filledText, onValueChange = { filledText = it },
+                            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Right),
+                            label = { Text(text = "Denumire") },
+                            placeholder = { Text(text = "_____") },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.ModeEdit,
+                                    contentDescription = "Add"
+                                )
+                            },
+                            trailingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Category,
+                                    contentDescription = "Add"
+                                )
+                            },
+                            modifier = Modifier.padding(horizontal = 5.dp, vertical = 50.dp)
+                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(10.dp),
+                            horizontalArrangement = Arrangement.spacedBy(30.dp)
+                        ) {
+                            val words = specificMessage.trim().split("\\s+".toRegex())
+                            val lastWord = words.last()
+                            Button(onClick = {
+                                val firstLetter = filledText[0].toString().uppercase()
+                                if (lastWord == "adaugati") {
+                                    if (showA.value && !showP.value && !showD.value) {
+                                        adaugareSubcategorie(lActive, firstLetter, filledText)
+                                    } else if (showP.value && !showA.value && !showD.value) {
+                                        adaugareSubcategorie(lPasive, firstLetter, filledText)
+                                    } else if (showD.value && !showA.value && !showP.value) {
+                                        adaugareSubcategorie(lDatorii, firstLetter, filledText)
+                                    }
+                                } else if (lastWord == "eliminati") {
+                                    if (showA.value && !showP.value && !showD.value) {
+                                        eliminareSubcategorie(lActive, firstLetter, filledText)
+                                    } else if (showP.value && !showA.value && !showD.value) {
+                                        eliminareSubcategorie(lPasive, firstLetter, filledText)
+                                    } else if (showD.value && !showA.value && !showP.value) {
+                                        eliminareSubcategorie(lDatorii, firstLetter, filledText)
+                                    }
                                 }
-                            } else if (lastWord == "eliminati") {
-                                if (showA.value && !showP.value && !showD.value) {
-                                    eliminareSubcategorie(lActive, firstLetter, filledText)
-                                } else if (showP.value && !showA.value && !showD.value) {
-                                    eliminareSubcategorie(lPasive, firstLetter, filledText)
-                                } else if (showD.value && !showA.value && !showP.value) {
-                                    eliminareSubcategorie(lDatorii, firstLetter, filledText)
-                                }
-                            }
-                            showA.value = true
-                            showP.value = true
-                            showD.value = true
-                            onConfirmation()
-                        }) { Text(stringResource(R.string.confirmare)) }
-                        Button(onClick = {
-                            showA.value = true
-                            showP.value = true
-                            showD.value = true
-                            onDismissRequest()
-                        }) { Text(stringResource(R.string.renuntare)) }
+                                showA.value = true
+                                showP.value = true
+                                showD.value = true
+                                onConfirmation()
+                            }) { Text(stringResource(R.string.confirmare)) }
+                            Button(onClick = {
+                                showA.value = true
+                                showP.value = true
+                                showD.value = true
+                                onDismissRequest()
+                            }) { Text(stringResource(R.string.renuntare)) }
+                        }
+                    } else {
+                        Spacer(modifier = Modifier.height(20.dp))
+
+                        Text(
+                            text = "Nu ati selectat categoria principala",
+                            modifier = Modifier.fillMaxWidth(),
+                            fontSize = 25.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Red
+                        )
                     }
                 }
             }

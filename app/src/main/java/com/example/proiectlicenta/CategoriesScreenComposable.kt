@@ -87,12 +87,12 @@ data class CategoriesScreenComposable(val ctx: Context) {
         if (deleteButton.value) { showDeleteSubcategoryDialog() }
         if (!addButton.value && !deleteButton.value) {
             Column(
-                modifier = modifier.fillMaxWidth(),
+                modifier = modifier.fillMaxWidth().padding(top = 100.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Row(
-                    modifier = modifier.padding(top = 45.dp),
+                    modifier = Modifier,
                     horizontalArrangement = Arrangement.spacedBy(35.dp)
                 ) {
                     if (showA.value) {
