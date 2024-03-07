@@ -25,7 +25,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 
-class MeniuEcrane {
+class MenuScreensButton {
     @Composable
     fun showMenu() {
         var expanded by remember { mutableStateOf(false) }

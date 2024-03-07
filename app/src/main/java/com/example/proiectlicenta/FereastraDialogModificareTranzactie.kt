@@ -56,6 +56,17 @@ class FereastraDialogModificareTranzactie {
     }
 
     @Composable
+    private fun avertisment() {
+        Text(
+            text = "Nu ati selectat categoria principala",
+            modifier = Modifier.fillMaxWidth(),
+            fontSize = 25.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Red
+        )
+    }
+
+    @Composable
     fun showDialog(
         onDismissRequest: () -> Unit,
         onConfirmation: () -> Unit,
@@ -275,24 +286,10 @@ class FereastraDialogModificareTranzactie {
                                     onDismissRequest()
                                 }) { Text(stringResource(R.string.renuntare)) }
                             }
-                        } else {
-                            Text(
-                                text = "Nu ati selectat categoria principala",
-                                modifier = Modifier.fillMaxWidth(),
-                                fontSize = 25.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Red
-                            )
-                        }
+                        } else { avertisment() }
                     } else {
                         if (showA.value && showP.value && showD.value) {
-                            Text(
-                                text = "Nu ati selectat categoria principala",
-                                modifier = Modifier.fillMaxWidth(),
-                                fontSize = 25.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Red
-                            )
+                            avertisment()
                         } else {
                             if (showMeniuValute.value && !showMeniuSubcategorii.value) {
                                 meniuValute.showMenu(currency) {

@@ -28,28 +28,22 @@ import com.example.room5_documentatie.R
 
 data class TransactionsScreenComposable(val ctx: Context) {
     private val fereastraDialog = FereastraDialogModificareTranzactie()
+    private val menuScreensButton = MenuScreensSwipeableTabRows()
 
-    private var showMenu = mutableStateOf(false)
     private var showA = mutableStateOf(true)
     private var showP = mutableStateOf(true)
     private var showD = mutableStateOf(true)
     private var addButton = mutableStateOf(false)
     private var deleteButton = mutableStateOf(false)
 
-    private var sumaActive: Double = 0.0
-    private var sumaPasive: Double = 0.0
-    private var sumaDatorii: Double = 0.0
-
-    private val meniuEcrane = MeniuEcrane()
-
     private val dismissAddButton: () -> Unit = { addButton.value = false }
     private val confirmationAddButton: () -> Unit = { addButton.value = false }
     private val dismissDeleteButton: () -> Unit = { deleteButton.value = false }
     private val confirmationDeleteButton: () -> Unit = { deleteButton.value = false }
 
-    private var lTranzactiiActive: MutableList<Tranzactie> = mutableListOf<Tranzactie>()
-    private var lTranzactiiPasive: MutableList<Tranzactie> = mutableListOf<Tranzactie>()
-    private var lTranzactiiDatorii: MutableList<Tranzactie> = mutableListOf<Tranzactie>()
+    private var lTranzactiiActive: MutableList<Tranzactie> = mutableListOf()
+    private var lTranzactiiPasive: MutableList<Tranzactie> = mutableListOf()
+    private var lTranzactiiDatorii: MutableList<Tranzactie> = mutableListOf()
 
     @Composable
     private fun showAddTransactionDialog(
@@ -85,129 +79,114 @@ data class TransactionsScreenComposable(val ctx: Context) {
 
     @Composable
     fun transactionsLayout(modifier: Modifier = Modifier) {
-        if (showMenu.value) { meniuEcrane.showMenu() }
+        menuScreensButton.showMenu()
         if (addButton.value) { showAddTransactionDialog() }
         if (deleteButton.value) { showDeleteTransactionDialog() }
         if (!addButton.value && !deleteButton.value) {
             Column(
-                modifier = modifier.fillMaxWidth(),
+                modifier = modifier.fillMaxWidth().padding(top = 100.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly
             ) {
-                Button(
-                    onClick = { showMenu.value = !showMenu.value },
-                    modifier = modifier
-                        .height(120.dp)
-                        .width(200.dp)
-                        .padding(top = 20.dp, bottom = 40.dp)
-                ) { Text(stringResource(R.string.meniu_ecrane)) }
-                if (!showMenu.value) {
-                    Column() {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Start
-                        ) {
-                            Column(
-                                modifier = modifier.padding(top = 45.dp),
-                                verticalArrangement = Arrangement.spacedBy(100.dp)
-                            ) {
-                                if (showA.value) {
-                                    Button(onClick = {
-                                        if (showA.value && showP.value && showD.value) {
-                                            showP.value = false
-                                            showD.value = false
-                                        } else if (showA.value && !showP.value && !showD.value) {
-                                            showP.value = true
-                                            showD.value = true
-                                        }
-                                    }, modifier = modifier.height(75.dp)) {
-                                        Text(
-                                            stringResource(id = R.string.active_short) + sumaActive,
-                                            fontSize = 20.sp
-                                        )
-                                    }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start,
+                ) {
+                    Column(
+                            verticalArrangement = Arrangement.spacedBy(80.dp),
+                    ) {
+                        if (showA.value) {
+                            Button(onClick = {
+                                if (showA.value && showP.value && showD.value) {
+                                    showP.value = false
+                                    showD.value = false
+                                } else if (showA.value && !showP.value && !showD.value) {
+                                    showP.value = true
+                                    showD.value = true
                                 }
-                                if (showP.value) {
-                                    Button(
-                                        onClick = {
-                                            if (showP.value && showA.value && showD.value) {
-                                                showA.value = false
-                                                showD.value = false
-                                            } else if (showP.value && !showA.value && !showD.value) {
-                                                showA.value = true
-                                                showD.value = true
-                                            }
-                                        },
-                                        modifier = modifier.height(75.dp)
-                                    ) {
-                                        Text(
-                                            stringResource(id = R.string.pasive_short) + sumaPasive,
-                                            fontSize = 20.sp
-                                        )
-                                    }
-                                }
-                                if (showD.value) {
-                                    Button(
-                                        onClick = {
-                                            if (showD.value && showA.value && showP.value) {
-                                                showA.value = false
-                                                showP.value = false
-                                            } else if (showD.value && !showA.value && !showP.value) {
-                                                showA.value = true
-                                                showP.value = true
-                                            }
-                                        },
-                                        modifier = modifier.height(75.dp)
-                                    ) {
-                                        Text(
-                                            stringResource(id = R.string.datorii_short) + sumaDatorii,
-                                            fontSize = 20.sp
-                                        )
-                                    }
-                                }
-                            }
-                            if (showA.value && !showP.value && !showD.value) {
-                                tranzactiiLazyColumn(tranzactii = lTranzactiiActive)
-                            }
-                        }
-                        Row(
-                            modifier = modifier
-                                .padding(top = 100.dp)
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Button(
-                                onClick = {
-                                    if (!addButton.value) {
-                                        addButton.value = true
-                                    }
-                                },
-                                shape = CircleShape,
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = "Favorite",
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
-
-                            Spacer(modifier = Modifier.width(80.dp))
-
-                            Button(
-                                onClick = {
-                                    if (!deleteButton.value) {
-                                        deleteButton.value = true
-                                    }
-                                },
-                                shape = CircleShape,
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = "Favorite",
-                                    modifier = Modifier.size(20.dp)
+                            }, modifier = modifier.height(75.dp)) {
+                                Text(
+                                    text = stringResource(id = R.string.active_short),
+                                    fontSize = 20.sp
                                 )
                             }
                         }
+                        if (showP.value) {
+                            Button(
+                                onClick = {
+                                    if (showP.value && showA.value && showD.value) {
+                                        showA.value = false
+                                        showD.value = false
+                                    } else if (showP.value && !showA.value && !showD.value) {
+                                        showA.value = true
+                                        showD.value = true
+                                    }
+                                },
+                                modifier = modifier.height(75.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.pasive_short),
+                                    fontSize = 20.sp
+                                )
+                            }
+                        }
+                        if (showD.value) {
+                            Button(
+                                onClick = {
+                                    if (showD.value && showA.value && showP.value) {
+                                        showA.value = false
+                                        showP.value = false
+                                    } else if (showD.value && !showA.value && !showP.value) {
+                                        showA.value = true
+                                        showP.value = true
+                                    }
+                                },
+                                modifier = modifier.height(75.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.datorii_short),
+                                    fontSize = 20.sp
+                                )
+                            }
+                        }
+                    }
+                    if (showA.value && !showP.value && !showD.value) {
+                        tranzactiiLazyColumn(tranzactii = lTranzactiiActive)
+                    }
+                }
+                Row(
+                    modifier = modifier.padding(top = 100.dp).fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Button(
+                        onClick = {
+                            if (!addButton.value) {
+                                addButton.value = true
+                            }
+                        },
+                        shape = CircleShape,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Favorite",
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(80.dp))
+
+                    Button(
+                        onClick = {
+                            if (!deleteButton.value) {
+                                deleteButton.value = true
+                            }
+                        },
+                        shape = CircleShape,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Favorite",
+                            modifier = Modifier.size(20.dp)
+                        )
                     }
                 }
             }

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -22,19 +21,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.example.room5_documentatie.R
 
 data class CategoriesScreenComposable(val ctx: Context) {
     private val fereastraDialog = FereastraDialogModificareCategorii()
+    private val menuScreensButton = MenuScreensSwipeableTabRows()
 
-    private var showMenu = mutableStateOf(false)
     private var showA = mutableStateOf(true)
     private var showP = mutableStateOf(true)
     private var showD = mutableStateOf(true)
     private var addButton = mutableStateOf(false)
     private var deleteButton = mutableStateOf(false)
-    private val meniuEcrane = MeniuEcrane()
 
     private var listaSubcategoriiActive= subcategoriiPredefiniteActive.map {
         Subcategorie(name = it.key.toString(), items = it.value)
@@ -85,7 +82,7 @@ data class CategoriesScreenComposable(val ctx: Context) {
 
     @Composable
     fun categoriesLayout(modifier: Modifier = Modifier) {
-        if (showMenu.value) { meniuEcrane.showMenu() }
+        menuScreensButton.showMenu()
         if (addButton.value) { showAddSubcategoryDialog() }
         if (deleteButton.value) { showDeleteSubcategoryDialog() }
         if (!addButton.value && !deleteButton.value) {
@@ -94,92 +91,86 @@ data class CategoriesScreenComposable(val ctx: Context) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
-                Button(
-                    onClick = { showMenu.value = !showMenu.value },
-                    modifier = modifier.height(100.dp).width(200.dp).padding(top = 20.dp)
-                ) { Text(stringResource(R.string.meniu_ecrane)) }
-                if (!showMenu.value) {
-                    Row(
-                        modifier = modifier.padding(top = 45.dp),
-                        horizontalArrangement = Arrangement.spacedBy(35.dp)
-                    ) {
-                        if (showA.value) {
-                            Button(onClick = {
-                                if (showA.value && showP.value && showD.value) {
-                                    showP.value = false
-                                    showD.value = false
-                                } else if (showA.value && !showP.value && !showD.value) {
-                                    showP.value = true
-                                    showD.value = true
-                                }
-                            }, modifier = modifier.height(75.dp)) { Text(stringResource(R.string.active)) }
-                            if (showA.value && !showP.value && !showD.value) {
-                                subcategoriiLazyColumn(categorii = listaSubcategoriiActive)
+                Row(
+                    modifier = modifier.padding(top = 45.dp),
+                    horizontalArrangement = Arrangement.spacedBy(35.dp)
+                ) {
+                    if (showA.value) {
+                        Button(onClick = {
+                            if (showA.value && showP.value && showD.value) {
+                                showP.value = false
+                                showD.value = false
+                            } else if (showA.value && !showP.value && !showD.value) {
+                                showP.value = true
+                                showD.value = true
                             }
-                        }
-                        if (showP.value) {
-                            Button(
-                                onClick = {
-                                    if (showP.value && showA.value && showD.value) {
-                                        showA.value = false
-                                        showD.value = false
-                                    } else if (showP.value && !showA.value && !showD.value) {
-                                        showA.value = true
-                                        showD.value = true
-                                    }
-                                },
-                                modifier = modifier.height(75.dp)
-                            ) { Text(stringResource(R.string.pasive)) }
-                            if (showP.value && !showA.value && !showD.value) {
-                                subcategoriiLazyColumn(categorii = listaSubcategoriiPasive)
-                            }
-                        }
-                        if (showD.value) {
-                            Button(
-                                onClick = {
-                                    if (showD.value && showA.value && showP.value) {
-                                        showA.value = false
-                                        showP.value = false
-                                    } else if (showD.value && !showA.value && !showP.value) {
-                                        showA.value = true
-                                        showP.value = true
-                                    }
-                                },
-                                modifier = modifier.height(75.dp)
-                            ) { Text(stringResource(R.string.datorii)) }
-                            if (showD.value && !showA.value && !showP.value) {
-                                subcategoriiLazyColumn(categorii = listaSubcategoriiDatorii)
-                            }
+                        }, modifier = modifier.height(75.dp)) { Text(stringResource(R.string.active)) }
+                        if (showA.value && !showP.value && !showD.value) {
+                            subcategoriiLazyColumn(categorii = listaSubcategoriiActive)
                         }
                     }
-                    Row(
-                        modifier = modifier.padding(top = 100.dp),
-                        horizontalArrangement = Arrangement.spacedBy(80.dp)
+                    if (showP.value) {
+                        Button(
+                            onClick = {
+                                if (showP.value && showA.value && showD.value) {
+                                    showA.value = false
+                                    showD.value = false
+                                } else if (showP.value && !showA.value && !showD.value) {
+                                    showA.value = true
+                                    showD.value = true
+                                }
+                            },
+                            modifier = modifier.height(75.dp)
+                        ) { Text(stringResource(R.string.pasive)) }
+                        if (showP.value && !showA.value && !showD.value) {
+                            subcategoriiLazyColumn(categorii = listaSubcategoriiPasive)
+                        }
+                    }
+                    if (showD.value) {
+                        Button(
+                            onClick = {
+                                if (showD.value && showA.value && showP.value) {
+                                    showA.value = false
+                                    showP.value = false
+                                } else if (showD.value && !showA.value && !showP.value) {
+                                    showA.value = true
+                                    showP.value = true
+                                }
+                            },
+                            modifier = modifier.height(75.dp)
+                        ) { Text(stringResource(R.string.datorii)) }
+                        if (showD.value && !showA.value && !showP.value) {
+                            subcategoriiLazyColumn(categorii = listaSubcategoriiDatorii)
+                        }
+                    }
+                }
+                Row(
+                    modifier = modifier.padding(top = 100.dp),
+                    horizontalArrangement = Arrangement.spacedBy(80.dp)
+                ) {
+                    Button(
+                        onClick = {
+                            if (!addButton.value) { addButton.value = true }
+                        },
+                        shape = CircleShape,
                     ) {
-                        Button(
-                            onClick = {
-                                if (!addButton.value) { addButton.value = true }
-                            },
-                            shape = CircleShape,
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = "Favorite",
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                        Button(
-                            onClick = {
-                                if (!deleteButton.value) { deleteButton.value = true }
-                            },
-                            shape = CircleShape,
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = "Favorite",
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Favorite",
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                    Button(
+                        onClick = {
+                            if (!deleteButton.value) { deleteButton.value = true }
+                        },
+                        shape = CircleShape,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Favorite",
+                            modifier = Modifier.size(20.dp)
+                        )
                     }
                 }
             }
