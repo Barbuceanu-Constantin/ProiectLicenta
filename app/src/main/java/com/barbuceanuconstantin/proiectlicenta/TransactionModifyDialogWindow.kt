@@ -65,7 +65,10 @@ class FereastraDialogModificareTranzactie {
     ) {
         var currency by remember { mutableStateOf("") }
         var subcategorie by remember { mutableStateOf("") }
-        Dialog(onDismissRequest = { onDismissRequest() }) {
+        Dialog(onDismissRequest = {
+            resetButtons(showA, showP, showD)
+            onDismissRequest()
+        }) {
             Card(
                 modifier = Modifier.fillMaxWidth().height(750.dp).padding(10.dp),
                 shape = RoundedCornerShape(16.dp),
@@ -207,18 +210,14 @@ class FereastraDialogModificareTranzactie {
                                             //eliminareSubcategorie(lDatorii, firstLetter, filledText)
                                         }
                                     }
-                                    showA.value = true
-                                    showP.value = true
-                                    showD.value = true
+                                    resetButtons(showA, showP, showD)
                                     onConfirmation()
                                 }) { Text(stringResource(R.string.confirmare)) }
 
                                 Spacer(modifier = Modifier.width(30.dp))
 
                                 Button(onClick = {
-                                    showA.value = true
-                                    showP.value = true
-                                    showD.value = true
+                                    resetButtons(showA, showP, showD)
                                     onDismissRequest()
                                 }) { Text(stringResource(R.string.renuntare)) }
                             }
