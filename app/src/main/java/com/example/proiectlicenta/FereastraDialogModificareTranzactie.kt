@@ -56,17 +56,6 @@ class FereastraDialogModificareTranzactie {
     }
 
     @Composable
-    private fun avertisment() {
-        Text(
-            text = "Nu ati selectat categoria principala",
-            modifier = Modifier.fillMaxWidth(),
-            fontSize = 25.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Red
-        )
-    }
-
-    @Composable
     fun showDialog(
         onDismissRequest: () -> Unit,
         onConfirmation: () -> Unit,
@@ -84,58 +73,7 @@ class FereastraDialogModificareTranzactie {
                 shape = RoundedCornerShape(16.dp),
             ) {
                 Column {
-                    Text(
-                        text = stringResource(R.string.mesaj_selectare_categorie_principala),
-                        modifier = Modifier.fillMaxWidth(),
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Red
-                    )
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp),
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        if (showA.value) {
-                            Button(onClick = {
-                                if (showA.value && showP.value && showD.value) {
-                                    showP.value = false
-                                    showD.value = false
-                                } else if (showA.value && !showP.value && !showD.value) {
-                                    showP.value = true
-                                    showD.value = true
-                                    showMeniuValute.value = false
-                                    showMeniuSubcategorii.value = false
-                                }
-                            }) { Text(stringResource(R.string.prescurtareActive)) }
-                        }
-                        if (showP.value) {
-                            Button(onClick = {
-                                if (showP.value && showA.value && showD.value) {
-                                    showA.value = false
-                                    showD.value = false
-                                } else if (showP.value && !showA.value && !showD.value) {
-                                    showA.value = true
-                                    showD.value = true
-                                    showMeniuValute.value = false
-                                    showMeniuSubcategorii.value = false
-                                }
-                            }) { Text(stringResource(R.string.prescurtarePasive)) }
-                        }
-                        if (showD.value) {
-                            Button(onClick = {
-                                if (showD.value && showA.value && showP.value) {
-                                    showA.value = false
-                                    showP.value = false
-                                } else if (showD.value && !showA.value && !showP.value) {
-                                    showA.value = true
-                                    showP.value = true
-                                    showMeniuValute.value = false
-                                    showMeniuSubcategorii.value = false
-                                }
-                            }) { Text(stringResource(R.string.prescurtareDatorii)) }
-                        }
-                    }
+                    headerSelectCategoryOrTransactionWindow(showA, showP, showD)
 
                     Box(
                         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).background(color = Color.Green),
@@ -143,7 +81,7 @@ class FereastraDialogModificareTranzactie {
                     ) {
                         Button(
                             onClick = {
-                                if (!(showA.value && showP.value && showD.value) && !showMeniuValute.value) {
+                                if (!(showA.value && showP.value && showD.value) && !showMeniuValute.value && !showMeniuSubcategorii.value) {
                                     showMeniuSubcategorii.value = !showMeniuSubcategorii.value
                                 }
                             }
@@ -156,7 +94,7 @@ class FereastraDialogModificareTranzactie {
                     ) {
                         Button(
                             onClick = {
-                                if (!(showA.value && showP.value && showD.value) && !showMeniuSubcategorii.value) {
+                                if (!(showA.value && showP.value && showD.value) && !showMeniuSubcategorii.value && !showMeniuValute.value) {
                                     showMeniuValute.value = !showMeniuValute.value
                                 }
                             }
@@ -286,13 +224,13 @@ class FereastraDialogModificareTranzactie {
                                     onDismissRequest()
                                 }) { Text(stringResource(R.string.renuntare)) }
                             }
-                        } else { avertisment() }
+                        } else { warningNotSelectedCategory() }
                     } else {
                         if (showA.value && showP.value && showD.value) {
-                            avertisment()
+                            warningNotSelectedCategory()
                         } else {
                             if (showMeniuValute.value && !showMeniuSubcategorii.value) {
-                                meniuValute.showMenu(currency) {
+                                meniuValute.showMenu(currency, showMeniuValute) {
                                     currency = it
                                 }
                             } else if (!showMeniuValute.value && showMeniuSubcategorii.value) {
@@ -300,6 +238,7 @@ class FereastraDialogModificareTranzactie {
                                     meniuSubcategorii.showMenu(
                                         subcategorie,
                                         lSubcategorii = listaSubcategoriiActive,
+                                        showMeniuSubcategorii
                                     ) {
                                         subcategorie = it
                                     }
@@ -307,6 +246,7 @@ class FereastraDialogModificareTranzactie {
                                     meniuSubcategorii.showMenu(
                                         subcategorie,
                                         lSubcategorii = listaSubcategoriiPasive,
+                                        showMeniuSubcategorii
                                     ) {
                                         subcategorie = it
                                     }
@@ -314,6 +254,7 @@ class FereastraDialogModificareTranzactie {
                                     meniuSubcategorii.showMenu(
                                         subcategorie,
                                         lSubcategorii = listaSubcategoriiDatorii,
+                                        showMeniuSubcategorii
                                     ) {
                                         subcategorie = it
                                     }

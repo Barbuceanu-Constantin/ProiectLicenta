@@ -74,7 +74,7 @@ data class TransactionsScreenComposable(val ctx: Context) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(30.dp)
                 ) {
-                    selectCategoryItemList(showA = showA, showP = showP, showD = showD, modifier = modifier)
+                    selectCategoryItemList(showA = showA, showP = showP, showD = showD)
 
                     if (showA.value && !showP.value && !showD.value) {
                         tranzactiiLazyColumn(tranzactii = lTranzactiiActive)

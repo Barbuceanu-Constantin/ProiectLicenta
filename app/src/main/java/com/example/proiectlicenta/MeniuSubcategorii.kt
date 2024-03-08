@@ -14,10 +14,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -29,6 +31,7 @@ class MeniuSubcategorii {
     @Composable
     fun showMenu(selected: String,
                  lSubcategorii: MutableList<String>,
+                 showMeniuSubcategorii: MutableState<Boolean>,
                  onSelect: (String) -> Unit) {
         var expanded by remember { mutableStateOf(false) }
         var selectedItem by remember { mutableStateOf("") }
@@ -36,7 +39,10 @@ class MeniuSubcategorii {
         val icon =  if (expanded) { Icons.Filled.KeyboardArrowUp }
         else { Icons.Filled.KeyboardArrowDown }
 
-        Column(modifier = Modifier.padding(top = 100.dp)) {
+        Column(
+            modifier = Modifier.padding(top = 50.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             OutlinedTextField(
                 value = selectedItem,
                 onValueChange = { selectedItem = it },
@@ -60,6 +66,7 @@ class MeniuSubcategorii {
                     )
                 }
             }
+            okButton(selectedItem, showMeniuSubcategorii)
         }
     }
 }

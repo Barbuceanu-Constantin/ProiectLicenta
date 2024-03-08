@@ -75,48 +75,7 @@ class FereastraDialogModificareCategorii {
                 shape = RoundedCornerShape(16.dp),
             ) {
                 Column() {
-                    Text(text = stringResource(R.string.mesaj_selectare_categorie_principala),
-                        modifier = Modifier.fillMaxWidth(),
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Red
-                    )
-                    Row(modifier = Modifier.fillMaxWidth().padding(vertical = 50.dp),
-                        horizontalArrangement = Arrangement.SpaceEvenly) {
-                        if (showA.value) {
-                            Button(onClick = {
-                                if (showA.value && showP.value && showD.value) {
-                                    showP.value = false
-                                    showD.value = false
-                                } else if (showA.value && !showP.value && !showD.value) {
-                                    showP.value = true
-                                    showD.value = true
-                                }
-                            }) { Text(stringResource(R.string.prescurtareActive)) }
-                        }
-                        if (showP.value) {
-                            Button(onClick = {
-                                if (showP.value && showA.value && showD.value) {
-                                    showA.value = false
-                                    showD.value = false
-                                } else if (showP.value && !showA.value && !showD.value) {
-                                    showA.value = true
-                                    showD.value = true
-                                }
-                            }) { Text(stringResource(R.string.prescurtarePasive)) }
-                        }
-                        if (showD.value) {
-                            Button(onClick = {
-                                if (showD.value && showA.value && showP.value) {
-                                    showA.value = false
-                                    showP.value = false
-                                } else if (showD.value && !showA.value && !showP.value) {
-                                    showA.value = true
-                                    showP.value = true
-                                }
-                            }) { Text(stringResource(R.string.prescurtareDatorii)) }
-                        }
-                    }
+                    headerSelectCategoryOrTransactionWindow(showA, showP, showD)
 
                     Text(
                         text = specificMessage,
@@ -187,14 +146,7 @@ class FereastraDialogModificareCategorii {
                         }
                     } else {
                         Spacer(modifier = Modifier.height(20.dp))
-
-                        Text(
-                            text = "Nu ati selectat categoria principala",
-                            modifier = Modifier.fillMaxWidth(),
-                            fontSize = 25.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Red
-                        )
+                        warningNotSelectedCategory()
                     }
                 }
             }
