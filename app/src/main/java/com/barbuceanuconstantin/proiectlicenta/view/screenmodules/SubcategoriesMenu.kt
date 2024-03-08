@@ -30,11 +30,11 @@ import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.okButton
 
-class MeniuSubcategorii {
+class MeniuSubcategorys {
     @Composable
     fun showMenu(selected: String,
-                 lSubcategorii: MutableList<String>,
-                 showMeniuSubcategorii: MutableState<Boolean>,
+                 lSubcategorys: MutableList<String>,
+                 showMeniuSubcategorys: MutableState<Boolean>,
                  onSelect: (String) -> Unit) {
         var expanded by remember { mutableStateOf(false) }
         var selectedItem by remember { mutableStateOf("") }
@@ -54,14 +54,14 @@ class MeniuSubcategorii {
                     .onGloballyPositioned { coordinates ->
                         textFilledSize = coordinates.size.toSize()
                     },
-                label = { Text(text = stringResource(id = R.string.selectare_subcategorie)) },
+                label = { Text(text = stringResource(id = R.string.selectare_subcategory)) },
                 trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
                 modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
             ) {
-                lSubcategorii.forEach { label ->
+                lSubcategorys.forEach { label ->
                     DropdownMenuItem(onClick = {
                         selectedItem = label
                         expanded = false
@@ -71,7 +71,7 @@ class MeniuSubcategorii {
                     )
                 }
             }
-            okButton(selectedItem, showMeniuSubcategorii)
+            okButton(selectedItem, showMeniuSubcategorys)
         }
     }
 }

@@ -20,7 +20,7 @@ data class Tranzactie(
     var suma: Double,
     var valuta: String,
     var descriere: String,
-    var subcategorie: String,
+    var subcategory: String,
     var data: String,
     var payee: String
 )
@@ -63,7 +63,7 @@ fun tranzactiiLazyColumn(
 ) {
     LazyColumn(modifier.height(400.dp)) {
         items(tranzactii) {
-            tranzactie -> tranzactie(text = "${tranzactie.subcategorie} ---> ${tranzactie.suma} ${tranzactie.valuta}",
+            tranzactie -> tranzactie(text = "${tranzactie.subcategory} ---> ${tranzactie.suma} ${tranzactie.valuta}",
                                     tranzactie.descriere, tranzactie.data, tranzactie.payee)
         }
     }

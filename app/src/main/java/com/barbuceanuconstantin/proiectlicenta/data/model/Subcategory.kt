@@ -23,7 +23,7 @@ data class Subcategory(
 )
 
 @Composable
-private fun antetSubcategorie(
+private fun antetSubcategory(
     text: String,
     modifier: Modifier = Modifier
 ) {
@@ -36,7 +36,7 @@ private fun antetSubcategorie(
 }
 
 @Composable
-private fun subcategorie(
+private fun subcategory(
     text: String,
     modifier: Modifier = Modifier
 ) {
@@ -48,14 +48,14 @@ private fun subcategorie(
 }
 
 @Composable
-fun subcategoriiLazyColumn(
+fun subcategorysLazyColumn(
     categorii: List<Subcategory>,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier.height(400.dp)) {
         categorii.forEach() {
-            subcateg -> this@LazyColumn.stickyHeader{ antetSubcategorie(text = subcateg.name) }
-            items(subcateg.items) { text -> subcategorie(text = text) }
+            subcateg -> this@LazyColumn.stickyHeader{ antetSubcategory(text = subcateg.name) }
+            items(subcateg.items) { text -> subcategory(text = text) }
         }
     }
 }

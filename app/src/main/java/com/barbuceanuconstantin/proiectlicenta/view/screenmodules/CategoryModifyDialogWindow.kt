@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategorie
+import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
 import com.barbuceanuconstantin.proiectlicenta.headerSelectCategoryOrTransactionWindow
 import com.barbuceanuconstantin.proiectlicenta.resetButtons
 import com.barbuceanuconstantin.proiectlicenta.warningNotSelectedCategory
@@ -40,22 +40,22 @@ class CategoryModifyDialogWindow {
     private val showP = mutableStateOf(true)
     private val showD = mutableStateOf(true)
 
-    private fun adaugareSubcategorie(l: MutableList<Subcategorie>, firstLetter:String, filledText:String) {
+    private fun adaugareSubcategory(l: MutableList<Subcategory>, firstLetter:String, filledText:String) {
         val foundSubcategory = l.find{it.name == firstLetter}
         if (foundSubcategory != null) {
             foundSubcategory.items.add(filledText)
         } else {
             val insertionIndex = l.binarySearch { it.name.compareTo(firstLetter) }
-            val newSubcategorie = Subcategorie(name = firstLetter, items = mutableListOf(filledText))
+            val newSubcategory = Subcategory(name = firstLetter, items = mutableListOf(filledText))
             if (insertionIndex < 0) {
-                l.add(-insertionIndex - 1, newSubcategorie)
+                l.add(-insertionIndex - 1, newSubcategory)
             } else {
-                l.add(insertionIndex, newSubcategorie)
+                l.add(insertionIndex, newSubcategory)
             }
         }
     }
 
-    private fun eliminareSubcategorie(l: MutableList<Subcategorie>, firstLetter:String, filledText:String) {
+    private fun eliminareSubcategory(l: MutableList<Subcategory>, firstLetter:String, filledText:String) {
         val foundSubcategory = l.find{it.name == firstLetter}
         if (foundSubcategory != null) {
             foundSubcategory.items.remove(filledText)
@@ -67,9 +67,9 @@ class CategoryModifyDialogWindow {
         onDismissRequest: () -> Unit,
         onConfirmation: () -> Unit,
         strId: Int,
-        lActive: MutableList<Subcategorie>,
-        lPasive: MutableList<Subcategorie>,
-        lDatorii: MutableList<Subcategorie>
+        lActive: MutableList<Subcategory>,
+        lPasive: MutableList<Subcategory>,
+        lDatorii: MutableList<Subcategory>
     ) {
         val specificMessage = stringResource(id = strId)
         Dialog(onDismissRequest = {
@@ -128,19 +128,19 @@ class CategoryModifyDialogWindow {
                                 val firstLetter = filledText[0].toString().uppercase()
                                 if (lastWord == "adaugati") {
                                     if (showA.value && !showP.value && !showD.value) {
-                                        adaugareSubcategorie(lActive, firstLetter, filledText)
+                                        adaugareSubcategory(lActive, firstLetter, filledText)
                                     } else if (showP.value && !showA.value && !showD.value) {
-                                        adaugareSubcategorie(lPasive, firstLetter, filledText)
+                                        adaugareSubcategory(lPasive, firstLetter, filledText)
                                     } else if (showD.value && !showA.value && !showP.value) {
-                                        adaugareSubcategorie(lDatorii, firstLetter, filledText)
+                                        adaugareSubcategory(lDatorii, firstLetter, filledText)
                                     }
                                 } else if (lastWord == "eliminati") {
                                     if (showA.value && !showP.value && !showD.value) {
-                                        eliminareSubcategorie(lActive, firstLetter, filledText)
+                                        eliminareSubcategory(lActive, firstLetter, filledText)
                                     } else if (showP.value && !showA.value && !showD.value) {
-                                        eliminareSubcategorie(lPasive, firstLetter, filledText)
+                                        eliminareSubcategory(lPasive, firstLetter, filledText)
                                     } else if (showD.value && !showA.value && !showP.value) {
-                                        eliminareSubcategorie(lDatorii, firstLetter, filledText)
+                                        eliminareSubcategory(lDatorii, firstLetter, filledText)
                                     }
                                 }
                                 resetButtons(showA, showP, showD)

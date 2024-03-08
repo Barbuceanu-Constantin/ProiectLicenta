@@ -34,9 +34,9 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 import com.barbuceanuconstantin.proiectlicenta.headerSelectCategoryOrTransactionWindow
 import com.barbuceanuconstantin.proiectlicenta.resetButtons
-import com.barbuceanuconstantin.proiectlicenta.subcategoriiPredefiniteActive
-import com.barbuceanuconstantin.proiectlicenta.subcategoriiPredefiniteDatorii
-import com.barbuceanuconstantin.proiectlicenta.subcategoriiPredefinitePasive
+import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
+import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
+import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.barbuceanuconstantin.proiectlicenta.warningNotSelectedCategory
 
 class FereastraDialogModificareTranzactie {
@@ -44,19 +44,19 @@ class FereastraDialogModificareTranzactie {
     private val showP = mutableStateOf(true)
     private val showD = mutableStateOf(true)
     private val showMeniuValute = mutableStateOf(false)
-    private val showMeniuSubcategorii = mutableStateOf(false)
+    private val showMeniuSubcategorys = mutableStateOf(false)
 
     private val meniuValute = MeniuValute()
-    private val meniuSubcategorii = MeniuSubcategorii()
+    private val meniuSubcategorys = MeniuSubcategorys()
 
-    private var listaSubcategoriiActive = subcategoriiPredefiniteActive.values.flatten().toMutableList()
-    private var listaSubcategoriiPasive = subcategoriiPredefinitePasive.values.flatten().toMutableList()
-    private var listaSubcategoriiDatorii = subcategoriiPredefiniteDatorii.values.flatten().toMutableList()
+    private var listaSubcategorysActive = subcategorysPredefiniteActive.values.flatten().toMutableList()
+    private var listaSubcategorysPasive = subcategorysPredefinitePasive.values.flatten().toMutableList()
+    private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.values.flatten().toMutableList()
     private fun adaugareTranzactie(l: MutableList<Tranzactie>,
-                                   currency:String, subcategorie:String,
+                                   currency:String, subcategory:String,
                                    valueSum:String, payee:String, date:String,
                                    description:String) {
-        val newTranzactie = Tranzactie(valueSum.toDouble(), currency, description, subcategorie, date, payee)
+        val newTranzactie = Tranzactie(valueSum.toDouble(), currency, description, subcategory, date, payee)
         l.add(0, newTranzactie)
     }
 
@@ -71,7 +71,7 @@ class FereastraDialogModificareTranzactie {
         lDatorii: MutableList<Tranzactie>
     ) {
         var currency by remember { mutableStateOf("") }
-        var subcategorie by remember { mutableStateOf("") }
+        var subcategory by remember { mutableStateOf("") }
         Dialog(onDismissRequest = {
             resetButtons(showA, showP, showD)
             onDismissRequest()
@@ -95,11 +95,11 @@ class FereastraDialogModificareTranzactie {
                     ) {
                         Button(
                             onClick = {
-                                if (!(showA.value && showP.value && showD.value) && !showMeniuValute.value && !showMeniuSubcategorii.value) {
-                                    showMeniuSubcategorii.value = !showMeniuSubcategorii.value
+                                if (!(showA.value && showP.value && showD.value) && !showMeniuValute.value && !showMeniuSubcategorys.value) {
+                                    showMeniuSubcategorys.value = !showMeniuSubcategorys.value
                                 }
                             }
-                        ) { Text(stringResource(R.string.mesaj_selectare_subcategorie)) }
+                        ) { Text(stringResource(R.string.mesaj_selectare_subcategory)) }
                     }
 
                     Box(
@@ -111,17 +111,17 @@ class FereastraDialogModificareTranzactie {
                     ) {
                         Button(
                             onClick = {
-                                if (!(showA.value && showP.value && showD.value) && !showMeniuSubcategorii.value && !showMeniuValute.value) {
+                                if (!(showA.value && showP.value && showD.value) && !showMeniuSubcategorys.value && !showMeniuValute.value) {
                                     showMeniuValute.value = !showMeniuValute.value
                                 }
                             }
                         ) { Text(stringResource(R.string.mesaj_selectare_valuta)) }
                     }
 
-                    if (!showMeniuValute.value && !showMeniuSubcategorii.value) {
+                    if (!showMeniuValute.value && !showMeniuSubcategorys.value) {
                         if (!(showA.value && showP.value && showD.value)) {
                             Text(
-                                text = "${stringResource(id = R.string.subcategorie)} : $subcategorie",
+                                text = "${stringResource(id = R.string.subcategory)} : $subcategory",
                                 fontWeight = FontWeight.SemiBold,
                                 modifier = Modifier
                                     .padding(10.dp)
@@ -190,12 +190,12 @@ class FereastraDialogModificareTranzactie {
                             ) {
                                 Button(onClick = {
                                     if (addDialog) {
-                                        if (currency != "" && subcategorie != "" && valueSum != "" && payee != "" && date != "" && description != "") {
+                                        if (currency != "" && subcategory != "" && valueSum != "" && payee != "" && date != "" && description != "") {
                                             if (showA.value && !showP.value && !showD.value) {
                                                 adaugareTranzactie(
                                                     lActive,
                                                     currency,
-                                                    subcategorie,
+                                                    subcategory,
                                                     valueSum,
                                                     "Furnizor : $payee",
                                                     date,
@@ -205,7 +205,7 @@ class FereastraDialogModificareTranzactie {
                                                 adaugareTranzactie(
                                                     lPasive,
                                                     currency,
-                                                    subcategorie,
+                                                    subcategory,
                                                     valueSum,
                                                     "Beneficiar : $payee",
                                                     date,
@@ -215,7 +215,7 @@ class FereastraDialogModificareTranzactie {
                                                 adaugareTranzactie(
                                                     lDatorii,
                                                     currency,
-                                                    subcategorie,
+                                                    subcategory,
                                                     valueSum,
                                                     payee,
                                                     date,
@@ -225,11 +225,11 @@ class FereastraDialogModificareTranzactie {
                                         }
                                     } else {
                                         if (showA.value && !showP.value && !showD.value) {
-                                            //eliminareSubcategorie(lActive, firstLetter, filledText)
+                                            //eliminareSubcategory(lActive, firstLetter, filledText)
                                         } else if (showP.value && !showA.value && !showD.value) {
-                                            //eliminareSubcategorie(lPasive, firstLetter, filledText)
+                                            //eliminareSubcategory(lPasive, firstLetter, filledText)
                                         } else if (showD.value && !showA.value && !showP.value) {
-                                            //eliminareSubcategorie(lDatorii, firstLetter, filledText)
+                                            //eliminareSubcategory(lDatorii, firstLetter, filledText)
                                         }
                                     }
                                     resetButtons(showA, showP, showD)
@@ -248,34 +248,34 @@ class FereastraDialogModificareTranzactie {
                         if (showA.value && showP.value && showD.value) {
                             warningNotSelectedCategory()
                         } else {
-                            if (showMeniuValute.value && !showMeniuSubcategorii.value) {
+                            if (showMeniuValute.value && !showMeniuSubcategorys.value) {
                                 meniuValute.showMenu(currency, showMeniuValute) {
                                     currency = it
                                 }
-                            } else if (!showMeniuValute.value && showMeniuSubcategorii.value) {
+                            } else if (!showMeniuValute.value && showMeniuSubcategorys.value) {
                                 if (showA.value && !showP.value && !showD.value) {
-                                    meniuSubcategorii.showMenu(
-                                        subcategorie,
-                                        lSubcategorii = listaSubcategoriiActive,
-                                        showMeniuSubcategorii
+                                    meniuSubcategorys.showMenu(
+                                        subcategory,
+                                        lSubcategorys = listaSubcategorysActive,
+                                        showMeniuSubcategorys
                                     ) {
-                                        subcategorie = it
+                                        subcategory = it
                                     }
                                 } else if (showP.value && !showA.value && !showD.value) {
-                                    meniuSubcategorii.showMenu(
-                                        subcategorie,
-                                        lSubcategorii = listaSubcategoriiPasive,
-                                        showMeniuSubcategorii
+                                    meniuSubcategorys.showMenu(
+                                        subcategory,
+                                        lSubcategorys = listaSubcategorysPasive,
+                                        showMeniuSubcategorys
                                     ) {
-                                        subcategorie = it
+                                        subcategory = it
                                     }
                                 } else if (showD.value && !showA.value && !showP.value) {
-                                    meniuSubcategorii.showMenu(
-                                        subcategorie,
-                                        lSubcategorii = listaSubcategoriiDatorii,
-                                        showMeniuSubcategorii
+                                    meniuSubcategorys.showMenu(
+                                        subcategory,
+                                        lSubcategorys = listaSubcategorysDatorii,
+                                        showMeniuSubcategorys
                                     ) {
-                                        subcategorie = it
+                                        subcategory = it
                                     }
                                 }
                             }

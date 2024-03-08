@@ -4,9 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Subcategories(
+data class Subcategorys(
     @PrimaryKey (autoGenerate = true)
-    val idSubcategorie: Int,
+    val idSubcategory: Int,
     val denumire: String?,
     val descriere: String?,
     val idCategorie: Int

@@ -6,22 +6,18 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.barbuceanuconstantin.proiectlicenta.Subcategorii
+import com.barbuceanuconstantin.proiectlicenta.data.database.entity.Subcategorys
 
 @Dao
 interface SubcategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSubcategorii(vararg categ: Subcategorii)
-
+    suspend fun insertSubcategorys(vararg categ: Subcategorys)
     @Insert
-    suspend fun insertSubcategorie(subCateg: Subcategorii)
-
+    suspend fun insertSubcategory(subCateg: Subcategorys)
     @Update
-    suspend fun updateSubcategorii(vararg subCateg: Subcategorii)
-
+    suspend fun updateSubcategorys(vararg subCateg: Subcategorys)
     @Delete
-    suspend fun deleteSubcategorii(vararg subCateg: Subcategorii)
-
-    @Query("SELECT * FROM Subcategorii")
-    suspend fun loadAllSubcategorii(): Array<Subcategorii>
+    suspend fun deleteSubcategorys(vararg subCateg: Subcategorys)
+    @Query("SELECT * FROM Subcategorys")
+    suspend fun loadAllSubcategorys(): Array<Subcategorys>
 }

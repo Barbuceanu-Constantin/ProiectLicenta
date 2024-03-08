@@ -2,14 +2,14 @@ package com.barbuceanuconstantin.proiectlicenta
 
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 
-val subcategoriiPredefiniteActive = mutableListOf(
+val subcategorysPredefiniteActive = mutableListOf(
     "Salariu",
     "Pensie",
     "Bursa",
     "Treburi marunte"
 ).groupByTo(mutableMapOf()) { it.first() }.toSortedMap()
 
-val subcategoriiPredefinitePasive = mutableListOf(
+val subcategorysPredefinitePasive = mutableListOf(
     "Mancare",
     "Sanatate",
     "Divertisment",
@@ -21,7 +21,7 @@ val subcategoriiPredefinitePasive = mutableListOf(
     "Tips"
 ).groupByTo(mutableMapOf()) { it.first() }.toSortedMap()
 
-val subcategoriiPredefiniteDatorii = mutableListOf(
+val subcategorysPredefiniteDatorii = mutableListOf(
     "Credit1",
     "Credit2",
     "Credit3",
