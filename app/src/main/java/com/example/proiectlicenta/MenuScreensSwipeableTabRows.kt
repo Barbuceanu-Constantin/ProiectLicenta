@@ -61,7 +61,7 @@ class MenuScreensSwipeableTabRows {
             selectedIcon = Icons.Filled.Money
         ),
         TabItem(
-            title = "Categorii",
+            title = "Categories",
             unselectedIcon = Icons.Outlined.Category,
             selectedIcon = Icons.Filled.Category
         ),

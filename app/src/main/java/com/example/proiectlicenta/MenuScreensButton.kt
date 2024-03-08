@@ -32,7 +32,7 @@ class MenuScreensButton {
         val list = listOf(
             "Ecran principal",
             "Tranzactii",
-            "Categorii",
+            "Categories",
             "Mementouri",
             "Valute",
             "Sumar buget",

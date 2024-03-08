@@ -23,7 +23,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.room5_documentatie.R
 
-class FereastraDialogModificareCategorii {
+class CategoryModifyDialogWindow {
     private val showA = mutableStateOf(true)
     private val showP = mutableStateOf(true)
     private val showD = mutableStateOf(true)

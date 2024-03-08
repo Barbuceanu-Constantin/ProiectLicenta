@@ -1,5 +1,5 @@
 package com.example.proiectlicenta
 
-data class Valuta(
+data class Currency(
     var denumire: String
 )

@@ -29,10 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.room5_documentatie.R
-import kotlin.reflect.KMutableProperty0
 
 class FereastraDialogModificareTranzactie {
     private val showA = mutableStateOf(true)
@@ -111,7 +109,7 @@ class FereastraDialogModificareTranzactie {
                             )
 
                             Text(
-                                text = "Valuta : $currency",
+                                text = "Currency : $currency",
                                 fontWeight = FontWeight.SemiBold,
                                 modifier = Modifier.padding(10.dp).fillMaxWidth(),
                                 textAlign = TextAlign.Center

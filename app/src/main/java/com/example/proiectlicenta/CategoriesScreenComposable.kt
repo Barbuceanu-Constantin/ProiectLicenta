@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.room5_documentatie.R
 
 data class CategoriesScreenComposable(val ctx: Context) {
-    private val fereastraDialog = FereastraDialogModificareCategorii()
+    private val fereastraDialog = CategoryModifyDialogWindow()
     private val menuScreensButton = MenuScreensSwipeableTabRows()
 
     private var showA = mutableStateOf(true)
