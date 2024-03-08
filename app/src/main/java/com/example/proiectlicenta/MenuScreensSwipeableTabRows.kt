@@ -102,7 +102,7 @@ class MenuScreensSwipeableTabRows {
             pagerState.animateScrollToPage(selectedTabIndex)
         }
         LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
-            if(!pagerState.isScrollInProgress) {
+            if(pagerState.isScrollInProgress) {
                 selectedTabIndex = pagerState.currentPage
             }
         }
@@ -132,7 +132,7 @@ class MenuScreensSwipeableTabRows {
 
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.fillMaxWidth().weight(1f)
+                modifier = Modifier.fillMaxWidth().weight(1f),
             ) { index ->
                 Box(
                     modifier = Modifier.fillMaxSize(),
