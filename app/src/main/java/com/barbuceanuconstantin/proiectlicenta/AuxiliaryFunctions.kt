@@ -38,8 +38,10 @@ fun okButton(selectedItem: String, showMenu: MutableState<Boolean>) {
     Button(onClick = {
         if (selectedItem != "")
             showMenu.value = !showMenu.value
-    }, modifier = Modifier.height(40.dp).fillMaxWidth(buttonWidthFraction)) {
-        Text(text = "OK", fontSize = 20.sp)
+    }, modifier = Modifier
+        .height(40.dp)
+        .fillMaxWidth(buttonWidthFraction)) {
+        Text(text = stringResource(id = R.string.ok), fontSize = 20.sp)
     }
 }
 @Composable
@@ -51,7 +53,9 @@ fun headerSelectCategoryOrTransactionWindow(showA: MutableState<Boolean>, showP:
         color = Color.Red
     )
 
-    Row(modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp),
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 20.dp),
         horizontalArrangement = Arrangement.SpaceEvenly) {
         selectCategoryItemList(showA = showA, showP = showP, showD = showD, shortName = true)
     }
@@ -59,7 +63,7 @@ fun headerSelectCategoryOrTransactionWindow(showA: MutableState<Boolean>, showP:
 @Composable
 fun warningNotSelectedCategory() {
     Text(
-        text = "Nu ati selectat categoria principala",
+        text = stringResource(id = R.string.avertisment_neselectare_categorie),
         modifier = Modifier.fillMaxWidth(),
         fontSize = 25.sp,
         fontWeight = FontWeight.Bold,
@@ -137,7 +141,7 @@ fun addOrDeleteItem(addButton: MutableState<Boolean>, deleteButton: MutableState
     ) {
         Icon(
             imageVector = Icons.Default.Add,
-            contentDescription = "Favorite",
+            contentDescription = stringResource(id = R.string.favorite),
             modifier = Modifier.size(20.dp)
         )
     }
@@ -152,7 +156,7 @@ fun addOrDeleteItem(addButton: MutableState<Boolean>, deleteButton: MutableState
     ) {
         Icon(
             imageVector = Icons.Default.Delete,
-            contentDescription = "Favorite",
+            contentDescription = stringResource(id = R.string.favorite),
             modifier = Modifier.size(20.dp)
         )
     }

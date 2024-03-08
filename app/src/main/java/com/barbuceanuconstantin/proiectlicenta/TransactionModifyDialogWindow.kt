@@ -70,14 +70,20 @@ class FereastraDialogModificareTranzactie {
             onDismissRequest()
         }) {
             Card(
-                modifier = Modifier.fillMaxWidth().height(750.dp).padding(10.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(750.dp)
+                    .padding(10.dp),
                 shape = RoundedCornerShape(16.dp),
             ) {
                 Column {
                     headerSelectCategoryOrTransactionWindow(showA, showP, showD)
 
                     Box(
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).background(color = Color.Green),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .background(color = Color.Green),
                         contentAlignment = Alignment.Center
                     ) {
                         Button(
@@ -90,7 +96,10 @@ class FereastraDialogModificareTranzactie {
                     }
 
                     Box(
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).background(color = Color.Green),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .background(color = Color.Green),
                         contentAlignment = Alignment.Center
                     ) {
                         Button(
@@ -105,16 +114,20 @@ class FereastraDialogModificareTranzactie {
                     if (!showMeniuValute.value && !showMeniuSubcategorii.value) {
                         if (!(showA.value && showP.value && showD.value)) {
                             Text(
-                                text = "Subcategorie : $subcategorie",
+                                text = "${stringResource(id = R.string.subcategorie)} : $subcategorie",
                                 fontWeight = FontWeight.SemiBold,
-                                modifier = Modifier.padding(10.dp).fillMaxWidth(),
+                                modifier = Modifier
+                                    .padding(10.dp)
+                                    .fillMaxWidth(),
                                 textAlign = TextAlign.Center
                             )
 
                             Text(
-                                text = "Currency : $currency",
+                                text = "${stringResource(id = R.string.valuta)} : $currency",
                                 fontWeight = FontWeight.SemiBold,
-                                modifier = Modifier.padding(10.dp).fillMaxWidth(),
+                                modifier = Modifier
+                                    .padding(10.dp)
+                                    .fillMaxWidth(),
                                 textAlign = TextAlign.Center
                             )
 
@@ -124,7 +137,7 @@ class FereastraDialogModificareTranzactie {
                                     value = valueSum,
                                     onValueChange = { valueSum = it },
                                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                    label = { Text("Introduceti suma") },
+                                    label = { Text(stringResource(id = R.string.introduceti_suma)) },
                                     maxLines = 2,
                                     modifier = Modifier.padding(10.dp)
                                 )
@@ -135,7 +148,7 @@ class FereastraDialogModificareTranzactie {
                                 value = payee,
                                 onValueChange = { payee = it },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                                label = { Text("Furnizor/Beneficiar") },
+                                label = { Text(text = stringResource(id = R.string.furnizor_sau_beneficiar)) },
                                 maxLines = 2,
                                 modifier = Modifier.padding(10.dp)
                             )
@@ -147,7 +160,7 @@ class FereastraDialogModificareTranzactie {
                                     value = date,
                                     onValueChange = { date = it },
                                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                                    label = { Text("Data") },
+                                    label = { Text(text = stringResource(id = R.string.data)) },
                                     maxLines = 2,
                                     modifier = Modifier.padding(10.dp)
                                 )
@@ -156,14 +169,16 @@ class FereastraDialogModificareTranzactie {
                                     value = description,
                                     onValueChange = { description = it },
                                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                                    label = { Text("Descriere") },
+                                    label = { Text(text = stringResource(id = R.string.descriere)) },
                                     maxLines = 2,
                                     modifier = Modifier.padding(10.dp)
                                 )
                             }
 
                             Row(
-                                modifier = Modifier.fillMaxWidth().padding(10.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(10.dp),
                                 horizontalArrangement = Arrangement.Center
                             ) {
                                 Button(onClick = {

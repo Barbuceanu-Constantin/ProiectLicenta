@@ -73,7 +73,10 @@ class CategoryModifyDialogWindow {
             onDismissRequest()
         }) {
             Card(
-                modifier = Modifier.fillMaxWidth().height(650.dp).padding(10.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(650.dp)
+                    .padding(10.dp),
                 shape = RoundedCornerShape(16.dp),
             ) {
                 Column() {
@@ -93,24 +96,26 @@ class CategoryModifyDialogWindow {
                         TextField(
                             value = filledText, onValueChange = { filledText = it },
                             textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Right),
-                            label = { Text(text = "Denumire") },
-                            placeholder = { Text(text = "_____") },
+                            label = { Text(text = stringResource(R.string.denumire)) },
+                            placeholder = { Text(text = stringResource(id = R.string.underscores)) },
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Outlined.ModeEdit,
-                                    contentDescription = "Add"
+                                    contentDescription = stringResource(id = R.string.add)
                                 )
                             },
                             trailingIcon = {
                                 Icon(
                                     imageVector = Icons.Outlined.Category,
-                                    contentDescription = "Add"
+                                    contentDescription = stringResource(id = R.string.add)
                                 )
                             },
                             modifier = Modifier.padding(horizontal = 5.dp, vertical = 50.dp)
                         )
                         Row(
-                            modifier = Modifier.fillMaxWidth().padding(10.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(10.dp),
                             horizontalArrangement = Arrangement.spacedBy(30.dp)
                         ) {
                             val words = specificMessage.trim().split("\\s+".toRegex())

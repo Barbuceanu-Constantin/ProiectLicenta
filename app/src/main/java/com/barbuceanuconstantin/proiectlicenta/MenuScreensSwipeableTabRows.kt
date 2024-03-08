@@ -37,60 +37,61 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.barbuceanuconstantin.proiectlicenta.R
+import androidx.compose.ui.res.stringResource
 
 data class TabItem(
     val title: String,
     val unselectedIcon: ImageVector,
     val selectedIcon: ImageVector
 )
+
 @OptIn(ExperimentalFoundationApi::class)
 class MenuScreensSwipeableTabRows {
-    private val tabItems = listOf(
-        TabItem(
-            title = "Acasa",
-            unselectedIcon = Icons.Outlined.Home,
-            selectedIcon = Icons.Filled.Home
-        ),
-        TabItem(
-            title = "Tranzactii",
-            unselectedIcon = Icons.Outlined.Money,
-            selectedIcon = Icons.Filled.Money
-        ),
-        TabItem(
-            title = "Categories",
-            unselectedIcon = Icons.Outlined.Category,
-            selectedIcon = Icons.Filled.Category
-        ),
-        TabItem(
-            title = "Mementouri",
-            unselectedIcon = Icons.Outlined.RememberMe,
-            selectedIcon = Icons.Filled.RememberMe
-        ),
-        TabItem(
-            title = "Valute",
-            unselectedIcon = Icons.Outlined.CurrencyExchange,
-            selectedIcon = Icons.Filled.CurrencyExchange
-        ),
-        TabItem(
-            title = "Sumar Buget",
-            unselectedIcon = Icons.Outlined.Summarize,
-            selectedIcon = Icons.Filled.Summarize
-        ),
-        TabItem(
-            title = "Calendar",
-            unselectedIcon = Icons.Outlined.CalendarMonth,
-            selectedIcon = Icons.Filled.CalendarMonth
-        ),
-        TabItem(
-            title = "Grafice",
-            unselectedIcon = Icons.Outlined.AutoGraph,
-            selectedIcon = Icons.Filled.AutoGraph
-        )
-    )
-
     @Composable
     fun showMenu() {
+        val tabItems = listOf(
+            TabItem(
+                title = stringResource(id = R.string.acasa),
+                unselectedIcon = Icons.Outlined.Home,
+                selectedIcon = Icons.Filled.Home
+            ),
+            TabItem(
+                title = stringResource(id = R.string.tranzactii),
+                unselectedIcon = Icons.Outlined.Money,
+                selectedIcon = Icons.Filled.Money
+            ),
+            TabItem(
+                title = stringResource(id = R.string.categorii),
+                unselectedIcon = Icons.Outlined.Category,
+                selectedIcon = Icons.Filled.Category
+            ),
+            TabItem(
+                title = stringResource(id = R.string.mementouri),
+                unselectedIcon = Icons.Outlined.RememberMe,
+                selectedIcon = Icons.Filled.RememberMe
+            ),
+            TabItem(
+                title = stringResource(id = R.string.valute),
+                unselectedIcon = Icons.Outlined.CurrencyExchange,
+                selectedIcon = Icons.Filled.CurrencyExchange
+            ),
+            TabItem(
+                title = stringResource(id = R.string.sumar_buget),
+                unselectedIcon = Icons.Outlined.Summarize,
+                selectedIcon = Icons.Filled.Summarize
+            ),
+            TabItem(
+                title = stringResource(id = R.string.calendar),
+                unselectedIcon = Icons.Outlined.CalendarMonth,
+                selectedIcon = Icons.Filled.CalendarMonth
+            ),
+            TabItem(
+                title = stringResource(id = R.string.grafice),
+                unselectedIcon = Icons.Outlined.AutoGraph,
+                selectedIcon = Icons.Filled.AutoGraph
+            )
+        )
+
         var selectedTabIndex by remember { mutableIntStateOf(0) }
         val pagerState = rememberPagerState {
             tabItems.size
@@ -129,7 +130,9 @@ class MenuScreensSwipeableTabRows {
 
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
             ) { index ->
                 Box(
                     modifier = Modifier.fillMaxSize(),

@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.R
@@ -35,15 +36,15 @@ class MeniuValute {
                  onSelect: (String) -> Unit,) {
         var expanded by remember { mutableStateOf(false) }
         val list = mutableListOf(
-            "Dolar American",
-            "Euro",
-            "Yen Japonez",
-            "Lira sterlina",
-            "Dolar australian",
-            "Dolar canadian",
-            "Franc elvetian",
-            "Coroana norvegiana",
-            "Rubla ruseasca"
+            stringResource(id = R.string.dolar_american),
+            stringResource(id = R.string.euro),
+            stringResource(id = R.string.yen_japonez),
+            stringResource(id = R.string.lira_sterlina),
+            stringResource(id = R.string.dolar_australian),
+            stringResource(id = R.string.dolar_canadian),
+            stringResource(id = R.string.franc_elvetian),
+            stringResource(id = R.string.coroana_norvegiana),
+            stringResource(id = R.string.rubla_ruseasca)
         )
         var selectedItem by remember { mutableStateOf("") }
         var textFilledSize by remember { mutableStateOf(Size.Zero) }
@@ -57,10 +58,12 @@ class MeniuValute {
             OutlinedTextField(
                 value = selectedItem,
                 onValueChange = { selectedItem = it },
-                modifier = Modifier.fillMaxWidth().onGloballyPositioned { coordinates ->
-                    textFilledSize = coordinates.size.toSize()
-                },
-                label = { Text(text = "Selecteaza valuta") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onGloballyPositioned { coordinates ->
+                        textFilledSize = coordinates.size.toSize()
+                    },
+                label = { Text(text = stringResource(R.string.selectare_valuta)) },
                 trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
             DropdownMenu(
                 expanded = expanded,

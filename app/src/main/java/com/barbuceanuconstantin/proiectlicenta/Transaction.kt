@@ -10,10 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.barbuceanuconstantin.proiectlicenta.R
 
 data class Tranzactie(
     var suma: Double,
@@ -46,11 +46,11 @@ private fun tranzactie(
         maxLines = 2
     )
     Text (
-        text = "Data : $data",
+        text = "${stringResource(id = R.string.data)} : $data",
         maxLines = 2
     )
     Text(
-        text = "Descriere : $descriere",
+        text = "${stringResource(id = R.string.descriere)} : $descriere",
         maxLines = 2
     )
 }

@@ -24,9 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
-import com.barbuceanuconstantin.proiectlicenta.R
 
 class MeniuSubcategorii {
     @Composable
@@ -47,10 +47,12 @@ class MeniuSubcategorii {
             OutlinedTextField(
                 value = selectedItem,
                 onValueChange = { selectedItem = it },
-                modifier = Modifier.fillMaxWidth().onGloballyPositioned { coordinates ->
-                    textFilledSize = coordinates.size.toSize()
-                },
-                label = { Text(text = "Selecteaza subcategoria") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onGloballyPositioned { coordinates ->
+                        textFilledSize = coordinates.size.toSize()
+                    },
+                label = { Text(text = stringResource(id = R.string.selectare_subcategorie)) },
                 trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
             DropdownMenu(
                 expanded = expanded,

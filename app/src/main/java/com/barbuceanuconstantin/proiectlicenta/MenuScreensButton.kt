@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.R
@@ -31,14 +32,14 @@ class MenuScreensButton {
     fun showMenu() {
         var expanded by remember { mutableStateOf(false) }
         val list = listOf(
-            "Ecran principal",
-            "Tranzactii",
-            "Categories",
-            "Mementouri",
-            "Valute",
-            "Sumar buget",
-            "Calendar",
-            "Grafice"
+            stringResource(id = R.string.ecran_principal),
+            stringResource(id = R.string.tranzactii),
+            stringResource(id = R.string.categorii),
+            stringResource(id = R.string.mementouri),
+            stringResource(id = R.string.valute),
+            stringResource(id = R.string.sumar_buget),
+            stringResource(id = R.string.calendar),
+            stringResource(id = R.string.grafice)
         )
         var selectedItem by remember { mutableStateOf("") }
         var textFilledSize by remember { mutableStateOf(Size.Zero) }
@@ -49,10 +50,12 @@ class MenuScreensButton {
             OutlinedTextField(
                 value = selectedItem,
                 onValueChange = { selectedItem = it },
-                modifier = Modifier.fillMaxWidth().onGloballyPositioned { coordinates ->
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onGloballyPositioned { coordinates ->
                         textFilledSize = coordinates.size.toSize()
                     },
-                label = { Text(text = "Selecteaza ecran") },
+                label = { Text(text = stringResource(id = R.string.selectare_ecran)) },
                 trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
             DropdownMenu(
                 expanded = expanded,
