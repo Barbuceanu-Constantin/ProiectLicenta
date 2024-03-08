@@ -24,3 +24,7 @@ val subcategoriiPredefiniteDatorii = mutableListOf(
     "Credit2",
     "Credit3",
 ).groupByTo(mutableMapOf()) { it.first() }.toSortedMap()
+
+val lTrA = mutableListOf<Tranzactie>()
+val lTrP = mutableListOf<Tranzactie>()
+val lTrD = mutableListOf<Tranzactie>()

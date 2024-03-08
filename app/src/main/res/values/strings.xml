@@ -2,9 +2,6 @@
     <string name="app_name">Room5_documentatie</string>
     <string name="meniu_ecrane">Meniu lista ecrane</string>
     <string name="active">Active</string>
-    <string name="active_short">A: </string>
-    <string name="pasive_short">P: </string>
-    <string name="datorii_short">D: </string>
     <string name="pasive">Pasive</string>
     <string name="datorii">Datorii</string>
     <string name="confirmare">Confirmare</string>

@@ -49,7 +49,7 @@ data class TabItem(
 )
 @OptIn(ExperimentalFoundationApi::class)
 class MenuScreensSwipeableTabRows {
-    val tabItems = listOf(
+    private val tabItems = listOf(
         TabItem(
             title = "Acasa",
             unselectedIcon = Icons.Outlined.Home,
