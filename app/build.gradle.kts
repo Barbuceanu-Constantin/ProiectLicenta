@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.room5_documentatie"
+    namespace = "com.barbuceanuconstantin.proiectlicenta"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.room5_documentatie"
+        applicationId = "com.barbuceanuconstantin.proiectlicenta"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
