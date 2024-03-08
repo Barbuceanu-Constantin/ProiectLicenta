@@ -1,4 +1,4 @@
-package com.barbuceanuconstantin.proiectlicenta
+package com.barbuceanuconstantin.proiectlicenta.view.screenmodules
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +31,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
+import com.barbuceanuconstantin.proiectlicenta.headerSelectCategoryOrTransactionWindow
+import com.barbuceanuconstantin.proiectlicenta.resetButtons
+import com.barbuceanuconstantin.proiectlicenta.subcategoriiPredefiniteActive
+import com.barbuceanuconstantin.proiectlicenta.subcategoriiPredefiniteDatorii
+import com.barbuceanuconstantin.proiectlicenta.subcategoriiPredefinitePasive
+import com.barbuceanuconstantin.proiectlicenta.warningNotSelectedCategory
 
 class FereastraDialogModificareTranzactie {
     private val showA = mutableStateOf(true)

@@ -1,10 +1,10 @@
-package com.barbuceanuconstantin.proiectlicenta
+package com.barbuceanuconstantin.proiectlicenta.data.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Subcategorii(
+data class Subcategories(
     @PrimaryKey (autoGenerate = true)
     val idSubcategorie: Int,
     val denumire: String?,

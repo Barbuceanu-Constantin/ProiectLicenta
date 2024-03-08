@@ -1,4 +1,4 @@
-package com.barbuceanuconstantin.proiectlicenta
+package com.barbuceanuconstantin.proiectlicenta.data.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

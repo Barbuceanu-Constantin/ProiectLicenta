@@ -1,4 +1,4 @@
-package com.barbuceanuconstantin.proiectlicenta
+package com.barbuceanuconstantin.proiectlicenta.view.screenmodules
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -14,12 +14,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -27,23 +25,28 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import com.barbuceanuconstantin.proiectlicenta.R
 
-class MeniuSubcategorii {
+class MenuScreensButton {
     @Composable
-    fun showMenu(selected: String,
-                 lSubcategorii: MutableList<String>,
-                 showMeniuSubcategorii: MutableState<Boolean>,
-                 onSelect: (String) -> Unit) {
+    fun showMenu() {
         var expanded by remember { mutableStateOf(false) }
+        val list = listOf(
+            stringResource(id = R.string.ecran_principal),
+            stringResource(id = R.string.tranzactii),
+            stringResource(id = R.string.categorii),
+            stringResource(id = R.string.mementouri),
+            stringResource(id = R.string.valute),
+            stringResource(id = R.string.sumar_buget),
+            stringResource(id = R.string.calendar),
+            stringResource(id = R.string.grafice)
+        )
         var selectedItem by remember { mutableStateOf("") }
         var textFilledSize by remember { mutableStateOf(Size.Zero) }
         val icon =  if (expanded) { Icons.Filled.KeyboardArrowUp }
-        else { Icons.Filled.KeyboardArrowDown }
+                    else { Icons.Filled.KeyboardArrowDown }
 
-        Column(
-            modifier = Modifier.padding(top = 50.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Column(modifier = Modifier.padding(top = 100.dp)) {
             OutlinedTextField(
                 value = selectedItem,
                 onValueChange = { selectedItem = it },
@@ -52,24 +55,22 @@ class MeniuSubcategorii {
                     .onGloballyPositioned { coordinates ->
                         textFilledSize = coordinates.size.toSize()
                     },
-                label = { Text(text = stringResource(id = R.string.selectare_subcategorie)) },
+                label = { Text(text = stringResource(id = R.string.selectare_ecran)) },
                 trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
                 modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
             ) {
-                lSubcategorii.forEach { label ->
+                list.forEach { label ->
                     DropdownMenuItem(onClick = {
-                        selectedItem = label
-                        expanded = false
-                        onSelect(label) //
-                    },
-                        text = { Text(text = label) }
-                    )
+                                                    selectedItem = label
+                                                    expanded = false
+                                               },
+                                    text = { Text(text = label) }
+                                    )
                 }
             }
-            okButton(selectedItem, showMeniuSubcategorii)
         }
     }
 }

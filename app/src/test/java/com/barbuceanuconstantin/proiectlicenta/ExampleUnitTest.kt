@@ -1,4 +1,4 @@
-package com.example.proiectlicenta
+package com.barbuceanuconstantin.proiectlicenta
 
 import org.junit.Test
 

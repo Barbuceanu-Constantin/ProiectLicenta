@@ -1,4 +1,4 @@
-package com.barbuceanuconstantin.proiectlicenta
+package com.barbuceanuconstantin.proiectlicenta.view.screenmodules
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,6 +30,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategorie
+import com.barbuceanuconstantin.proiectlicenta.headerSelectCategoryOrTransactionWindow
+import com.barbuceanuconstantin.proiectlicenta.resetButtons
+import com.barbuceanuconstantin.proiectlicenta.warningNotSelectedCategory
 
 class CategoryModifyDialogWindow {
     private val showA = mutableStateOf(true)

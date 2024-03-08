@@ -1,4 +1,4 @@
-package com.barbuceanuconstantin.proiectlicenta
+package com.barbuceanuconstantin.proiectlicenta.view.screen
 
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MenuScreensSwipeableTabRows
 
-data class CalendarScreenComposable(val ctx: Context) {
+data class GraphsScreenComposable(val ctx: Context) {
     private val menuScreensButton = MenuScreensSwipeableTabRows()
     @Composable
     fun principalScreenLayout(modifier: Modifier = Modifier) {

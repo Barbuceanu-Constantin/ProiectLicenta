@@ -1,4 +1,4 @@
-package com.barbuceanuconstantin.proiectlicenta
+package com.barbuceanuconstantin.proiectlicenta.view.screen
 
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
@@ -11,10 +11,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoryModifyDialogWindow
+import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MenuScreensSwipeableTabRows
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategorie
+import com.barbuceanuconstantin.proiectlicenta.addOrDeleteItem
+import com.barbuceanuconstantin.proiectlicenta.selectCategoryItemList
+import com.barbuceanuconstantin.proiectlicenta.data.model.subcategoriiLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.subcategoriiPredefiniteActive
+import com.barbuceanuconstantin.proiectlicenta.subcategoriiPredefiniteDatorii
+import com.barbuceanuconstantin.proiectlicenta.subcategoriiPredefinitePasive
 
-data class TransactionsScreenComposable(val ctx: Context) {
-    private val fereastraDialog = FereastraDialogModificareTranzactie()
+data class CategoriesScreenComposable(val ctx: Context) {
+    private val fereastraDialog = CategoryModifyDialogWindow()
     private val menuScreensButton = MenuScreensSwipeableTabRows()
 
     private var showA = mutableStateOf(true)
@@ -23,50 +32,55 @@ data class TransactionsScreenComposable(val ctx: Context) {
     private var addButton = mutableStateOf(false)
     private var deleteButton = mutableStateOf(false)
 
-    private var lTranzactiiActive: MutableList<Tranzactie> = lTrA
-    private var lTranzactiiPasive: MutableList<Tranzactie> = lTrP
-    private var lTranzactiiDatorii: MutableList<Tranzactie> = lTrD
+    private var listaSubcategoriiActive= subcategoriiPredefiniteActive.map {
+        Subcategorie(name = it.key.toString(), items = it.value)
+    }.toMutableList()
+    private var listaSubcategoriiPasive = subcategoriiPredefinitePasive.map {
+        Subcategorie(name = it.key.toString(), items = it.value)
+    }.toMutableList()
+    private var listaSubcategoriiDatorii = subcategoriiPredefiniteDatorii.map {
+        Subcategorie(name = it.key.toString(), items = it.value)
+    }.toMutableList()
 
     private val dismissAddButton: () -> Unit = { addButton.value = false }
     private val confirmationAddButton: () -> Unit = { addButton.value = false }
     private val dismissDeleteButton: () -> Unit = { deleteButton.value = false }
     private val confirmationDeleteButton: () -> Unit = { deleteButton.value = false }
+
     @Composable
-    private fun showAddTransactionDialog(
+    private fun showAddSubcategoryDialog(
         onDismissRequest: () -> Unit = dismissAddButton,
         onConfirmation: () -> Unit = confirmationAddButton,
     ) {
         fereastraDialog.showDialog(
             onDismissRequest = onDismissRequest,
             onConfirmation = onConfirmation,
-            addDialog = true,
-            deleteDialog = false,
-            lActive = lTranzactiiActive,
-            lPasive = lTranzactiiPasive,
-            lDatorii = lTranzactiiDatorii
+            strId = R.string.mesaj_adaugare_subcategorie,
+            lActive = listaSubcategoriiActive,
+            lPasive = listaSubcategoriiPasive,
+            lDatorii = listaSubcategoriiDatorii
         )
     }
 
     @Composable
-    private fun showDeleteTransactionDialog(
+    private fun showDeleteSubcategoryDialog(
         onDismissRequest: () -> Unit = dismissDeleteButton,
         onConfirmation: () -> Unit = confirmationDeleteButton,
     ) {
         fereastraDialog.showDialog(
             onDismissRequest = onDismissRequest,
             onConfirmation = onConfirmation,
-            addDialog = false,
-            deleteDialog = true,
-            lActive = lTranzactiiActive,
-            lPasive = lTranzactiiPasive,
-            lDatorii = lTranzactiiDatorii
+            strId = R.string.mesaj_eliminare_subcategorie,
+            lActive = listaSubcategoriiActive,
+            lPasive = listaSubcategoriiPasive,
+            lDatorii = listaSubcategoriiDatorii
         )
     }
     @Composable
-    fun transactionsLayout(modifier: Modifier = Modifier) {
+    fun categoriesLayout(modifier: Modifier = Modifier) {
         menuScreensButton.showMenu()
-        if (addButton.value) { showAddTransactionDialog() }
-        if (deleteButton.value) { showDeleteTransactionDialog() }
+        if (addButton.value) { showAddSubcategoryDialog() }
+        if (deleteButton.value) { showDeleteSubcategoryDialog() }
         if (!addButton.value && !deleteButton.value) {
             Column(
                 modifier = modifier.fillMaxWidth().padding(top = 100.dp),
@@ -78,11 +92,11 @@ data class TransactionsScreenComposable(val ctx: Context) {
                     selectCategoryItemList(showA = showA, showP = showP, showD = showD)
 
                     if (showA.value && !showP.value && !showD.value) {
-                        tranzactiiLazyColumn(tranzactii = lTranzactiiActive)
+                        subcategoriiLazyColumn(categorii = listaSubcategoriiActive)
                     } else if (showP.value && !showA.value && !showD.value) {
-                        tranzactiiLazyColumn(tranzactii = lTranzactiiPasive)
+                        subcategoriiLazyColumn(categorii = listaSubcategoriiPasive)
                     } else if (showD.value && !showA.value && !showP.value) {
-                        tranzactiiLazyColumn(tranzactii = lTranzactiiDatorii)
+                        subcategoriiLazyColumn(categorii = listaSubcategoriiDatorii)
                     }
                 }
                 Row(

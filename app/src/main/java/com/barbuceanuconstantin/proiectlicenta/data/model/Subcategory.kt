@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package com.barbuceanuconstantin.proiectlicenta
+package com.barbuceanuconstantin.proiectlicenta.data.model
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-data class Subcategorie(
+data class Subcategory(
     val name: String,
     val items: MutableList<String>
 )
@@ -49,7 +49,7 @@ private fun subcategorie(
 
 @Composable
 fun subcategoriiLazyColumn(
-    categorii: List<Subcategorie>,
+    categorii: List<Subcategory>,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier.height(400.dp)) {

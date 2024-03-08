@@ -1,5 +1,7 @@
 package com.barbuceanuconstantin.proiectlicenta
 
+import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
+
 val subcategoriiPredefiniteActive = mutableListOf(
     "Salariu",
     "Pensie",
