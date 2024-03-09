@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.barbuceanuconstantin.proiectlicenta.ui.theme.ProiectLicentaTheme
+import com.barbuceanuconstantin.proiectlicenta.view.screen.CategoriesScreenComposable
 import com.barbuceanuconstantin.proiectlicenta.view.screen.TransactionsScreenComposable
 
 class MainActivity : ComponentActivity() {
@@ -11,8 +12,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ProiectLicentaTheme {
-                val screen = TransactionsScreenComposable(this)
-                screen.transactionsLayout()
+                val screen = CategoriesScreenComposable(this)
+                screen.categoriesLayout()
             }
         }
     }

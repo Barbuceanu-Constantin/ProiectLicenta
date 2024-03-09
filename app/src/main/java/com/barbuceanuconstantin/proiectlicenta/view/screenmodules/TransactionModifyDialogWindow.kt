@@ -39,7 +39,7 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.barbuceanuconstantin.proiectlicenta.warningNotSelectedCategory
 
-class FereastraDialogModificareTranzactie {
+class TransactionModifyDialogWindow {
     private val showA = mutableStateOf(true)
     private val showP = mutableStateOf(true)
     private val showD = mutableStateOf(true)

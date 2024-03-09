@@ -40,7 +40,7 @@ class CategoryModifyDialogWindow {
     private val showP = mutableStateOf(true)
     private val showD = mutableStateOf(true)
 
-    private fun adaugareSubcategory(l: MutableList<Subcategory>, firstLetter:String, filledText:String) {
+    private fun addSubcategory(l: MutableList<Subcategory>, firstLetter:String, filledText:String) {
         val foundSubcategory = l.find{it.name == firstLetter}
         if (foundSubcategory != null) {
             foundSubcategory.items.add(filledText)
@@ -128,11 +128,11 @@ class CategoryModifyDialogWindow {
                                 val firstLetter = filledText[0].toString().uppercase()
                                 if (lastWord == "adaugati") {
                                     if (showA.value && !showP.value && !showD.value) {
-                                        adaugareSubcategory(lActive, firstLetter, filledText)
+                                        addSubcategory(lActive, firstLetter, filledText)
                                     } else if (showP.value && !showA.value && !showD.value) {
-                                        adaugareSubcategory(lPasive, firstLetter, filledText)
+                                        addSubcategory(lPasive, firstLetter, filledText)
                                     } else if (showD.value && !showA.value && !showP.value) {
-                                        adaugareSubcategory(lDatorii, firstLetter, filledText)
+                                        addSubcategory(lDatorii, firstLetter, filledText)
                                     }
                                 } else if (lastWord == "eliminati") {
                                     if (showA.value && !showP.value && !showD.value) {
@@ -154,6 +154,16 @@ class CategoryModifyDialogWindow {
                     } else {
                         Spacer(modifier = Modifier.height(20.dp))
                         warningNotSelectedCategory()
+                        Spacer(modifier = Modifier.height(40.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Button(onClick = {
+                                resetButtons(showA, showP, showD)
+                                onDismissRequest()
+                            }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.renuntare)) }
+                        }
                     }
                 }
             }

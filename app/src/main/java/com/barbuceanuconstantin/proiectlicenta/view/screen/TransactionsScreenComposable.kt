@@ -11,7 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.FereastraDialogModificareTranzactie
+import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.TransactionModifyDialogWindow
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MenuScreensSwipeableTabRows
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 import com.barbuceanuconstantin.proiectlicenta.addOrDeleteItem
@@ -22,7 +22,7 @@ import com.barbuceanuconstantin.proiectlicenta.selectCategoryItemList
 import com.barbuceanuconstantin.proiectlicenta.data.model.tranzactiiLazyColumn
 
 data class TransactionsScreenComposable(val ctx: Context) {
-    private val fereastraDialog = FereastraDialogModificareTranzactie()
+    private val fereastraDialog = TransactionModifyDialogWindow()
     private val menuScreensButton = MenuScreensSwipeableTabRows()
 
     private var showA = mutableStateOf(true)

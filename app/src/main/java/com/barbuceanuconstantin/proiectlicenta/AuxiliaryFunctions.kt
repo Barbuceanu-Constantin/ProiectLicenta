@@ -28,7 +28,6 @@ fun resetButtons(showA: MutableState<Boolean>, showP: MutableState<Boolean>, sho
     showP.value = true
     showD.value = true
 }
-
 @Composable
 fun okButton(selectedItem: String, showMenu: MutableState<Boolean>) {
     Spacer(Modifier.height(50.dp))

@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Proiect Licenta</string>
 
-    <string name="mesaj_eliminare_subcategory">Introduceti numele subcategoryi pe care vreti sa o eliminati</string>
-    <string name="mesaj_adaugare_subcategory">Introduceti numele subcategoryi pe care vreti sa o adaugati</string>
+    <string name="mesaj_eliminare_subcategory">Introduceti numele subcategoriei pe care vreti sa o eliminati</string>
+    <string name="mesaj_adaugare_subcategory">Introduceti numele subcategoriei pe care vreti sa o adaugati</string>
     <string name="mesaj_selectare_categorie_principala">Alegeti categoria principala (obligatoriu):</string>
     <string name="avertisment_neselectare_categorie">Nu ati selectat categoria principala</string>
     <string name="mesaj_selectare_subcategory">Alegeti subcategoria: </string>
