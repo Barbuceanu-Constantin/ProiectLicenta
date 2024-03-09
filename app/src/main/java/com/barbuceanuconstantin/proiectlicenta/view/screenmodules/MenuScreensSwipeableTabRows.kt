@@ -101,7 +101,7 @@ class MenuScreensSwipeableTabRows {
             pagerState.animateScrollToPage(selectedTabIndex)
         }
         LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
-            if(pagerState.isScrollInProgress) {
+            if(!pagerState.isScrollInProgress) {
                 selectedTabIndex = pagerState.currentPage
             }
         }
@@ -109,11 +109,13 @@ class MenuScreensSwipeableTabRows {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            ScrollableTabRow(selectedTabIndex = selectedTabIndex) {
+            ScrollableTabRow(selectedTabIndex = minOf(tabItems.count(), selectedTabIndex)) { //am adaugat minOf pt siguranta in caz ca se modifica lista
                 tabItems.forEachIndexed { index, item ->
                     Tab(
                         selected = index == selectedTabIndex,
-                        onClick = { selectedTabIndex = index },
+                        onClick = {
+                                    selectedTabIndex = index
+                                  },
                         text = {
                             Text(text = item.title)
                         },
