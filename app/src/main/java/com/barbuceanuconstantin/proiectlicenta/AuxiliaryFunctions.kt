@@ -29,14 +29,11 @@ fun resetButtons(showA: MutableState<Boolean>, showP: MutableState<Boolean>, sho
 }
 @Composable
 fun okButton(selectedItem: String, showMenu: MutableState<Boolean>) {
-    Spacer(Modifier.height(50.dp))
+    Spacer(Modifier.fillMaxHeight(50f / LocalConfiguration.current.screenHeightDp))
 
     val buttonWidthFraction = 0.3f
-    Button(onClick = {
-        if (selectedItem != "") showMenu.value = !showMenu.value
-    }, modifier = Modifier
-        .height(40.dp)
-        .fillMaxWidth(buttonWidthFraction)) {
+    Button(onClick = { showMenu.value = !showMenu.value },
+        modifier = Modifier.fillMaxHeight(120f / LocalConfiguration.current.screenHeightDp).fillMaxWidth(buttonWidthFraction)) {
         Text(text = stringResource(id = R.string.ok), fontSize = 20.sp)
     }
 }
@@ -44,23 +41,23 @@ fun okButton(selectedItem: String, showMenu: MutableState<Boolean>) {
 fun headerSelectCategoryOrTransactionWindow(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>) {
     Text(text = stringResource(R.string.mesaj_selectare_categorie_principala),
         modifier = Modifier.fillMaxWidth(),
-        fontSize = 25.sp,
+        fontSize = 20.sp,
         fontWeight = FontWeight.Bold,
         color = Color.Red
     )
-    Spacer(Modifier.fillMaxHeight(fraction = 20F / LocalConfiguration.current.screenHeightDp))
+    Spacer(Modifier.fillMaxHeight(fraction = 5F / LocalConfiguration.current.screenHeightDp))
     Row(modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly) {
         selectCategoryItemList(showA = showA, showP = showP, showD = showD, shortName = true)
     }
-    Spacer(Modifier.fillMaxHeight(fraction = 20F / LocalConfiguration.current.screenHeightDp))
+    Spacer(Modifier.fillMaxHeight(fraction = 15F / LocalConfiguration.current.screenHeightDp))
 }
 @Composable
 fun warningNotSelectedCategory() {
     Text(
         text = stringResource(id = R.string.avertisment_neselectare_categorie),
         modifier = Modifier.fillMaxWidth(),
-        fontSize = 25.sp,
+        fontSize = 20.sp,
         fontWeight = FontWeight.Bold,
         color = Color.Red
     )

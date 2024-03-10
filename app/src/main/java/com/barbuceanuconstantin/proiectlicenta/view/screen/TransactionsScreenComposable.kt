@@ -4,12 +4,15 @@ import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.TransactionModifyDialogWindow
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MenuScreensSwipeableTabRows
@@ -77,14 +80,12 @@ data class TransactionsScreenComposable(val ctx: Context) {
         if (deleteButton.value) { showDeleteTransactionDialog() }
         if (!addButton.value && !deleteButton.value) {
             Column(
-                modifier = modifier.fillMaxWidth().padding(top = 100.dp),
+                modifier = modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(30.dp)
-                ) {
+                Spacer(modifier = Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp ))
+                Row() {
                     selectCategoryItemList(showA = showA, showP = showP, showD = showD)
-
                     if (showA.value && !showP.value && !showD.value) {
                         tranzactiiLazyColumn(tranzactii = lTranzactiiActive)
                     } else if (showP.value && !showA.value && !showD.value) {
@@ -93,10 +94,8 @@ data class TransactionsScreenComposable(val ctx: Context) {
                         tranzactiiLazyColumn(tranzactii = lTranzactiiDatorii)
                     }
                 }
-                Row(
-                    modifier = modifier.padding(top = 100.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
+                Spacer(modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
+                Row(horizontalArrangement = Arrangement.Center) {
                     addOrDeleteItem(addButton = addButton, deleteButton = deleteButton)
                 }
             }

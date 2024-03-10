@@ -12,8 +12,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ProiectLicentaTheme {
-                val screen = CategoriesScreenComposable(this)
-                screen.categoriesLayout()
+                val screen = TransactionsScreenComposable(this)
+                screen.transactionsLayout()
             }
         }
     }
