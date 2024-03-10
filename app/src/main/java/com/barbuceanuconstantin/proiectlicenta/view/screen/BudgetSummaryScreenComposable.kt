@@ -10,10 +10,10 @@ import androidx.compose.ui.Modifier
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MenuScreensSwipeableTabRows
 
 data class BudgetSummaryScreenComposable(val ctx: Context) {
-    private val menuScreensButton = MenuScreensSwipeableTabRows()
+    //private val menuScreensButton = MenuScreensSwipeableTabRows()
     @Composable
     fun budgetSummaryScreenLayout(modifier: Modifier = Modifier) {
-        menuScreensButton.showMenu()
+        //menuScreensButton.showMenu()
         Column (
             modifier = modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,

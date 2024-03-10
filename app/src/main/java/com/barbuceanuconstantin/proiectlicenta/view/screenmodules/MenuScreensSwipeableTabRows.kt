@@ -1,8 +1,10 @@
 package com.barbuceanuconstantin.proiectlicenta.view.screenmodules
 
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
@@ -37,8 +39,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.view.screen.CategoriesScreenComposable
+import com.barbuceanuconstantin.proiectlicenta.view.screen.PrincipalScreenComposable
+import com.barbuceanuconstantin.proiectlicenta.view.screen.TransactionsScreenComposable
 
 data class TabItem(
     val title: String,
@@ -47,7 +53,8 @@ data class TabItem(
 )
 
 @OptIn(ExperimentalFoundationApi::class)
-class MenuScreensSwipeableTabRows {
+class MenuScreensSwipeableTabRows() {
+
     @Composable
     fun showMenu() {
         val tabItems = listOf(
@@ -94,22 +101,13 @@ class MenuScreensSwipeableTabRows {
         )
 
         var selectedTabIndex by remember { mutableIntStateOf(0) }
-        val pagerState = rememberPagerState {
-            tabItems.size
-        }
-        LaunchedEffect(selectedTabIndex) {
-            pagerState.animateScrollToPage(selectedTabIndex)
-        }
-        LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
-            if(!pagerState.isScrollInProgress) {
-                selectedTabIndex = pagerState.currentPage
-            }
-        }
 
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            ScrollableTabRow(selectedTabIndex = minOf(tabItems.count(), selectedTabIndex)) { //am adaugat minOf pt siguranta in caz ca se modifica lista
+            //am adaugat minOf pt siguranta in caz ca se modifica lista
+            ScrollableTabRow(selectedTabIndex = minOf(tabItems.count(), selectedTabIndex),
+                             modifier = Modifier.fillMaxHeight(100f / LocalConfiguration.current.screenHeightDp)) {
                 tabItems.forEachIndexed { index, item ->
                     Tab(
                         selected = index == selectedTabIndex,
@@ -131,17 +129,55 @@ class MenuScreensSwipeableTabRows {
                 }
             }
 
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-            ) { index ->
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.BottomCenter
-                ) {
-                    Text(text = tabItems[index].title)
+            when (selectedTabIndex) {
+                0 -> {
+                    PrincipalScreenComposable.principalScreenLayout()
+                }
+                1 -> {
+                    TransactionsScreenComposable.transactionsLayout()
+                }
+                2 -> {
+                    CategoriesScreenComposable.categoriesLayout()
+                }
+                3 -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        Text(text = tabItems[3].title)
+                    }
+                }
+                4 -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        Text(text = tabItems[4].title)
+                    }
+                }
+                5 -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        Text(text = tabItems[5].title)
+                    }
+                }
+                6 -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        Text(text = tabItems[6].title)
+                    }
+                }
+                7 -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        Text(text = tabItems[6].title)
+                    }
                 }
             }
         }
