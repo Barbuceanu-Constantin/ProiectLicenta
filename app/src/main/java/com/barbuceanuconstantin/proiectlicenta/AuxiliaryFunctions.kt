@@ -3,11 +3,9 @@ package com.barbuceanuconstantin.proiectlicenta
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -19,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -34,8 +33,7 @@ fun okButton(selectedItem: String, showMenu: MutableState<Boolean>) {
 
     val buttonWidthFraction = 0.3f
     Button(onClick = {
-        if (selectedItem != "")
-            showMenu.value = !showMenu.value
+        if (selectedItem != "") showMenu.value = !showMenu.value
     }, modifier = Modifier
         .height(40.dp)
         .fillMaxWidth(buttonWidthFraction)) {
@@ -50,13 +48,12 @@ fun headerSelectCategoryOrTransactionWindow(showA: MutableState<Boolean>, showP:
         fontWeight = FontWeight.Bold,
         color = Color.Red
     )
-
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 20.dp),
+    Spacer(Modifier.fillMaxHeight(fraction = 20F / LocalConfiguration.current.screenHeightDp))
+    Row(modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly) {
         selectCategoryItemList(showA = showA, showP = showP, showD = showD, shortName = true)
     }
+    Spacer(Modifier.fillMaxHeight(fraction = 20F / LocalConfiguration.current.screenHeightDp))
 }
 @Composable
 fun warningNotSelectedCategory() {
@@ -73,7 +70,7 @@ fun warningNotSelectedCategory() {
 fun selectCategoryItemList(showA: MutableState<Boolean>, showP: MutableState<Boolean>,
                            showD: MutableState<Boolean>, shortName: Boolean = false
 ) {
-    val modifier: Modifier = Modifier.height(50.dp)
+    val modifier: Modifier = Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp)
     if (showA.value) {
         Button(onClick = {
             if (showA.value && showP.value && showD.value) {
@@ -83,12 +80,13 @@ fun selectCategoryItemList(showA: MutableState<Boolean>, showP: MutableState<Boo
                 showP.value = true
                 showD.value = true
             }
-        }, modifier = modifier.height(75.dp)) {
+        }, modifier = modifier) {
             if (!shortName)
                 Text(text = stringResource(id = R.string.active), fontSize = 20.sp)
             else
                 Text(text = stringResource(id = R.string.prescurtareActive))
         }
+        if(showP.value && showD.value) Spacer(modifier = Modifier.fillMaxWidth(fraction = 30F / LocalConfiguration.current.screenWidthDp))
     }
     if (showP.value) {
         Button(
@@ -101,13 +99,14 @@ fun selectCategoryItemList(showA: MutableState<Boolean>, showP: MutableState<Boo
                     showD.value = true
                 }
             },
-            modifier = modifier.height(75.dp)
+            modifier = modifier
         ) {
             if (!shortName)
                 Text(text = stringResource(id = R.string.pasive), fontSize = 20.sp)
             else
                 Text(text = stringResource(id = R.string.prescurtarePasive))
         }
+        if(showA.value && showD.value) Spacer(modifier = Modifier.fillMaxWidth(fraction = 30F / LocalConfiguration.current.screenWidthDp))
     }
     if (showD.value) {
         Button(
@@ -120,7 +119,7 @@ fun selectCategoryItemList(showA: MutableState<Boolean>, showP: MutableState<Boo
                     showP.value = true
                 }
             },
-            modifier = modifier.height(75.dp)
+            modifier = modifier
         ) {
             if (!shortName)
                 Text(text = stringResource(id = R.string.datorii), fontSize = 20.sp)
@@ -132,30 +131,26 @@ fun selectCategoryItemList(showA: MutableState<Boolean>, showP: MutableState<Boo
 @Composable
 fun addOrDeleteItem(addButton: MutableState<Boolean>, deleteButton: MutableState<Boolean>) {
     Button(
-        onClick = {
-            if (!addButton.value) { addButton.value = true }
-        },
+        onClick = { if (!addButton.value) { addButton.value = true } },
         shape = CircleShape,
     ) {
         Icon(
             imageVector = Icons.Default.Add,
             contentDescription = stringResource(id = R.string.favorite),
-            modifier = Modifier.size(20.dp)
+            modifier = Modifier.fillMaxWidth(fraction = 30F / LocalConfiguration.current.screenWidthDp)
+                .fillMaxHeight(fraction = 40F / LocalConfiguration.current.screenHeightDp)
         )
     }
-
-    Spacer(modifier = Modifier.width(80.dp))
-
+    Spacer(modifier = Modifier.fillMaxWidth(fraction = 80F / LocalConfiguration.current.screenWidthDp))
     Button(
-        onClick = {
-            if (!deleteButton.value) { deleteButton.value = true }
-        },
+        onClick = { if (!deleteButton.value) { deleteButton.value = true } },
         shape = CircleShape,
     ) {
         Icon(
             imageVector = Icons.Default.Delete,
             contentDescription = stringResource(id = R.string.favorite),
-            modifier = Modifier.size(20.dp)
+            modifier = Modifier.fillMaxWidth(fraction = 30F / LocalConfiguration.current.screenWidthDp)
+                .fillMaxHeight(fraction = 40F / LocalConfiguration.current.screenHeightDp)
         )
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -77,84 +79,80 @@ class CategoryModifyDialogWindow {
             onDismissRequest()
         }) {
             Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(650.dp)
-                    .padding(10.dp),
+                modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction = 650F / LocalConfiguration.current.screenHeightDp),
                 shape = RoundedCornerShape(16.dp),
             ) {
                 Column() {
                     headerSelectCategoryOrTransactionWindow(showA, showP, showD)
 
-                    Text(
-                        text = specificMessage,
-                        modifier = Modifier.fillMaxWidth(),
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold
+                    Text(text = specificMessage, modifier = Modifier.fillMaxWidth(),
+                        fontSize = 25.sp, fontWeight = FontWeight.Bold
                     )
 
                     if (!(showA.value && showD.value && showP.value)) {
                         var filledText by remember {
                             mutableStateOf("")
                         }
+
+                        Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
+
                         TextField(
                             value = filledText, onValueChange = { filledText = it },
                             textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Right),
                             label = { Text(text = stringResource(R.string.denumire)) },
                             placeholder = { Text(text = stringResource(id = R.string.underscores)) },
                             leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Outlined.ModeEdit,
-                                    contentDescription = stringResource(id = R.string.add)
-                                )
+                                Icon(imageVector = Icons.Outlined.ModeEdit,
+                                    contentDescription = stringResource(id = R.string.add))
                             },
                             trailingIcon = {
-                                Icon(
-                                    imageVector = Icons.Outlined.Category,
-                                    contentDescription = stringResource(id = R.string.add)
-                                )
-                            },
-                            modifier = Modifier.padding(horizontal = 5.dp, vertical = 50.dp)
+                                Icon(imageVector = Icons.Outlined.Category,
+                                    contentDescription = stringResource(id = R.string.add))
+                            }
                         )
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(10.dp),
-                            horizontalArrangement = Arrangement.spacedBy(30.dp)
-                        ) {
+
+                        Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
+
+                        Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 25.dp)) {
                             val words = specificMessage.trim().split("\\s+".toRegex())
                             val lastWord = words.last()
                             Button(onClick = {
-                                val firstLetter = filledText[0].toString().uppercase()
-                                if (lastWord == "adaugati") {
-                                    if (showA.value && !showP.value && !showD.value) {
-                                        addSubcategory(lActive, firstLetter, filledText)
-                                    } else if (showP.value && !showA.value && !showD.value) {
-                                        addSubcategory(lPasive, firstLetter, filledText)
-                                    } else if (showD.value && !showA.value && !showP.value) {
-                                        addSubcategory(lDatorii, firstLetter, filledText)
-                                    }
-                                } else if (lastWord == "eliminati") {
-                                    if (showA.value && !showP.value && !showD.value) {
-                                        eliminareSubcategory(lActive, firstLetter, filledText)
-                                    } else if (showP.value && !showA.value && !showD.value) {
-                                        eliminareSubcategory(lPasive, firstLetter, filledText)
-                                    } else if (showD.value && !showA.value && !showP.value) {
-                                        eliminareSubcategory(lDatorii, firstLetter, filledText)
+                                if (filledText != "") {
+                                    val firstLetter = filledText[0].toString().uppercase()
+                                    if (lastWord == "adaugati") {
+                                        if (showA.value && !showP.value && !showD.value) {
+                                            addSubcategory(lActive, firstLetter, filledText)
+                                        } else if (showP.value && !showA.value && !showD.value) {
+                                            addSubcategory(lPasive, firstLetter, filledText)
+                                        } else if (showD.value && !showA.value && !showP.value) {
+                                            addSubcategory(lDatorii, firstLetter, filledText)
+                                        }
+                                    } else if (lastWord == "eliminati") {
+                                        if (showA.value && !showP.value && !showD.value) {
+                                            eliminareSubcategory(lActive, firstLetter, filledText)
+                                        } else if (showP.value && !showA.value && !showD.value) {
+                                            eliminareSubcategory(lPasive, firstLetter, filledText)
+                                        } else if (showD.value && !showA.value && !showP.value) {
+                                            eliminareSubcategory(lDatorii, firstLetter, filledText)
+                                        }
                                     }
                                 }
                                 resetButtons(showA, showP, showD)
                                 onConfirmation()
                             }) { Text(stringResource(R.string.confirmare)) }
+
+                            Spacer(Modifier.fillMaxWidth(fraction = 100F / LocalConfiguration.current.screenHeightDp))
+
                             Button(onClick = {
                                 resetButtons(showA, showP, showD)
                                 onDismissRequest()
                             }) { Text(stringResource(R.string.renuntare)) }
                         }
+                        Spacer(Modifier.fillMaxHeight(0.075f))
                     } else {
-                        Spacer(modifier = Modifier.height(20.dp))
+                        Spacer(modifier = Modifier.fillMaxHeight(fraction = 20F / LocalConfiguration.current.screenHeightDp))
                         warningNotSelectedCategory()
-                        Spacer(modifier = Modifier.height(40.dp))
+                        Spacer(modifier = Modifier.fillMaxHeight(fraction = 40F / LocalConfiguration.current.screenHeightDp))
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center
