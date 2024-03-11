@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.barbuceanuconstantin.proiectlicenta.view.screenmodules
 
 import android.content.Context
@@ -42,9 +44,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.view.screen.CategoriesScreenComposable
-import com.barbuceanuconstantin.proiectlicenta.view.screen.PrincipalScreenComposable
-import com.barbuceanuconstantin.proiectlicenta.view.screen.TransactionsScreenComposable
+import com.barbuceanuconstantin.proiectlicenta.view.screen.categoriesLayout
+import com.barbuceanuconstantin.proiectlicenta.view.screen.principalScreenLayout
+import com.barbuceanuconstantin.proiectlicenta.view.screen.transactionsLayout
 
 data class TabItem(
     val title: String,
@@ -52,133 +54,122 @@ data class TabItem(
     val selectedIcon: ImageVector
 )
 
-@OptIn(ExperimentalFoundationApi::class)
-class MenuScreensSwipeableTabRows() {
-
-    @Composable
-    fun showMenu() {
-        val tabItems = listOf(
-            TabItem(
-                title = stringResource(id = R.string.acasa),
-                unselectedIcon = Icons.Outlined.Home,
-                selectedIcon = Icons.Filled.Home
-            ),
-            TabItem(
-                title = stringResource(id = R.string.tranzactii),
-                unselectedIcon = Icons.Outlined.Money,
-                selectedIcon = Icons.Filled.Money
-            ),
-            TabItem(
-                title = stringResource(id = R.string.categorii),
-                unselectedIcon = Icons.Outlined.Category,
-                selectedIcon = Icons.Filled.Category
-            ),
-            TabItem(
-                title = stringResource(id = R.string.mementouri),
-                unselectedIcon = Icons.Outlined.RememberMe,
-                selectedIcon = Icons.Filled.RememberMe
-            ),
-            TabItem(
-                title = stringResource(id = R.string.valute),
-                unselectedIcon = Icons.Outlined.CurrencyExchange,
-                selectedIcon = Icons.Filled.CurrencyExchange
-            ),
-            TabItem(
-                title = stringResource(id = R.string.sumar_buget),
-                unselectedIcon = Icons.Outlined.Summarize,
-                selectedIcon = Icons.Filled.Summarize
-            ),
-            TabItem(
-                title = stringResource(id = R.string.calendar),
-                unselectedIcon = Icons.Outlined.CalendarMonth,
-                selectedIcon = Icons.Filled.CalendarMonth
-            ),
-            TabItem(
-                title = stringResource(id = R.string.grafice),
-                unselectedIcon = Icons.Outlined.AutoGraph,
-                selectedIcon = Icons.Filled.AutoGraph
-            )
+@Composable
+fun showMenu() {
+    val tabItems = listOf(
+        TabItem(
+            title = stringResource(id = R.string.acasa),
+            unselectedIcon = Icons.Outlined.Home,
+            selectedIcon = Icons.Filled.Home
+        ),
+        TabItem(
+            title = stringResource(id = R.string.tranzactii),
+            unselectedIcon = Icons.Outlined.Money,
+            selectedIcon = Icons.Filled.Money
+        ),
+        TabItem(
+            title = stringResource(id = R.string.categorii),
+            unselectedIcon = Icons.Outlined.Category,
+            selectedIcon = Icons.Filled.Category
+        ),
+        TabItem(
+            title = stringResource(id = R.string.mementouri),
+            unselectedIcon = Icons.Outlined.RememberMe,
+            selectedIcon = Icons.Filled.RememberMe
+        ),
+        TabItem(
+            title = stringResource(id = R.string.valute),
+            unselectedIcon = Icons.Outlined.CurrencyExchange,
+            selectedIcon = Icons.Filled.CurrencyExchange
+        ),
+        TabItem(
+            title = stringResource(id = R.string.sumar_buget),
+            unselectedIcon = Icons.Outlined.Summarize,
+            selectedIcon = Icons.Filled.Summarize
+        ),
+        TabItem(
+            title = stringResource(id = R.string.calendar),
+            unselectedIcon = Icons.Outlined.CalendarMonth,
+            selectedIcon = Icons.Filled.CalendarMonth
+        ),
+        TabItem(
+            title = stringResource(id = R.string.grafice),
+            unselectedIcon = Icons.Outlined.AutoGraph,
+            selectedIcon = Icons.Filled.AutoGraph
         )
+    )
 
-        var selectedTabIndex by remember { mutableIntStateOf(0) }
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    val pagerState = rememberPagerState {
+        tabItems.size
+    }
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+    LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
+        if(!pagerState.isScrollInProgress) {
+            selectedTabIndex = pagerState.currentPage
+        }
+    }
 
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            //am adaugat minOf pt siguranta in caz ca se modifica lista
-            ScrollableTabRow(selectedTabIndex = minOf(tabItems.count(), selectedTabIndex),
-                             modifier = Modifier.fillMaxHeight(100f / LocalConfiguration.current.screenHeightDp)) {
-                tabItems.forEachIndexed { index, item ->
-                    Tab(
-                        selected = index == selectedTabIndex,
-                        onClick = {
-                                    selectedTabIndex = index
-                                  },
-                        text = {
-                            Text(text = item.title)
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = if(index == selectedTabIndex) {
-                                    item.selectedIcon
-                                } else item.unselectedIcon,
-                                contentDescription = item.title
-                            )
-                        }
-                    )
-                }
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        //am adaugat minOf pt siguranta in caz ca se modifica lista
+        ScrollableTabRow(selectedTabIndex = minOf(tabItems.count(), selectedTabIndex),
+                         modifier = Modifier.fillMaxHeight(100f / LocalConfiguration.current.screenHeightDp)) {
+            tabItems.forEachIndexed { index, item ->
+                Tab(
+                    selected = index == selectedTabIndex,
+                    onClick = {
+                                selectedTabIndex = index
+                              },
+                    text = {
+                        Text(text = item.title)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if(index == selectedTabIndex) {
+                                item.selectedIcon
+                            } else item.unselectedIcon,
+                            contentDescription = item.title
+                        )
+                    }
+                )
             }
+        }
 
-            when (selectedTabIndex) {
-                0 -> {
-                    PrincipalScreenComposable.principalScreenLayout()
-                }
-                1 -> {
-                    TransactionsScreenComposable.transactionsLayout()
-                }
-                2 -> {
-                    CategoriesScreenComposable.categoriesLayout()
-                }
-                3 -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.BottomCenter
-                    ) {
-                        Text(text = tabItems[3].title)
-                    }
-                }
-                4 -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.BottomCenter
-                    ) {
-                        Text(text = tabItems[4].title)
-                    }
-                }
-                5 -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.BottomCenter
-                    ) {
-                        Text(text = tabItems[5].title)
-                    }
-                }
-                6 -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.BottomCenter
-                    ) {
-                        Text(text = tabItems[6].title)
-                    }
-                }
-                7 -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.BottomCenter
-                    ) {
-                        Text(text = tabItems[6].title)
-                    }
-                }
+        when (selectedTabIndex) {
+            0 -> {
+                principalScreenLayout()
+            }
+            1 -> {
+                transactionsLayout()
+            }
+            2 -> {
+                categoriesLayout()
+            }
+            3 -> {
+            }
+            4 -> {
+            }
+            5 -> {
+            }
+            6 -> {
+            }
+            7 -> {
+            }
+        }
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.fillMaxWidth()
+        ) { index ->
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = tabItems[index].title)
             }
         }
     }

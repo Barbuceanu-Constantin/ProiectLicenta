@@ -37,131 +37,129 @@ import com.barbuceanuconstantin.proiectlicenta.headerSelectCategoryOrTransaction
 import com.barbuceanuconstantin.proiectlicenta.resetButtons
 import com.barbuceanuconstantin.proiectlicenta.warningNotSelectedCategory
 
-class CategoryModifyDialogWindow {
-    private val showA = mutableStateOf(true)
-    private val showP = mutableStateOf(true)
-    private val showD = mutableStateOf(true)
+private val showA = mutableStateOf(true)
+private val showP = mutableStateOf(true)
+private val showD = mutableStateOf(true)
 
-    private fun addSubcategory(l: MutableList<Subcategory>, firstLetter:String, filledText:String) {
-        val foundSubcategory = l.find{it.name == firstLetter}
-        if (foundSubcategory != null) {
-            foundSubcategory.items.add(filledText)
+private fun addSubcategory(l: MutableList<Subcategory>, firstLetter:String, filledText:String) {
+    val foundSubcategory = l.find{it.name == firstLetter}
+    if (foundSubcategory != null) {
+        foundSubcategory.items.add(filledText)
+    } else {
+        val insertionIndex = l.binarySearch { it.name.compareTo(firstLetter) }
+        val newSubcategory = Subcategory(name = firstLetter, items = mutableListOf(filledText))
+        if (insertionIndex < 0) {
+            l.add(-insertionIndex - 1, newSubcategory)
         } else {
-            val insertionIndex = l.binarySearch { it.name.compareTo(firstLetter) }
-            val newSubcategory = Subcategory(name = firstLetter, items = mutableListOf(filledText))
-            if (insertionIndex < 0) {
-                l.add(-insertionIndex - 1, newSubcategory)
-            } else {
-                l.add(insertionIndex, newSubcategory)
-            }
+            l.add(insertionIndex, newSubcategory)
         }
     }
+}
 
-    private fun eliminareSubcategory(l: MutableList<Subcategory>, firstLetter:String, filledText:String) {
-        val foundSubcategory = l.find{it.name == firstLetter}
-        if (foundSubcategory != null) {
-            foundSubcategory.items.remove(filledText)
-        }
+private fun eliminareSubcategory(l: MutableList<Subcategory>, firstLetter:String, filledText:String) {
+    val foundSubcategory = l.find{it.name == firstLetter}
+    if (foundSubcategory != null) {
+        foundSubcategory.items.remove(filledText)
     }
+}
 
-    @Composable
-    fun showDialog(
-        onDismissRequest: () -> Unit,
-        onConfirmation: () -> Unit,
-        strId: Int,
-        lActive: MutableList<Subcategory>,
-        lPasive: MutableList<Subcategory>,
-        lDatorii: MutableList<Subcategory>
-    ) {
-        val specificMessage = stringResource(id = strId)
-        Dialog(onDismissRequest = {
-            resetButtons(showA, showP, showD)
-            onDismissRequest()
-        }) {
-            Card(
-                modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction = 650F / LocalConfiguration.current.screenHeightDp),
-                shape = RoundedCornerShape(16.dp),
-            ) {
-                Column() {
-                    headerSelectCategoryOrTransactionWindow(showA, showP, showD)
+@Composable
+fun showCategoryDialog(
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
+    strId: Int,
+    lActive: MutableList<Subcategory>,
+    lPasive: MutableList<Subcategory>,
+    lDatorii: MutableList<Subcategory>
+) {
+    val specificMessage = stringResource(id = strId)
+    Dialog(onDismissRequest = {
+        resetButtons(showA, showP, showD)
+        onDismissRequest()
+    }) {
+        Card(
+            modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction = 650F / LocalConfiguration.current.screenHeightDp),
+            shape = RoundedCornerShape(16.dp),
+        ) {
+            Column() {
+                headerSelectCategoryOrTransactionWindow(showA, showP, showD)
 
-                    Text(text = specificMessage, modifier = Modifier.fillMaxWidth(),
-                        fontSize = 25.sp, fontWeight = FontWeight.Bold
+                Text(text = specificMessage, modifier = Modifier.fillMaxWidth(),
+                    fontSize = 25.sp, fontWeight = FontWeight.Bold
+                )
+
+                if (!(showA.value && showD.value && showP.value)) {
+                    var filledText by remember {
+                        mutableStateOf("")
+                    }
+
+                    Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
+
+                    TextField(
+                        value = filledText, onValueChange = { filledText = it },
+                        textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Right),
+                        label = { Text(text = stringResource(R.string.denumire)) },
+                        placeholder = { Text(text = stringResource(id = R.string.underscores)) },
+                        leadingIcon = {
+                            Icon(imageVector = Icons.Outlined.ModeEdit,
+                                contentDescription = stringResource(id = R.string.add))
+                        },
+                        trailingIcon = {
+                            Icon(imageVector = Icons.Outlined.Category,
+                                contentDescription = stringResource(id = R.string.add))
+                        }
                     )
 
-                    if (!(showA.value && showD.value && showP.value)) {
-                        var filledText by remember {
-                            mutableStateOf("")
-                        }
+                    Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
 
-                        Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
-
-                        TextField(
-                            value = filledText, onValueChange = { filledText = it },
-                            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Right),
-                            label = { Text(text = stringResource(R.string.denumire)) },
-                            placeholder = { Text(text = stringResource(id = R.string.underscores)) },
-                            leadingIcon = {
-                                Icon(imageVector = Icons.Outlined.ModeEdit,
-                                    contentDescription = stringResource(id = R.string.add))
-                            },
-                            trailingIcon = {
-                                Icon(imageVector = Icons.Outlined.Category,
-                                    contentDescription = stringResource(id = R.string.add))
-                            }
-                        )
-
-                        Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
-
-                        Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 25.dp)) {
-                            val words = specificMessage.trim().split("\\s+".toRegex())
-                            val lastWord = words.last()
-                            Button(onClick = {
-                                if (filledText != "") {
-                                    val firstLetter = filledText[0].toString().uppercase()
-                                    if (lastWord == "adaugati") {
-                                        if (showA.value && !showP.value && !showD.value) {
-                                            addSubcategory(lActive, firstLetter, filledText)
-                                        } else if (showP.value && !showA.value && !showD.value) {
-                                            addSubcategory(lPasive, firstLetter, filledText)
-                                        } else if (showD.value && !showA.value && !showP.value) {
-                                            addSubcategory(lDatorii, firstLetter, filledText)
-                                        }
-                                    } else if (lastWord == "eliminati") {
-                                        if (showA.value && !showP.value && !showD.value) {
-                                            eliminareSubcategory(lActive, firstLetter, filledText)
-                                        } else if (showP.value && !showA.value && !showD.value) {
-                                            eliminareSubcategory(lPasive, firstLetter, filledText)
-                                        } else if (showD.value && !showA.value && !showP.value) {
-                                            eliminareSubcategory(lDatorii, firstLetter, filledText)
-                                        }
+                    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 25.dp)) {
+                        val words = specificMessage.trim().split("\\s+".toRegex())
+                        val lastWord = words.last()
+                        Button(onClick = {
+                            if (filledText != "") {
+                                val firstLetter = filledText[0].toString().uppercase()
+                                if (lastWord == "adaugati") {
+                                    if (showA.value && !showP.value && !showD.value) {
+                                        addSubcategory(lActive, firstLetter, filledText)
+                                    } else if (showP.value && !showA.value && !showD.value) {
+                                        addSubcategory(lPasive, firstLetter, filledText)
+                                    } else if (showD.value && !showA.value && !showP.value) {
+                                        addSubcategory(lDatorii, firstLetter, filledText)
+                                    }
+                                } else if (lastWord == "eliminati") {
+                                    if (showA.value && !showP.value && !showD.value) {
+                                        eliminareSubcategory(lActive, firstLetter, filledText)
+                                    } else if (showP.value && !showA.value && !showD.value) {
+                                        eliminareSubcategory(lPasive, firstLetter, filledText)
+                                    } else if (showD.value && !showA.value && !showP.value) {
+                                        eliminareSubcategory(lDatorii, firstLetter, filledText)
                                     }
                                 }
-                                resetButtons(showA, showP, showD)
-                                onConfirmation()
-                            }) { Text(stringResource(R.string.confirmare)) }
+                            }
+                            resetButtons(showA, showP, showD)
+                            onConfirmation()
+                        }) { Text(stringResource(R.string.confirmare)) }
 
-                            Spacer(Modifier.fillMaxWidth(fraction = 100F / LocalConfiguration.current.screenHeightDp))
+                        Spacer(Modifier.fillMaxWidth(fraction = 100F / LocalConfiguration.current.screenHeightDp))
 
-                            Button(onClick = {
-                                resetButtons(showA, showP, showD)
-                                onDismissRequest()
-                            }) { Text(stringResource(R.string.renuntare)) }
-                        }
-                        Spacer(Modifier.fillMaxHeight(0.075f))
-                    } else {
-                        Spacer(modifier = Modifier.fillMaxHeight(fraction = 20F / LocalConfiguration.current.screenHeightDp))
-                        warningNotSelectedCategory()
-                        Spacer(modifier = Modifier.fillMaxHeight(fraction = 40F / LocalConfiguration.current.screenHeightDp))
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Button(onClick = {
-                                resetButtons(showA, showP, showD)
-                                onDismissRequest()
-                            }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.renuntare)) }
-                        }
+                        Button(onClick = {
+                            resetButtons(showA, showP, showD)
+                            onDismissRequest()
+                        }) { Text(stringResource(R.string.renuntare)) }
+                    }
+                    Spacer(Modifier.fillMaxHeight(0.075f))
+                } else {
+                    Spacer(modifier = Modifier.fillMaxHeight(fraction = 20F / LocalConfiguration.current.screenHeightDp))
+                    warningNotSelectedCategory()
+                    Spacer(modifier = Modifier.fillMaxHeight(fraction = 40F / LocalConfiguration.current.screenHeightDp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(onClick = {
+                            resetButtons(showA, showP, showD)
+                            onDismissRequest()
+                        }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.renuntare)) }
                     }
                 }
             }

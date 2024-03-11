@@ -26,50 +26,47 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.R
+@Composable
+fun showMenuButton() {
+    var expanded by remember { mutableStateOf(false) }
+    val list = listOf(
+        stringResource(id = R.string.ecran_principal),
+        stringResource(id = R.string.tranzactii),
+        stringResource(id = R.string.categorii),
+        stringResource(id = R.string.mementouri),
+        stringResource(id = R.string.valute),
+        stringResource(id = R.string.sumar_buget),
+        stringResource(id = R.string.calendar),
+        stringResource(id = R.string.grafice)
+    )
+    var selectedItem by remember { mutableStateOf("") }
+    var textFilledSize by remember { mutableStateOf(Size.Zero) }
+    val icon =  if (expanded) { Icons.Filled.KeyboardArrowUp }
+                else { Icons.Filled.KeyboardArrowDown }
 
-class MenuScreensButton {
-    @Composable
-    fun showMenu() {
-        var expanded by remember { mutableStateOf(false) }
-        val list = listOf(
-            stringResource(id = R.string.ecran_principal),
-            stringResource(id = R.string.tranzactii),
-            stringResource(id = R.string.categorii),
-            stringResource(id = R.string.mementouri),
-            stringResource(id = R.string.valute),
-            stringResource(id = R.string.sumar_buget),
-            stringResource(id = R.string.calendar),
-            stringResource(id = R.string.grafice)
-        )
-        var selectedItem by remember { mutableStateOf("") }
-        var textFilledSize by remember { mutableStateOf(Size.Zero) }
-        val icon =  if (expanded) { Icons.Filled.KeyboardArrowUp }
-                    else { Icons.Filled.KeyboardArrowDown }
-
-        Column(modifier = Modifier.padding(top = 100.dp)) {
-            OutlinedTextField(
-                value = selectedItem,
-                onValueChange = { selectedItem = it },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .onGloballyPositioned { coordinates ->
-                        textFilledSize = coordinates.size.toSize()
-                    },
-                label = { Text(text = stringResource(id = R.string.selectare_ecran)) },
-                trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
-            ) {
-                list.forEach { label ->
-                    DropdownMenuItem(onClick = {
-                                                    selectedItem = label
-                                                    expanded = false
-                                               },
-                                    text = { Text(text = label) }
-                                    )
-                }
+    Column(modifier = Modifier.padding(top = 100.dp)) {
+        OutlinedTextField(
+            value = selectedItem,
+            onValueChange = { selectedItem = it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .onGloballyPositioned { coordinates ->
+                    textFilledSize = coordinates.size.toSize()
+                },
+            label = { Text(text = stringResource(id = R.string.selectare_ecran)) },
+            trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
+        ) {
+            list.forEach { label ->
+                DropdownMenuItem(onClick = {
+                                                selectedItem = label
+                                                expanded = false
+                                           },
+                                text = { Text(text = label) }
+                                )
             }
         }
     }
