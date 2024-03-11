@@ -7,91 +7,88 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 import com.barbuceanuconstantin.proiectlicenta.addOrDeleteItem
-import com.barbuceanuconstantin.proiectlicenta.lTrA
-import com.barbuceanuconstantin.proiectlicenta.lTrD
-import com.barbuceanuconstantin.proiectlicenta.lTrP
 import com.barbuceanuconstantin.proiectlicenta.selectCategoryItemList
 import com.barbuceanuconstantin.proiectlicenta.data.model.tranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showTransactionDialog
 
-private var showA = mutableStateOf(true)
-private var showP = mutableStateOf(true)
-private var showD = mutableStateOf(true)
-private var addButton = mutableStateOf(false)
-private var deleteButton = mutableStateOf(false)
-
-private var lTranzactiiActive: MutableList<Tranzactie> = lTrA
-private var lTranzactiiPasive: MutableList<Tranzactie> = lTrP
-private var lTranzactiiDatorii: MutableList<Tranzactie> = lTrD
-
-private val dismissAddButton: () -> Unit = { addButton.value = false }
-private val confirmationAddButton: () -> Unit = { addButton.value = false }
-private val dismissDeleteButton: () -> Unit = { deleteButton.value = false }
-private val confirmationDeleteButton: () -> Unit = { deleteButton.value = false }
-
 @Composable
 private fun showAddTransactionDialog(
-    onDismissRequest: () -> Unit = dismissAddButton,
-    onConfirmation: () -> Unit = confirmationAddButton,
+    lTrA: MutableList<Tranzactie>,
+    lTrP: MutableList<Tranzactie>,
+    lTrD: MutableList<Tranzactie>,
+    addButton: MutableState<Boolean>,
+    deleteButton: MutableState<Boolean>,
+    onDismissRequest: () -> Unit = { addButton.value = false },
+    onConfirmation: () -> Unit = { addButton.value = false },
 ) {
     showTransactionDialog(
         onDismissRequest = onDismissRequest,
         onConfirmation = onConfirmation,
         addDialog = true,
         deleteDialog = false,
-        lActive = lTranzactiiActive,
-        lPasive = lTranzactiiPasive,
-        lDatorii = lTranzactiiDatorii
+        lActive = lTrA,
+        lPasive = lTrP,
+        lDatorii = lTrD
     )
 }
-
 @Composable
 private fun showDeleteTransactionDialog(
-    onDismissRequest: () -> Unit = dismissDeleteButton,
-    onConfirmation: () -> Unit = confirmationDeleteButton,
+    lTrA: MutableList<Tranzactie>,
+    lTrP: MutableList<Tranzactie>,
+    lTrD: MutableList<Tranzactie>,
+    addButton: MutableState<Boolean>,
+    deleteButton: MutableState<Boolean>,
+    onDismissRequest: () -> Unit = { deleteButton.value = false },
+    onConfirmation: () -> Unit = { deleteButton.value = false },
 ) {
     showTransactionDialog(
         onDismissRequest = onDismissRequest,
         onConfirmation = onConfirmation,
         addDialog = false,
         deleteDialog = true,
-        lActive = lTranzactiiActive,
-        lPasive = lTranzactiiPasive,
-        lDatorii = lTranzactiiDatorii
+        lActive = lTrA,
+        lPasive = lTrP,
+        lDatorii = lTrD
     )
 }
-
 @Composable
-fun transactionsLayout(modifier: Modifier = Modifier) {
+fun transactionsLayout(showA: MutableState<Boolean>,
+                       showP: MutableState<Boolean>,
+                       showD: MutableState<Boolean>,
+                       addButton: MutableState<Boolean>,
+                       deleteButton: MutableState<Boolean>,
+                       lTrA: MutableList<Tranzactie>,
+                       lTrP: MutableList<Tranzactie>,
+                       lTrD: MutableList<Tranzactie>) {
     if (addButton.value) {
-        showAddTransactionDialog()
+        showAddTransactionDialog(lTrA = lTrA, lTrP = lTrP, lTrD = lTrD, addButton = addButton, deleteButton = deleteButton)
     }
     if (deleteButton.value) {
-        showDeleteTransactionDialog()
+        showDeleteTransactionDialog(lTrA = lTrA, lTrP = lTrP, lTrD = lTrD, addButton = addButton, deleteButton = deleteButton)
     }
     if (!addButton.value && !deleteButton.value) {
         Column(
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.fillMaxHeight(50F / LocalConfiguration.current.screenHeightDp))
             Row() {
                 selectCategoryItemList(showA = showA, showP = showP, showD = showD)
                 if (showA.value && !showP.value && !showD.value) {
-                    tranzactiiLazyColumn(tranzactii = lTranzactiiActive)
+                    tranzactiiLazyColumn(tranzactii = lTrA)
                 } else if (showP.value && !showA.value && !showD.value) {
-                    tranzactiiLazyColumn(tranzactii = lTranzactiiPasive)
+                    tranzactiiLazyColumn(tranzactii = lTrP)
                 } else if (showD.value && !showA.value && !showP.value) {
-                    tranzactiiLazyColumn(tranzactii = lTranzactiiDatorii)
+                    tranzactiiLazyColumn(tranzactii = lTrD)
                 }
             }
-            Spacer(modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
+            Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
             Row(horizontalArrangement = Arrangement.Center) {
                 addOrDeleteItem(addButton = addButton, deleteButton = deleteButton)
             }

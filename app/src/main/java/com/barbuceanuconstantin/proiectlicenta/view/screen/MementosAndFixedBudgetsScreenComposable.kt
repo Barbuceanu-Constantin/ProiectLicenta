@@ -8,7 +8,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 @Composable
 fun mementosAndFixedBudgetsScreenLayout(modifier: Modifier = Modifier) {
-    //menuScreensButton.showMenu()
     Column (
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,

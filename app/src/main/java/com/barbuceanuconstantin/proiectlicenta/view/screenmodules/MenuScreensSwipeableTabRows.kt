@@ -36,6 +36,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -44,6 +45,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
+import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
+import com.barbuceanuconstantin.proiectlicenta.lTrA
+import com.barbuceanuconstantin.proiectlicenta.lTrD
+import com.barbuceanuconstantin.proiectlicenta.lTrP
+import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
+import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
+import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.barbuceanuconstantin.proiectlicenta.view.screen.categoriesLayout
 import com.barbuceanuconstantin.proiectlicenta.view.screen.principalScreenLayout
 import com.barbuceanuconstantin.proiectlicenta.view.screen.transactionsLayout
@@ -53,6 +62,20 @@ data class TabItem(
     val unselectedIcon: ImageVector,
     val selectedIcon: ImageVector
 )
+
+private var lTranzactiiActive: MutableList<Tranzactie> = lTrA
+private var lTranzactiiPasive: MutableList<Tranzactie> = lTrP
+private var lTranzactiiDatorii: MutableList<Tranzactie> = lTrD
+
+private var listSubcategoriesRevenue = subcategorysPredefiniteActive.map {
+    Subcategory(name = it.key.toString(), items = it.value)
+}.toMutableList()
+private var listSubcategoriesExpenses = subcategorysPredefinitePasive.map {
+    Subcategory(name = it.key.toString(), items = it.value)
+}.toMutableList()
+private var listSubcategoriesDebts = subcategorysPredefiniteDatorii.map {
+    Subcategory(name = it.key.toString(), items = it.value)
+}.toMutableList()
 
 @Composable
 fun showMenu() {
@@ -141,13 +164,28 @@ fun showMenu() {
 
         when (selectedTabIndex) {
             0 -> {
-                principalScreenLayout()
+                var sumRevenue: Float = 0f;
+                var sumExpenses: Float = 0f;
+                var sumDebt: Float = 0f;
+                principalScreenLayout(sumRevenue, sumExpenses, sumDebt)
             }
             1 -> {
-                transactionsLayout()
+                var showA = mutableStateOf(true)
+                var showP = mutableStateOf(true)
+                var showD = mutableStateOf(true)
+                var addButton = mutableStateOf(false)
+                var deleteButton = mutableStateOf(false)
+
+                transactionsLayout(showA, showP, showD, addButton, deleteButton, lTranzactiiActive, lTranzactiiPasive, lTranzactiiDatorii)
             }
             2 -> {
-                categoriesLayout()
+                var showA = mutableStateOf(true)
+                var showP = mutableStateOf(true)
+                var showD = mutableStateOf(true)
+                var addButton = mutableStateOf(false)
+                var deleteButton = mutableStateOf(false)
+
+                categoriesLayout(showA, showP, showD, addButton, deleteButton, listSubcategoriesRevenue, listSubcategoriesExpenses, listSubcategoriesDebts)
             }
             3 -> {
             }
@@ -163,7 +201,7 @@ fun showMenu() {
 
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().weight(1f)
         ) { index ->
             Box(
                 modifier = Modifier.fillMaxSize(),

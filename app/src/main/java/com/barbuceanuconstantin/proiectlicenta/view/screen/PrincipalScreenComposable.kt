@@ -21,12 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.barbuceanuconstantin.proiectlicenta.R
 
-private var sumRevenue: Float = 0f;
-private var sumExpenses: Float = 0f;
-private var sumDebt: Float = 0f;
-
 @Composable
-private fun totalBalance() {
+private fun totalBalance(revenue: Float, expenses: Float, debt: Float) {
     Column(modifier = Modifier) {
         Box(
             modifier = Modifier.fillMaxWidth()
@@ -79,16 +75,15 @@ private fun totalBalance() {
         }
     }
 }
-
 @Composable
-fun principalScreenLayout(modifier: Modifier = Modifier) {
+fun principalScreenLayout(revenue: Float, expenses: Float, debt: Float) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Spacer(modifier = Modifier.fillMaxHeight(50F / LocalConfiguration.current.screenHeightDp))
-        totalBalance()
+        totalBalance(revenue, expenses, debt)
     }
 }
 
