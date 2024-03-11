@@ -83,7 +83,7 @@ fun categoriesLayout(showA: MutableState<Boolean>, showP: MutableState<Boolean>,
                     subcategorysLazyColumn(categorii = lSD)
                 }
             }
-            Spacer(Modifier.fillMaxHeight(fraction = 100F / LocalConfiguration.current.screenHeightDp))
+            Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
             Row(horizontalArrangement = Arrangement.Center) {
                 addOrDeleteItem(addButton = addButton, deleteButton = deleteButton)
             }

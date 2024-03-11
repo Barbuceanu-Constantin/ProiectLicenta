@@ -26,51 +26,49 @@ private fun totalBalance(revenue: Float, expenses: Float, debt: Float) {
     Column(modifier = Modifier) {
         Box(
             modifier = Modifier.fillMaxWidth()
-                .fillMaxHeight(fraction = 120f / LocalConfiguration.current.screenHeightDp)
+                .fillMaxHeight(fraction = 70f / LocalConfiguration.current.screenHeightDp)
                 .background(color = Color(240, 200, 80), shape = CutCornerShape(0.5f))
         ) {
             Text(
                 text = stringResource(id = R.string.active) + " : ",
                 modifier = Modifier.padding(start = 10.dp).align(Alignment.CenterStart),
-                fontSize = 25.sp
+                fontSize = 20.sp
             )
         }
-        Spacer(Modifier.fillMaxHeight(30f / LocalConfiguration.current.screenHeightDp))
         Box(
             modifier = Modifier.fillMaxWidth()
-                .fillMaxHeight(fraction = 120f / LocalConfiguration.current.screenHeightDp)
+                .fillMaxHeight(fraction = 70f / LocalConfiguration.current.screenHeightDp)
                 .background(color = Color(210, 20, 20), shape = CutCornerShape(0.5f))
         ) {
             Text(
                 text = stringResource(id = R.string.pasive) + " : ",
                 modifier = Modifier.padding(start = 10.dp).align(Alignment.CenterStart),
-                fontSize = 25.sp
+                fontSize = 20.sp
             )
         }
-        Spacer(Modifier.fillMaxHeight(30f / LocalConfiguration.current.screenHeightDp))
         Box(
             modifier = Modifier.fillMaxWidth()
-                .fillMaxHeight(fraction = 120f / LocalConfiguration.current.screenHeightDp)
+                .fillMaxHeight(fraction = 70f / LocalConfiguration.current.screenHeightDp)
                 .background(color = Color(40, 105, 200), shape = CutCornerShape(0.5f))
         ) {
             Text(
                 text = stringResource(id = R.string.datorii) + " : ",
                 modifier = Modifier.padding(start = 10.dp).align(Alignment.CenterStart),
-                fontSize = 25.sp
+                fontSize = 20.sp
             )
         }
         Spacer(Modifier.fillMaxHeight(20f / LocalConfiguration.current.screenHeightDp))
         HorizontalDivider(thickness = 5.dp, color = Color.Gray)
-        Spacer(Modifier.fillMaxHeight(50f / LocalConfiguration.current.screenHeightDp))
+        Spacer(Modifier.fillMaxHeight(20f / LocalConfiguration.current.screenHeightDp))
         Box(
             modifier = Modifier.fillMaxWidth()
-                .fillMaxHeight(fraction = 120f / LocalConfiguration.current.screenHeightDp)
+                .fillMaxHeight(fraction = 70f / LocalConfiguration.current.screenHeightDp)
                 .background(color = Color(60, 205, 40), shape = CutCornerShape(0.5f))
         ) {
             Text(
                 text = stringResource(id = R.string.balanta) + " : ",
                 modifier = Modifier.padding(start = 10.dp).align(Alignment.CenterStart),
-                fontSize = 25.sp
+                fontSize = 20.sp
             )
         }
     }
@@ -82,7 +80,7 @@ fun principalScreenLayout(revenue: Float, expenses: Float, debt: Float) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        Spacer(modifier = Modifier.fillMaxHeight(50F / LocalConfiguration.current.screenHeightDp))
+        Spacer(modifier = Modifier.fillMaxHeight(10F / LocalConfiguration.current.screenHeightDp))
         totalBalance(revenue, expenses, debt)
     }
 }

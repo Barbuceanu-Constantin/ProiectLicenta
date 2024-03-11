@@ -201,7 +201,7 @@ fun showMenu() {
 
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier.fillMaxWidth().weight(1f)
+            modifier = Modifier.fillMaxWidth().fillMaxHeight().weight(1f)
         ) { index ->
             Box(
                 modifier = Modifier.fillMaxSize(),
