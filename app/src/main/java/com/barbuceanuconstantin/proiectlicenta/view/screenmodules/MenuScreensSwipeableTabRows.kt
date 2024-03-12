@@ -53,6 +53,7 @@ import com.barbuceanuconstantin.proiectlicenta.lTrP
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
+import com.barbuceanuconstantin.proiectlicenta.view.screen.calendarScreenLayout
 import com.barbuceanuconstantin.proiectlicenta.view.screen.categoriesLayout
 import com.barbuceanuconstantin.proiectlicenta.view.screen.principalScreenLayout
 import com.barbuceanuconstantin.proiectlicenta.view.screen.transactionsLayout
@@ -76,6 +77,39 @@ private var listSubcategoriesExpenses = subcategorysPredefinitePasive.map {
 private var listSubcategoriesDebts = subcategorysPredefiniteDatorii.map {
     Subcategory(name = it.key.toString(), items = it.value)
 }.toMutableList()
+
+@Composable
+private fun screen0() {
+    var sumRevenue: Float = 0f;
+    var sumExpenses: Float = 0f;
+    var sumDebt: Float = 0f;
+    principalScreenLayout(sumRevenue, sumExpenses, sumDebt)
+}
+@Composable
+private fun screen1() {
+    var showA = mutableStateOf(true)
+    var showP = mutableStateOf(true)
+    var showD = mutableStateOf(true)
+    var addButton = mutableStateOf(false)
+    var deleteButton = mutableStateOf(false)
+
+    transactionsLayout(showA, showP, showD, addButton, deleteButton, lTranzactiiActive, lTranzactiiPasive, lTranzactiiDatorii)
+}
+@Composable
+private fun screen2() {
+    var showA = mutableStateOf(true)
+    var showP = mutableStateOf(true)
+    var showD = mutableStateOf(true)
+    var addButton = mutableStateOf(false)
+    var deleteButton = mutableStateOf(false)
+
+    categoriesLayout(showA, showP, showD, addButton, deleteButton, listSubcategoriesRevenue, listSubcategoriesExpenses, listSubcategoriesDebts)
+}
+
+@Composable
+private fun screen6() {
+    calendarScreenLayout()
+}
 
 @Composable
 fun showMenu() {
@@ -164,28 +198,13 @@ fun showMenu() {
 
         when (selectedTabIndex) {
             0 -> {
-                var sumRevenue: Float = 0f;
-                var sumExpenses: Float = 0f;
-                var sumDebt: Float = 0f;
-                principalScreenLayout(sumRevenue, sumExpenses, sumDebt)
+                screen0()
             }
             1 -> {
-                var showA = mutableStateOf(true)
-                var showP = mutableStateOf(true)
-                var showD = mutableStateOf(true)
-                var addButton = mutableStateOf(false)
-                var deleteButton = mutableStateOf(false)
-
-                transactionsLayout(showA, showP, showD, addButton, deleteButton, lTranzactiiActive, lTranzactiiPasive, lTranzactiiDatorii)
+                screen1()
             }
             2 -> {
-                var showA = mutableStateOf(true)
-                var showP = mutableStateOf(true)
-                var showD = mutableStateOf(true)
-                var addButton = mutableStateOf(false)
-                var deleteButton = mutableStateOf(false)
-
-                categoriesLayout(showA, showP, showD, addButton, deleteButton, listSubcategoriesRevenue, listSubcategoriesExpenses, listSubcategoriesDebts)
+                screen2()
             }
             3 -> {
             }
@@ -194,6 +213,7 @@ fun showMenu() {
             5 -> {
             }
             6 -> {
+                screen6()
             }
             7 -> {
             }
@@ -201,7 +221,10 @@ fun showMenu() {
 
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier.fillMaxWidth().fillMaxHeight().weight(1f)
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .weight(1f)
         ) { index ->
             Box(
                 modifier = Modifier.fillMaxSize(),
