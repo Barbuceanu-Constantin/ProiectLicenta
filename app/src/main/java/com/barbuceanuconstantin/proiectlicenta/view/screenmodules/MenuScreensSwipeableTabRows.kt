@@ -107,7 +107,7 @@ private fun screen2() {
 }
 
 @Composable
-private fun screen6() {
+private fun screen7() {
     calendarScreenLayout()
 }
 
@@ -131,6 +131,11 @@ fun showMenu() {
         ),
         TabItem(
             title = stringResource(id = R.string.mementouri),
+            unselectedIcon = Icons.Outlined.RememberMe,
+            selectedIcon = Icons.Filled.RememberMe
+        ),
+        TabItem(
+            title = stringResource(id = R.string.Bugete_fixe),
             unselectedIcon = Icons.Outlined.RememberMe,
             selectedIcon = Icons.Filled.RememberMe
         ),
@@ -213,9 +218,11 @@ fun showMenu() {
             5 -> {
             }
             6 -> {
-                screen6()
             }
             7 -> {
+                screen7()
+            }
+            8 -> {
             }
         }
 

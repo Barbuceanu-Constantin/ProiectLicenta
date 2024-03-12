@@ -43,10 +43,13 @@
     <string name="mesaj_selectare_subcategory">Alegeti subcategoria: </string>
     <string name="selectare_subcategory">Selecteaza subcategoria</string>
     <string name="furnizor_sau_beneficiar">Furnizor/Beneficiar</string>
+    <string name="cheltuieli_zi_curenta">Cheltuieli zi curenta</string>
     <string name="introduceti_suma">Introduceti suma</string>
+    <string name="venit_zi_curenta">Venit zi curenta</string>
     <string name="subcategory">Subcategory</string>
     <string name="beneficiar">Beneficiar</string>
     <string name="confirmare">Confirmare</string>
+    <string name="Bugete_fixe">Bugete fixe</string>
     <string name="prescurtareDatorii">D</string>
     <string name="renuntare">Renuntare</string>
     <string name="prescurtareActive">A</string>
