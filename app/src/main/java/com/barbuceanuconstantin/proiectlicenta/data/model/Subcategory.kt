@@ -65,13 +65,17 @@ fun subcategorysLazyColumn(
                         fillMaxWidth(0.8f)) {
         categorii.forEach() {
             subcateg -> this@LazyColumn.stickyHeader{
-                val color = when (subcateg) {
-                    categorii[a] -> Color(240, 200, 80)
-                    categorii[p] -> Color(210, 20, 20)
-                    categorii[d] -> Color(40, 105, 200)
-                    else -> MaterialTheme.colorScheme.primaryContainer
+                if ((a != -1) && (p != -1) && (d != -1)) {
+                    val color = when (subcateg) {
+                        categorii[a] -> Color(240, 200, 80)
+                        categorii[p] -> Color(210, 20, 20)
+                        categorii[d] -> Color(40, 105, 200)
+                        else -> MaterialTheme.colorScheme.primaryContainer
+                    }
+                    antetSubcategory(text = subcateg.name, color)
+                } else {
+                    antetSubcategory(text = subcateg.name, MaterialTheme.colorScheme.primaryContainer)
                 }
-                antetSubcategory(text = subcateg.name, color)
                 index.value += 1
             }
             items(subcateg.items) { text -> subcategory(text = text) }
