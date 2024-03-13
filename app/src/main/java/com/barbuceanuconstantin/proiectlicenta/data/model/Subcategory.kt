@@ -14,7 +14,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -28,13 +31,13 @@ data class Subcategory(
 @Composable
 private fun antetSubcategory(
     text: String,
-    modifier: Modifier = Modifier
+    color: Color
 ) {
-    Text (
-       text = text,
-       fontSize = 16.sp,
-       fontWeight = FontWeight.Bold,
-       modifier = modifier.fillMaxWidth().background(MaterialTheme.colorScheme.primaryContainer).padding(16.dp)
+    Text(
+        text = text,
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.fillMaxWidth().background(color).padding(16.dp)
     )
 }
 
@@ -52,12 +55,25 @@ private fun subcategory(
 
 @Composable
 fun subcategorysLazyColumn(
-    categorii: List<Subcategory>,
-    modifier: Modifier = Modifier
+    categorii: MutableList<Subcategory>,
+    a: Int = -1,
+    p: Int = -1,
+    d: Int = -1
 ) {
-    LazyColumn(modifier.fillMaxHeight(fraction = 400F / LocalConfiguration.current.screenHeightDp)) {
+    val index = remember { mutableStateOf(0) }
+    LazyColumn(Modifier.fillMaxHeight(fraction = 700F / LocalConfiguration.current.screenHeightDp).
+                        fillMaxWidth(0.8f)) {
         categorii.forEach() {
-            subcateg -> this@LazyColumn.stickyHeader{ antetSubcategory(text = subcateg.name) }
+            subcateg -> this@LazyColumn.stickyHeader{
+                val color = when (subcateg) {
+                    categorii[a] -> Color(240, 200, 80)
+                    categorii[p] -> Color(210, 20, 20)
+                    categorii[d] -> Color(40, 105, 200)
+                    else -> MaterialTheme.colorScheme.primaryContainer
+                }
+                antetSubcategory(text = subcateg.name, color)
+                index.value += 1
+            }
             items(subcateg.items) { text -> subcategory(text = text) }
         }
     }

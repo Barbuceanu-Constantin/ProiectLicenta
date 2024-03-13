@@ -6,6 +6,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -66,26 +72,32 @@ fun categoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState
     if (deleteButton.value) {
         showDeleteSubcategoryDialog(lSA = lSA, lSP = lSP, lSD = lSD, addButton = addButton, deleteButton = deleteButton)
     }
-    if (!addButton.value && !deleteButton.value) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
-            Row() {
-                selectCategoryItemList(showA = showA, showP = showP, showD = showD)
-
+    if (!addButton.value) {
+        Scaffold(
+            floatingActionButton = {
+                FloatingActionButton(onClick = { addButton.value = !addButton.value }) {
+                    Icon(Icons.Default.Add, contentDescription = "Add")
+                }
+            }
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier.fillMaxWidth().padding(innerPadding),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
+                Row() {
+                    selectCategoryItemList(showA = showA, showP = showP, showD = showD)
+                }
+                Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
                 if (showA.value && !showP.value && !showD.value) {
                     subcategorysLazyColumn(categorii = lSA)
                 } else if (showP.value && !showA.value && !showD.value) {
                     subcategorysLazyColumn(categorii = lSP)
                 } else if (showD.value && !showA.value && !showP.value) {
                     subcategorysLazyColumn(categorii = lSD)
+                } else if (showA.value && showP.value && showD.value) {
+                    subcategorysLazyColumn(categorii = (lSA + lSP + lSD).toMutableList(), 0, lSA.size, lSA.size + lSP.size)
                 }
-            }
-            Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
-            Row(horizontalArrangement = Arrangement.Center) {
-                addOrDeleteItem(addButton = addButton, deleteButton = deleteButton)
             }
         }
     }

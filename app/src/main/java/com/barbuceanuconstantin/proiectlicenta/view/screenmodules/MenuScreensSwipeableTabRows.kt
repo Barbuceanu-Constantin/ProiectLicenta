@@ -2,7 +2,6 @@
 
 package com.barbuceanuconstantin.proiectlicenta.view.screenmodules
 
-import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -80,14 +79,14 @@ private var listSubcategoriesDebts = subcategorysPredefiniteDatorii.map {
 }.toMutableList()
 
 @Composable
-private fun screen0() {
+fun screen0() {
     var sumRevenue: Float = 0f;
     var sumExpenses: Float = 0f;
     var sumDebt: Float = 0f;
     principalComposableScreen(sumRevenue, sumExpenses, sumDebt)
 }
 @Composable
-private fun screen1() {
+fun screen1() {
     var showA = mutableStateOf(true)
     var showP = mutableStateOf(true)
     var showD = mutableStateOf(true)
@@ -97,7 +96,7 @@ private fun screen1() {
     transactionsComposableScreen(showA, showP, showD, addButton, deleteButton, lTranzactiiActive, lTranzactiiPasive, lTranzactiiDatorii)
 }
 @Composable
-private fun screen2() {
+fun screen2() {
     var showA = mutableStateOf(true)
     var showP = mutableStateOf(true)
     var showD = mutableStateOf(true)
@@ -107,13 +106,13 @@ private fun screen2() {
     categoriesComposableScreen(showA, showP, showD, addButton, deleteButton, listSubcategoriesRevenue, listSubcategoriesExpenses, listSubcategoriesDebts)
 }
 @Composable
-private fun screen4() {
+fun screen4() {
     var fab = mutableStateOf(false)
 
     fixedBudgetsComposableScreen(fab)
 }
 @Composable
-private fun screen7() {
+fun screen7() {
     calendarComposableScreen()
 }
 
