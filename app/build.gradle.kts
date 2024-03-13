@@ -68,6 +68,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.6.2")   //
 
     implementation("androidx.compose.material:material-icons-extended:1.6.2") /////
+    implementation("androidx.graphics:graphics-shapes:1.0.0-alpha05") //
 
     //Room
     implementation("androidx.room:room-runtime:2.6.1")

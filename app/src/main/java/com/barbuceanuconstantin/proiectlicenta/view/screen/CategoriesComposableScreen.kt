@@ -8,14 +8,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.sp
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
 import com.barbuceanuconstantin.proiectlicenta.selectCategoryItemList
@@ -67,9 +73,6 @@ fun categoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState
     if (addButton.value) {
         showAddSubcategoryDialog(lSA = lSA, lSP = lSP, lSD = lSD, addButton = addButton, deleteButton = deleteButton)
     }
-    if (deleteButton.value) {
-        showDeleteSubcategoryDialog(lSA = lSA, lSP = lSP, lSD = lSD, addButton = addButton, deleteButton = deleteButton)
-    }
     if (!addButton.value) {
         Scaffold(
             floatingActionButton = {
@@ -86,7 +89,26 @@ fun categoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState
                 Row() {
                     selectCategoryItemList(showA = showA, showP = showP, showD = showD)
                 }
+
+                val containerColor: Color
+                val contentColor: Color
+                if (showA.value && showP.value && showD.value) {
+                    containerColor = Color(70, 10, 110)
+                    contentColor = Color.White
+                } else {
+                    containerColor = Color(220, 190, 245)
+                    contentColor = Color.Black
+                }
+                Spacer(Modifier.fillMaxHeight(fraction = 10F / LocalConfiguration.current.screenHeightDp))
+                Button(onClick = {
+                    showA.value = true
+                    showP.value = true
+                    showD.value = true
+                }, modifier = Modifier, colors = ButtonColors(containerColor = containerColor, contentColor = contentColor, disabledContainerColor = Color.Gray, disabledContentColor = Color.Gray)) {
+                    Text(text = stringResource(id = R.string.toate), fontSize = 20.sp)
+                }
                 Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
+
                 if (showA.value && !showP.value && !showD.value) {
                     subcategorysLazyColumn(categorii = lSA)
                 } else if (showP.value && !showA.value && !showD.value) {

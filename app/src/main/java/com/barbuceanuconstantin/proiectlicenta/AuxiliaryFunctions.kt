@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -68,61 +69,88 @@ fun selectCategoryItemList(showA: MutableState<Boolean>, showP: MutableState<Boo
                            showD: MutableState<Boolean>, shortName: Boolean = false
 ) {
     val modifier: Modifier = Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp)
-    if (showA.value) {
-        Button(onClick = {
-            if (showA.value && showP.value && showD.value) {
-                showP.value = false
-                showD.value = false
-            } else if (showA.value && !showP.value && !showD.value) {
-                showP.value = true
-                showD.value = true
-            }
-        }, modifier = modifier) {
-            if (!shortName)
-                Text(text = stringResource(id = R.string.active), fontSize = 20.sp)
-            else
-                Text(text = stringResource(id = R.string.prescurtareActive))
-        }
-        if(showP.value && showD.value) Spacer(modifier = Modifier.fillMaxWidth(fraction = 30F / LocalConfiguration.current.screenWidthDp))
+
+    val containerColor1: Color = Color(70, 10, 110)
+    val contentColor1: Color = Color.White
+    val containerColor2: Color = Color(220, 190, 245)
+    val contentColor2: Color = Color.Black
+    val aContainer : Color
+    val aContent : Color
+    val pContainer : Color
+    val pContent : Color
+    val dContainer : Color
+    val dContent : Color
+    if (showA.value && !showP.value && !showD.value) {
+        aContainer = containerColor1
+        aContent = contentColor1
+        pContainer = containerColor2
+        pContent = contentColor2
+        dContainer = containerColor2
+        dContent = contentColor2
+    } else if (showP.value && !showA.value && !showD.value) {
+        aContainer = containerColor2
+        aContent = contentColor2
+        pContainer = containerColor1
+        pContent = contentColor1
+        dContainer = containerColor2
+        dContent = contentColor2
+    } else if (showD.value && !showA.value && !showP.value) {
+        aContainer = containerColor2
+        aContent = contentColor2
+        pContainer = containerColor2
+        pContent = contentColor2
+        dContainer = containerColor1
+        dContent = contentColor1
+    } else {
+        aContainer = containerColor2
+        aContent = contentColor2
+        pContainer = containerColor2
+        pContent = contentColor2
+        dContainer = containerColor2
+        dContent = contentColor2
     }
-    if (showP.value) {
-        Button(
-            onClick = {
-                if (showP.value && showA.value && showD.value) {
-                    showA.value = false
-                    showD.value = false
-                } else if (showP.value && !showA.value && !showD.value) {
-                    showA.value = true
-                    showD.value = true
-                }
-            },
-            modifier = modifier
-        ) {
-            if (!shortName)
-                Text(text = stringResource(id = R.string.pasive), fontSize = 20.sp)
-            else
-                Text(text = stringResource(id = R.string.prescurtarePasive))
-        }
-        if(showA.value && showD.value) Spacer(modifier = Modifier.fillMaxWidth(fraction = 30F / LocalConfiguration.current.screenWidthDp))
+
+    Button(onClick = {
+                        showA.value = true
+                        showP.value = false
+                        showD.value = false
+    }, modifier = modifier, colors = ButtonColors(containerColor = aContainer, contentColor = aContent, disabledContainerColor = Color.Gray, disabledContentColor = Color.Gray)) {
+        if (!shortName)
+            Text(text = stringResource(id = R.string.active), fontSize = 20.sp)
+        else
+            Text(text = stringResource(id = R.string.prescurtareActive))
     }
-    if (showD.value) {
-        Button(
-            onClick = {
-                if (showD.value && showA.value && showP.value) {
-                    showA.value = false
-                    showP.value = false
-                } else if (showD.value && !showA.value && !showP.value) {
-                    showA.value = true
-                    showP.value = true
-                }
-            },
-            modifier = modifier
-        ) {
-            if (!shortName)
-                Text(text = stringResource(id = R.string.datorii), fontSize = 20.sp)
-            else
-                Text(text = stringResource(id = R.string.prescurtareDatorii))
-        }
+
+    Spacer(modifier = Modifier.fillMaxWidth(fraction = 30F / LocalConfiguration.current.screenWidthDp))
+
+    Button(
+        onClick = {
+                        showP.value = true
+                        showA.value = false
+                        showD.value = false
+        },
+        modifier = modifier,  colors = ButtonColors(containerColor = pContainer, contentColor = pContent, disabledContainerColor = Color.Gray, disabledContentColor = Color.Gray)
+    ) {
+        if (!shortName)
+            Text(text = stringResource(id = R.string.pasive), fontSize = 20.sp)
+        else
+            Text(text = stringResource(id = R.string.prescurtarePasive))
+    }
+
+    Spacer(modifier = Modifier.fillMaxWidth(fraction = 30F / LocalConfiguration.current.screenWidthDp))
+
+    Button(
+        onClick = {
+                        showD.value = true
+                        showA.value = false
+                        showP.value = false
+        },
+        modifier = modifier,   colors = ButtonColors(containerColor = dContainer, contentColor = dContent, disabledContainerColor = Color.Gray, disabledContentColor = Color.Gray)
+    ) {
+        if (!shortName)
+            Text(text = stringResource(id = R.string.datorii), fontSize = 20.sp)
+        else
+            Text(text = stringResource(id = R.string.prescurtareDatorii))
     }
 }
 @Composable
