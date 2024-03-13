@@ -1,5 +1,6 @@
 package com.barbuceanuconstantin.proiectlicenta
 
+import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 
 var subcategorysPredefiniteActive = mutableListOf(
@@ -30,3 +31,5 @@ var subcategorysPredefiniteDatorii = mutableListOf(
 var lTrA = mutableListOf<Tranzactie>()
 var lTrP = mutableListOf<Tranzactie>()
 var lTrD = mutableListOf<Tranzactie>()
+
+var lBudgets = mutableListOf<Budget>()

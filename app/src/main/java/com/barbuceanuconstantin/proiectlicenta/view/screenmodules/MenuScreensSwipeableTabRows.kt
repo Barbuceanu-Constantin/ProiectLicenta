@@ -55,6 +55,7 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.barbuceanuconstantin.proiectlicenta.view.screen.calendarScreenLayout
 import com.barbuceanuconstantin.proiectlicenta.view.screen.categoriesLayout
+import com.barbuceanuconstantin.proiectlicenta.view.screen.fixedBudgetsScreenLayout
 import com.barbuceanuconstantin.proiectlicenta.view.screen.principalScreenLayout
 import com.barbuceanuconstantin.proiectlicenta.view.screen.transactionsLayout
 
@@ -105,7 +106,12 @@ private fun screen2() {
 
     categoriesLayout(showA, showP, showD, addButton, deleteButton, listSubcategoriesRevenue, listSubcategoriesExpenses, listSubcategoriesDebts)
 }
+@Composable
+private fun screen4() {
+    var fab = mutableStateOf(false)
 
+    fixedBudgetsScreenLayout(fab)
+}
 @Composable
 private fun screen7() {
     calendarScreenLayout()
@@ -214,6 +220,7 @@ fun showMenu() {
             3 -> {
             }
             4 -> {
+                screen4()
             }
             5 -> {
             }
