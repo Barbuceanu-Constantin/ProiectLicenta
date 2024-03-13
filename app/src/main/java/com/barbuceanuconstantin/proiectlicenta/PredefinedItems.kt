@@ -1,16 +1,17 @@
 package com.barbuceanuconstantin.proiectlicenta
 
+import androidx.compose.runtime.mutableStateListOf
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 
-var subcategorysPredefiniteActive = mutableListOf(
+var subcategorysPredefiniteActive = mutableStateListOf(
     "Salariu",
     "Pensie",
     "Bursa",
     "Treburi marunte"
 ).groupByTo(mutableMapOf()) { it.first() }.toSortedMap()
 
-var subcategorysPredefinitePasive = mutableListOf(
+var subcategorysPredefinitePasive = mutableStateListOf(
     "Mancare",
     "Sanatate",
     "Divertisment",
@@ -22,7 +23,7 @@ var subcategorysPredefinitePasive = mutableListOf(
     "Tips"
 ).groupByTo(mutableMapOf()) { it.first() }.toSortedMap()
 
-var subcategorysPredefiniteDatorii = mutableListOf(
+var subcategorysPredefiniteDatorii = mutableStateListOf(
     "Credit1",
     "Credit2",
     "Credit3",

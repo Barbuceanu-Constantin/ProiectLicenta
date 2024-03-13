@@ -1,6 +1,5 @@
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
-import com.barbuceanuconstantin.proiectlicenta.addOrDeleteItem
 import com.barbuceanuconstantin.proiectlicenta.selectCategoryItemList
 import com.barbuceanuconstantin.proiectlicenta.data.model.subcategorysLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showCategoryDialog

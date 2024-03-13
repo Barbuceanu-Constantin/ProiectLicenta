@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalFoundationApi::class)
+@file:OptIn(ExperimentalFoundationApi::class, ExperimentalFoundationApi::class)
 
 package com.barbuceanuconstantin.proiectlicenta.view.screenmodules
 
@@ -38,6 +38,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -69,14 +70,14 @@ private var lTranzactiiPasive: MutableList<Tranzactie> = lTrP
 private var lTranzactiiDatorii: MutableList<Tranzactie> = lTrD
 
 private var listSubcategoriesRevenue = subcategorysPredefiniteActive.map {
-    Subcategory(name = it.key.toString(), items = it.value)
-}.toMutableList()
+    Subcategory(name = it.key.toString(), items = it.value.toMutableStateList())
+}.toMutableStateList()
 private var listSubcategoriesExpenses = subcategorysPredefinitePasive.map {
-    Subcategory(name = it.key.toString(), items = it.value)
-}.toMutableList()
+    Subcategory(name = it.key.toString(), items = it.value.toMutableStateList())
+}.toMutableStateList()
 private var listSubcategoriesDebts = subcategorysPredefiniteDatorii.map {
-    Subcategory(name = it.key.toString(), items = it.value)
-}.toMutableList()
+    Subcategory(name = it.key.toString(), items = it.value.toMutableStateList())
+}.toMutableStateList()
 
 @Composable
 fun screen0() {

@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -47,7 +48,7 @@ private fun addSubcategory(l: MutableList<Subcategory>, firstLetter:String, fill
         foundSubcategory.items.add(filledText)
     } else {
         val insertionIndex = l.binarySearch { it.name.compareTo(firstLetter) }
-        val newSubcategory = Subcategory(name = firstLetter, items = mutableListOf(filledText))
+        val newSubcategory = Subcategory(name = firstLetter, items = mutableStateListOf(filledText))
         if (insertionIndex < 0) {
             l.add(-insertionIndex - 1, newSubcategory)
         } else {
