@@ -65,6 +65,29 @@ fun warningNotSelectedCategory() {
 }
 
 @Composable
+fun allSubcategoriesOrTransactions(id: Int, showA: MutableState<Boolean>,
+                                   showP: MutableState<Boolean>, showD: MutableState<Boolean>) {
+    val containerColor: Color
+    val contentColor: Color
+    if (showA.value && showP.value && showD.value) {
+        containerColor = Color(70, 10, 110)
+        contentColor = Color.White
+    } else {
+        containerColor = Color(220, 190, 245)
+        contentColor = Color.Black
+    }
+    Spacer(Modifier.fillMaxHeight(fraction = 10F / LocalConfiguration.current.screenHeightDp))
+    Button(onClick = {
+        showA.value = true
+        showP.value = true
+        showD.value = true
+    }, modifier = Modifier, colors = ButtonColors(containerColor = containerColor, contentColor = contentColor, disabledContainerColor = Color.Gray, disabledContentColor = Color.Gray)) {
+        Text(text = stringResource(id = id), fontSize = 20.sp)
+    }
+    Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
+}
+
+@Composable
 fun selectCategoryItemList(showA: MutableState<Boolean>, showP: MutableState<Boolean>,
                            showD: MutableState<Boolean>, shortName: Boolean = false
 ) {

@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.allSubcategoriesOrTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
 import com.barbuceanuconstantin.proiectlicenta.selectCategoryItemList
 import com.barbuceanuconstantin.proiectlicenta.data.model.subcategorysLazyColumn
@@ -82,7 +83,9 @@ fun categoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState
             }
         ) { innerPadding ->
             Column(
-                modifier = Modifier.fillMaxWidth().padding(innerPadding),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(innerPadding),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
@@ -90,24 +93,7 @@ fun categoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState
                     selectCategoryItemList(showA = showA, showP = showP, showD = showD)
                 }
 
-                val containerColor: Color
-                val contentColor: Color
-                if (showA.value && showP.value && showD.value) {
-                    containerColor = Color(70, 10, 110)
-                    contentColor = Color.White
-                } else {
-                    containerColor = Color(220, 190, 245)
-                    contentColor = Color.Black
-                }
-                Spacer(Modifier.fillMaxHeight(fraction = 10F / LocalConfiguration.current.screenHeightDp))
-                Button(onClick = {
-                    showA.value = true
-                    showP.value = true
-                    showD.value = true
-                }, modifier = Modifier, colors = ButtonColors(containerColor = containerColor, contentColor = contentColor, disabledContainerColor = Color.Gray, disabledContentColor = Color.Gray)) {
-                    Text(text = stringResource(id = R.string.toate), fontSize = 20.sp)
-                }
-                Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
+                allSubcategoriesOrTransactions(id = R.string.toate_subcategoriile, showA = showA, showP = showP, showD = showD)
 
                 if (showA.value && !showP.value && !showD.value) {
                     subcategorysLazyColumn(categorii = lSA)

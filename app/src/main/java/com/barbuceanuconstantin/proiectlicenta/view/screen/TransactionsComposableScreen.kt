@@ -6,13 +6,22 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 import com.barbuceanuconstantin.proiectlicenta.addOrDeleteItem
+import com.barbuceanuconstantin.proiectlicenta.allSubcategoriesOrTransactions
+import com.barbuceanuconstantin.proiectlicenta.data.model.subcategorysLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.selectCategoryItemList
 import com.barbuceanuconstantin.proiectlicenta.data.model.tranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showTransactionDialog
@@ -69,28 +78,34 @@ fun transactionsComposableScreen(showA: MutableState<Boolean>,
     if (addButton.value) {
         showAddTransactionDialog(lTrA = lTrA, lTrP = lTrP, lTrD = lTrD, addButton = addButton, deleteButton = deleteButton)
     }
-    if (deleteButton.value) {
-        showDeleteTransactionDialog(lTrA = lTrA, lTrP = lTrP, lTrD = lTrD, addButton = addButton, deleteButton = deleteButton)
-    }
     if (!addButton.value && !deleteButton.value) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Spacer(modifier = Modifier.fillMaxHeight(50F / LocalConfiguration.current.screenHeightDp))
-            Row() {
-                selectCategoryItemList(showA = showA, showP = showP, showD = showD)
+        Scaffold(
+            floatingActionButton = {
+                FloatingActionButton(onClick = { addButton.value = !addButton.value }) {
+                    Icon(Icons.Default.Add, contentDescription = "Add")
+                }
+            }
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier.fillMaxWidth().padding(innerPadding),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Spacer(modifier = Modifier.fillMaxHeight(50F / LocalConfiguration.current.screenHeightDp))
+                Row() {
+                    selectCategoryItemList(showA = showA, showP = showP, showD = showD)
+                }
+
+                allSubcategoriesOrTransactions(id = R.string.toate_tranzactiile, showA = showA, showP = showP, showD = showD)
+
                 if (showA.value && !showP.value && !showD.value) {
                     tranzactiiLazyColumn(tranzactii = lTrA)
                 } else if (showP.value && !showA.value && !showD.value) {
                     tranzactiiLazyColumn(tranzactii = lTrP)
                 } else if (showD.value && !showA.value && !showP.value) {
                     tranzactiiLazyColumn(tranzactii = lTrD)
+                } else if (showA.value && showP.value && showD.value) {
+                    tranzactiiLazyColumn(tranzactii = (lTrA + lTrP + lTrD).toMutableList(), 0, lTrA.size, lTrA.size + lTrP.size)
                 }
-            }
-            Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
-            Row(horizontalArrangement = Arrangement.Center) {
-                addOrDeleteItem(addButton = addButton, deleteButton = deleteButton)
             }
         }
     }

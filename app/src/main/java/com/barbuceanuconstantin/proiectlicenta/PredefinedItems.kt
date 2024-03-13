@@ -29,8 +29,8 @@ var subcategorysPredefiniteDatorii = mutableStateListOf(
     "Credit3",
 ).groupByTo(mutableMapOf()) { it.first() }.toSortedMap()
 
-var lTrA = mutableListOf<Tranzactie>()
-var lTrP = mutableListOf<Tranzactie>()
-var lTrD = mutableListOf<Tranzactie>()
+var lTrA = mutableStateListOf<Tranzactie>()
+var lTrP = mutableStateListOf<Tranzactie>()
+var lTrD = mutableStateListOf<Tranzactie>()
 
 var lBudgets = mutableListOf<Budget>()

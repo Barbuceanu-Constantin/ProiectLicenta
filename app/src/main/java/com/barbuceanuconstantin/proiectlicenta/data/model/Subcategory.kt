@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalFoundationApi::class, ExperimentalFoundationApi::class)
+@file:OptIn(ExperimentalFoundationApi::class)
 
 package com.barbuceanuconstantin.proiectlicenta.data.model
 
@@ -74,7 +74,7 @@ fun subcategorysLazyColumn(
     d: Int = -1
 ) {
     val index = remember { mutableStateOf(0) }
-    LazyColumn(Modifier.fillMaxHeight(fraction = 700F / LocalConfiguration.current.screenHeightDp).
+    LazyColumn(Modifier.fillMaxHeight(700F / LocalConfiguration.current.screenHeightDp).
                         fillMaxWidth(0.8f)) {
         categorii.forEach() {
             subcateg -> this@LazyColumn.stickyHeader{
