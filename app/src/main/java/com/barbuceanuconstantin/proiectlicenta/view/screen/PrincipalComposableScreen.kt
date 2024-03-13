@@ -74,7 +74,7 @@ private fun totalBalance(revenue: Float, expenses: Float, debt: Float) {
     }
 }
 @Composable
-fun principalScreenLayout(revenue: Float, expenses: Float, debt: Float) {
+fun principalComposableScreen(revenue: Float, expenses: Float, debt: Float) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,

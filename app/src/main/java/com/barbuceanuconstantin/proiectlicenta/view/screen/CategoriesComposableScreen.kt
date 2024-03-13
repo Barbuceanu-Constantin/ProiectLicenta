@@ -57,7 +57,7 @@ private fun showDeleteSubcategoryDialog(
     )
 }
 @Composable
-fun categoriesLayout(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>,
+fun categoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>,
                      addButton: MutableState<Boolean>, deleteButton: MutableState<Boolean>,
                      lSA: MutableList<Subcategory>, lSP: MutableList<Subcategory>, lSD: MutableList<Subcategory>) {
     if (addButton.value) {

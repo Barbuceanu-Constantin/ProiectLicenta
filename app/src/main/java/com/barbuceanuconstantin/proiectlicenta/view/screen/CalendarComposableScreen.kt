@@ -28,7 +28,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.barbuceanuconstantin.proiectlicenta.R
 
 @Composable
-fun calendarScreenLayout() {
+fun calendarComposableScreen() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()

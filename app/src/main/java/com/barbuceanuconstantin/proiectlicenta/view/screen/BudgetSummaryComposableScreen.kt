@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 @Composable
-fun mementosScreenLayout(modifier: Modifier = Modifier) {
+fun budgetSummaryComposableScreen(modifier: Modifier = Modifier) {
     Column (
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -16,3 +16,4 @@ fun mementosScreenLayout(modifier: Modifier = Modifier) {
 
     }
 }
+

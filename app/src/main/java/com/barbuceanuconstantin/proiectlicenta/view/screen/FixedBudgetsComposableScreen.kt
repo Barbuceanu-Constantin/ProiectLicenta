@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 
 @Composable
-fun fixedBudgetsScreenLayout(fab: MutableState<Boolean>) {
+fun fixedBudgetsComposableScreen(fab: MutableState<Boolean>) {
     Scaffold(floatingActionButton = {
         FloatingActionButton(onClick = { fab.value = !fab.value }) {
             Icon(Icons.Default.Add, contentDescription = "Add")

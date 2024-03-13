@@ -6,8 +6,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+
 @Composable
-fun budgetSummaryScreenLayout(modifier: Modifier = Modifier) {
+fun currenciesComposableScreen(modifier: Modifier = Modifier) {
     Column (
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -16,4 +17,3 @@ fun budgetSummaryScreenLayout(modifier: Modifier = Modifier) {
 
     }
 }
-

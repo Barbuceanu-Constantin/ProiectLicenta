@@ -58,7 +58,7 @@ private fun showDeleteTransactionDialog(
     )
 }
 @Composable
-fun transactionsLayout(showA: MutableState<Boolean>,
+fun transactionsComposableScreen(showA: MutableState<Boolean>,
                        showP: MutableState<Boolean>,
                        showD: MutableState<Boolean>,
                        addButton: MutableState<Boolean>,
