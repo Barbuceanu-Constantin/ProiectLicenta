@@ -53,11 +53,11 @@ import com.barbuceanuconstantin.proiectlicenta.lTrP
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
-import com.barbuceanuconstantin.proiectlicenta.view.screen.calendarScreenLayout
-import com.barbuceanuconstantin.proiectlicenta.view.screen.categoriesLayout
-import com.barbuceanuconstantin.proiectlicenta.view.screen.fixedBudgetsScreenLayout
-import com.barbuceanuconstantin.proiectlicenta.view.screen.principalScreenLayout
-import com.barbuceanuconstantin.proiectlicenta.view.screen.transactionsLayout
+import com.barbuceanuconstantin.proiectlicenta.view.screen.calendarComposableScreen
+import com.barbuceanuconstantin.proiectlicenta.view.screen.categoriesComposableScreen
+import com.barbuceanuconstantin.proiectlicenta.view.screen.fixedBudgetsComposableScreen
+import com.barbuceanuconstantin.proiectlicenta.view.screen.principalComposableScreen
+import com.barbuceanuconstantin.proiectlicenta.view.screen.transactionsComposableScreen
 
 data class TabItem(
     val title: String,
@@ -84,7 +84,7 @@ private fun screen0() {
     var sumRevenue: Float = 0f;
     var sumExpenses: Float = 0f;
     var sumDebt: Float = 0f;
-    principalScreenLayout(sumRevenue, sumExpenses, sumDebt)
+    principalComposableScreen(sumRevenue, sumExpenses, sumDebt)
 }
 @Composable
 private fun screen1() {
@@ -94,7 +94,7 @@ private fun screen1() {
     var addButton = mutableStateOf(false)
     var deleteButton = mutableStateOf(false)
 
-    transactionsLayout(showA, showP, showD, addButton, deleteButton, lTranzactiiActive, lTranzactiiPasive, lTranzactiiDatorii)
+    transactionsComposableScreen(showA, showP, showD, addButton, deleteButton, lTranzactiiActive, lTranzactiiPasive, lTranzactiiDatorii)
 }
 @Composable
 private fun screen2() {
@@ -104,17 +104,17 @@ private fun screen2() {
     var addButton = mutableStateOf(false)
     var deleteButton = mutableStateOf(false)
 
-    categoriesLayout(showA, showP, showD, addButton, deleteButton, listSubcategoriesRevenue, listSubcategoriesExpenses, listSubcategoriesDebts)
+    categoriesComposableScreen(showA, showP, showD, addButton, deleteButton, listSubcategoriesRevenue, listSubcategoriesExpenses, listSubcategoriesDebts)
 }
 @Composable
 private fun screen4() {
     var fab = mutableStateOf(false)
 
-    fixedBudgetsScreenLayout(fab)
+    fixedBudgetsComposableScreen(fab)
 }
 @Composable
 private fun screen7() {
-    calendarScreenLayout()
+    calendarComposableScreen()
 }
 
 @Composable
