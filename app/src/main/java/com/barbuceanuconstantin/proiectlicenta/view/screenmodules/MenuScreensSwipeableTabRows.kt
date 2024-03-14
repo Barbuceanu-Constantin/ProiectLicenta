@@ -38,6 +38,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,9 +66,9 @@ data class TabItem(
     val selectedIcon: ImageVector
 )
 
-private var lTranzactiiActive: MutableList<Tranzactie> = lTrA
-private var lTranzactiiPasive: MutableList<Tranzactie> = lTrP
-private var lTranzactiiDatorii: MutableList<Tranzactie> = lTrD
+private var lTranzactiiActive: SnapshotStateList<Tranzactie> = lTrA
+private var lTranzactiiPasive: SnapshotStateList<Tranzactie> = lTrP
+private var lTranzactiiDatorii: SnapshotStateList<Tranzactie> = lTrD
 
 private var listSubcategoriesRevenue = subcategorysPredefiniteActive.map {
     Subcategory(name = it.key.toString(), items = it.value.toMutableStateList())
@@ -92,9 +93,10 @@ fun screen1() {
     var showP = mutableStateOf(true)
     var showD = mutableStateOf(true)
     var addButton = mutableStateOf(false)
-    var deleteButton = mutableStateOf(false)
+    val index = mutableIntStateOf(-1)
+    val sem = mutableIntStateOf(-1)
 
-    transactionsComposableScreen(showA, showP, showD, addButton, deleteButton, lTranzactiiActive, lTranzactiiPasive, lTranzactiiDatorii)
+    transactionsComposableScreen(showA, showP, showD, addButton, lTranzactiiActive, lTranzactiiPasive, lTranzactiiDatorii, index, sem)
 }
 @Composable
 fun screen2() {

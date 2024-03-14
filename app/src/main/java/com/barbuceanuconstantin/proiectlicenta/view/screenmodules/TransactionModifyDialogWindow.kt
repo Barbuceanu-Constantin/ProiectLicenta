@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,7 +54,7 @@ private val meniuSubcategorys = MeniuSubcategorys()
 private var listaSubcategorysActive = subcategorysPredefiniteActive.values.flatten().toMutableList()
 private var listaSubcategorysPasive = subcategorysPredefinitePasive.values.flatten().toMutableList()
 private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.values.flatten().toMutableList()
-private fun adaugareTranzactie(l: MutableList<Tranzactie>,
+private fun adaugareTranzactie(l: SnapshotStateList<Tranzactie>,
                                currency:String, subcategory:String,
                                valueSum:String, payee:String, date:String,
                                description:String) {
@@ -65,11 +66,9 @@ private fun adaugareTranzactie(l: MutableList<Tranzactie>,
 fun showTransactionDialog(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
-    addDialog: Boolean,
-    deleteDialog: Boolean,
-    lActive: MutableList<Tranzactie>,
-    lPasive: MutableList<Tranzactie>,
-    lDatorii: MutableList<Tranzactie>
+    lActive: SnapshotStateList<Tranzactie>,
+    lPasive: SnapshotStateList<Tranzactie>,
+    lDatorii: SnapshotStateList<Tranzactie>
 ) {
     var currency by remember { mutableStateOf("") }
     var subcategory by remember { mutableStateOf("") }
@@ -128,15 +127,13 @@ fun showTransactionDialog(
                         Spacer(Modifier.fillMaxHeight(5f / LocalConfiguration.current.screenHeightDp))
 
                         var valueSum by remember { mutableStateOf("") }
-                        if (addDialog) {
-                            TextField(
-                                value = valueSum,
-                                onValueChange = { valueSum = it },
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                label = { Text(stringResource(id = R.string.introduceti_suma)) },
-                                maxLines = 2,
-                            )
-                        }
+                        TextField(
+                            value = valueSum,
+                            onValueChange = { valueSum = it },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            label = { Text(stringResource(id = R.string.introduceti_suma)) },
+                            maxLines = 2,
+                        )
 
                         var payee by remember { mutableStateOf("") }
                         TextField(
@@ -149,69 +146,57 @@ fun showTransactionDialog(
 
                         var date by remember { mutableStateOf("") }
                         var description by remember { mutableStateOf("") }
-                        if (addDialog) {
-                            TextField(
-                                value = date,
-                                onValueChange = { date = it },
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                                label = { Text(text = stringResource(id = R.string.data)) },
-                                maxLines = 2,
-                            )
-                            TextField(
-                                value = description,
-                                onValueChange = { description = it },
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                                label = { Text(text = stringResource(id = R.string.descriere)) },
-                                maxLines = 2,
-                            )
-                        }
+                        TextField(
+                            value = date,
+                            onValueChange = { date = it },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                            label = { Text(text = stringResource(id = R.string.data)) },
+                            maxLines = 2,
+                        )
+                        TextField(
+                            value = description,
+                            onValueChange = { description = it },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                            label = { Text(text = stringResource(id = R.string.descriere)) },
+                            maxLines = 2,
+                        )
                         Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center
                         ) {
                             Button(onClick = {
-                                if (addDialog) {
-                                    if (currency != "" && subcategory != "" && valueSum != "" && payee != "" && date != "" && description != "") {
-                                        if (showA.value && !showP.value && !showD.value) {
-                                            adaugareTranzactie(
-                                                lActive,
-                                                currency,
-                                                subcategory,
-                                                valueSum,
-                                                "Furnizor : $payee",
-                                                date,
-                                                description
-                                            )
-                                        } else if (showP.value && !showA.value && !showD.value) {
-                                            adaugareTranzactie(
-                                                lPasive,
-                                                currency,
-                                                subcategory,
-                                                valueSum,
-                                                "Beneficiar : $payee",
-                                                date,
-                                                description
-                                            )
-                                        } else if (showD.value && !showA.value && !showP.value) {
-                                            adaugareTranzactie(
-                                                lDatorii,
-                                                currency,
-                                                subcategory,
-                                                valueSum,
-                                                payee,
-                                                date,
-                                                description
-                                            )
-                                        }
-                                    }
-                                } else {
+                                if (currency != "" && subcategory != "" && valueSum != "" && payee != "" && date != "" && description != "") {
                                     if (showA.value && !showP.value && !showD.value) {
-                                        //eliminareSubcategory(lActive, firstLetter, filledText)
+                                        adaugareTranzactie(
+                                            lActive,
+                                            currency,
+                                            subcategory,
+                                            valueSum,
+                                            "Furnizor : $payee",
+                                            date,
+                                            description
+                                        )
                                     } else if (showP.value && !showA.value && !showD.value) {
-                                        //eliminareSubcategory(lPasive, firstLetter, filledText)
+                                        adaugareTranzactie(
+                                            lPasive,
+                                            currency,
+                                            subcategory,
+                                            valueSum,
+                                            "Beneficiar : $payee",
+                                            date,
+                                            description
+                                        )
                                     } else if (showD.value && !showA.value && !showP.value) {
-                                        //eliminareSubcategory(lDatorii, firstLetter, filledText)
+                                        adaugareTranzactie(
+                                            lDatorii,
+                                            currency,
+                                            subcategory,
+                                            valueSum,
+                                            payee,
+                                            date,
+                                            description
+                                        )
                                     }
                                 }
                                 resetButtons(showA, showP, showD)

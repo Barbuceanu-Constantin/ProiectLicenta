@@ -48,25 +48,7 @@ private fun showAddSubcategoryDialog(
         lDatorii = lSD
     )
 }
-@Composable
-private fun showDeleteSubcategoryDialog(
-    lSA: MutableList<Subcategory>,
-    lSP: MutableList<Subcategory>,
-    lSD: MutableList<Subcategory>,
-    addButton: MutableState<Boolean>,
-    deleteButton: MutableState<Boolean>,
-    onDismissRequest: () -> Unit = { deleteButton.value = false },
-    onConfirmation: () -> Unit = { deleteButton.value = false },
-) {
-    showCategoryDialog(
-        onDismissRequest = onDismissRequest,
-        onConfirmation = onConfirmation,
-        strId = R.string.mesaj_eliminare_subcategory,
-        lActive = lSA,
-        lPasive = lSP,
-        lDatorii = lSD
-    )
-}
+
 @Composable
 fun categoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>,
                      addButton: MutableState<Boolean>, deleteButton: MutableState<Boolean>,
