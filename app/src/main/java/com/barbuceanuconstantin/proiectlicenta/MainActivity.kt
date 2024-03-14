@@ -9,6 +9,8 @@ import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.screen1
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.screen2
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showMenu
 
+//Branch ecrane-individuale
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
