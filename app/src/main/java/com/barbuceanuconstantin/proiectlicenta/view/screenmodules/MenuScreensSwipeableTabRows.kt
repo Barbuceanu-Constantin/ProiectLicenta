@@ -104,9 +104,8 @@ fun screen2() {
     var showP = mutableStateOf(true)
     var showD = mutableStateOf(true)
     var addButton = mutableStateOf(false)
-    var deleteButton = mutableStateOf(false)
 
-    categoriesComposableScreen(showA, showP, showD, addButton, deleteButton, listSubcategoriesRevenue, listSubcategoriesExpenses, listSubcategoriesDebts)
+    categoriesComposableScreen(showA, showP, showD, addButton, listSubcategoriesRevenue, listSubcategoriesExpenses, listSubcategoriesDebts)
 }
 @Composable
 fun screen4() {

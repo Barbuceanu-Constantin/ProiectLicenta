@@ -13,8 +13,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
@@ -25,7 +23,6 @@ import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 import com.barbuceanuconstantin.proiectlicenta.allSubcategoriesOrTransactions
 import com.barbuceanuconstantin.proiectlicenta.selectCategoryItemList
 import com.barbuceanuconstantin.proiectlicenta.data.model.tranzactiiLazyColumn
-import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showTransactionDialog
 
 @Composable
 private fun showAddTransactionDialog(
@@ -75,9 +72,7 @@ fun transactionsComposableScreen(showA: MutableState<Boolean>,
                 }
             ) { innerPadding ->
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(innerPadding),
+                    modifier = Modifier.fillMaxWidth().padding(innerPadding),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Spacer(modifier = Modifier.fillMaxHeight(50F / LocalConfiguration.current.screenHeightDp))

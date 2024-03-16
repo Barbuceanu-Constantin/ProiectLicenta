@@ -71,7 +71,7 @@ class MeniuSubcategorys {
                     )
                 }
             }
-            okButton(selectedItem, showMeniuSubcategorys)
+            okButton(showMeniuSubcategorys)
         }
     }
 }

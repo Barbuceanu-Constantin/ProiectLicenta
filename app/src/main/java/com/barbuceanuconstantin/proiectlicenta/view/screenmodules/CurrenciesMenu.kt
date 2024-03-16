@@ -82,7 +82,7 @@ class MeniuValute {
                 }
             }
 
-            okButton(selectedItem, showMeniuValute)
+            okButton(showMeniuValute)
         }
     }
 }
