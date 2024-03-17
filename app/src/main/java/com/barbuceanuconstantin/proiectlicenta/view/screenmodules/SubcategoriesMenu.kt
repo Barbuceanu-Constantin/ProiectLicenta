@@ -29,49 +29,40 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.okButton
+@Composable
+fun showMenuSubcategories(lSubcategorys: MutableList<String>, showMeniuSubcategorys: MutableState<Boolean>, okButton: Boolean = true, onSelect: (String) -> Unit) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedItem by remember { mutableStateOf("") }
+    var textFilledSize by remember { mutableStateOf(Size.Zero) }
+    val icon =  if (expanded) { Icons.Filled.KeyboardArrowUp } else { Icons.Filled.KeyboardArrowDown }
 
-class MeniuSubcategorys {
-    @Composable
-    fun showMenu(selected: String,
-                 lSubcategorys: MutableList<String>,
-                 showMeniuSubcategorys: MutableState<Boolean>,
-                 onSelect: (String) -> Unit) {
-        var expanded by remember { mutableStateOf(false) }
-        var selectedItem by remember { mutableStateOf("") }
-        var textFilledSize by remember { mutableStateOf(Size.Zero) }
-        val icon =  if (expanded) { Icons.Filled.KeyboardArrowUp }
-        else { Icons.Filled.KeyboardArrowDown }
-
-        Column(
-            modifier = Modifier.padding(top = 50.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+    val fraction = if (okButton) 1f else 0.7f
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        OutlinedTextField(
+            value = selectedItem,
+            onValueChange = { selectedItem = it },
+            modifier = Modifier.fillMaxWidth(fraction).onGloballyPositioned { coordinates ->
+                    textFilledSize = coordinates.size.toSize()
+                },
+            label = { Text(text = stringResource(id = R.string.selectare_subcategory)) },
+            trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
         ) {
-            OutlinedTextField(
-                value = selectedItem,
-                onValueChange = { selectedItem = it },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .onGloballyPositioned { coordinates ->
-                        textFilledSize = coordinates.size.toSize()
-                    },
-                label = { Text(text = stringResource(id = R.string.selectare_subcategory)) },
-                trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
-            ) {
-                lSubcategorys.forEach { label ->
-                    DropdownMenuItem(onClick = {
-                        selectedItem = label
-                        expanded = false
-                        onSelect(label) //
-                    },
-                        text = { Text(text = label) }
-                    )
-                }
+            lSubcategorys.forEach { label ->
+                DropdownMenuItem(onClick = {
+                    selectedItem = label
+                    expanded = false
+                    onSelect(label) //
+                },
+                    text = { Text(text = label) }
+                )
             }
-            okButton(showMeniuSubcategorys)
         }
+
+        if (okButton)
+            okButton(showMeniuSubcategorys)
     }
 }

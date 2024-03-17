@@ -22,8 +22,11 @@ fun resetButtons(showA: MutableState<Boolean>, showP: MutableState<Boolean>, sho
     showD.value = true
 }
 @Composable
-fun okButton(ok: MutableState<Boolean>) {
-    Spacer(Modifier.fillMaxHeight(50f / LocalConfiguration.current.screenHeightDp))
+fun okButton(ok: MutableState<Boolean>, space: Boolean = true) {
+    if (space)
+        Spacer(Modifier.fillMaxHeight(50f / LocalConfiguration.current.screenHeightDp))
+    else
+        Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
 
     val buttonWidthFraction = 0.3f
     Button(onClick = { ok.value = !ok.value },

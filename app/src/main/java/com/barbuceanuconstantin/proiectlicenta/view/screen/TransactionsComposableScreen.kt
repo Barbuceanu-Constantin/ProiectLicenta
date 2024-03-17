@@ -1,5 +1,7 @@
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,25 +25,15 @@ import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 import com.barbuceanuconstantin.proiectlicenta.allSubcategoriesOrTransactions
 import com.barbuceanuconstantin.proiectlicenta.selectCategoryItemList
 import com.barbuceanuconstantin.proiectlicenta.data.model.tranzactiiLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
+import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
+import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 
-@Composable
-private fun showAddTransactionDialog(
-    lTrA: SnapshotStateList<Tranzactie>,
-    lTrP: SnapshotStateList<Tranzactie>,
-    lTrD: SnapshotStateList<Tranzactie>,
-    addButton: MutableState<Boolean>,
-    onDismissRequest: () -> Unit = { addButton.value = false },
-    onConfirmation: () -> Unit = { addButton.value = false },
-) {
-    showTransactionDialog(
-        onDismissRequest = onDismissRequest,
-        onConfirmation = onConfirmation,
-        lActive = lTrA,
-        lPasive = lTrP,
-        lDatorii = lTrD
-    )
-}
+private var listaSubcategorysActive = subcategorysPredefiniteActive.values.flatten().toMutableList()
+private var listaSubcategorysPasive = subcategorysPredefinitePasive.values.flatten().toMutableList()
+private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.values.flatten().toMutableList()
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun transactionsComposableScreen(showA: MutableState<Boolean>,
                                  showP: MutableState<Boolean>,
@@ -51,17 +43,24 @@ fun transactionsComposableScreen(showA: MutableState<Boolean>,
                                  lTrP: SnapshotStateList<Tranzactie>,
                                  lTrD: SnapshotStateList<Tranzactie>,
                                  index: MutableState<Int>,
-                                 sem: MutableState<Int>) {
-    if (index.value != -1) {
+                                 sem: MutableState<Int>,
+                                 updateTransactionButton: MutableState<Boolean>) {
+    if (index.value != -1 && updateTransactionButton.value) {
         if (sem.value == 1)
-            transactionUpdateScreen(indexUpdate = index.value, trList = lTrA)
+            transactionUpdateScreen(indexUpdate = index.value, trList = lTrA, subcategoriesList = listaSubcategorysActive,
+                updateTransactionButton = updateTransactionButton
+            )
         if (sem.value == 2)
-            transactionUpdateScreen(indexUpdate = index.value, trList = lTrP)
+            transactionUpdateScreen(indexUpdate = index.value, trList = lTrP, subcategoriesList = listaSubcategorysPasive,
+                updateTransactionButton = updateTransactionButton
+            )
         if (sem.value == 3)
-            transactionUpdateScreen(indexUpdate = index.value, trList = lTrD)
+            transactionUpdateScreen(indexUpdate = index.value, trList = lTrD, subcategoriesList = listaSubcategorysDatorii,
+                updateTransactionButton = updateTransactionButton
+            )
     } else {
         if (addButton.value) {
-            showAddTransactionDialog(lTrA = lTrA, lTrP = lTrP, lTrD = lTrD, addButton = addButton)
+            showTransactionDialog(onDismissRequest = { addButton.value = false }, onConfirmation = {addButton.value = false}, lActive = lTrA, lPasive = lTrP, lDatorii = lTrD)
         }
         if (!addButton.value) {
             Scaffold(
@@ -88,13 +87,13 @@ fun transactionsComposableScreen(showA: MutableState<Boolean>,
                     )
 
                     if (showA.value && !showP.value && !showD.value) {
-                        tranzactiiLazyColumn(tranzactii = lTrA, indexState = index, sem = sem)
+                        tranzactiiLazyColumn(tranzactii = lTrA, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
                         sem.value = 1
                     } else if (showP.value && !showA.value && !showD.value) {
-                        tranzactiiLazyColumn(tranzactii = lTrP, indexState = index, sem = sem)
+                        tranzactiiLazyColumn(tranzactii = lTrP, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
                         sem.value = 2
                     } else if (showD.value && !showA.value && !showP.value) {
-                        tranzactiiLazyColumn(tranzactii = lTrD, indexState = index, sem = sem)
+                        tranzactiiLazyColumn(tranzactii = lTrD, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
                         sem.value = 3
                     } else if (showA.value && showP.value && showD.value) {
                         tranzactiiLazyColumn(
@@ -103,7 +102,8 @@ fun transactionsComposableScreen(showA: MutableState<Boolean>,
                             lTrP,
                             lTrD,
                             indexState = index,
-                            sem
+                            sem,
+                            updateTransactionButton
                         )
                     }
                 }

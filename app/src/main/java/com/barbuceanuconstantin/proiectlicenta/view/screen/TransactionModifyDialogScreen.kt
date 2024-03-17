@@ -1,6 +1,8 @@
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
+import android.os.Build
 import android.widget.CalendarView
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -12,10 +14,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -35,7 +35,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.compose.ui.window.Dialog
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 import com.barbuceanuconstantin.proiectlicenta.headerSelectCategoryOrTransactionWindow
@@ -44,18 +43,18 @@ import com.barbuceanuconstantin.proiectlicenta.resetButtons
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
-import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MeniuSubcategorys
-import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MeniuValute
+import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showMenuCurrencies
+import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showMenuSubcategories
 import com.barbuceanuconstantin.proiectlicenta.warningNotSelectedCategory
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
+val showMeniuValute = mutableStateOf(false)
 private val showAB = mutableStateOf(true)
 private val showPB = mutableStateOf(true)
 private val showDB = mutableStateOf(true)
-private val showMeniuValute = mutableStateOf(false)
 private val showMeniuSubcategorys = mutableStateOf(false)
 
-private val meniuValute = MeniuValute()
-private val meniuSubcategorys = MeniuSubcategorys()
 private val dateButton = mutableStateOf(false)
 
 private var listaSubcategorysActive = subcategorysPredefiniteActive.values.flatten().toMutableList()
@@ -69,6 +68,7 @@ private fun adaugareTranzactie(l: SnapshotStateList<Tranzactie>,
     l.add(0, newTranzactie)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun showTransactionDialog(
     onDismissRequest: () -> Unit,
@@ -81,7 +81,12 @@ fun showTransactionDialog(
     var subcategory by remember { mutableStateOf("") }
     var payee by remember { mutableStateOf("") }
     var valueSum by remember { mutableStateOf("") }
-    var date by remember { mutableStateOf("") }
+
+    val dateTime = LocalDateTime.now()
+    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val formattedDate = dateTime.format(dateFormatter)
+    var date by remember { mutableStateOf(formattedDate) }
+
     var description by remember { mutableStateOf("") }
 
     if (dateButton.value) {
@@ -94,26 +99,22 @@ fun showTransactionDialog(
                 factory = { CalendarView(it) },
                 update = {
                     it.setOnDateChangeListener { calendarView, year, month, day ->
-                            date = "$day - ${month + 1} - $year"
+                            date = "$year-${(month + 1)/10}${(month + 1)%10}-$day"
                     }
                 },
-                modifier = Modifier.background(color = Color(250, 230, 200))
+                modifier = Modifier.background(color = Color(250, 230, 200)).border(width = 10.dp, color = Color(20, 100, 10))
             )
             okButton(ok = dateButton)
         }
     } else {
         Scaffold() { innerPadding ->
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(innerPadding)
+                modifier = Modifier.fillMaxWidth().padding(innerPadding)
             ) {
                 headerSelectCategoryOrTransactionWindow(showAB, showPB, showDB)
                 Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = Color.Green),
+                    modifier = Modifier.fillMaxWidth().background(color = Color.Green),
                     contentAlignment = Alignment.Center
                 ) {
                     Button(
@@ -125,9 +126,7 @@ fun showTransactionDialog(
                     ) { Text(stringResource(R.string.mesaj_selectare_subcategory)) }
                 }
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = Color.Green),
+                    modifier = Modifier.fillMaxWidth().background(color = Color.Green),
                     contentAlignment = Alignment.Center
                 ) {
                     Button(
@@ -255,29 +254,26 @@ fun showTransactionDialog(
                         warningNotSelectedCategory()
                     } else {
                         if (showMeniuValute.value && !showMeniuSubcategorys.value) {
-                            meniuValute.showMenu(currency, showMeniuValute) {
+                            showMenuCurrencies(showMeniuValute = showMeniuValute) {
                                 currency = it
                             }
                         } else if (!showMeniuValute.value && showMeniuSubcategorys.value) {
                             if (showAB.value && !showPB.value && !showDB.value) {
-                                meniuSubcategorys.showMenu(
-                                    subcategory,
+                                showMenuSubcategories(
                                     lSubcategorys = listaSubcategorysActive,
                                     showMeniuSubcategorys
                                 ) {
                                     subcategory = it
                                 }
                             } else if (showPB.value && !showAB.value && !showDB.value) {
-                                meniuSubcategorys.showMenu(
-                                    subcategory,
+                                showMenuSubcategories(
                                     lSubcategorys = listaSubcategorysPasive,
                                     showMeniuSubcategorys
                                 ) {
                                     subcategory = it
                                 }
                             } else if (showDB.value && !showAB.value && !showPB.value) {
-                                meniuSubcategorys.showMenu(
-                                    subcategory,
+                                showMenuSubcategories(
                                     lSubcategorys = listaSubcategorysDatorii,
                                     showMeniuSubcategorys
                                 ) {

@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,7 +30,7 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 
-data class Tranzactie(
+class Tranzactie(
     var suma: Double,
     var valuta: String,
     var descriere: String,
@@ -56,32 +57,34 @@ private fun tranzactie(
         text = "${subcategory} ---> ${value} (${currency})",
         fontSize = 18.sp,
         fontWeight = FontWeight.Bold,
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color)
+        modifier = Modifier.fillMaxWidth().background(color)
     )
-    Row() {
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .weight(1f)) {
-            Text(
-                text = payee,
-                maxLines = 2
-            )
-            Text(
-                text = "${stringResource(id = R.string.data)} : $data",
-                maxLines = 2
-            )
-            Text(
-                text = "${stringResource(id = R.string.descriere)} : $descriere",
-                maxLines = 2
-            )
-        }
-        IconButton(onClick = update, modifier = Modifier.fillMaxSize(fraction = 1f).weight(1f)) {
-            Icon(Icons.Filled.Update, contentDescription = "Favorite", tint = Color.Black)
-        }
-        IconButton(onClick = onDeleteItem, modifier = Modifier.fillMaxSize(fraction = 1f).weight(1f)) {
-            Icon(Icons.Filled.Delete, contentDescription = "Favorite", tint = Color.Black)
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = payee,
+            maxLines = 2
+        )
+        Text(
+            text = "${stringResource(id = R.string.data)} : $data",
+            maxLines = 2
+        )
+        Text(
+            text = "${stringResource(id = R.string.descriere)} : $descriere",
+            maxLines = 2
+        )
+        Row() {
+            IconButton(
+                onClick = update,
+                modifier = Modifier.fillMaxSize(fraction = 1f).weight(1f)
+            ) {
+                Icon(Icons.Filled.Update, contentDescription = "Favorite", tint = Color.Black)
+            }
+            IconButton(
+                onClick = onDeleteItem,
+                modifier = Modifier.fillMaxSize(fraction = 1f).weight(1f)
+            ) {
+                Icon(Icons.Filled.Delete, contentDescription = "Favorite", tint = Color.Black)
+            }
         }
     }
 }
@@ -93,7 +96,8 @@ fun tranzactiiLazyColumn(
     lTrP: SnapshotStateList<Tranzactie>? = null,
     lTrD: SnapshotStateList<Tranzactie>? = null,
     indexState: MutableState<Int>,
-    sem: MutableState<Int>
+    sem: MutableState<Int>,
+    updateScreenButton: MutableState<Boolean>
 ) {
     var index = 0
     LazyColumn(
@@ -132,6 +136,8 @@ fun tranzactiiLazyColumn(
                                                 indexState.value -= lTrA.size
                                             }
                                         }
+                                        updateScreenButton.value = !updateScreenButton.value
+                                        println("daUpdate")
                                     })
             index += 1
         }

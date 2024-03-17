@@ -2,6 +2,8 @@
 
 package com.barbuceanuconstantin.proiectlicenta.view.screenmodules
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -87,6 +89,8 @@ fun screen0() {
     var sumDebt: Float = 0f;
     principalComposableScreen(sumRevenue, sumExpenses, sumDebt)
 }
+
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun screen1() {
     var showA = mutableStateOf(true)
@@ -95,8 +99,9 @@ fun screen1() {
     var addButton = mutableStateOf(false)
     val index = mutableIntStateOf(-1)
     val sem = mutableIntStateOf(-1)
+    val updateTransactionButton = mutableStateOf(false)
 
-    transactionsComposableScreen(showA, showP, showD, addButton, lTranzactiiActive, lTranzactiiPasive, lTranzactiiDatorii, index, sem)
+    transactionsComposableScreen(showA, showP, showD, addButton, lTranzactiiActive, lTranzactiiPasive, lTranzactiiDatorii, index, sem, updateTransactionButton)
 }
 @Composable
 fun screen2() {
