@@ -33,4 +33,4 @@ var lTrA = mutableStateListOf<Tranzactie>()
 var lTrP = mutableStateListOf<Tranzactie>()
 var lTrD = mutableStateListOf<Tranzactie>()
 
-var lBudgets = mutableListOf<Budget>()
+var lBudgets = mutableStateListOf<Budget>()

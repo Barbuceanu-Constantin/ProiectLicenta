@@ -46,8 +46,7 @@ fun categoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState
                      addButton: MutableState<Boolean>, lSA: MutableList<Subcategory>, lSP: MutableList<Subcategory>, lSD: MutableList<Subcategory>) {
     if (addButton.value) {
         showAddSubcategoryDialog(lSA = lSA, lSP = lSP, lSD = lSD, addButton = addButton)
-    }
-    if (!addButton.value) {
+    } else {
         Scaffold(
             floatingActionButton = {
                 FloatingActionButton(onClick = { addButton.value = !addButton.value }) {

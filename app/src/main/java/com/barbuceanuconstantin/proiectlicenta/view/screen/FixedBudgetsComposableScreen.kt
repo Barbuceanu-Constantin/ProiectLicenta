@@ -1,6 +1,7 @@
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
-import androidx.compose.foundation.layout.Arrangement
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -11,25 +12,66 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.sp
+import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
+import com.barbuceanuconstantin.proiectlicenta.data.model.budgetsLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.R
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun fixedBudgetsComposableScreen(fab: MutableState<Boolean>) {
-    Scaffold(floatingActionButton = {
-        FloatingActionButton(onClick = { fab.value = !fab.value }) {
-            Icon(Icons.Default.Add, contentDescription = "Add")
-        }
-    }) { innerPadding ->
-        Column (
-            modifier = Modifier.fillMaxWidth().padding(innerPadding),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Spacer(Modifier.fillMaxHeight(10F / LocalConfiguration.current.screenHeightDp))
+private fun showAddBudgetDialog(
+    lFixedBudgets: SnapshotStateList<Budget>,
+    fab: MutableState<Boolean>,
+    onDismissRequest: () -> Unit = { fab.value = false },
+    onConfirmation: () -> Unit = { fab.value = false },
+) {
+    showBudgetDialog(
+        onDismissRequest = onDismissRequest,
+        onConfirmation = onConfirmation,
+        lFixedBudgets = lFixedBudgets
+    )
+}
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun fixedBudgetsComposableScreen(fab: MutableState<Boolean>,
+                                 lFixedBudgets: SnapshotStateList<Budget>) {
+    if (fab.value) {
+        showAddBudgetDialog(lFixedBudgets = lFixedBudgets, fab = fab)
+    } else {
+        Scaffold(floatingActionButton = {
+            FloatingActionButton(onClick = { fab.value = !fab.value }) {
+                Icon(Icons.Default.Add, contentDescription = "Add")
+            }
+        }) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(innerPadding),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Spacer(Modifier.fillMaxHeight(40F / LocalConfiguration.current.screenHeightDp))
+                Text(
+                        text = stringResource(id = R.string.ecran_bugete_fixe),
+                        style = TextStyle(
+                            fontStyle = FontStyle.Italic,
+                            textDecoration = TextDecoration.Underline
+                        ),
+                        fontSize = 30.sp
+                    )
+                Spacer(Modifier.fillMaxHeight(30F / LocalConfiguration.current.screenHeightDp))
+
+                budgetsLazyColumn(lFixedBudgets)
+            }
         }
     }
 }

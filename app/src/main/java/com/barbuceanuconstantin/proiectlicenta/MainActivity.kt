@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import com.barbuceanuconstantin.proiectlicenta.ui.theme.ProiectLicentaTheme
 import com.barbuceanuconstantin.proiectlicenta.view.screen.screen1
+import com.barbuceanuconstantin.proiectlicenta.view.screen.screen4
 
 //Branch ecrane-individuale//
 
@@ -16,7 +17,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ProiectLicentaTheme {
-                screen1()
+                screen4()
             }
         }
     }

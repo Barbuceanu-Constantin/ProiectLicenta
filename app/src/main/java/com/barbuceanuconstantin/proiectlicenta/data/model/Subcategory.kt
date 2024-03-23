@@ -36,10 +36,7 @@ data class Subcategory(
 )
 
 @Composable
-private fun antetSubcategory(
-    text: String,
-    color: Color
-) {
+private fun antetSubcategory(text: String, color: Color) {
     Text(
         text = text,
         fontSize = 16.sp,

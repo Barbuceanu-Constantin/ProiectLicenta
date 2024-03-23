@@ -7,8 +7,10 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
+import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
+import com.barbuceanuconstantin.proiectlicenta.lBudgets
 import com.barbuceanuconstantin.proiectlicenta.lTrA
 import com.barbuceanuconstantin.proiectlicenta.lTrD
 import com.barbuceanuconstantin.proiectlicenta.lTrP
@@ -19,6 +21,7 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 private var lTranzactiiActive: SnapshotStateList<Tranzactie> = lTrA
 private var lTranzactiiPasive: SnapshotStateList<Tranzactie> = lTrP
 private var lTranzactiiDatorii: SnapshotStateList<Tranzactie> = lTrD
+private var lFixedBudgets: SnapshotStateList<Budget> = lBudgets
 
 private var listSubcategoriesRevenue = subcategorysPredefiniteActive.map {
     Subcategory(name = it.key.toString(), items = it.value.toMutableStateList())
@@ -63,7 +66,7 @@ fun screen2() {
 fun screen4() {
     val fab = mutableStateOf(false)
 
-    fixedBudgetsComposableScreen(fab)
+    fixedBudgetsComposableScreen(fab, lFixedBudgets)
 }
 @Composable
 fun screen7() {

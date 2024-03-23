@@ -89,15 +89,13 @@ fun showCategoryDialog(
                 )
 
                 if (!(showA.value && showD.value && showP.value)) {
-                    var filledText by remember {
-                        mutableStateOf("")
-                    }
+                    var filledText by remember { mutableStateOf("") }
 
                     Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
 
                     TextField(
                         value = filledText, onValueChange = { filledText = it },
-                        textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Right),
+                        textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
                         label = { Text(text = stringResource(R.string.denumire)) },
                         placeholder = { Text(text = stringResource(id = R.string.underscores)) },
                         leadingIcon = {

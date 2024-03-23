@@ -56,7 +56,6 @@ private val showAB = mutableStateOf(true)
 private val showPB = mutableStateOf(true)
 private val showDB = mutableStateOf(true)
 private val showMeniuSubcategorys = mutableStateOf(false)
-
 private val dateButton = mutableStateOf(false)
 
 private var listaSubcategorysActive = subcategorysPredefiniteActive.values.flatten().toMutableList()
