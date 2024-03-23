@@ -77,13 +77,13 @@ private fun tranzactie(
                 onClick = update,
                 modifier = Modifier.fillMaxSize(fraction = 1f).weight(1f)
             ) {
-                Icon(Icons.Filled.Update, contentDescription = "Favorite", tint = Color.Black)
+                Icon(Icons.Filled.Update, contentDescription = "Update", tint = Color.Black)
             }
             IconButton(
                 onClick = onDeleteItem,
                 modifier = Modifier.fillMaxSize(fraction = 1f).weight(1f)
             ) {
-                Icon(Icons.Filled.Delete, contentDescription = "Favorite", tint = Color.Black)
+                Icon(Icons.Filled.Delete, contentDescription = "Delete", tint = Color.Black)
             }
         }
     }

@@ -51,9 +51,9 @@
     <string name="introduceti_suma">Introduceti suma</string>
     <string name="venit_zi_curenta">Venit zi curenta</string>
     <string name="data_inceput">Data de inceput :</string>
+    <string name="prag_superior">Prag superior :</string>
     <string name="data_final">Data de final :</string>
     <string name="subcategory">Subcategorie</string>
-    <string name="suma_totala">Suma totala :</string>
     <string name="beneficiar">Beneficiar</string>
     <string name="confirmare">Confirmare</string>
     <string name="Bugete_fixe">Bugete fixe</string>
