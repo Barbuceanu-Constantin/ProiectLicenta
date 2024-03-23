@@ -62,12 +62,19 @@ fun screen2() {
 
     categoriesComposableScreen(showA, showP, showD, addButton, listSubcategoriesRevenue, listSubcategoriesExpenses, listSubcategoriesDebts)
 }
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun screen4() {
     val fab = mutableStateOf(false)
 
     fixedBudgetsComposableScreen(fab, lFixedBudgets)
 }
+
+@Composable
+fun screen6() {
+    budgetSummaryComposableScreen()
+}
+
 @Composable
 fun screen7() {
     calendarComposableScreen()
