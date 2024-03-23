@@ -56,9 +56,7 @@ fun categoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState
             }
         ) { innerPadding ->
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(innerPadding),
+                modifier = Modifier.fillMaxWidth().padding(innerPadding),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))

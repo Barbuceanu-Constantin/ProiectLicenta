@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.calendar
 
 @Composable
 fun calendarComposableScreen() {
@@ -37,14 +39,11 @@ fun calendarComposableScreen() {
             mutableStateOf("")
         }
         Spacer(Modifier.fillMaxHeight(10F / LocalConfiguration.current.screenHeightDp))
-        AndroidView(factory = { CalendarView(it) },
-            update = {
-                it.setOnDateChangeListener { calendarView, year, month, day ->
-                    date = "$day - ${month + 1} - $year"
-                }
-            },
-            modifier = Modifier.background(color = Color(250, 230, 200))
-        )
+
+        val dateMutable: MutableState<String> = mutableStateOf(date)
+        calendar(dateMutable)
+        date = dateMutable.value
+
         Spacer(Modifier.fillMaxHeight(10F / LocalConfiguration.current.screenHeightDp))
         Box(
             modifier = Modifier.fillMaxWidth()

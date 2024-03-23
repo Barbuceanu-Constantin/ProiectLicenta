@@ -31,13 +31,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.calendar
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 import com.barbuceanuconstantin.proiectlicenta.okButton
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showMenuCurrencies
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showMenuSubcategories
 
-val showMeniuValute1 = mutableStateOf(false)
-val showMeniuSubcategorys1 = mutableStateOf(false)
+private val showMeniuValute1 = mutableStateOf(false)
+private val showMeniuSubcategorys1 = mutableStateOf(false)
 private val dateButton = mutableStateOf(false)
 
 @Composable
@@ -58,15 +59,11 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
             modifier = Modifier.fillMaxSize()
         ) {
             Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
-            AndroidView(
-                factory = { CalendarView(it) },
-                update = {
-                    it.setOnDateChangeListener { calendarView, year, month, day ->
-                        date = "$year-${(month + 1)/10}${(month + 1)%10}-$day"
-                    }
-                },
-                modifier = Modifier.background(color = Color(250, 230, 200)).border(width = 10.dp, color = Color(20, 100, 10))
-            )
+
+            val dateMutable: MutableState<String> = mutableStateOf(date)
+            calendar(dateMutable)
+            date = dateMutable.value
+
             okButton(ok = dateButton)
         }
     } else {

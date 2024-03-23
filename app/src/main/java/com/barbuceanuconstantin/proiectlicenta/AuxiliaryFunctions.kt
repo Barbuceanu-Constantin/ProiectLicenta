@@ -1,5 +1,8 @@
 package com.barbuceanuconstantin.proiectlicenta
 
+import android.widget.CalendarView
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,7 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+
 fun resetButtons(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>) {
     showA.value = true
     showP.value = true
@@ -33,6 +39,18 @@ fun okButton(ok: MutableState<Boolean>, space: Boolean = true) {
         modifier = Modifier.fillMaxHeight(120f / LocalConfiguration.current.screenHeightDp).fillMaxWidth(buttonWidthFraction)) {
         Text(text = stringResource(id = R.string.ok), fontSize = 20.sp)
     }
+}
+@Composable
+fun calendar(date: MutableState<String>) {
+    AndroidView(
+        factory = { CalendarView(it) },
+        update = {
+            it.setOnDateChangeListener { calendarView, year, month, day ->
+                date.value = "$year-${(month + 1)/10}${(month + 1)%10}-$day"
+            }
+        },
+        modifier = Modifier.background(color = Color(250, 230, 200)).border(width = 10.dp, color = Color(20, 100, 10))
+    )
 }
 @Composable
 fun headerSelectCategoryOrTransactionWindow(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>) {

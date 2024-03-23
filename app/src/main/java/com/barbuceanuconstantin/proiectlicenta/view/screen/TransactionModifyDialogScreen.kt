@@ -20,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.calendar
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 import com.barbuceanuconstantin.proiectlicenta.headerSelectCategoryOrTransactionWindow
 import com.barbuceanuconstantin.proiectlicenta.okButton
@@ -95,15 +97,11 @@ fun showTransactionDialog(
                 modifier = Modifier.fillMaxSize()
         ) {
             Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
-            AndroidView(
-                factory = { CalendarView(it) },
-                update = {
-                    it.setOnDateChangeListener { calendarView, year, month, day ->
-                            date = "$year-${(month + 1)/10}${(month + 1)%10}-$day"
-                    }
-                },
-                modifier = Modifier.background(color = Color(250, 230, 200)).border(width = 10.dp, color = Color(20, 100, 10))
-            )
+
+            val dateMutable: MutableState<String> = mutableStateOf(date)
+            calendar(dateMutable)
+            date = dateMutable.value
+
             okButton(ok = dateButton)
         }
     } else {
