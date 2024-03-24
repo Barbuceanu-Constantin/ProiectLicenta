@@ -17,9 +17,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.allSubcategoriesOrTransactions
+import com.barbuceanuconstantin.proiectlicenta.fourthButton
 import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
-import com.barbuceanuconstantin.proiectlicenta.selectCategoryItemList
+import com.barbuceanuconstantin.proiectlicenta.threeTopButtons
 import com.barbuceanuconstantin.proiectlicenta.data.model.subcategorysLazyColumn
 
 @Composable
@@ -60,10 +60,13 @@ fun categoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState
             ) {
                 Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
                 Row() {
-                    selectCategoryItemList(showA = showA, showP = showP, showD = showD)
+                    threeTopButtons(first = showA, second = showP, third = showD,
+                                    firstId = R.string.active,
+                                    secondId = R.string.pasive,
+                                    thirdId = R.string.datorii)
                 }
 
-                allSubcategoriesOrTransactions(id = R.string.toate_subcategoriile, showA = showA, showP = showP, showD = showD)
+                fourthButton(id = R.string.toate_subcategoriile, first = showA, second = showP, third = showD)
 
                 if (showA.value && !showP.value && !showD.value) {
                     subcategorysLazyColumn(categorii = lSA)

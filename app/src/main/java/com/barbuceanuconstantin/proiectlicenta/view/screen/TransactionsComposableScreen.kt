@@ -22,8 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
-import com.barbuceanuconstantin.proiectlicenta.allSubcategoriesOrTransactions
-import com.barbuceanuconstantin.proiectlicenta.selectCategoryItemList
+import com.barbuceanuconstantin.proiectlicenta.fourthButton
+import com.barbuceanuconstantin.proiectlicenta.threeTopButtons
 import com.barbuceanuconstantin.proiectlicenta.data.model.tranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
@@ -76,14 +76,17 @@ fun transactionsComposableScreen(showA: MutableState<Boolean>,
                 ) {
                     Spacer(modifier = Modifier.fillMaxHeight(50F / LocalConfiguration.current.screenHeightDp))
                     Row() {
-                        selectCategoryItemList(showA = showA, showP = showP, showD = showD)
+                        threeTopButtons(first = showA, second = showP, third = showD,
+                                        firstId = R.string.active,
+                                        secondId = R.string.pasive,
+                                        thirdId = R.string.datorii)
                     }
 
-                    allSubcategoriesOrTransactions(
+                    fourthButton(
                         id = R.string.toate_tranzactiile,
-                        showA = showA,
-                        showP = showP,
-                        showD = showD
+                        first = showA,
+                        second = showP,
+                        third = showD
                     )
 
                     if (showA.value && !showP.value && !showD.value) {

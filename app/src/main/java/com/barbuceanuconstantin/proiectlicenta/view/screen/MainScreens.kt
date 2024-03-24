@@ -72,7 +72,17 @@ fun screen4() {
 
 @Composable
 fun screen6() {
-    budgetSummaryComposableScreen()
+    val showDaily = mutableStateOf(true)
+    val showWeekly = mutableStateOf(true)
+    val showMonthly = mutableStateOf(true)
+
+    budgetSummaryComposableScreen(
+                                    daily = showDaily,
+                                    weekly = showWeekly,
+                                    monthly = showMonthly,
+                                    lTrA = lTranzactiiActive,
+                                    lTrP = lTranzactiiPasive
+    )
 }
 
 @Composable

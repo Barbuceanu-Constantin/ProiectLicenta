@@ -16,8 +16,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,7 +46,8 @@ private fun tranzactie(
     data: String,
     payee: String,
     onDeleteItem: () -> Unit,
-    update: () -> Unit
+    update: () -> Unit,
+    buttons: Boolean = true
 ) {
     val color: Color =  if (subcategorysPredefiniteActive[subcategory.first()]?.contains(subcategory) == true) Color.Yellow
                         else if (subcategorysPredefinitePasive[subcategory.first()]?.contains(subcategory) == true) Color.Red
@@ -72,18 +71,20 @@ private fun tranzactie(
             text = "${stringResource(id = R.string.descriere)} : $descriere",
             maxLines = 2
         )
-        Row() {
-            IconButton(
-                onClick = update,
-                modifier = Modifier.fillMaxSize(fraction = 1f).weight(1f)
-            ) {
-                Icon(Icons.Filled.Update, contentDescription = "Update", tint = Color.Black)
-            }
-            IconButton(
-                onClick = onDeleteItem,
-                modifier = Modifier.fillMaxSize(fraction = 1f).weight(1f)
-            ) {
-                Icon(Icons.Filled.Delete, contentDescription = "Delete", tint = Color.Black)
+        if (buttons) {
+            Row() {
+                IconButton(
+                    onClick = update,
+                    modifier = Modifier.fillMaxSize(fraction = 1f).weight(1f)
+                ) {
+                    Icon(Icons.Filled.Update, contentDescription = "Update", tint = Color.Black)
+                }
+                IconButton(
+                    onClick = onDeleteItem,
+                    modifier = Modifier.fillMaxSize(fraction = 1f).weight(1f)
+                ) {
+                    Icon(Icons.Filled.Delete, contentDescription = "Delete", tint = Color.Black)
+                }
             }
         }
     }
@@ -137,9 +138,32 @@ fun tranzactiiLazyColumn(
                                             }
                                         }
                                         updateScreenButton.value = !updateScreenButton.value
-                                        println("daUpdate")
                                     })
             index += 1
+        }
+    }
+}
+
+@Composable
+fun summaryTranzactiiLazyColumn(
+    tranzactii: SnapshotStateList<Tranzactie>,
+    first: Boolean,
+    second: Boolean
+) {
+    var modifier: Modifier = Modifier.fillMaxHeight(0f)
+    if (first && !second)
+        modifier = Modifier.fillMaxHeight(190F / LocalConfiguration.current.screenHeightDp).fillMaxWidth(0.8f)
+    else if (!first && second)
+        modifier = Modifier.fillMaxHeight(240F / LocalConfiguration.current.screenHeightDp).fillMaxWidth(0.8f)
+    LazyColumn(modifier = modifier) {
+        items(tranzactii) {
+                tranzactie -> tranzactie(
+                                        tranzactie.subcategory, tranzactie.suma, tranzactie.valuta,
+                                        tranzactie.descriere, tranzactie.data, tranzactie.payee,
+                                        onDeleteItem = { },
+                                        update = { },
+                                        buttons = false
+                )
         }
     }
 }

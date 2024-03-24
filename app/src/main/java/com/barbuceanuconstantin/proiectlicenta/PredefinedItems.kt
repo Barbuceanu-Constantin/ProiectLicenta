@@ -34,3 +34,26 @@ var lTrP = mutableStateListOf<Tranzactie>()
 var lTrD = mutableStateListOf<Tranzactie>()
 
 var lBudgets = mutableStateListOf<Budget>()
+
+fun initHardcodedTransactions() {
+    lTrA.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
+    lTrA.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
+    lTrA.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
+    lTrA.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
+    lTrA.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
+    lTrA.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
+    lTrA.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
+    lTrA.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
+    lTrA.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
+
+    lTrP.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
+    lTrP.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
+    lTrP.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
+    lTrP.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
+    lTrP.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
+    lTrP.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
+    lTrP.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
+    lTrP.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
+    lTrP.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
+    lTrP.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
+}

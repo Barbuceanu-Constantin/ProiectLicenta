@@ -63,7 +63,10 @@ fun headerSelectCategoryOrTransactionWindow(showA: MutableState<Boolean>, showP:
     Spacer(Modifier.fillMaxHeight(fraction = 5F / LocalConfiguration.current.screenHeightDp))
     Row(modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly) {
-        selectCategoryItemList(showA = showA, showP = showP, showD = showD, shortName = true)
+        threeTopButtons(first = showA, second = showP, third = showD, shortName = true,
+                        firstId = R.string.prescurtareActive,
+                        secondId = R.string.prescurtarePasive,
+                        thirdId = R.string.prescurtareDatorii)
     }
     Spacer(Modifier.fillMaxHeight(fraction = 15F / LocalConfiguration.current.screenHeightDp))
 }
@@ -79,11 +82,12 @@ fun warningNotSelectedCategory() {
 }
 
 @Composable
-fun allSubcategoriesOrTransactions(id: Int, showA: MutableState<Boolean>,
-                                   showP: MutableState<Boolean>, showD: MutableState<Boolean>) {
+fun fourthButton(id: Int, first: MutableState<Boolean>,
+                 second: MutableState<Boolean>,
+                 third: MutableState<Boolean>) {
     val containerColor: Color
     val contentColor: Color
-    if (showA.value && showP.value && showD.value) {
+    if (first.value && second.value && third.value) {
         containerColor = Color(70, 10, 110)
         contentColor = Color.White
     } else {
@@ -92,24 +96,25 @@ fun allSubcategoriesOrTransactions(id: Int, showA: MutableState<Boolean>,
     }
     Spacer(Modifier.fillMaxHeight(fraction = 10F / LocalConfiguration.current.screenHeightDp))
     Button(onClick = {
-        showA.value = true
-        showP.value = true
-        showD.value = true
+        first.value = true
+        second.value = true
+        third.value = true
     }, modifier = Modifier, colors = ButtonColors(containerColor = containerColor, contentColor = contentColor, disabledContainerColor = Color.Gray, disabledContentColor = Color.Gray)) {
         Text(text = stringResource(id = id), fontSize = 20.sp)
     }
-    Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
+    Spacer(Modifier.fillMaxHeight(fraction = 25F / LocalConfiguration.current.screenHeightDp))
 }
 
 @Composable
-fun selectCategoryItemList(showA: MutableState<Boolean>, showP: MutableState<Boolean>,
-                           showD: MutableState<Boolean>, shortName: Boolean = false
+fun threeTopButtons(first: MutableState<Boolean>, second: MutableState<Boolean>,
+                    third: MutableState<Boolean>, shortName: Boolean = false,
+                    firstId: Int, secondId: Int, thirdId: Int
 ) {
     val modifier: Modifier = Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp)
 
-    val containerColor1: Color = Color(70, 10, 110)
+    val containerColor1 = Color(70, 10, 110)
     val contentColor1: Color = Color.White
-    val containerColor2: Color = Color(220, 190, 245)
+    val containerColor2 = Color(220, 190, 245)
     val contentColor2: Color = Color.Black
     val aContainer : Color
     val aContent : Color
@@ -117,21 +122,21 @@ fun selectCategoryItemList(showA: MutableState<Boolean>, showP: MutableState<Boo
     val pContent : Color
     val dContainer : Color
     val dContent : Color
-    if (showA.value && !showP.value && !showD.value) {
+    if (first.value && !second.value && !third.value) {
         aContainer = containerColor1
         aContent = contentColor1
         pContainer = containerColor2
         pContent = contentColor2
         dContainer = containerColor2
         dContent = contentColor2
-    } else if (showP.value && !showA.value && !showD.value) {
+    } else if (second.value && !first.value && !third.value) {
         aContainer = containerColor2
         aContent = contentColor2
         pContainer = containerColor1
         pContent = contentColor1
         dContainer = containerColor2
         dContent = contentColor2
-    } else if (showD.value && !showA.value && !showP.value) {
+    } else if (third.value && !first.value && !second.value) {
         aContainer = containerColor2
         aContent = contentColor2
         pContainer = containerColor2
@@ -148,45 +153,45 @@ fun selectCategoryItemList(showA: MutableState<Boolean>, showP: MutableState<Boo
     }
 
     Button(onClick = {
-                        showA.value = true
-                        showP.value = false
-                        showD.value = false
+                        first.value = true
+                        second.value = false
+                        third.value = false
     }, modifier = modifier, colors = ButtonColors(containerColor = aContainer, contentColor = aContent, disabledContainerColor = Color.Gray, disabledContentColor = Color.Gray)) {
         if (!shortName)
-            Text(text = stringResource(id = R.string.active), fontSize = 20.sp)
+            Text(text = stringResource(id = firstId), fontSize = 20.sp)
         else
-            Text(text = stringResource(id = R.string.prescurtareActive))
+            Text(text = stringResource(id = firstId))
     }
 
     Spacer(modifier = Modifier.fillMaxWidth(fraction = 30F / LocalConfiguration.current.screenWidthDp))
 
     Button(
         onClick = {
-                        showP.value = true
-                        showA.value = false
-                        showD.value = false
+                        second.value = true
+                        first.value = false
+                        third.value = false
         },
         modifier = modifier,  colors = ButtonColors(containerColor = pContainer, contentColor = pContent, disabledContainerColor = Color.Gray, disabledContentColor = Color.Gray)
     ) {
         if (!shortName)
-            Text(text = stringResource(id = R.string.pasive), fontSize = 20.sp)
+            Text(text = stringResource(id = secondId), fontSize = 20.sp)
         else
-            Text(text = stringResource(id = R.string.prescurtarePasive))
+            Text(text = stringResource(id = secondId))
     }
 
     Spacer(modifier = Modifier.fillMaxWidth(fraction = 30F / LocalConfiguration.current.screenWidthDp))
 
     Button(
         onClick = {
-                        showD.value = true
-                        showA.value = false
-                        showP.value = false
+                        third.value = true
+                        first.value = false
+                        second.value = false
         },
         modifier = modifier,   colors = ButtonColors(containerColor = dContainer, contentColor = dContent, disabledContainerColor = Color.Gray, disabledContentColor = Color.Gray)
     ) {
         if (!shortName)
-            Text(text = stringResource(id = R.string.datorii), fontSize = 20.sp)
+            Text(text = stringResource(id = thirdId), fontSize = 20.sp)
         else
-            Text(text = stringResource(id = R.string.prescurtareDatorii))
+            Text(text = stringResource(id = thirdId))
     }
 }
