@@ -17,9 +17,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material.icons.outlined.ModeEdit
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -63,6 +66,7 @@ fun isDateAfterOrEqualToCurrent(dateString: String, current: LocalDate): Boolean
         false
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun showBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, lFixedBudgets: SnapshotStateList<Budget>,
@@ -153,7 +157,15 @@ fun showBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     label = { Text(text = stringResource(id = R.string.data_inceput)) },
                     maxLines = 2,
-                    modifier = Modifier.clickable { dateButton1.value = !dateButton1.value }
+                    modifier = Modifier.clickable { dateButton1.value = !dateButton1.value },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                        disabledBorderColor = MaterialTheme.colorScheme.outline,
+                        disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 )
 
                 Spacer(Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
@@ -169,7 +181,15 @@ fun showBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     label = { Text(text = stringResource(id = R.string.data_final)) },
                     maxLines = 2,
-                    modifier = Modifier.clickable { dateButton2.value = !dateButton2.value }
+                    modifier = Modifier.clickable { dateButton2.value = !dateButton2.value },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                        disabledBorderColor = MaterialTheme.colorScheme.outline,
+                        disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 )
 
                 Spacer(Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))

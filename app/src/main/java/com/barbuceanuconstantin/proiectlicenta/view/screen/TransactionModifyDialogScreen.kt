@@ -15,7 +15,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -150,7 +152,15 @@ fun showTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                                     label = { Text(text = stringResource(id = R.string.data)) },
                                     maxLines = 2,
-                                    modifier = Modifier.clickable { dateButton.value = !dateButton.value }
+                                    modifier = Modifier.clickable { dateButton.value = !dateButton.value },
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                                        disabledBorderColor = MaterialTheme.colorScheme.outline,
+                                        disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    )
                             )
 
                             OutlinedTextField(
