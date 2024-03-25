@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.calendar
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
@@ -83,8 +84,8 @@ fun budgetSummaryComposableScreen(daily: MutableState<Boolean>,
                                   dateMutable: MutableState<String>,
                                   monthMutable : MutableState<String>) {
     if (dateButton.value) {
-        Scaffold() { innerPadding ->
-            Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
+        Dialog(onDismissRequest = {dateButton.value = !dateButton.value}) {
+            Column( modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly
             ) {

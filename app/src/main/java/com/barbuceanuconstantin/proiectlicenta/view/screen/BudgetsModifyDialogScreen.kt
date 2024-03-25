@@ -41,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.calendar
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
@@ -66,7 +67,6 @@ fun isDateAfterOrEqualToCurrent(dateString: String, current: LocalDate): Boolean
         false
     }
 }
-@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun showBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, lFixedBudgets: SnapshotStateList<Budget>,
@@ -75,35 +75,43 @@ fun showBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
     var valueSum by remember { mutableStateOf("") }
 
     if (dateButton1.value && !dateButton2.value) {
-        Column( horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,
+        Dialog(onDismissRequest = { dateButton1.value = !dateButton1.value }) {
+            Column( horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxSize()) {
-            Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
+                Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
 
-            calendar(dateMutable1, onDateSelected = { selectedDate ->
-                if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
-                    dateMutable1.value = selectedDate // Update the date value
-                }
-            })
+                calendar(dateMutable1, onDateSelected = { selectedDate ->
+                    if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
+                        dateMutable1.value = selectedDate // Update the date value
+                    }
+                })
 
-            okButton(ok = dateButton1)
+                okButton(ok = dateButton1)
+            }
         }
     } else if (!dateButton1.value && dateButton2.value) {
-        Column( horizontalAlignment = Alignment.CenterHorizontally,
+        Dialog(onDismissRequest = {dateButton2.value = !dateButton2.value}) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()) {
-            Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
 
-            calendar(dateMutable2, onDateSelected = { selectedDate ->
-                if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
-                    dateMutable2.value = selectedDate // Update the date value
-                }
-            })
+                calendar(dateMutable2, onDateSelected = { selectedDate ->
+                    if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
+                        dateMutable2.value = selectedDate // Update the date value
+                    }
+                })
 
-            okButton(ok = dateButton2)
+                okButton(ok = dateButton2)
+            }
         }
     } else if (!dateButton1.value && !dateButton2.value) {
         Scaffold() { innerPadding ->
-            Column( modifier = Modifier.fillMaxWidth().padding(innerPadding), verticalArrangement = Arrangement.Center,
+            Column( modifier = Modifier
+                .fillMaxWidth()
+                .padding(innerPadding), verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
 

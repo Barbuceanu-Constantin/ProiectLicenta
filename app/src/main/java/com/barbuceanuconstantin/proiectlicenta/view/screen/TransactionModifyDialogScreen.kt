@@ -35,6 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.window.Dialog
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.calendar
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
@@ -77,12 +78,20 @@ fun showTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
     var description by remember { mutableStateOf("") }
 
     if (dateButton.value) {
-        Column( horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize()) {
-            Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
+        Dialog(onDismissRequest = {dateButton.value = !dateButton.value}) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
 
-            calendar(dateMutable, onDateSelected = { selectedDate -> dateMutable.value = selectedDate })
+                calendar(
+                    dateMutable,
+                    onDateSelected = { selectedDate -> dateMutable.value = selectedDate })
 
-            okButton(ok = dateButton)
+                okButton(ok = dateButton)
+            }
         }
     } else {
         Scaffold() { innerPadding ->
@@ -91,8 +100,7 @@ fun showTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
 
                 Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
 
-                Box(modifier = Modifier.fillMaxWidth().background(color = colorResource(id = R.color.medium_green)),
-                    contentAlignment = Alignment.Center
+                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
                 ) {
                     Button(
                         onClick = {
@@ -102,7 +110,7 @@ fun showTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                         }
                     ) { Text(stringResource(R.string.mesaj_selectare_subcategory)) }
                 }
-                Box(modifier = Modifier.fillMaxWidth().background(color = colorResource(id = R.color.medium_green)), contentAlignment = Alignment.Center) {
+                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     Button(
                         onClick = {
                             if (!(showAB.value && showPB.value && showDB.value) && !showMeniuSubcategorys.value && !showMeniuValute.value) {

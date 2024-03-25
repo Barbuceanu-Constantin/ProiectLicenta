@@ -33,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.calendar
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
@@ -56,14 +57,20 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
     var description by remember { mutableStateOf(tr.descriere) }
 
     if (dateButton.value) {
-        Column( horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize()) {
-            Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
+        Dialog(onDismissRequest = { dateButton.value = !dateButton.value}) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
 
-            calendar(dateMutable, onDateSelected = { selectedDate ->
-                dateMutable.value = selectedDate // Update the date value
-            })
+                calendar(dateMutable, onDateSelected = { selectedDate ->
+                    dateMutable.value = selectedDate // Update the date value
+                })
 
-            okButton(ok = dateButton)
+                okButton(ok = dateButton)
+            }
         }
     } else {
         Scaffold() { innerPadding ->
@@ -90,7 +97,9 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
                     maxLines = 2
                 )
 
-                TextField(
+                Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
+
+                OutlinedTextField(
                     value = payee,
                     onValueChange = { payee = it },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
