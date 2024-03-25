@@ -1,5 +1,7 @@
 package com.barbuceanuconstantin.proiectlicenta
 
+import android.icu.text.SimpleDateFormat
+import android.icu.util.Calendar
 import android.widget.CalendarView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,7 +23,49 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import java.util.Locale
 
+//gpt
+fun getStartAndEndDateOfWeek(dateString: String): Pair<String, String> {
+    // Parse the input date string
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val date = dateFormat.parse(dateString)
+
+    // Initialize a Calendar instance and set it to the parsed date
+    val calendar = Calendar.getInstance()
+    calendar.time = date
+
+    // Set the calendar to the first day of the week (usually Sunday)
+    calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+
+    // Get the start date of the week
+    val startDate = dateFormat.format(calendar.time)
+
+    // Move the calendar to the end of the week (add 6 days)
+    calendar.add(Calendar.DAY_OF_WEEK, 6)
+
+    // Get the end date of the week
+    val endDate = dateFormat.format(calendar.time)
+
+    return Pair(startDate, endDate)
+}
+@Composable
+fun intToMonth(month : Int, monthMutable : MutableState<String>) {
+    when (month) {
+        1 -> monthMutable.value = stringResource(id = R.string.ianuarie)
+        2 -> monthMutable.value = stringResource(id = R.string.februarie)
+        3 -> monthMutable.value = stringResource(id = R.string.martie)
+        4 -> monthMutable.value = stringResource(id = R.string.aprilie)
+        5 -> monthMutable.value = stringResource(id = R.string.mai)
+        6 -> monthMutable.value = stringResource(id = R.string.iunie)
+        7 -> monthMutable.value = stringResource(id = R.string.iulie)
+        8 -> monthMutable.value = stringResource(id = R.string.august)
+        9 -> monthMutable.value = stringResource(id = R.string.septembrie)
+        10 -> monthMutable.value = stringResource(id = R.string.octombrie)
+        11 -> monthMutable.value = stringResource(id = R.string.noiembrie)
+        12 -> monthMutable.value = stringResource(id = R.string.decembrie)
+    }
+}
 fun resetButtons(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>) {
     showA.value = true
     showP.value = true
@@ -36,7 +80,9 @@ fun okButton(ok: MutableState<Boolean>, space: Boolean = true) {
 
     val buttonWidthFraction = 0.3f
     Button(onClick = { ok.value = !ok.value },
-        modifier = Modifier.fillMaxHeight(120f / LocalConfiguration.current.screenHeightDp).fillMaxWidth(buttonWidthFraction)) {
+        modifier = Modifier
+            .fillMaxHeight(120f / LocalConfiguration.current.screenHeightDp)
+            .fillMaxWidth(buttonWidthFraction)) {
         Text(text = stringResource(id = R.string.ok), fontSize = 20.sp)
     }
 }
@@ -50,7 +96,9 @@ fun calendar(date: MutableState<String>, onDateSelected: (String) -> Unit) {
                 onDateSelected(formattedDate) // Call the callback function
             }
         },
-        modifier = Modifier.background(color = Color(250, 230, 200)).border(width = 10.dp, color = Color(20, 100, 10))
+        modifier = Modifier
+            .background(color = Color(250, 230, 200))
+            .border(width = 10.dp, color = Color(20, 100, 10))
     )
 }
 @Composable

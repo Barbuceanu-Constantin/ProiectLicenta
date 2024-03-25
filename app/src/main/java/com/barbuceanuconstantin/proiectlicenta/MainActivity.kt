@@ -20,8 +20,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ProiectLicentaTheme {
-                //initHardcodedTransactions()
-                screen1()
+                screen6()
             }
         }
     }
