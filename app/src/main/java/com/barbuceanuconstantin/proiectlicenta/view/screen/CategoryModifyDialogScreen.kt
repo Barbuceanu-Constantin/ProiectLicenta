@@ -15,8 +15,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -43,11 +43,14 @@ private val showD = mutableStateOf(true)
 
 private fun addSubcategory(l: MutableList<Subcategory>, firstLetter:String, filledText:String) {
     val foundSubcategory = l.find{it.name == firstLetter}
+
     if (foundSubcategory != null) {
         foundSubcategory.items.add(filledText)
     } else {
         val insertionIndex = l.binarySearch { it.name.compareTo(firstLetter) }
+
         val newSubcategory = Subcategory(name = firstLetter, items = mutableStateListOf(filledText))
+
         if (insertionIndex < 0) {
             l.add(-insertionIndex - 1, newSubcategory)
         } else {
@@ -64,23 +67,17 @@ private fun eliminareSubcategory(l: MutableList<Subcategory>, firstLetter:String
 }
 
 @Composable
-fun showCategoryDialog(
-    onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
-    strId: Int,
-    lActive: MutableList<Subcategory>,
-    lPasive: MutableList<Subcategory>,
-    lDatorii: MutableList<Subcategory>
+fun showCategoryDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, strId: Int,
+                       lActive: MutableList<Subcategory>, lPasive: MutableList<Subcategory>,
+                       lDatorii: MutableList<Subcategory>
 ) {
     val specificMessage = stringResource(id = strId)
+
     Dialog(onDismissRequest = {
         resetButtons(showA, showP, showD)
         onDismissRequest()
     }) {
-        Card(
-            modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction = 650F / LocalConfiguration.current.screenHeightDp),
-            shape = RoundedCornerShape(16.dp),
-        ) {
+        Card(modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction = 650F / LocalConfiguration.current.screenHeightDp), shape = RoundedCornerShape(16.dp),) {
             Column() {
                 headerSelectCategoryOrTransactionWindow(showA, showP, showD)
 
@@ -93,7 +90,7 @@ fun showCategoryDialog(
 
                     Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
 
-                    TextField(
+                    OutlinedTextField(
                         value = filledText, onValueChange = { filledText = it },
                         textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
                         label = { Text(text = stringResource(R.string.denumire)) },
@@ -112,10 +109,13 @@ fun showCategoryDialog(
 
                     Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 25.dp)) {
                         val words = specificMessage.trim().split("\\s+".toRegex())
+
                         val lastWord = words.last()
+
                         Button(onClick = {
                             if (filledText != "") {
                                 val firstLetter = filledText[0].toString().uppercase()
+
                                 if (lastWord == "adaugati") {
                                     if (showA.value && !showP.value && !showD.value) {
                                         addSubcategory(lActive, firstLetter, filledText)
@@ -148,12 +148,12 @@ fun showCategoryDialog(
                     Spacer(Modifier.fillMaxHeight(0.075f))
                 } else {
                     Spacer(modifier = Modifier.fillMaxHeight(fraction = 20F / LocalConfiguration.current.screenHeightDp))
+
                     warningNotSelectedCategory()
+
                     Spacer(modifier = Modifier.fillMaxHeight(fraction = 40F / LocalConfiguration.current.screenHeightDp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
+
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                         Button(onClick = {
                             resetButtons(showA, showP, showD)
                             onDismissRequest()

@@ -33,24 +33,19 @@ import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-private fun showAddBudgetDialog(
-    lFixedBudgets: SnapshotStateList<Budget>,
-    fab: MutableState<Boolean>,
-    onDismissRequest: () -> Unit = { fab.value = false },
-    onConfirmation: () -> Unit = { fab.value = false },
+private fun showAddBudgetDialog(lFixedBudgets: SnapshotStateList<Budget>, fab: MutableState<Boolean>,
+                                onDismissRequest: () -> Unit = { fab.value = false },
+                                onConfirmation: () -> Unit = { fab.value = false },
 ) {
     val dateTime = LocalDateTime.now()
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val formattedDate = dateTime.format(dateFormatter)
     val dateMutable1: MutableState<String> = mutableStateOf(formattedDate)
     val dateMutable2: MutableState<String> = mutableStateOf(formattedDate)
-    showBudgetDialog(
-        onDismissRequest = onDismissRequest,
-        onConfirmation = onConfirmation,
-        lFixedBudgets = lFixedBudgets,
-        dateMutable1 = dateMutable1,
-        dateMutable2 = dateMutable2
-    )
+
+    showBudgetDialog(onDismissRequest = onDismissRequest, onConfirmation = onConfirmation,
+                     lFixedBudgets = lFixedBudgets, dateMutable1 = dateMutable1,
+                     dateMutable2 = dateMutable2)
 }
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -64,21 +59,17 @@ fun fixedBudgetsComposableScreen(fab: MutableState<Boolean>,
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
         }) { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(innerPadding),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
+            Column(modifier = Modifier.fillMaxWidth().padding(innerPadding), horizontalAlignment = Alignment.CenterHorizontally,) {
                 Spacer(Modifier.fillMaxHeight(40F / LocalConfiguration.current.screenHeightDp))
-                Text(
-                        text = stringResource(id = R.string.ecran_bugete_fixe),
-                        style = TextStyle(
-                            fontStyle = FontStyle.Italic,
-                            textDecoration = TextDecoration.Underline
-                        ),
-                        fontSize = 30.sp
-                    )
+
+                Text(text = stringResource(id = R.string.ecran_bugete_fixe),
+                     style = TextStyle(
+                        fontStyle = FontStyle.Italic,
+                        textDecoration = TextDecoration.Underline
+                     ),
+                     fontSize = 30.sp
+                )
+
                 Spacer(Modifier.fillMaxHeight(30F / LocalConfiguration.current.screenHeightDp))
 
                 budgetsLazyColumn(lFixedBudgets)

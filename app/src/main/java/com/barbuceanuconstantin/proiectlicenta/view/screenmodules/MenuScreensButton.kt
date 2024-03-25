@@ -54,11 +54,11 @@ fun showMenuButton() {
                     textFilledSize = coordinates.size.toSize()
                 },
             label = { Text(text = stringResource(id = R.string.selectare_ecran)) },
-            trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
+            trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) }
+        )
+
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false },
+                     modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
         ) {
             list.forEach { label ->
                 DropdownMenuItem(onClick = {

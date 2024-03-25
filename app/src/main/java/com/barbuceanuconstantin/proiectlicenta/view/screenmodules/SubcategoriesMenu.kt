@@ -3,7 +3,6 @@ package com.barbuceanuconstantin.proiectlicenta.view.screenmodules
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -25,7 +24,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.okButton
@@ -45,11 +43,11 @@ fun showMenuSubcategories(lSubcategorys: MutableList<String>, showMeniuSubcatego
                     textFilledSize = coordinates.size.toSize()
                 },
             label = { Text(text = stringResource(id = R.string.selectare_subcategory)) },
-            trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
+            trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) }
+        )
+
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false },
+                     modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
         ) {
             lSubcategorys.forEach { label ->
                 DropdownMenuItem(onClick = {

@@ -3,6 +3,7 @@ package com.barbuceanuconstantin.proiectlicenta.view.screen
 import android.widget.CalendarView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -53,10 +55,7 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
     var description by remember { mutableStateOf(tr.descriere) }
 
     if (dateButton.value) {
-        Column( horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
+        Column( horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize()) {
             Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
 
             calendar(dateMutable, onDateSelected = { selectedDate ->
@@ -67,37 +66,29 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
         }
     } else {
         Scaffold() { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .padding(innerPadding),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                showMenuSubcategories(
-                    okButton = false,
-                    lSubcategorys = subcategoriesList,
-                    showMeniuSubcategorys = showMeniuSubcategorys1
-                ) {
+            Column(modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(innerPadding),
+                   horizontalAlignment = Alignment.CenterHorizontally) {
+                showMenuSubcategories(okButton = false, lSubcategorys = subcategoriesList,
+                                      showMeniuSubcategorys = showMeniuSubcategorys1) {
                     subcategory = it
                 }
-                TextField(
-                    value = subcategory,
-                    onValueChange = { subcategory = it },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                    label = { Text(stringResource(id = R.string.subcategory)) },
-                    maxLines = 2
-                )
+
+                OutlinedTextField(value = subcategory, onValueChange = { subcategory = it },
+                                  keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                                  label = { Text(stringResource(id = R.string.subcategory)) }, maxLines = 2)
+
                 showMenuCurrencies(showMeniuValute = showMeniuValute1, okButton = false) {
                     currency = it
                 }
-                TextField(
+
+                OutlinedTextField(
                     value = currency,
                     onValueChange = { currency = it },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     label = { Text(stringResource(id = R.string.valuta)) },
                     maxLines = 2
                 )
+
                 TextField(
                     value = payee,
                     onValueChange = { payee = it },
@@ -105,23 +96,32 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
                     label = { Text(stringResource(id = R.string.furnizor_sau_beneficiar)) },
                     maxLines = 2
                 )
+
                 Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
-                Button(
-                    onClick = { dateButton.value = !dateButton.value }
-                ) { Text(stringResource(R.string.data)) }
-                Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
-                TextField(
+
+                OutlinedTextField(
                     value = dateMutable.value,
+                    enabled = false,
                     onValueChange = { dateMutable.value = it },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     label = { Text(stringResource(id = R.string.data)) },
-                    maxLines = 2
+                    maxLines = 2,
+                    modifier = Modifier.clickable { dateButton.value = !dateButton.value }
                 )
-                TextField(
+
+                OutlinedTextField(
                     value = valueSum,
                     onValueChange = { valueSum = it },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     label = { Text(stringResource(id = R.string.introduceti_suma)) },
+                    maxLines = 2
+                )
+
+                OutlinedTextField(
+                    value = description,
+                    onValueChange = { description = it },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    label = { Text(stringResource(id = R.string.descriere)) },
                     maxLines = 2
                 )
                 

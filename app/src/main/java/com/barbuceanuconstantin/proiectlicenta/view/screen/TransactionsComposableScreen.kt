@@ -90,11 +90,10 @@ fun transactionsComposableScreen(showA: MutableState<Boolean>,
             val formattedDate = dateTime.format(dateFormatter)
             val date by remember { mutableStateOf(formattedDate) }
             val dateMutable: MutableState<String> = mutableStateOf(date)
-            showTransactionDialog(
-                                    onDismissRequest = { addButton.value = false }, onConfirmation = {addButton.value = false},
-                                    lActive = lTrA, lPasive = lTrP, lDatorii = lTrD,
-                                    dateMutable = dateMutable
-            )
+            showTransactionDialog(onDismissRequest = { addButton.value = false },
+                                  onConfirmation = {addButton.value = false},
+                                  lActive = lTrA, lPasive = lTrP, lDatorii = lTrD,
+                                  dateMutable = dateMutable)
         }
         if (!addButton.value) {
             Scaffold(
@@ -104,24 +103,14 @@ fun transactionsComposableScreen(showA: MutableState<Boolean>,
                     }
                 }
             ) { innerPadding ->
-                Column(
-                    modifier = Modifier.fillMaxWidth().padding(innerPadding),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
+                Column(modifier = Modifier.fillMaxWidth().padding(innerPadding), horizontalAlignment = Alignment.CenterHorizontally,) {
                     Spacer(modifier = Modifier.fillMaxHeight(50F / LocalConfiguration.current.screenHeightDp))
+
                     Row() {
-                        threeTopButtons(first = showA, second = showP, third = showD,
-                                        firstId = R.string.active,
-                                        secondId = R.string.pasive,
-                                        thirdId = R.string.datorii)
+                        threeTopButtons(first = showA, second = showP, third = showD, firstId = R.string.active, secondId = R.string.pasive, thirdId = R.string.datorii)
                     }
 
-                    fourthButton(
-                        id = R.string.toate_tranzactiile,
-                        first = showA,
-                        second = showP,
-                        third = showD
-                    )
+                    fourthButton(id = R.string.toate_tranzactiile, first = showA, second = showP, third = showD)
 
                     if (showA.value && !showP.value && !showD.value) {
                         tranzactiiLazyColumn(tranzactii = lTrA, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
@@ -133,14 +122,8 @@ fun transactionsComposableScreen(showA: MutableState<Boolean>,
                         tranzactiiLazyColumn(tranzactii = lTrD, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
                         sem.value = 3
                     } else if (showA.value && showP.value && showD.value) {
-                        tranzactiiLazyColumn(
-                            tranzactii = (lTrA + lTrP + lTrD).toMutableStateList(),
-                            lTrA,
-                            lTrP,
-                            lTrD,
-                            indexState = index,
-                            sem,
-                            updateTransactionButton
+                        tranzactiiLazyColumn(tranzactii = (lTrA + lTrP + lTrD).toMutableStateList(),
+                                             lTrA, lTrP, lTrD, indexState = index, sem, updateTransactionButton
                         )
                     }
                 }

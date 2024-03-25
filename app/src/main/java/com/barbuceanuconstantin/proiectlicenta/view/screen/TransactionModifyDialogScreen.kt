@@ -3,6 +3,7 @@ package com.barbuceanuconstantin.proiectlicenta.view.screen
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,9 +15,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -26,8 +27,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -44,8 +45,6 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showMenuCurrencies
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showMenuSubcategories
 import com.barbuceanuconstantin.proiectlicenta.warningNotSelectedCategory
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 val showMeniuValute = mutableStateOf(false)
 private val showAB = mutableStateOf(true)
@@ -57,53 +56,40 @@ private val dateButton = mutableStateOf(false)
 private var listaSubcategorysActive = subcategorysPredefiniteActive.values.flatten().toMutableList()
 private var listaSubcategorysPasive = subcategorysPredefinitePasive.values.flatten().toMutableList()
 private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.values.flatten().toMutableList()
-private fun adaugareTranzactie(l: SnapshotStateList<Tranzactie>,
-                               currency:String, subcategory:String,
-                               valueSum:String, payee:String, date:String,
-                               description:String) {
+private fun adaugareTranzactie(l: SnapshotStateList<Tranzactie>, currency:String, subcategory:String,
+                               valueSum:String, payee:String, date:String, description:String) {
     val newTranzactie = Tranzactie(valueSum.toDouble(), currency, description, subcategory, date, payee)
     l.add(0, newTranzactie)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun showTransactionDialog(
-    onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
-    lActive: SnapshotStateList<Tranzactie>,
-    lPasive: SnapshotStateList<Tranzactie>,
-    lDatorii: SnapshotStateList<Tranzactie>,
-    dateMutable: MutableState<String>
+fun showTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit,
+                          lActive: SnapshotStateList<Tranzactie>, lPasive: SnapshotStateList<Tranzactie>,
+                          lDatorii: SnapshotStateList<Tranzactie>, dateMutable: MutableState<String>
 ) {
     var currency by remember { mutableStateOf("") }
     var subcategory by remember { mutableStateOf("") }
     var payee by remember { mutableStateOf("") }
     var valueSum by remember { mutableStateOf("") }
-
     var description by remember { mutableStateOf("") }
 
     if (dateButton.value) {
-        Column( horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()
-        ) {
+        Column( horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize()) {
             Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
 
-            calendar(dateMutable, onDateSelected = { selectedDate ->
-                dateMutable.value = selectedDate // Update the date value
-            })
+            calendar(dateMutable, onDateSelected = { selectedDate -> dateMutable.value = selectedDate })
 
             okButton(ok = dateButton)
         }
     } else {
         Scaffold() { innerPadding ->
-            Column(
-                modifier = Modifier.fillMaxWidth().padding(innerPadding)
-            ) {
+            Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)) {
                 headerSelectCategoryOrTransactionWindow(showAB, showPB, showDB)
+
                 Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
-                Box(
-                    modifier = Modifier.fillMaxWidth().background(color = Color.Green),
+
+                Box(modifier = Modifier.fillMaxWidth().background(color = colorResource(id = R.color.medium_green)),
                     contentAlignment = Alignment.Center
                 ) {
                     Button(
@@ -114,10 +100,7 @@ fun showTransactionDialog(
                         }
                     ) { Text(stringResource(R.string.mesaj_selectare_subcategory)) }
                 }
-                Box(
-                    modifier = Modifier.fillMaxWidth().background(color = Color.Green),
-                    contentAlignment = Alignment.Center
-                ) {
+                Box(modifier = Modifier.fillMaxWidth().background(color = colorResource(id = R.color.medium_green)), contentAlignment = Alignment.Center) {
                     Button(
                         onClick = {
                             if (!(showAB.value && showPB.value && showDB.value) && !showMeniuSubcategorys.value && !showMeniuValute.value) {
@@ -130,23 +113,19 @@ fun showTransactionDialog(
                 if (!showMeniuValute.value && !showMeniuSubcategorys.value) {
                     if (!(showAB.value && showPB.value && showDB.value)) {
                         Spacer(Modifier.fillMaxHeight(5f / LocalConfiguration.current.screenHeightDp))
-                        Text(
-                            text = "${stringResource(id = R.string.subcategory)} : $subcategory",
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center
-                        )
+
+                        Text(text = "${stringResource(id = R.string.subcategory)} : $subcategory", fontWeight = FontWeight.SemiBold,
+                             modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+
                         Spacer(Modifier.fillMaxHeight(5f / LocalConfiguration.current.screenHeightDp))
-                        Text(
-                            text = "${stringResource(id = R.string.valuta)} : $currency",
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center
-                        )
+
+                        Text(text = "${stringResource(id = R.string.valuta)} : $currency", fontWeight = FontWeight.SemiBold,
+                             modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+
                         Spacer(Modifier.fillMaxHeight(5f / LocalConfiguration.current.screenHeightDp))
 
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            TextField(
+                            OutlinedTextField(
                                 value = valueSum,
                                 onValueChange = { valueSum = it },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -154,7 +133,7 @@ fun showTransactionDialog(
                                 maxLines = 2,
                             )
 
-                            TextField(
+                            OutlinedTextField(
                                 value = payee,
                                 onValueChange = { payee = it },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -163,20 +142,18 @@ fun showTransactionDialog(
                             )
 
                             Spacer(Modifier.fillMaxHeight(30f / LocalConfiguration.current.screenHeightDp))
-                            Button(
-                                onClick = { dateButton.value = !dateButton.value }
-                            ) { Text(stringResource(R.string.data)) }
-                            Spacer(Modifier.fillMaxHeight(30f / LocalConfiguration.current.screenHeightDp))
 
-                            TextField(
-                                value = dateMutable.value,
-                                onValueChange = { dateMutable.value = it },
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                                label = { Text(text = stringResource(id = R.string.data)) },
-                                maxLines = 2,
+                            OutlinedTextField(
+                                    value = dateMutable.value,
+                                    enabled = false,
+                                    onValueChange = { dateMutable.value = it },
+                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                                    label = { Text(text = stringResource(id = R.string.data)) },
+                                    maxLines = 2,
+                                    modifier = Modifier.clickable { dateButton.value = !dateButton.value }
                             )
 
-                            TextField(
+                            OutlinedTextField(
                                 value = description,
                                 onValueChange = { description = it },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -185,10 +162,8 @@ fun showTransactionDialog(
                             )
 
                             Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
+
+                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                                 Button(onClick = {
                                     if (currency != "" && subcategory != "" && valueSum != "" && payee != "" && dateMutable.value != "" && description != "") {
                                         if (showAB.value && !showPB.value && !showDB.value) {

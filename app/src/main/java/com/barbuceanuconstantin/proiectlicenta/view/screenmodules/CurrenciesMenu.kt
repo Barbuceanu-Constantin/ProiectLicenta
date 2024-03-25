@@ -3,7 +3,6 @@ package com.barbuceanuconstantin.proiectlicenta.view.screenmodules
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -25,7 +24,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.okButton
@@ -45,10 +43,10 @@ fun showMenuCurrencies(showMeniuValute: MutableState<Boolean>, okButton: Boolean
     )
     var selectedItem by remember { mutableStateOf("") }
     var textFilledSize by remember { mutableStateOf(Size.Zero) }
-    val icon =  if (expanded) { Icons.Filled.KeyboardArrowUp }
-    else { Icons.Filled.KeyboardArrowDown }
 
-    var fraction = if(okButton) 1f else 0.7f
+    val icon =  if (expanded) { Icons.Filled.KeyboardArrowUp } else { Icons.Filled.KeyboardArrowDown }
+
+    val fraction = if(okButton) 1f else 0.7f
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         OutlinedTextField(
@@ -60,7 +58,9 @@ fun showMenuCurrencies(showMeniuValute: MutableState<Boolean>, okButton: Boolean
                     textFilledSize = coordinates.size.toSize()
                 },
             label = { Text(text = stringResource(R.string.selectare_valuta)) },
-            trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
+            trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded })}
+        )
+
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
@@ -68,11 +68,11 @@ fun showMenuCurrencies(showMeniuValute: MutableState<Boolean>, okButton: Boolean
         ) {
             list.forEach { label ->
                 DropdownMenuItem(onClick = {
-                    selectedItem = label
-                    expanded = false
-                    onSelect(label) //
-                },
-                    text = { Text(text = label) }
+                                            selectedItem = label
+                                            expanded = false
+                                            onSelect(label)
+                                            },
+                                            text = { Text(text = label) }
                 )
             }
         }

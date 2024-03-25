@@ -93,10 +93,7 @@ fun screen6() {
 
     initHardcodedTransactions()
 
-    budgetSummaryComposableScreen(
-                                    daily = showDaily,
-                                    weekly = showWeekly,
-                                    monthly = showMonthly,
+    budgetSummaryComposableScreen(daily = showDaily, weekly = showWeekly, monthly = showMonthly,
                                     lTrA = lTranzactiiActive,
                                     lTrP = lTranzactiiPasive,
                                     dateMutable = dateMutable,

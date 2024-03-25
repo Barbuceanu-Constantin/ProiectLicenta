@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,8 +18,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -45,13 +45,8 @@ fun selectDay(dateMutable: MutableState<String>) {
         Text(text = stringResource(id = R.string.selectare_zi), fontSize = 20.sp)
     }
 
-    Text(
-        text = "${stringResource(id = R.string.ziua)} ${dateMutable.value}",
-        fontWeight = FontWeight.SemiBold,
-        modifier = Modifier.fillMaxWidth(),
-        textAlign = TextAlign.Center,
-        fontSize = 18.sp
-    )
+    Text(text = "${stringResource(id = R.string.ziua)} ${dateMutable.value}", fontWeight = FontWeight.SemiBold,
+        modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, fontSize = 18.sp)
 }
 
 @Composable
@@ -62,12 +57,8 @@ fun selectWeek(dateMutable: MutableState<String>) {
         Text(text = stringResource(id = R.string.selectare_saptamana), fontSize = 20.sp)
     }
 
-    Text(
-        text = "${stringResource(id = R.string.saptamana)} (${limits.first} ; ${limits.second})",
-        fontWeight = FontWeight.SemiBold,
-        modifier = Modifier.fillMaxWidth(),
-        textAlign = TextAlign.Center,
-        fontSize = 18.sp
+    Text(text = "${stringResource(id = R.string.saptamana)} (${limits.first} ; ${limits.second})",
+        fontWeight = FontWeight.SemiBold, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, fontSize = 18.sp
     )
 }
 @Composable
@@ -79,12 +70,8 @@ fun selectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<St
         Text(text = stringResource(id = R.string.selectare_luna), fontSize = 20.sp)
     }
 
-    Text(
-        text = "${stringResource(id = R.string.luna)} ${monthMutable.value}",
-        fontWeight = FontWeight.SemiBold,
-        modifier = Modifier.fillMaxWidth(),
-        textAlign = TextAlign.Center,
-        fontSize = 18.sp
+    Text(text = "${stringResource(id = R.string.luna)} ${monthMutable.value}", fontWeight = FontWeight.SemiBold,
+        modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, fontSize = 18.sp
     )
 }
 @Composable
@@ -97,53 +84,39 @@ fun budgetSummaryComposableScreen(daily: MutableState<Boolean>,
                                   monthMutable : MutableState<String>) {
     if (dateButton.value) {
         Scaffold() { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(innerPadding),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly
+            Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Spacer(modifier = Modifier.fillMaxHeight(50F / LocalConfiguration.current.screenHeightDp))
+
                 calendar(dateMutable, onDateSelected = { selectedDate ->
                     dateMutable.value = selectedDate // Update the date value
                 })
+
                 okButton(ok = dateButton)
             }
         }
     } else {
         Scaffold() { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(innerPadding),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly
+            Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Spacer(modifier = Modifier.fillMaxHeight(50F / LocalConfiguration.current.screenHeightDp))
-                Text(
-                    text = stringResource(id = R.string.selectare_interval_timp),
-                    fontSize = 20.sp,
-                    style = TextStyle(
-                        fontStyle = FontStyle.Italic,
-                        textDecoration = TextDecoration.Underline
-                    ),
-                    modifier = Modifier.background(Color(245, 215, 175))
+
+                Text(text = stringResource(id = R.string.selectare_interval_timp), fontSize = 20.sp, style = TextStyle(
+                    fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
+                    modifier = Modifier.background(colorResource(R.color.light_cream))
                 )
+
                 Spacer(modifier = Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
+
                 Row() {
-                    threeTopButtons(
-                        first = daily, second = weekly, third = monthly,
-                        firstId = R.string.zilnic,
-                        secondId = R.string.saptamanal,
-                        thirdId = R.string.lunar
-                    )
+                    threeTopButtons(first = daily, second = weekly, third = monthly, firstId = R.string.zilnic, secondId = R.string.saptamanal, thirdId = R.string.lunar)
                 }
-                fourthButton(
-                    id = R.string.total,
-                    first = daily,
-                    second = weekly,
-                    third = monthly
+
+                fourthButton(id = R.string.total, first = daily, second = weekly, third = monthly
                 )
 
                 //Aici voi face bilantul total al cheltuielilor si veniturilor.
@@ -151,38 +124,31 @@ fun budgetSummaryComposableScreen(daily: MutableState<Boolean>,
                 //o sa fie mai relevant probabil cand conectez cu baza de date.
                 if (daily.value && !weekly.value && !monthly.value) {
                     //Se selecteaza ziua pentru care se vrea bilantul cheltuielilor si veniturilor
+
                     selectDay(dateMutable)
                 } else if (weekly.value && !daily.value && !monthly.value) {
                     //Se selecteaza saptamana pentru care se vrea bilantul cheltuielilor si veniturilor,
                     //prin selectarea unei zile si extragerea saptamanii din care face parte
+
                     selectWeek(dateMutable)
                 } else if (monthly.value && !daily.value && !weekly.value) {
                     //Se selecteaza luna pentru care se vrea bilantul cheltuielilor si veniturilor
                     //prin selectarea unei zile si extragerea lunii din care face parte
+
                     selectMonth(dateMutable, monthMutable)
                 } else if (daily.value && weekly.value && monthly.value) {
-                    summaryTranzactiiLazyColumn(
-                        tranzactii = lTrP,
-                        first = true,
-                        second = false
-                    )
-                    summaryTranzactiiLazyColumn(
-                        tranzactii = lTrA,
-                        first = false,
-                        second = true
-                    )
+                    summaryTranzactiiLazyColumn(tranzactii = lTrP, first = true, second = false)
+
+                    summaryTranzactiiLazyColumn(tranzactii = lTrA, first = false, second = true)
                 }
 
-                Divider(color = Color.Black, thickness = 3.dp)
+                HorizontalDivider(thickness = 3.dp, color = colorResource(id = R.color.black))
 
                 Spacer(modifier = Modifier.fillMaxHeight(30F / LocalConfiguration.current.screenHeightDp))
 
-                Text(
-                    text = stringResource(id = R.string.bilant),
-                    modifier = Modifier.fillMaxWidth(),
-                    fontSize = 40.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(10, 160, 5)
+                Text(text = stringResource(id = R.string.bilant), modifier = Modifier.fillMaxWidth(), fontSize = 40.sp,
+                     fontWeight = FontWeight.Bold,
+                     color = colorResource(id = R.color.medium_green)
                 )
             }
         }

@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import com.barbuceanuconstantin.proiectlicenta.ui.theme.ProiectLicentaTheme
+import com.barbuceanuconstantin.proiectlicenta.view.screen.screen0
 import com.barbuceanuconstantin.proiectlicenta.view.screen.screen1
 import com.barbuceanuconstantin.proiectlicenta.view.screen.screen2
 import com.barbuceanuconstantin.proiectlicenta.view.screen.screen4
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ProiectLicentaTheme {
-                screen6()
+                screen0()
             }
         }
     }

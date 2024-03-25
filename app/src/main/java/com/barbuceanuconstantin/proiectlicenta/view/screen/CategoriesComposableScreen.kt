@@ -23,21 +23,14 @@ import com.barbuceanuconstantin.proiectlicenta.threeTopButtons
 import com.barbuceanuconstantin.proiectlicenta.data.model.subcategorysLazyColumn
 
 @Composable
-private fun showAddSubcategoryDialog(
-    lSA: MutableList<Subcategory>,
-    lSP: MutableList<Subcategory>,
-    lSD: MutableList<Subcategory>,
-    addButton: MutableState<Boolean>,
-    onDismissRequest: () -> Unit = { addButton.value = false },
-    onConfirmation: () -> Unit = { addButton.value = false },
+private fun showAddSubcategoryDialog(lSA: MutableList<Subcategory>, lSP: MutableList<Subcategory>,
+                                     lSD: MutableList<Subcategory>, addButton: MutableState<Boolean>,
+                                     onDismissRequest: () -> Unit = { addButton.value = false },
+                                     onConfirmation: () -> Unit = { addButton.value = false },
 ) {
-    showCategoryDialog(
-        onDismissRequest = onDismissRequest,
-        onConfirmation = onConfirmation,
+    showCategoryDialog(onDismissRequest = onDismissRequest, onConfirmation = onConfirmation,
         strId = R.string.mesaj_adaugare_subcategory,
-        lActive = lSA,
-        lPasive = lSP,
-        lDatorii = lSD
+        lActive = lSA, lPasive = lSP, lDatorii = lSD
     )
 }
 
@@ -54,16 +47,12 @@ fun categoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState
                 }
             }
         ) { innerPadding ->
-            Column(
-                modifier = Modifier.fillMaxWidth().padding(innerPadding),
-                horizontalAlignment = Alignment.CenterHorizontally,
+            Column(modifier = Modifier.fillMaxWidth().padding(innerPadding), horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
+
                 Row() {
-                    threeTopButtons(first = showA, second = showP, third = showD,
-                                    firstId = R.string.active,
-                                    secondId = R.string.pasive,
-                                    thirdId = R.string.datorii)
+                    threeTopButtons(first = showA, second = showP, third = showD, firstId = R.string.active, secondId = R.string.pasive, thirdId = R.string.datorii)
                 }
 
                 fourthButton(id = R.string.toate_subcategoriile, first = showA, second = showP, third = showD)

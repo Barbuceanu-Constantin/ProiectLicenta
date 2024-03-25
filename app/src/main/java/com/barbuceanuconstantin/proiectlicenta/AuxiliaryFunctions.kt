@@ -18,6 +18,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -25,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import java.util.Locale
 
-//gpt
 fun getStartAndEndDateOfWeek(dateString: String): Pair<String, String> {
     // Parse the input date string
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -79,10 +79,9 @@ fun okButton(ok: MutableState<Boolean>, space: Boolean = true) {
         Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
 
     val buttonWidthFraction = 0.3f
-    Button(onClick = { ok.value = !ok.value },
-        modifier = Modifier
-            .fillMaxHeight(120f / LocalConfiguration.current.screenHeightDp)
-            .fillMaxWidth(buttonWidthFraction)) {
+    Button( onClick = { ok.value = !ok.value },
+            modifier = Modifier.fillMaxHeight(120f / LocalConfiguration.current.screenHeightDp)
+                               .fillMaxWidth(buttonWidthFraction)) {
         Text(text = stringResource(id = R.string.ok), fontSize = 20.sp)
     }
 }
@@ -96,61 +95,51 @@ fun calendar(date: MutableState<String>, onDateSelected: (String) -> Unit) {
                 onDateSelected(formattedDate) // Call the callback function
             }
         },
-        modifier = Modifier
-            .background(color = Color(250, 230, 200))
-            .border(width = 10.dp, color = Color(20, 100, 10))
+        modifier = Modifier.background(color = colorResource(R.color.light_cream)).border(width = 10.dp, color = colorResource(id = R.color.dark_green))
     )
 }
 @Composable
 fun headerSelectCategoryOrTransactionWindow(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>) {
     Text(text = stringResource(R.string.mesaj_selectare_categorie_principala),
-        modifier = Modifier.fillMaxWidth(),
-        fontSize = 20.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color.Red
-    )
+        modifier = Modifier.fillMaxWidth(), fontSize = 20.sp, fontWeight = FontWeight.Bold, color = colorResource(id = R.color.red))
+
     Spacer(Modifier.fillMaxHeight(fraction = 5F / LocalConfiguration.current.screenHeightDp))
-    Row(modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly) {
-        threeTopButtons(first = showA, second = showP, third = showD, shortName = true,
-                        firstId = R.string.prescurtareActive,
-                        secondId = R.string.prescurtarePasive,
-                        thirdId = R.string.prescurtareDatorii)
+
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+        threeTopButtons(first = showA, second = showP, third = showD, shortName = true, firstId = R.string.prescurtareActive, secondId = R.string.prescurtarePasive, thirdId = R.string.prescurtareDatorii)
     }
+
     Spacer(Modifier.fillMaxHeight(fraction = 15F / LocalConfiguration.current.screenHeightDp))
 }
 @Composable
 fun warningNotSelectedCategory() {
-    Text(
-        text = stringResource(id = R.string.avertisment_neselectare_categorie),
-        modifier = Modifier.fillMaxWidth(),
-        fontSize = 20.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color.Red
-    )
+    Text(text = stringResource(id = R.string.avertisment_neselectare_categorie), modifier = Modifier.fillMaxWidth(),
+         fontSize = 20.sp, fontWeight = FontWeight.Bold, color = colorResource(id = R.color.red))
 }
 
 @Composable
-fun fourthButton(id: Int, first: MutableState<Boolean>,
-                 second: MutableState<Boolean>,
-                 third: MutableState<Boolean>) {
+fun fourthButton(id: Int, first: MutableState<Boolean>, second: MutableState<Boolean>, third: MutableState<Boolean>) {
     val containerColor: Color
     val contentColor: Color
+
     if (first.value && second.value && third.value) {
-        containerColor = Color(70, 10, 110)
-        contentColor = Color.White
+        containerColor = colorResource(id = R.color.dark_purple)
+        contentColor = colorResource(id = R.color.white)
     } else {
-        containerColor = Color(220, 190, 245)
-        contentColor = Color.Black
+        containerColor = colorResource(id = R.color.light_purple)
+        contentColor = colorResource(id = R.color.black)
     }
+
     Spacer(Modifier.fillMaxHeight(fraction = 10F / LocalConfiguration.current.screenHeightDp))
+
     Button(onClick = {
         first.value = true
         second.value = true
         third.value = true
-    }, modifier = Modifier, colors = ButtonColors(containerColor = containerColor, contentColor = contentColor, disabledContainerColor = Color.Gray, disabledContentColor = Color.Gray)) {
+    }, modifier = Modifier, colors = ButtonColors(containerColor = containerColor, contentColor = contentColor, disabledContainerColor = colorResource(id = R.color.gray), disabledContentColor = colorResource(id = R.color.gray))) {
         Text(text = stringResource(id = id), fontSize = 20.sp)
     }
+
     Spacer(Modifier.fillMaxHeight(fraction = 25F / LocalConfiguration.current.screenHeightDp))
 }
 
@@ -160,11 +149,10 @@ fun threeTopButtons(first: MutableState<Boolean>, second: MutableState<Boolean>,
                     firstId: Int, secondId: Int, thirdId: Int
 ) {
     val modifier: Modifier = Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp)
-
-    val containerColor1 = Color(70, 10, 110)
-    val contentColor1: Color = Color.White
-    val containerColor2 = Color(220, 190, 245)
-    val contentColor2: Color = Color.Black
+    val containerColor1 = colorResource(id = R.color.dark_purple)
+    val contentColor1: Color = colorResource(id = R.color.white)
+    val containerColor2 = colorResource(id = R.color.light_purple)
+    val contentColor2: Color = colorResource(id = R.color.black)
     val aContainer : Color
     val aContent : Color
     val pContainer : Color
@@ -205,7 +193,7 @@ fun threeTopButtons(first: MutableState<Boolean>, second: MutableState<Boolean>,
                         first.value = true
                         second.value = false
                         third.value = false
-    }, modifier = modifier, colors = ButtonColors(containerColor = aContainer, contentColor = aContent, disabledContainerColor = Color.Gray, disabledContentColor = Color.Gray)) {
+    }, modifier = modifier, colors = ButtonColors(containerColor = aContainer, contentColor = aContent, disabledContainerColor = colorResource(id = R.color.gray), disabledContentColor = colorResource(id = R.color.gray))) {
         if (!shortName)
             Text(text = stringResource(id = firstId), fontSize = 20.sp)
         else
@@ -220,7 +208,7 @@ fun threeTopButtons(first: MutableState<Boolean>, second: MutableState<Boolean>,
                         first.value = false
                         third.value = false
         },
-        modifier = modifier,  colors = ButtonColors(containerColor = pContainer, contentColor = pContent, disabledContainerColor = Color.Gray, disabledContentColor = Color.Gray)
+        modifier = modifier,  colors = ButtonColors(containerColor = pContainer, contentColor = pContent, disabledContainerColor = colorResource(id = R.color.gray), disabledContentColor = colorResource(id = R.color.gray))
     ) {
         if (!shortName)
             Text(text = stringResource(id = secondId), fontSize = 20.sp)
@@ -236,7 +224,7 @@ fun threeTopButtons(first: MutableState<Boolean>, second: MutableState<Boolean>,
                         first.value = false
                         second.value = false
         },
-        modifier = modifier,   colors = ButtonColors(containerColor = dContainer, contentColor = dContent, disabledContainerColor = Color.Gray, disabledContentColor = Color.Gray)
+        modifier = modifier,   colors = ButtonColors(containerColor = dContainer, contentColor = dContent, disabledContainerColor = colorResource(id = R.color.gray), disabledContentColor = colorResource(id = R.color.gray))
     ) {
         if (!shortName)
             Text(text = stringResource(id = thirdId), fontSize = 20.sp)
