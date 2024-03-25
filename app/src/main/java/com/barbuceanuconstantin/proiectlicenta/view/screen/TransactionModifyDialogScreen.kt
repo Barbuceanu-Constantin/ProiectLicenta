@@ -72,17 +72,13 @@ fun showTransactionDialog(
     onConfirmation: () -> Unit,
     lActive: SnapshotStateList<Tranzactie>,
     lPasive: SnapshotStateList<Tranzactie>,
-    lDatorii: SnapshotStateList<Tranzactie>
+    lDatorii: SnapshotStateList<Tranzactie>,
+    dateMutable: MutableState<String>
 ) {
     var currency by remember { mutableStateOf("") }
     var subcategory by remember { mutableStateOf("") }
     var payee by remember { mutableStateOf("") }
     var valueSum by remember { mutableStateOf("") }
-
-    val dateTime = LocalDateTime.now()
-    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    val formattedDate = dateTime.format(dateFormatter)
-    var date by remember { mutableStateOf(formattedDate) }
 
     var description by remember { mutableStateOf("") }
 
@@ -93,9 +89,9 @@ fun showTransactionDialog(
         ) {
             Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
 
-            val dateMutable: MutableState<String> = mutableStateOf(date)
-            calendar(dateMutable)
-            date = dateMutable.value
+            calendar(dateMutable, onDateSelected = { selectedDate ->
+                dateMutable.value = selectedDate // Update the date value
+            })
 
             okButton(ok = dateButton)
         }
@@ -173,8 +169,8 @@ fun showTransactionDialog(
                             Spacer(Modifier.fillMaxHeight(30f / LocalConfiguration.current.screenHeightDp))
 
                             TextField(
-                                value = date,
-                                onValueChange = { date = it },
+                                value = dateMutable.value,
+                                onValueChange = { dateMutable.value = it },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                                 label = { Text(text = stringResource(id = R.string.data)) },
                                 maxLines = 2,
@@ -194,7 +190,7 @@ fun showTransactionDialog(
                                 horizontalArrangement = Arrangement.Center
                             ) {
                                 Button(onClick = {
-                                    if (currency != "" && subcategory != "" && valueSum != "" && payee != "" && date != "" && description != "") {
+                                    if (currency != "" && subcategory != "" && valueSum != "" && payee != "" && dateMutable.value != "" && description != "") {
                                         if (showAB.value && !showPB.value && !showDB.value) {
                                             adaugareTranzactie(
                                                 lActive,
@@ -202,7 +198,7 @@ fun showTransactionDialog(
                                                 subcategory,
                                                 valueSum,
                                                 "Furnizor : $payee",
-                                                date,
+                                                dateMutable.value,
                                                 description
                                             )
                                         } else if (showPB.value && !showAB.value && !showDB.value) {
@@ -212,7 +208,7 @@ fun showTransactionDialog(
                                                 subcategory,
                                                 valueSum,
                                                 "Beneficiar : $payee",
-                                                date,
+                                                dateMutable.value,
                                                 description
                                             )
                                         } else if (showDB.value && !showAB.value && !showPB.value) {
@@ -222,7 +218,7 @@ fun showTransactionDialog(
                                                 subcategory,
                                                 valueSum,
                                                 payee,
-                                                date,
+                                                dateMutable.value,
                                                 description
                                             )
                                         }

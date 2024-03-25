@@ -15,6 +15,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
@@ -28,6 +32,8 @@ import com.barbuceanuconstantin.proiectlicenta.data.model.tranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 private var listaSubcategorysActive = subcategorysPredefiniteActive.values.flatten().toMutableList()
 private var listaSubcategorysPasive = subcategorysPredefinitePasive.values.flatten().toMutableList()
@@ -46,21 +52,49 @@ fun transactionsComposableScreen(showA: MutableState<Boolean>,
                                  sem: MutableState<Int>,
                                  updateTransactionButton: MutableState<Boolean>) {
     if (index.value != -1 && updateTransactionButton.value) {
-        if (sem.value == 1)
-            transactionUpdateScreen(indexUpdate = index.value, trList = lTrA, subcategoriesList = listaSubcategorysActive,
-                updateTransactionButton = updateTransactionButton
+        val dateMutable: MutableState<String> = mutableStateOf("")
+        if (sem.value == 1) {
+            dateMutable.value = lTrA[index.value].data
+            transactionUpdateScreen(
+                indexUpdate = index.value,
+                trList = lTrA,
+                subcategoriesList = listaSubcategorysActive,
+                updateTransactionButton = updateTransactionButton,
+                dateMutable = dateMutable
             )
-        if (sem.value == 2)
-            transactionUpdateScreen(indexUpdate = index.value, trList = lTrP, subcategoriesList = listaSubcategorysPasive,
-                updateTransactionButton = updateTransactionButton
+        }
+        if (sem.value == 2) {
+            dateMutable.value = lTrP[index.value].data
+            transactionUpdateScreen(
+                indexUpdate = index.value,
+                trList = lTrP,
+                subcategoriesList = listaSubcategorysPasive,
+                updateTransactionButton = updateTransactionButton,
+                dateMutable = dateMutable
             )
-        if (sem.value == 3)
-            transactionUpdateScreen(indexUpdate = index.value, trList = lTrD, subcategoriesList = listaSubcategorysDatorii,
-                updateTransactionButton = updateTransactionButton
+        }
+        if (sem.value == 3) {
+            dateMutable.value = lTrD[index.value].data
+            transactionUpdateScreen(
+                indexUpdate = index.value,
+                trList = lTrD,
+                subcategoriesList = listaSubcategorysDatorii,
+                updateTransactionButton = updateTransactionButton,
+                dateMutable = dateMutable
             )
+        }
     } else {
         if (addButton.value) {
-            showTransactionDialog(onDismissRequest = { addButton.value = false }, onConfirmation = {addButton.value = false}, lActive = lTrA, lPasive = lTrP, lDatorii = lTrD)
+            val dateTime = LocalDateTime.now()
+            val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val formattedDate = dateTime.format(dateFormatter)
+            val date by remember { mutableStateOf(formattedDate) }
+            val dateMutable: MutableState<String> = mutableStateOf(date)
+            showTransactionDialog(
+                                    onDismissRequest = { addButton.value = false }, onConfirmation = {addButton.value = false},
+                                    lActive = lTrA, lPasive = lTrP, lDatorii = lTrD,
+                                    dateMutable = dateMutable
+            )
         }
         if (!addButton.value) {
             Scaffold(

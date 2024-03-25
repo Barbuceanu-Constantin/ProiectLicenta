@@ -73,16 +73,12 @@ fun isDateAfterOrEqualToCurrent(dateString: String, current: LocalDate): Boolean
 fun showBudgetDialog(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
-    lFixedBudgets: SnapshotStateList<Budget>
+    lFixedBudgets: SnapshotStateList<Budget>,
+    dateMutable1: MutableState<String>,
+    dateMutable2: MutableState<String>
 ) {
     var filledText by remember { mutableStateOf("") }
     var valueSum by remember { mutableStateOf("") }
-
-    val dateTime = LocalDateTime.now()
-    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    val formattedDate = dateTime.format(dateFormatter)
-    var date1 by remember { mutableStateOf(formattedDate) }
-    var date2 by remember { mutableStateOf(formattedDate) }
 
     if (dateButton1.value && !dateButton2.value) {
         Column( horizontalAlignment = Alignment.CenterHorizontally,
@@ -91,9 +87,11 @@ fun showBudgetDialog(
         ) {
             Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
 
-            val dateMutable: MutableState<String> = mutableStateOf(date1)
-            calendar(dateMutable)
-            date1 = dateMutable.value
+            calendar(dateMutable1, onDateSelected = { selectedDate ->
+                if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
+                    dateMutable1.value = selectedDate // Update the date value
+                }
+            })
 
             okButton(ok = dateButton1)
         }
@@ -104,9 +102,11 @@ fun showBudgetDialog(
         ) {
             Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
 
-            val dateMutable: MutableState<String> = mutableStateOf(date2)
-            calendar(dateMutable)
-            date2 = dateMutable.value
+            calendar(dateMutable2, onDateSelected = { selectedDate ->
+                if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
+                    dateMutable2.value = selectedDate // Update the date value
+                }
+            })
 
             okButton(ok = dateButton2)
         }
@@ -159,10 +159,10 @@ fun showBudgetDialog(
                 ) { Text(stringResource(R.string.data_inceput)) }
                 Spacer(Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
                 TextField(
-                    value = date1,
+                    value = dateMutable1.value,
                     onValueChange = {
                         if (isDateAfterOrEqualToCurrent(it, LocalDate.now())) {
-                            date1 = it
+                            dateMutable1.value = it
                         }
                     },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -175,10 +175,10 @@ fun showBudgetDialog(
                 ) { Text(stringResource(R.string.data_final)) }
                 Spacer(Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
                 TextField(
-                    value = date2,
+                    value = dateMutable2.value,
                     onValueChange = {
                         if (isDateAfterOrEqualToCurrent(it, LocalDate.now())) {
-                            date2 = it
+                            dateMutable2.value = it
                         }
                     },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -189,7 +189,7 @@ fun showBudgetDialog(
                 Row() {
                     Button(onClick = {
                         if (filledText != "" && valueSum != "") {
-                            addBudget(lFixedBudgets, filledText, valueSum, date1, date2)
+                            addBudget(lFixedBudgets, filledText, valueSum, dateMutable1.value, dateMutable2.value)
                         }
                         onConfirmation()
                     }) { Text(stringResource(R.string.confirmare)) }

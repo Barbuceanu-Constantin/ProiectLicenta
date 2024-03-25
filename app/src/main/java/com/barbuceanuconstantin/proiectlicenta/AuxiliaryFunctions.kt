@@ -41,12 +41,13 @@ fun okButton(ok: MutableState<Boolean>, space: Boolean = true) {
     }
 }
 @Composable
-fun calendar(date: MutableState<String>) {
+fun calendar(date: MutableState<String>, onDateSelected: (String) -> Unit) {
     AndroidView(
         factory = { CalendarView(it) },
         update = {
             it.setOnDateChangeListener { calendarView, year, month, day ->
-                date.value = "$year-${(month + 1)/10}${(month + 1)%10}-$day"
+                val formattedDate = "$year-${(month + 1) / 10}${(month + 1) % 10}-$day"
+                onDateSelected(formattedDate) // Call the callback function
             }
         },
         modifier = Modifier.background(color = Color(250, 230, 200)).border(width = 10.dp, color = Color(20, 100, 10))

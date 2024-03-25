@@ -43,14 +43,13 @@ private val dateButton = mutableStateOf(false)
 
 @Composable
 fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzactie>, updateTransactionButton: MutableState<Boolean>,
-                            subcategoriesList: MutableList<String>) {
+                            subcategoriesList: MutableList<String>, dateMutable: MutableState<String>) {
     val tr = trList[indexUpdate]
 
     var currency by remember { mutableStateOf(tr.valuta) }
     var subcategory by remember { mutableStateOf(tr.subcategory) }
     var payee by remember { mutableStateOf(tr.payee) }
     var valueSum by remember { mutableStateOf(tr.suma.toString()) }
-    var date by remember { mutableStateOf(tr.data) }
     var description by remember { mutableStateOf(tr.descriere) }
 
     if (dateButton.value) {
@@ -60,9 +59,9 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
         ) {
             Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
 
-            val dateMutable: MutableState<String> = mutableStateOf(date)
-            calendar(dateMutable)
-            date = dateMutable.value
+            calendar(dateMutable, onDateSelected = { selectedDate ->
+                dateMutable.value = selectedDate // Update the date value
+            })
 
             okButton(ok = dateButton)
         }
@@ -112,8 +111,8 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
                 ) { Text(stringResource(R.string.data)) }
                 Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
                 TextField(
-                    value = date,
-                    onValueChange = { date = it },
+                    value = dateMutable.value,
+                    onValueChange = { dateMutable.value = it },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     label = { Text(stringResource(id = R.string.data)) },
                     maxLines = 2
@@ -125,18 +124,11 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
                     label = { Text(stringResource(id = R.string.introduceti_suma)) },
                     maxLines = 2
                 )
-                TextField(
-                    value = description,
-                    onValueChange = { description = it },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                    label = { Text(stringResource(id = R.string.furnizor_sau_beneficiar)) },
-                    maxLines = 2
-                )
                 
                 trList[indexUpdate].valuta = currency
                 trList[indexUpdate].payee = payee
                 trList[indexUpdate].subcategory = subcategory
-                trList[indexUpdate].data = date
+                trList[indexUpdate].data = dateMutable.value
                 trList[indexUpdate].descriere = description
                 if (valueSum != "")
                     trList[indexUpdate].suma = valueSum.toDouble()

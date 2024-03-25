@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +28,9 @@ import androidx.compose.ui.unit.sp
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.data.model.budgetsLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.R
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun showAddBudgetDialog(
@@ -35,10 +39,17 @@ private fun showAddBudgetDialog(
     onDismissRequest: () -> Unit = { fab.value = false },
     onConfirmation: () -> Unit = { fab.value = false },
 ) {
+    val dateTime = LocalDateTime.now()
+    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val formattedDate = dateTime.format(dateFormatter)
+    val dateMutable1: MutableState<String> = mutableStateOf(formattedDate)
+    val dateMutable2: MutableState<String> = mutableStateOf(formattedDate)
     showBudgetDialog(
         onDismissRequest = onDismissRequest,
         onConfirmation = onConfirmation,
-        lFixedBudgets = lFixedBudgets
+        lFixedBudgets = lFixedBudgets,
+        dateMutable1 = dateMutable1,
+        dateMutable2 = dateMutable2
     )
 }
 @RequiresApi(Build.VERSION_CODES.O)

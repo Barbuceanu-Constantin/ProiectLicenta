@@ -10,6 +10,7 @@ import com.barbuceanuconstantin.proiectlicenta.view.screen.screen1
 import com.barbuceanuconstantin.proiectlicenta.view.screen.screen2
 import com.barbuceanuconstantin.proiectlicenta.view.screen.screen4
 import com.barbuceanuconstantin.proiectlicenta.view.screen.screen6
+import com.barbuceanuconstantin.proiectlicenta.view.screen.screen7
 
 //Branch ecrane-individuale//
 
@@ -19,8 +20,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ProiectLicentaTheme {
-                initHardcodedTransactions()
-                screen6()
+                //initHardcodedTransactions()
+                screen1()
             }
         }
     }

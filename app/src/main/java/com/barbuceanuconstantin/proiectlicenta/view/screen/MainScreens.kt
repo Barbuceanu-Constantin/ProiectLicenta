@@ -3,6 +3,7 @@ package com.barbuceanuconstantin.proiectlicenta.view.screen
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -87,5 +88,7 @@ fun screen6() {
 
 @Composable
 fun screen7() {
-    calendarComposableScreen()
+    val dateMutable: MutableState<String> = mutableStateOf("")
+
+    calendarComposableScreen(dateMutable)
 }

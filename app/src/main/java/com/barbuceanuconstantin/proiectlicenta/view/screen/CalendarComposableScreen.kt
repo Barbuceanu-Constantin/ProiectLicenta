@@ -30,19 +30,16 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.calendar
 
 @Composable
-fun calendarComposableScreen() {
+fun calendarComposableScreen(dateMutable: MutableState<String>) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ) {
-        var date by remember {
-            mutableStateOf("")
-        }
         Spacer(Modifier.fillMaxHeight(10F / LocalConfiguration.current.screenHeightDp))
 
-        val dateMutable: MutableState<String> = mutableStateOf(date)
-        calendar(dateMutable)
-        date = dateMutable.value
+        calendar(dateMutable, onDateSelected = { selectedDate ->
+            dateMutable.value = selectedDate // Update the date value
+        })
 
         Spacer(Modifier.fillMaxHeight(10F / LocalConfiguration.current.screenHeightDp))
         Box(
