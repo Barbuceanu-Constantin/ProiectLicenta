@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,8 +50,9 @@ private fun ShowAddBudgetDialog(lFixedBudgets: SnapshotStateList<Budget>, fab: M
 }
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun FixedBudgetsComposableScreen(fab: MutableState<Boolean>,
-                                 lFixedBudgets: SnapshotStateList<Budget>) {
+fun FixedBudgetsComposableScreen(lFixedBudgets: SnapshotStateList<Budget>) {
+    val fab: MutableState<Boolean> = remember { mutableStateOf(false) }
+
     if (fab.value) {
         ShowAddBudgetDialog(lFixedBudgets = lFixedBudgets, fab = fab)
     } else {

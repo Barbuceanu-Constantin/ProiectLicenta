@@ -13,6 +13,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -35,8 +37,12 @@ private fun ShowAddSubcategoryDialog(lSA: MutableList<Subcategory>, lSP: Mutable
 }
 
 @Composable
-fun CategoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>,
-                     addButton: MutableState<Boolean>, lSA: MutableList<Subcategory>, lSP: MutableList<Subcategory>, lSD: MutableList<Subcategory>) {
+fun CategoriesComposableScreen(lSA: MutableList<Subcategory>, lSP: MutableList<Subcategory>, lSD: MutableList<Subcategory>) {
+    val showA: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val showP: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val showD: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val addButton: MutableState<Boolean> = remember { mutableStateOf(false) }
+
     if (addButton.value) {
         ShowAddSubcategoryDialog(lSA = lSA, lSP = lSP, lSD = lSD, addButton = addButton)
     } else {

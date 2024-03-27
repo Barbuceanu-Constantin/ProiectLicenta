@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,16 +42,17 @@ private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.values.fla
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun TransactionsComposableScreen(showA: MutableState<Boolean>,
-                                 showP: MutableState<Boolean>,
-                                 showD: MutableState<Boolean>,
-                                 addButton: MutableState<Boolean>,
-                                 lTrA: SnapshotStateList<Tranzactie>,
+fun TransactionsComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
                                  lTrP: SnapshotStateList<Tranzactie>,
-                                 lTrD: SnapshotStateList<Tranzactie>,
-                                 index: MutableState<Int>,
-                                 sem: MutableState<Int>,
-                                 updateTransactionButton: MutableState<Boolean>) {
+                                 lTrD: SnapshotStateList<Tranzactie>) {
+    val showA: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val showP: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val showD: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val addButton: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val updateTransactionButton: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val index: MutableState<Int> = remember { mutableIntStateOf(-1) }
+    val sem: MutableState<Int> = remember { mutableIntStateOf(-1) }
+
     if (index.value != -1 && updateTransactionButton.value) {
         val dateMutable: MutableState<String> = mutableStateOf("")
         if (sem.value == 1) {

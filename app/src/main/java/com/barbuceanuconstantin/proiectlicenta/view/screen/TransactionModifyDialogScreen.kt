@@ -41,19 +41,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.window.Dialog
+import com.barbuceanuconstantin.proiectlicenta.Calendar
+import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindow
+import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.calendar
+import com.barbuceanuconstantin.proiectlicenta.WarningNotSelectedCategory
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
-import com.barbuceanuconstantin.proiectlicenta.headerSelectCategoryOrTransactionWindow
-import com.barbuceanuconstantin.proiectlicenta.okButton
 import com.barbuceanuconstantin.proiectlicenta.resetButtons
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
-import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showMenuCurrencies
-import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showMenuSubcategories
-import com.barbuceanuconstantin.proiectlicenta.warningNotSelectedCategory
+import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.ShowMenuCurrencies
+import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.ShowMenuSubcategories
 
 val showMeniuValute = mutableStateOf(false)
 private val showAB = mutableStateOf(true)
@@ -88,17 +87,17 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
             confirmButton = {},
             dismissButton = {}) {
                 Column(modifier = Modifier.fillMaxSize()) {
-                    calendar(onDateSelected = { selectedDate -> dateMutable.value = selectedDate })
+                    Calendar(onDateSelected = { selectedDate -> dateMutable.value = selectedDate })
 
                     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 
-                    okButton(ok = dateButton)
+                    OkButton(ok = dateButton)
                 }
         }
     } else {
         Scaffold() { innerPadding ->
             Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)) {
-                headerSelectCategoryOrTransactionWindow(showAB, showPB, showDB)
+                HeaderSelectCategoryOrTransactionWindow(showAB, showPB, showDB)
 
                 Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
 
@@ -231,33 +230,33 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                             }
                         }
                     } else {
-                        warningNotSelectedCategory()
+                        WarningNotSelectedCategory()
                     }
                 } else {
                     if (showAB.value && showPB.value && showDB.value) {
-                        warningNotSelectedCategory()
+                        WarningNotSelectedCategory()
                     } else {
                         if (showMeniuValute.value && !showMeniuSubcategorys.value) {
-                            showMenuCurrencies(showMeniuValute = showMeniuValute) {
+                            ShowMenuCurrencies(showMeniuValute = showMeniuValute) {
                                 currency = it
                             }
                         } else if (!showMeniuValute.value && showMeniuSubcategorys.value) {
                             if (showAB.value && !showPB.value && !showDB.value) {
-                                showMenuSubcategories(
+                                ShowMenuSubcategories(
                                     lSubcategorys = listaSubcategorysActive,
                                     showMeniuSubcategorys
                                 ) {
                                     subcategory = it
                                 }
                             } else if (showPB.value && !showAB.value && !showDB.value) {
-                                showMenuSubcategories(
+                                ShowMenuSubcategories(
                                     lSubcategorys = listaSubcategorysPasive,
                                     showMeniuSubcategorys
                                 ) {
                                     subcategory = it
                                 }
                             } else if (showDB.value && !showAB.value && !showPB.value) {
-                                showMenuSubcategories(
+                                ShowMenuSubcategories(
                                     lSubcategorys = listaSubcategorysDatorii,
                                     showMeniuSubcategorys
                                 ) {

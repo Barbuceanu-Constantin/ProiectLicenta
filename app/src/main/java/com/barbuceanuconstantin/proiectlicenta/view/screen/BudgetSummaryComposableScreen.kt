@@ -2,6 +2,8 @@
 
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,8 +22,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -45,6 +50,8 @@ import com.barbuceanuconstantin.proiectlicenta.ThreeTopButtons
 import com.barbuceanuconstantin.proiectlicenta.data.model.SummaryTranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 import com.barbuceanuconstantin.proiectlicenta.getStartAndEndDateOfWeek
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 private val dateButton = mutableStateOf(false)
 @Composable
@@ -83,14 +90,20 @@ fun SelectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<St
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun BudgetSummaryComposableScreen(daily: MutableState<Boolean>,
-                                  weekly: MutableState<Boolean>,
-                                  monthly: MutableState<Boolean>,
-                                  lTrA: SnapshotStateList<Tranzactie>,
-                                  lTrP: SnapshotStateList<Tranzactie>,
-                                  dateMutable: MutableState<String>,
-                                  monthMutable : MutableState<String>) {
+fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
+                                  lTrP: SnapshotStateList<Tranzactie>) {
+    val daily: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val weekly: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val monthly: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val dateTime = LocalDateTime.now()
+    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val formattedDate = dateTime.format(dateFormatter)
+    val date by remember { mutableStateOf(formattedDate) }
+    val dateMutable: MutableState<String> = remember { mutableStateOf(date) }
+    val monthMutable : MutableState<String> = remember { mutableStateOf("") }
+
     if (dateButton.value) {
         DatePickerDialog(onDismissRequest = {dateButton.value = false},
                          confirmButton = {},
@@ -112,9 +125,7 @@ fun BudgetSummaryComposableScreen(daily: MutableState<Boolean>,
         }
     } else {
         Scaffold() { innerPadding ->
-            Column( modifier = Modifier
-                .fillMaxWidth()
-                .padding(innerPadding),
+            Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly
             ) {
@@ -152,9 +163,7 @@ fun BudgetSummaryComposableScreen(daily: MutableState<Boolean>,
 
                     SelectMonth(dateMutable, monthMutable)
                 } else if (daily.value && weekly.value && monthly.value) {
-                    SummaryTranzactiiLazyColumn(tranzactii = lTrP, first = true, second = false)
-
-                    SummaryTranzactiiLazyColumn(tranzactii = lTrA, first = false, second = true)
+                    SummaryTranzactiiLazyColumn(tranzactii = (lTrP + lTrA).toMutableStateList())
                 }
 
                 HorizontalDivider(thickness = 3.dp, color = colorResource(id = R.color.black))

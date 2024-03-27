@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,13 +19,16 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,10 +40,6 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.WarningNotSelectedCategory
 import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
 import com.barbuceanuconstantin.proiectlicenta.resetButtons
-
-private val showA = mutableStateOf(true)
-private val showP = mutableStateOf(true)
-private val showD = mutableStateOf(true)
 
 private fun addSubcategory(l: MutableList<Subcategory>, firstLetter:String, filledText:String) {
     val foundSubcategory = l.find{it.name == firstLetter}
@@ -72,13 +72,20 @@ fun ShowCategoryDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit,
                        lDatorii: MutableList<Subcategory>
 ) {
     val specificMessage = stringResource(id = strId)
+    val showA: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val showP: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val showD: MutableState<Boolean> = remember { mutableStateOf(true) }
 
     Dialog(onDismissRequest = {
         resetButtons(showA, showP, showD)
         onDismissRequest()
     }) {
-        Card(modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction = 650F / LocalConfiguration.current.screenHeightDp), shape = RoundedCornerShape(16.dp),) {
-            Column() {
+        Card(
+            modifier = Modifier.fillMaxSize(),
+            shape = RoundedCornerShape(dimensionResource(id = R.dimen.margin))
+        ) {
+            Column( horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceEvenly ) {
                 HeaderSelectCategoryOrTransactionWindow(showA, showP, showD)
 
                 Text(text = specificMessage, modifier = Modifier.fillMaxWidth(),
@@ -107,7 +114,9 @@ fun ShowCategoryDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit,
 
                     Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
 
-                    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 25.dp)) {
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 25.dp)) {
                         val words = specificMessage.trim().split("\\s+".toRegex())
 
                         val lastWord = words.last()

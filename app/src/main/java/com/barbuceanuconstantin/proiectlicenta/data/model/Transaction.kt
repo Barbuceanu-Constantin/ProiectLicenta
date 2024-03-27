@@ -76,7 +76,6 @@ private fun Tranzactie( subcategory: String, value: Double, currency: String, de
 fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>, lTrA: SnapshotStateList<Tranzactie>? = null,
                          lTrP: SnapshotStateList<Tranzactie>? = null, lTrD: SnapshotStateList<Tranzactie>? = null,
                          indexState: MutableState<Int>, sem: MutableState<Int>, updateScreenButton: MutableState<Boolean>) {
-    var index = 0
 
     LazyColumn(Modifier.fillMaxHeight(700F / LocalConfiguration.current.screenHeightDp).fillMaxWidth(0.8f)) {
         items(tranzactii) {
@@ -104,36 +103,33 @@ fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>, lTrA: Snapsh
                                         }
                                     },
                                     update = {
-                                        indexState.value = index
-
-                                        if (lTrA != null && lTrP != null && lTrD != null) {
-                                            if (lTrA.contains(tranzactie)) sem.value = 1
-                                            if (lTrP.contains(tranzactie)) sem.value = 2
-                                            if (lTrD.contains(tranzactie)) sem.value = 3
-                                            if (index >= lTrA.size + lTrP.size) {
-                                                indexState.value -= (lTrA.size + lTrP.size)
+                                        if (lTrA != null) {
+                                            if (lTrA.contains(tranzactie)) {
+                                                sem.value = 1
+                                                indexState.value = lTrA.indexOf(tranzactie)
                                             }
-                                            else if (index >= lTrA.size) {
-                                                indexState.value -= lTrA.size
+                                        }
+                                        if (lTrP != null) {
+                                            if (lTrP.contains(tranzactie)) {
+                                                sem.value = 2
+                                                indexState.value = lTrP.indexOf(tranzactie)
                                             }
-                                        } else {
-                                            indexState.value -= 1
+                                        }
+                                        if (lTrD != null) {
+                                            if (lTrD.contains(tranzactie)) {
+                                                sem.value = 3
+                                                indexState.value = lTrD.indexOf(tranzactie)
+                                            }
                                         }
 
                                         updateScreenButton.value = !updateScreenButton.value
                                     })
-            index += 1
         }
     }
 }
 @Composable
-fun SummaryTranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>, first: Boolean, second: Boolean) {
-    var modifier: Modifier = Modifier.fillMaxHeight(0f)
-
-    if (first && !second)
-        modifier = Modifier.fillMaxHeight(190F / LocalConfiguration.current.screenHeightDp).fillMaxWidth(0.8f)
-    else if (!first && second)
-        modifier = Modifier.fillMaxHeight(240F / LocalConfiguration.current.screenHeightDp).fillMaxWidth(0.8f)
+fun SummaryTranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>) {
+    val modifier: Modifier = Modifier.fillMaxHeight(0.7F)
 
     LazyColumn(modifier = modifier) {
         items(tranzactii) {
