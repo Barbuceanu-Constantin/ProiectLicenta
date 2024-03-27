@@ -45,11 +45,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.view.screen.screen0
-import com.barbuceanuconstantin.proiectlicenta.view.screen.screen1
-import com.barbuceanuconstantin.proiectlicenta.view.screen.screen2
-import com.barbuceanuconstantin.proiectlicenta.view.screen.screen4
-import com.barbuceanuconstantin.proiectlicenta.view.screen.screen7
+import com.barbuceanuconstantin.proiectlicenta.view.screen.Screen0
+import com.barbuceanuconstantin.proiectlicenta.view.screen.Screen1
+import com.barbuceanuconstantin.proiectlicenta.view.screen.Screen2
+import com.barbuceanuconstantin.proiectlicenta.view.screen.Screen4
+import com.barbuceanuconstantin.proiectlicenta.view.screen.Screen7
 
 data class TabItem(
     val title: String,
@@ -59,7 +59,7 @@ data class TabItem(
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun showMenu() {
+fun ShowMenu() {
     val tabItems = listOf(
         TabItem(
             title = stringResource(id = R.string.acasa),
@@ -150,25 +150,25 @@ fun showMenu() {
 
         when (selectedTabIndex) {
             0 -> {
-                screen0()
+                Screen0()
             }
             1 -> {
-                screen1()
+                Screen1()
             }
             2 -> {
-                screen2()
+                Screen2()
             }
             3 -> {
             }
             4 -> {
-                screen4()
+                Screen4()
             }
             5 -> {
             }
             6 -> {
             }
             7 -> {
-                screen7()
+                Screen7()
             }
             8 -> {
             }

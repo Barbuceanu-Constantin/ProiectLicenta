@@ -36,19 +36,19 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.barbuceanuconstantin.proiectlicenta.Calendar
+import com.barbuceanuconstantin.proiectlicenta.FourthButton
+import com.barbuceanuconstantin.proiectlicenta.IntToMonth
+import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.calendar
+import com.barbuceanuconstantin.proiectlicenta.ThreeTopButtons
+import com.barbuceanuconstantin.proiectlicenta.data.model.SummaryTranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
-import com.barbuceanuconstantin.proiectlicenta.data.model.summaryTranzactiiLazyColumn
-import com.barbuceanuconstantin.proiectlicenta.fourthButton
 import com.barbuceanuconstantin.proiectlicenta.getStartAndEndDateOfWeek
-import com.barbuceanuconstantin.proiectlicenta.intToMonth
-import com.barbuceanuconstantin.proiectlicenta.okButton
-import com.barbuceanuconstantin.proiectlicenta.threeTopButtons
 
 private val dateButton = mutableStateOf(false)
 @Composable
-fun selectDay(dateMutable: MutableState<String>) {
+fun SelectDay(dateMutable: MutableState<String>) {
     Button(onClick = { dateButton.value = !dateButton.value }) {
         Text(text = stringResource(id = R.string.selectare_zi), fontSize = 20.sp)
     }
@@ -58,7 +58,7 @@ fun selectDay(dateMutable: MutableState<String>) {
 }
 
 @Composable
-fun selectWeek(dateMutable: MutableState<String>) {
+fun SelectWeek(dateMutable: MutableState<String>) {
     val limits = getStartAndEndDateOfWeek(dateMutable.value)
 
     Button(onClick = { dateButton.value = !dateButton.value }) {
@@ -70,9 +70,9 @@ fun selectWeek(dateMutable: MutableState<String>) {
     )
 }
 @Composable
-fun selectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<String>) {
+fun SelectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<String>) {
     val month : Int = (dateMutable.value[5].code - 48) * 10 + (dateMutable.value[6].code - 48)
-    intToMonth(month, monthMutable)
+    IntToMonth(month, monthMutable)
 
     Button(onClick = { dateButton.value = !dateButton.value }) {
         Text(text = stringResource(id = R.string.selectare_luna), fontSize = 20.sp)
@@ -84,7 +84,7 @@ fun selectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<St
 }
 
 @Composable
-fun budgetSummaryComposableScreen(daily: MutableState<Boolean>,
+fun BudgetSummaryComposableScreen(daily: MutableState<Boolean>,
                                   weekly: MutableState<Boolean>,
                                   monthly: MutableState<Boolean>,
                                   lTrA: SnapshotStateList<Tranzactie>,
@@ -96,7 +96,7 @@ fun budgetSummaryComposableScreen(daily: MutableState<Boolean>,
                          confirmButton = {},
                          dismissButton = {}) {
             Column(modifier = Modifier.fillMaxSize()) {
-                calendar(onDateSelected = {
+                Calendar(onDateSelected = {
                     selectedDate -> dateMutable.value = selectedDate // Update the date value
                 })
 
@@ -106,7 +106,7 @@ fun budgetSummaryComposableScreen(daily: MutableState<Boolean>,
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    okButton(ok = dateButton) // Confirm button
+                    OkButton(ok = dateButton) // Confirm button
                 }
             }
         }
@@ -128,11 +128,11 @@ fun budgetSummaryComposableScreen(daily: MutableState<Boolean>,
                 Spacer(modifier = Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
 
                 Row() {
-                    threeTopButtons(first = daily, second = weekly, third = monthly,
+                    ThreeTopButtons(first = daily, second = weekly, third = monthly,
                                     firstId = R.string.zilnic, secondId = R.string.saptamanal, thirdId = R.string.lunar)
                 }
 
-                fourthButton(id = R.string.total, first = daily, second = weekly, third = monthly)
+                FourthButton(id = R.string.total, first = daily, second = weekly, third = monthly)
 
                 //Aici voi face bilantul total al cheltuielilor si veniturilor.
                 //Dar pentru inceput le voi lista pe toate fara sa filtrez, asta si pentru ca
@@ -140,21 +140,21 @@ fun budgetSummaryComposableScreen(daily: MutableState<Boolean>,
                 if (daily.value && !weekly.value && !monthly.value) {
                     //Se selecteaza ziua pentru care se vrea bilantul cheltuielilor si veniturilor
 
-                    selectDay(dateMutable)
+                    SelectDay(dateMutable)
                 } else if (weekly.value && !daily.value && !monthly.value) {
                     //Se selecteaza saptamana pentru care se vrea bilantul cheltuielilor si veniturilor,
                     //prin selectarea unei zile si extragerea saptamanii din care face parte
 
-                    selectWeek(dateMutable)
+                    SelectWeek(dateMutable)
                 } else if (monthly.value && !daily.value && !weekly.value) {
                     //Se selecteaza luna pentru care se vrea bilantul cheltuielilor si veniturilor
                     //prin selectarea unei zile si extragerea lunii din care face parte
 
-                    selectMonth(dateMutable, monthMutable)
+                    SelectMonth(dateMutable, monthMutable)
                 } else if (daily.value && weekly.value && monthly.value) {
-                    summaryTranzactiiLazyColumn(tranzactii = lTrP, first = true, second = false)
+                    SummaryTranzactiiLazyColumn(tranzactii = lTrP, first = true, second = false)
 
-                    summaryTranzactiiLazyColumn(tranzactii = lTrA, first = false, second = true)
+                    SummaryTranzactiiLazyColumn(tranzactii = lTrA, first = false, second = true)
                 }
 
                 HorizontalDivider(thickness = 3.dp, color = colorResource(id = R.color.black))

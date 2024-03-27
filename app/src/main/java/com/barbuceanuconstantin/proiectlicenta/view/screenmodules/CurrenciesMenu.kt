@@ -25,10 +25,10 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.toSize
+import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.okButton
 @Composable
-fun showMenuCurrencies(showMeniuValute: MutableState<Boolean>, okButton: Boolean = true, onSelect: (String) -> Unit) {
+fun ShowMenuCurrencies(showMeniuValute: MutableState<Boolean>, okButton: Boolean = true, onSelect: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     val list = mutableListOf(
         stringResource(id = R.string.dolar_american),
@@ -78,6 +78,6 @@ fun showMenuCurrencies(showMeniuValute: MutableState<Boolean>, okButton: Boolean
         }
 
         if(okButton)
-            okButton(showMeniuValute)
+            OkButton(showMeniuValute)
     }
 }

@@ -42,19 +42,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
+import com.barbuceanuconstantin.proiectlicenta.Calendar
+import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.calendar
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
-import com.barbuceanuconstantin.proiectlicenta.okButton
-import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showMenuCurrencies
-import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showMenuSubcategories
+import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.ShowMenuCurrencies
+import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.ShowMenuSubcategories
 
 private val showMeniuValute1 = mutableStateOf(false)
 private val showMeniuSubcategorys1 = mutableStateOf(false)
 private val dateButton = mutableStateOf(false)
 
 @Composable
-fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzactie>, updateTransactionButton: MutableState<Boolean>,
+fun TransactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzactie>, updateTransactionButton: MutableState<Boolean>,
                             subcategoriesList: MutableList<String>, dateMutable: MutableState<String>) {
     val tr = trList[indexUpdate]
     //Log.e("asdsad","recompozitie")
@@ -69,7 +69,7 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
                          confirmButton = {},
                          dismissButton = {}) {
             Column(modifier = Modifier.fillMaxSize()) {
-                calendar(onDateSelected = { selectedDate ->
+                Calendar(onDateSelected = { selectedDate ->
                     dateMutable.value = selectedDate // Update the date value
                 })
 
@@ -79,7 +79,7 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    okButton(ok = dateButton) // Confirm button
+                    OkButton(ok = dateButton) // Confirm button
                 }
             }
         }
@@ -87,7 +87,7 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
         Scaffold() { innerPadding ->
             Column(modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(innerPadding),
                    horizontalAlignment = Alignment.CenterHorizontally) {
-                showMenuSubcategories(okButton = false, lSubcategorys = subcategoriesList,
+                ShowMenuSubcategories(okButton = false, lSubcategorys = subcategoriesList,
                                       showMeniuSubcategorys = showMeniuSubcategorys1) {
                     subcategory = it
                 }
@@ -96,7 +96,7 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                                   label = { Text(stringResource(id = R.string.subcategory)) }, maxLines = 2)
 
-                showMenuCurrencies(showMeniuValute = showMeniuValute1, okButton = false) {
+                ShowMenuCurrencies(showMeniuValute = showMeniuValute1, okButton = false) {
                     currency = it
                 }
 
@@ -164,7 +164,7 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
 
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 
-                okButton(ok = updateTransactionButton)
+                OkButton(ok = updateTransactionButton)
             }
         }
     }

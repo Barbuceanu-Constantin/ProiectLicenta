@@ -41,7 +41,7 @@ private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.values.fla
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun transactionsComposableScreen(showA: MutableState<Boolean>,
+fun TransactionsComposableScreen(showA: MutableState<Boolean>,
                                  showP: MutableState<Boolean>,
                                  showD: MutableState<Boolean>,
                                  addButton: MutableState<Boolean>,

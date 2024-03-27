@@ -35,14 +35,14 @@ data class Subcategory(
 )
 
 @Composable
-private fun antetSubcategory(text: String, color: Color) {
+private fun AntetSubcategory(text: String, color: Color) {
     Text(text = text, fontSize = 16.sp, fontWeight = FontWeight.Bold,
          modifier = Modifier.fillMaxWidth().background(color).padding(16.dp)
     )
 }
 
 @Composable
-private fun subcategory(text: String, onDeleteItem: () -> Unit) {
+private fun Subcategory(text: String, onDeleteItem: () -> Unit) {
     Row() {
         Text(text = text, fontSize = 14.sp,
              modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.background)
@@ -56,7 +56,7 @@ private fun subcategory(text: String, onDeleteItem: () -> Unit) {
 }
 
 @Composable
-fun subcategorysLazyColumn(categorii: MutableList<Subcategory>, a: Int = -1, p: Int = -1, d: Int = -1) {
+fun SubcategorysLazyColumn(categorii: MutableList<Subcategory>, a: Int = -1, p: Int = -1, d: Int = -1) {
     val index = remember { mutableStateOf(0) }
 
     LazyColumn(
@@ -72,15 +72,15 @@ fun subcategorysLazyColumn(categorii: MutableList<Subcategory>, a: Int = -1, p: 
                         categorii[d] -> colorResource(R.color.blue)
                         else -> MaterialTheme.colorScheme.primaryContainer
                     }
-                    antetSubcategory(text = subcateg.name, color)
+                    AntetSubcategory(text = subcateg.name, color)
                 } else {
-                    antetSubcategory(text = subcateg.name, MaterialTheme.colorScheme.primaryContainer)
+                    AntetSubcategory(text = subcateg.name, MaterialTheme.colorScheme.primaryContainer)
                 }
                 index.value += 1
             }
 
             items(subcateg.items) { text ->
-                subcategory(text = text) {
+                Subcategory(text = text) {
                     subcateg.items.remove(text)
                 }
             }

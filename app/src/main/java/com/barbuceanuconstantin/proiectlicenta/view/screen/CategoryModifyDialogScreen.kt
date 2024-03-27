@@ -31,11 +31,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindow
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.WarningNotSelectedCategory
 import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
-import com.barbuceanuconstantin.proiectlicenta.headerSelectCategoryOrTransactionWindow
 import com.barbuceanuconstantin.proiectlicenta.resetButtons
-import com.barbuceanuconstantin.proiectlicenta.warningNotSelectedCategory
 
 private val showA = mutableStateOf(true)
 private val showP = mutableStateOf(true)
@@ -67,7 +67,7 @@ private fun eliminareSubcategory(l: MutableList<Subcategory>, firstLetter:String
 }
 
 @Composable
-fun showCategoryDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, strId: Int,
+fun ShowCategoryDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, strId: Int,
                        lActive: MutableList<Subcategory>, lPasive: MutableList<Subcategory>,
                        lDatorii: MutableList<Subcategory>
 ) {
@@ -79,7 +79,7 @@ fun showCategoryDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit,
     }) {
         Card(modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction = 650F / LocalConfiguration.current.screenHeightDp), shape = RoundedCornerShape(16.dp),) {
             Column() {
-                headerSelectCategoryOrTransactionWindow(showA, showP, showD)
+                HeaderSelectCategoryOrTransactionWindow(showA, showP, showD)
 
                 Text(text = specificMessage, modifier = Modifier.fillMaxWidth(),
                     fontSize = 25.sp, fontWeight = FontWeight.Bold
@@ -149,7 +149,7 @@ fun showCategoryDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit,
                 } else {
                     Spacer(modifier = Modifier.fillMaxHeight(fraction = 20F / LocalConfiguration.current.screenHeightDp))
 
-                    warningNotSelectedCategory()
+                    WarningNotSelectedCategory()
 
                     Spacer(modifier = Modifier.fillMaxHeight(fraction = 40F / LocalConfiguration.current.screenHeightDp))
 

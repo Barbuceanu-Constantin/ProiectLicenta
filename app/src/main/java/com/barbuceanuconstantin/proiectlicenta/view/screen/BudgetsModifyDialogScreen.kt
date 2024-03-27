@@ -48,9 +48,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.calendar
+import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
-import com.barbuceanuconstantin.proiectlicenta.okButton
+import com.barbuceanuconstantin.proiectlicenta.OkButton
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -74,7 +74,7 @@ fun isDateAfterOrEqualToCurrent(dateString: String, current: LocalDate): Boolean
 }
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun showBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, lFixedBudgets: SnapshotStateList<Budget>,
+fun ShowBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, lFixedBudgets: SnapshotStateList<Budget>,
                      dateMutable1: MutableState<String>, dateMutable2: MutableState<String>) {
     var filledText by remember { mutableStateOf("") }
     var valueSum by remember { mutableStateOf("") }
@@ -84,7 +84,7 @@ fun showBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
                          confirmButton = {},
                          dismissButton = {}) {
             Column(modifier = Modifier.fillMaxSize()) {
-                calendar(onDateSelected = { selectedDate ->
+                Calendar(onDateSelected = { selectedDate ->
                     if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
                         dateMutable1.value = selectedDate // Update the date value
                     }
@@ -92,7 +92,7 @@ fun showBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
 
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 
-                okButton(ok = dateButton1)
+                OkButton(ok = dateButton1)
             }
         }
     } else if (!dateButton1.value && dateButton2.value) {
@@ -100,7 +100,7 @@ fun showBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
                          confirmButton = {},
                          dismissButton = {}) {
             Column(modifier = Modifier.fillMaxSize()) {
-                calendar(onDateSelected = { selectedDate ->
+                Calendar(onDateSelected = { selectedDate ->
                     if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
                         dateMutable2.value = selectedDate // Update the date value
                     }
@@ -108,7 +108,7 @@ fun showBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
 
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 
-                okButton(ok = dateButton2)
+                OkButton(ok = dateButton2)
             }
         }
     } else if (!dateButton1.value && !dateButton2.value) {

@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.R
 @Composable
-fun showMenuButton() {
+fun ShowMenuButton() {
     var expanded by remember { mutableStateOf(false) }
     val list = listOf(
         stringResource(id = R.string.ecran_principal),

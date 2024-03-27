@@ -52,7 +52,7 @@ fun getStartAndEndDateOfWeek(dateString: String): Pair<String, String> {
     return Pair(startDate, endDate)
 }
 @Composable
-fun intToMonth(month : Int, monthMutable : MutableState<String>) {
+fun IntToMonth(month : Int, monthMutable : MutableState<String>) {
     when (month) {
         1 -> monthMutable.value = stringResource(id = R.string.ianuarie)
         2 -> monthMutable.value = stringResource(id = R.string.februarie)
@@ -74,7 +74,7 @@ fun resetButtons(showA: MutableState<Boolean>, showP: MutableState<Boolean>, sho
     showD.value = true
 }
 @Composable
-fun okButton(ok: MutableState<Boolean>, id: Int = R.string.ok) {
+fun OkButton(ok: MutableState<Boolean>, id: Int = R.string.ok) {
     val buttonWidthFraction = if (id == R.string.ok) 0.3f else 0.5f
     Button( onClick = { ok.value = !ok.value },
             modifier = Modifier.height(40.dp).fillMaxWidth(buttonWidthFraction)) {
@@ -83,7 +83,7 @@ fun okButton(ok: MutableState<Boolean>, id: Int = R.string.ok) {
 }
 
 @Composable
-fun calendar(onDateSelected: (String) -> Unit) {
+fun Calendar(onDateSelected: (String) -> Unit) {
     AndroidView(
         factory = { CalendarView(it) },
         update = {
@@ -98,26 +98,26 @@ fun calendar(onDateSelected: (String) -> Unit) {
     )
 }
 @Composable
-fun headerSelectCategoryOrTransactionWindow(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>) {
+fun HeaderSelectCategoryOrTransactionWindow(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>) {
     Text(text = stringResource(R.string.mesaj_selectare_categorie_principala),
         modifier = Modifier.fillMaxWidth(), fontSize = 20.sp, fontWeight = FontWeight.Bold, color = colorResource(id = R.color.red))
 
     Spacer(Modifier.fillMaxHeight(fraction = 5F / LocalConfiguration.current.screenHeightDp))
 
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        threeTopButtons(first = showA, second = showP, third = showD, shortName = true, firstId = R.string.prescurtareActive, secondId = R.string.prescurtarePasive, thirdId = R.string.prescurtareDatorii)
+        ThreeTopButtons(first = showA, second = showP, third = showD, shortName = true, firstId = R.string.prescurtareActive, secondId = R.string.prescurtarePasive, thirdId = R.string.prescurtareDatorii)
     }
 
     Spacer(Modifier.fillMaxHeight(fraction = 15F / LocalConfiguration.current.screenHeightDp))
 }
 @Composable
-fun warningNotSelectedCategory() {
+fun WarningNotSelectedCategory() {
     Text(text = stringResource(id = R.string.avertisment_neselectare_categorie), modifier = Modifier.fillMaxWidth(),
          fontSize = 20.sp, fontWeight = FontWeight.Bold, color = colorResource(id = R.color.red))
 }
 
 @Composable
-fun fourthButton(id: Int, first: MutableState<Boolean>, second: MutableState<Boolean>, third: MutableState<Boolean>) {
+fun FourthButton(id: Int, first: MutableState<Boolean>, second: MutableState<Boolean>, third: MutableState<Boolean>) {
     val containerColor: Color
     val contentColor: Color
 
@@ -143,7 +143,7 @@ fun fourthButton(id: Int, first: MutableState<Boolean>, second: MutableState<Boo
 }
 
 @Composable
-fun threeTopButtons(first: MutableState<Boolean>, second: MutableState<Boolean>,
+fun ThreeTopButtons(first: MutableState<Boolean>, second: MutableState<Boolean>,
                     third: MutableState<Boolean>, shortName: Boolean = false,
                     firstId: Int, secondId: Int, thirdId: Int
 ) {

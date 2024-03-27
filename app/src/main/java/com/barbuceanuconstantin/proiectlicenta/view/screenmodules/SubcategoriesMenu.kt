@@ -25,10 +25,10 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.toSize
+import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.okButton
 @Composable
-fun showMenuSubcategories(lSubcategorys: MutableList<String>, showMeniuSubcategorys: MutableState<Boolean>, okButton: Boolean = true, onSelect: (String) -> Unit) {
+fun ShowMenuSubcategories(lSubcategorys: MutableList<String>, showMeniuSubcategorys: MutableState<Boolean>, okButton: Boolean = true, onSelect: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf("") }
     var textFilledSize by remember { mutableStateOf(Size.Zero) }
@@ -61,6 +61,6 @@ fun showMenuSubcategories(lSubcategorys: MutableList<String>, showMeniuSubcatego
         }
 
         if (okButton)
-            okButton(showMeniuSubcategorys)
+            OkButton(showMeniuSubcategorys)
     }
 }

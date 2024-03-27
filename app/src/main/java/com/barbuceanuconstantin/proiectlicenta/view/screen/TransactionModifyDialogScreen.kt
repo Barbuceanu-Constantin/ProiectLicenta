@@ -73,7 +73,7 @@ private fun adaugareTranzactie(l: SnapshotStateList<Tranzactie>, currency:String
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun showTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit,
+fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit,
                           lActive: SnapshotStateList<Tranzactie>, lPasive: SnapshotStateList<Tranzactie>,
                           lDatorii: SnapshotStateList<Tranzactie>, dateMutable: MutableState<String>
 ) {

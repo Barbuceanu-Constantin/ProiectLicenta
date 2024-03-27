@@ -36,7 +36,7 @@ data class Budget(
 )
 
 @Composable
-private fun headerBudget(text: String, onDeleteItem: () -> Unit) {
+private fun HeaderBudget(text: String, onDeleteItem: () -> Unit) {
     Column() {
         Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
 
@@ -59,7 +59,7 @@ private fun headerBudget(text: String, onDeleteItem: () -> Unit) {
 }
 
 @Composable
-fun infoBudget(value: Double, startDate: String, endDate: String) {
+fun InfoBudget(value: Double, startDate: String, endDate: String) {
     Text(text = stringResource(id = R.string.prag_superior) + " $value", fontSize = 16.sp, fontWeight = FontWeight.Bold,
          modifier = Modifier.fillMaxWidth().padding(16.dp))
 
@@ -72,12 +72,12 @@ fun infoBudget(value: Double, startDate: String, endDate: String) {
     )
 }
 @Composable
-fun budgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>) {
+fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>) {
     LazyColumn(Modifier.fillMaxHeight(700F / LocalConfiguration.current.screenHeightDp).fillMaxWidth(0.8f)) {
         lFixedBudgets.forEach() {
             budget -> this@LazyColumn.stickyHeader {
-                headerBudget(text = budget.name, onDeleteItem = {lFixedBudgets.remove(budget)})
-                infoBudget(budget.value, budget.start_date, budget.end_date)
+                HeaderBudget(text = budget.name, onDeleteItem = {lFixedBudgets.remove(budget)})
+                InfoBudget(budget.value, budget.start_date, budget.end_date)
             }
         }
     }

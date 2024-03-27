@@ -26,14 +26,14 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
-import com.barbuceanuconstantin.proiectlicenta.data.model.budgetsLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.model.BudgetsLazyColumn
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-private fun showAddBudgetDialog(lFixedBudgets: SnapshotStateList<Budget>, fab: MutableState<Boolean>,
+private fun ShowAddBudgetDialog(lFixedBudgets: SnapshotStateList<Budget>, fab: MutableState<Boolean>,
                                 onDismissRequest: () -> Unit = { fab.value = false },
                                 onConfirmation: () -> Unit = { fab.value = false },
 ) {
@@ -43,16 +43,16 @@ private fun showAddBudgetDialog(lFixedBudgets: SnapshotStateList<Budget>, fab: M
     val dateMutable1: MutableState<String> = mutableStateOf(formattedDate)
     val dateMutable2: MutableState<String> = mutableStateOf(formattedDate)
 
-    showBudgetDialog(onDismissRequest = onDismissRequest, onConfirmation = onConfirmation,
+    ShowBudgetDialog(onDismissRequest = onDismissRequest, onConfirmation = onConfirmation,
                      lFixedBudgets = lFixedBudgets, dateMutable1 = dateMutable1,
                      dateMutable2 = dateMutable2)
 }
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun fixedBudgetsComposableScreen(fab: MutableState<Boolean>,
+fun FixedBudgetsComposableScreen(fab: MutableState<Boolean>,
                                  lFixedBudgets: SnapshotStateList<Budget>) {
     if (fab.value) {
-        showAddBudgetDialog(lFixedBudgets = lFixedBudgets, fab = fab)
+        ShowAddBudgetDialog(lFixedBudgets = lFixedBudgets, fab = fab)
     } else {
         Scaffold(floatingActionButton = {
             FloatingActionButton(onClick = { fab.value = !fab.value }) {
@@ -72,7 +72,7 @@ fun fixedBudgetsComposableScreen(fab: MutableState<Boolean>,
 
                 Spacer(Modifier.fillMaxHeight(30F / LocalConfiguration.current.screenHeightDp))
 
-                budgetsLazyColumn(lFixedBudgets)
+                BudgetsLazyColumn(lFixedBudgets)
             }
         }
     }

@@ -8,7 +8,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
@@ -40,17 +39,17 @@ private var listSubcategoriesDebts = subcategorysPredefiniteDatorii.map {
     Subcategory(name = it.key.toString(), items = it.value.toMutableStateList())
 }.toMutableStateList()
 @Composable
-fun screen0() {
+fun Screen0() {
     var sumRevenue: Float = 0f;
     var sumExpenses: Float = 0f;
     var sumDebt: Float = 0f;
-    principalComposableScreen(sumRevenue, sumExpenses, sumDebt)
+    PrincipalComposableScreen(sumRevenue, sumExpenses, sumDebt)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun screen1() {
-    //var showA by remember { mutableStateOf(true) }
+fun Screen1() {
+    //Tvar showA by remember { mutableStateOf(true) }
 
     val showA = mutableStateOf(true)
     val showP = mutableStateOf(true)
@@ -60,28 +59,28 @@ fun screen1() {
     val sem = mutableIntStateOf(-1)
     val updateTransactionButton = mutableStateOf(false)
 
-    transactionsComposableScreen(showA, showP, showD, addButton, lTranzactiiActive, lTranzactiiPasive, lTranzactiiDatorii, index, sem, updateTransactionButton)
+    TransactionsComposableScreen(showA, showP, showD, addButton, lTranzactiiActive, lTranzactiiPasive, lTranzactiiDatorii, index, sem, updateTransactionButton)
 }
 @Composable
-fun screen2() {
+fun Screen2() {
     val showA = mutableStateOf(true)
     val showP = mutableStateOf(true)
     val showD = mutableStateOf(true)
     val addButton = mutableStateOf(false)
 
-    categoriesComposableScreen(showA, showP, showD, addButton, listSubcategoriesRevenue, listSubcategoriesExpenses, listSubcategoriesDebts)
+    CategoriesComposableScreen(showA, showP, showD, addButton, listSubcategoriesRevenue, listSubcategoriesExpenses, listSubcategoriesDebts)
 }
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun screen4() {
+fun Screen4() {
     val fab = mutableStateOf(false)
 
-    fixedBudgetsComposableScreen(fab, lFixedBudgets)
+    FixedBudgetsComposableScreen(fab, lFixedBudgets)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun screen6() {
+fun Screen6() {
     val showDaily = mutableStateOf(true)
     val showWeekly = mutableStateOf(true)
     val showMonthly = mutableStateOf(true)
@@ -96,7 +95,7 @@ fun screen6() {
 
     initHardcodedTransactions()
 
-    budgetSummaryComposableScreen(daily = showDaily, weekly = showWeekly, monthly = showMonthly,
+    BudgetSummaryComposableScreen(daily = showDaily, weekly = showWeekly, monthly = showMonthly,
                                     lTrA = lTranzactiiActive,
                                     lTrP = lTranzactiiPasive,
                                     dateMutable = dateMutable,
@@ -105,8 +104,8 @@ fun screen6() {
 }
 
 @Composable
-fun screen7() {
+fun Screen7() {
     val dateMutable: MutableState<String> = mutableStateOf("")
 
-    calendarComposableScreen(dateMutable)
+    CalendarComposableScreen(dateMutable)
 }

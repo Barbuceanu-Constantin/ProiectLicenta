@@ -20,15 +20,15 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.calendar
 
 @Composable
-fun calendarComposableScreen(dateMutable: MutableState<String>) {
+fun CalendarComposableScreen(dateMutable: MutableState<String>) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
         Spacer(Modifier.fillMaxHeight(10F / LocalConfiguration.current.screenHeightDp))
 
-        calendar(onDateSelected = { selectedDate ->
+        Calendar(onDateSelected = { selectedDate ->
             dateMutable.value = selectedDate // Update the date value
         })
 

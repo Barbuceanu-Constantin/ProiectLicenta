@@ -16,29 +16,29 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import com.barbuceanuconstantin.proiectlicenta.FourthButton
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.fourthButton
+import com.barbuceanuconstantin.proiectlicenta.ThreeTopButtons
 import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
-import com.barbuceanuconstantin.proiectlicenta.threeTopButtons
-import com.barbuceanuconstantin.proiectlicenta.data.model.subcategorysLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.data.model.SubcategorysLazyColumn
 
 @Composable
-private fun showAddSubcategoryDialog(lSA: MutableList<Subcategory>, lSP: MutableList<Subcategory>,
+private fun ShowAddSubcategoryDialog(lSA: MutableList<Subcategory>, lSP: MutableList<Subcategory>,
                                      lSD: MutableList<Subcategory>, addButton: MutableState<Boolean>,
                                      onDismissRequest: () -> Unit = { addButton.value = false },
                                      onConfirmation: () -> Unit = { addButton.value = false },
 ) {
-    showCategoryDialog(onDismissRequest = onDismissRequest, onConfirmation = onConfirmation,
+    ShowCategoryDialog(onDismissRequest = onDismissRequest, onConfirmation = onConfirmation,
         strId = R.string.mesaj_adaugare_subcategory,
         lActive = lSA, lPasive = lSP, lDatorii = lSD
     )
 }
 
 @Composable
-fun categoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>,
+fun CategoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>,
                      addButton: MutableState<Boolean>, lSA: MutableList<Subcategory>, lSP: MutableList<Subcategory>, lSD: MutableList<Subcategory>) {
     if (addButton.value) {
-        showAddSubcategoryDialog(lSA = lSA, lSP = lSP, lSD = lSD, addButton = addButton)
+        ShowAddSubcategoryDialog(lSA = lSA, lSP = lSP, lSD = lSD, addButton = addButton)
     } else {
         Scaffold(
             floatingActionButton = {
@@ -52,19 +52,19 @@ fun categoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState
                 Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
 
                 Row() {
-                    threeTopButtons(first = showA, second = showP, third = showD, firstId = R.string.active, secondId = R.string.pasive, thirdId = R.string.datorii)
+                    ThreeTopButtons(first = showA, second = showP, third = showD, firstId = R.string.active, secondId = R.string.pasive, thirdId = R.string.datorii)
                 }
 
-                fourthButton(id = R.string.toate_subcategoriile, first = showA, second = showP, third = showD)
+                FourthButton(id = R.string.toate_subcategoriile, first = showA, second = showP, third = showD)
 
                 if (showA.value && !showP.value && !showD.value) {
-                    subcategorysLazyColumn(categorii = lSA)
+                    SubcategorysLazyColumn(categorii = lSA)
                 } else if (showP.value && !showA.value && !showD.value) {
-                    subcategorysLazyColumn(categorii = lSP)
+                    SubcategorysLazyColumn(categorii = lSP)
                 } else if (showD.value && !showA.value && !showP.value) {
-                    subcategorysLazyColumn(categorii = lSD)
+                    SubcategorysLazyColumn(categorii = lSD)
                 } else if (showA.value && showP.value && showD.value) {
-                    subcategorysLazyColumn(categorii = (lSA + lSP + lSD).toMutableList(), 0, lSA.size, lSA.size + lSP.size)
+                    SubcategorysLazyColumn(categorii = (lSA + lSP + lSD).toMutableList(), 0, lSA.size, lSA.size + lSP.size)
                 }
             }
         }

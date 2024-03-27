@@ -39,7 +39,7 @@ class Tranzactie(
 )
 
 @Composable
-private fun tranzactie( subcategory: String, value: Double, currency: String, descriere: String,
+private fun Tranzactie( subcategory: String, value: Double, currency: String, descriere: String,
                         data: String, payee: String, onDeleteItem: () -> Unit, update: () -> Unit,
                         buttons: Boolean = true) {
 
@@ -73,14 +73,14 @@ private fun tranzactie( subcategory: String, value: Double, currency: String, de
 }
 
 @Composable
-fun tranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>, lTrA: SnapshotStateList<Tranzactie>? = null,
+fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>, lTrA: SnapshotStateList<Tranzactie>? = null,
                          lTrP: SnapshotStateList<Tranzactie>? = null, lTrD: SnapshotStateList<Tranzactie>? = null,
                          indexState: MutableState<Int>, sem: MutableState<Int>, updateScreenButton: MutableState<Boolean>) {
     var index = 0
 
     LazyColumn(Modifier.fillMaxHeight(700F / LocalConfiguration.current.screenHeightDp).fillMaxWidth(0.8f)) {
         items(tranzactii) {
-            tranzactie -> tranzactie(tranzactie.subcategory, tranzactie.suma, tranzactie.valuta,
+            tranzactie -> Tranzactie(tranzactie.subcategory, tranzactie.suma, tranzactie.valuta,
                                     tranzactie.descriere, tranzactie.data, tranzactie.payee,
                                     onDeleteItem = {
                                         tranzactii.remove(tranzactie)
@@ -127,7 +127,7 @@ fun tranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>, lTrA: Snapsh
     }
 }
 @Composable
-fun summaryTranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>, first: Boolean, second: Boolean) {
+fun SummaryTranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>, first: Boolean, second: Boolean) {
     var modifier: Modifier = Modifier.fillMaxHeight(0f)
 
     if (first && !second)
@@ -137,7 +137,7 @@ fun summaryTranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>, first
 
     LazyColumn(modifier = modifier) {
         items(tranzactii) {
-                tranzactie -> tranzactie(
+                tranzactie -> Tranzactie(
                                         tranzactie.subcategory, tranzactie.suma, tranzactie.valuta,
                                         tranzactie.descriere, tranzactie.data, tranzactie.payee,
                                         onDeleteItem = { },
