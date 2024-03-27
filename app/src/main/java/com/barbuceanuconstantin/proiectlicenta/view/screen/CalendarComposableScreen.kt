@@ -28,7 +28,7 @@ fun calendarComposableScreen(dateMutable: MutableState<String>) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
         Spacer(Modifier.fillMaxHeight(10F / LocalConfiguration.current.screenHeightDp))
 
-        calendar(dateMutable, onDateSelected = { selectedDate ->
+        calendar(onDateSelected = { selectedDate ->
             dateMutable.value = selectedDate // Update the date value
         })
 

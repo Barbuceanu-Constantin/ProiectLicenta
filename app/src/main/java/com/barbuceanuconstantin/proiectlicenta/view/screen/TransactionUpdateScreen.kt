@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
+import android.util.Log
 import android.widget.CalendarView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -7,12 +10,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -29,6 +36,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -49,7 +57,7 @@ private val dateButton = mutableStateOf(false)
 fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzactie>, updateTransactionButton: MutableState<Boolean>,
                             subcategoriesList: MutableList<String>, dateMutable: MutableState<String>) {
     val tr = trList[indexUpdate]
-
+    //Log.e("asdsad","recompozitie")
     var currency by remember { mutableStateOf(tr.valuta) }
     var subcategory by remember { mutableStateOf(tr.subcategory) }
     var payee by remember { mutableStateOf(tr.payee) }
@@ -57,19 +65,22 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
     var description by remember { mutableStateOf(tr.descriere) }
 
     if (dateButton.value) {
-        Dialog(onDismissRequest = { dateButton.value = !dateButton.value}) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
-
-                calendar(dateMutable, onDateSelected = { selectedDate ->
+        DatePickerDialog(onDismissRequest = {dateButton.value = false},
+                         confirmButton = {},
+                         dismissButton = {}) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                calendar(onDateSelected = { selectedDate ->
                     dateMutable.value = selectedDate // Update the date value
                 })
 
-                okButton(ok = dateButton)
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    okButton(ok = dateButton) // Confirm button
+                }
             }
         }
     } else {
@@ -151,7 +162,9 @@ fun transactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
                 if (valueSum != "")
                     trList[indexUpdate].suma = valueSum.toDouble()
 
-                okButton(ok = updateTransactionButton, false)
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+
+                okButton(ok = updateTransactionButton)
             }
         }
     }

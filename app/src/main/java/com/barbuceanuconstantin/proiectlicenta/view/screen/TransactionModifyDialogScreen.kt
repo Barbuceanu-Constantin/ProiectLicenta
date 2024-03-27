@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
 import android.os.Build
@@ -12,9 +14,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -31,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -78,20 +84,16 @@ fun showTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
     var description by remember { mutableStateOf("") }
 
     if (dateButton.value) {
-        Dialog(onDismissRequest = {dateButton.value = !dateButton.value}) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
+        DatePickerDialog(onDismissRequest = {dateButton.value = false},
+            confirmButton = {},
+            dismissButton = {}) {
+                Column(modifier = Modifier.fillMaxSize()) {
+                    calendar(onDateSelected = { selectedDate -> dateMutable.value = selectedDate })
 
-                calendar(
-                    dateMutable,
-                    onDateSelected = { selectedDate -> dateMutable.value = selectedDate })
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 
-                okButton(ok = dateButton)
-            }
+                    okButton(ok = dateButton)
+                }
         }
     } else {
         Scaffold() { innerPadding ->

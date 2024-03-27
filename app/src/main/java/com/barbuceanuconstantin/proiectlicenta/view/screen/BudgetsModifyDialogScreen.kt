@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
 import android.os.Build
@@ -11,12 +13,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material.icons.outlined.ModeEdit
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
@@ -35,6 +39,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -75,34 +80,33 @@ fun showBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
     var valueSum by remember { mutableStateOf("") }
 
     if (dateButton1.value && !dateButton2.value) {
-        Dialog(onDismissRequest = { dateButton1.value = !dateButton1.value }) {
-            Column( horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()) {
-                Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
-
-                calendar(dateMutable1, onDateSelected = { selectedDate ->
+        DatePickerDialog(onDismissRequest = { dateButton1.value = !dateButton1.value },
+                         confirmButton = {},
+                         dismissButton = {}) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                calendar(onDateSelected = { selectedDate ->
                     if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
                         dateMutable1.value = selectedDate // Update the date value
                     }
                 })
 
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+
                 okButton(ok = dateButton1)
             }
         }
     } else if (!dateButton1.value && dateButton2.value) {
-        Dialog(onDismissRequest = {dateButton2.value = !dateButton2.value}) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Spacer(Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
-
-                calendar(dateMutable2, onDateSelected = { selectedDate ->
+        DatePickerDialog(onDismissRequest = {dateButton2.value = !dateButton2.value},
+                         confirmButton = {},
+                         dismissButton = {}) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                calendar(onDateSelected = { selectedDate ->
                     if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
                         dateMutable2.value = selectedDate // Update the date value
                     }
                 })
+
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 
                 okButton(ok = dateButton2)
             }

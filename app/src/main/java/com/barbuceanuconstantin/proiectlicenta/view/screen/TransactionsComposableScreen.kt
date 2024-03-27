@@ -113,13 +113,13 @@ fun transactionsComposableScreen(showA: MutableState<Boolean>,
                     fourthButton(id = R.string.toate_tranzactiile, first = showA, second = showP, third = showD)
 
                     if (showA.value && !showP.value && !showD.value) {
-                        tranzactiiLazyColumn(tranzactii = lTrA, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
+                        tranzactiiLazyColumn(tranzactii = lTrA, lTrA = lTrA, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
                         sem.value = 1
                     } else if (showP.value && !showA.value && !showD.value) {
-                        tranzactiiLazyColumn(tranzactii = lTrP, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
+                        tranzactiiLazyColumn(tranzactii = lTrP, lTrP = lTrP, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
                         sem.value = 2
                     } else if (showD.value && !showA.value && !showP.value) {
-                        tranzactiiLazyColumn(tranzactii = lTrD, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
+                        tranzactiiLazyColumn(tranzactii = lTrD, lTrD = lTrD, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
                         sem.value = 3
                     } else if (showA.value && showP.value && showD.value) {
                         tranzactiiLazyColumn(tranzactii = (lTrA + lTrP + lTrD).toMutableStateList(),

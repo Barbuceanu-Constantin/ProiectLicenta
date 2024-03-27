@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
@@ -49,6 +50,8 @@ fun screen0() {
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun screen1() {
+    //var showA by remember { mutableStateOf(true) }
+
     val showA = mutableStateOf(true)
     val showP = mutableStateOf(true)
     val showD = mutableStateOf(true)

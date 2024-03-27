@@ -116,6 +116,8 @@ fun tranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>, lTrA: Snapsh
                                             else if (index >= lTrA.size) {
                                                 indexState.value -= lTrA.size
                                             }
+                                        } else {
+                                            indexState.value -= 1
                                         }
 
                                         updateScreenButton.value = !updateScreenButton.value

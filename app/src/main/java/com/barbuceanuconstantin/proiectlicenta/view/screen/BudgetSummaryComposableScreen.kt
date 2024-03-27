@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
 import androidx.compose.foundation.background
@@ -6,9 +8,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -20,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -75,6 +82,7 @@ fun selectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<St
         modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, fontSize = 18.sp
     )
 }
+
 @Composable
 fun budgetSummaryComposableScreen(daily: MutableState<Boolean>,
                                   weekly: MutableState<Boolean>,
@@ -84,23 +92,29 @@ fun budgetSummaryComposableScreen(daily: MutableState<Boolean>,
                                   dateMutable: MutableState<String>,
                                   monthMutable : MutableState<String>) {
     if (dateButton.value) {
-        Dialog(onDismissRequest = {dateButton.value = !dateButton.value}) {
-            Column( modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Spacer(modifier = Modifier.fillMaxHeight(50F / LocalConfiguration.current.screenHeightDp))
-
-                calendar(dateMutable, onDateSelected = { selectedDate ->
-                    dateMutable.value = selectedDate // Update the date value
+        DatePickerDialog(onDismissRequest = {dateButton.value = false},
+                         confirmButton = {},
+                         dismissButton = {}) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                calendar(onDateSelected = {
+                    selectedDate -> dateMutable.value = selectedDate // Update the date value
                 })
 
-                okButton(ok = dateButton)
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    okButton(ok = dateButton) // Confirm button
+                }
             }
         }
     } else {
         Scaffold() { innerPadding ->
-            Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
+            Column( modifier = Modifier
+                .fillMaxWidth()
+                .padding(innerPadding),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly
             ) {
@@ -114,11 +128,11 @@ fun budgetSummaryComposableScreen(daily: MutableState<Boolean>,
                 Spacer(modifier = Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
 
                 Row() {
-                    threeTopButtons(first = daily, second = weekly, third = monthly, firstId = R.string.zilnic, secondId = R.string.saptamanal, thirdId = R.string.lunar)
+                    threeTopButtons(first = daily, second = weekly, third = monthly,
+                                    firstId = R.string.zilnic, secondId = R.string.saptamanal, thirdId = R.string.lunar)
                 }
 
-                fourthButton(id = R.string.total, first = daily, second = weekly, third = monthly
-                )
+                fourthButton(id = R.string.total, first = daily, second = weekly, third = monthly)
 
                 //Aici voi face bilantul total al cheltuielilor si veniturilor.
                 //Dar pentru inceput le voi lista pe toate fara sa filtrez, asta si pentru ca

@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
@@ -72,21 +74,16 @@ fun resetButtons(showA: MutableState<Boolean>, showP: MutableState<Boolean>, sho
     showD.value = true
 }
 @Composable
-fun okButton(ok: MutableState<Boolean>, space: Boolean = true) {
-    if (space)
-        Spacer(Modifier.fillMaxHeight(50f / LocalConfiguration.current.screenHeightDp))
-    else
-        Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
-
-    val buttonWidthFraction = 0.3f
+fun okButton(ok: MutableState<Boolean>, id: Int = R.string.ok) {
+    val buttonWidthFraction = if (id == R.string.ok) 0.3f else 0.5f
     Button( onClick = { ok.value = !ok.value },
-            modifier = Modifier.fillMaxHeight(120f / LocalConfiguration.current.screenHeightDp)
-                               .fillMaxWidth(buttonWidthFraction)) {
-        Text(text = stringResource(id = R.string.ok), fontSize = 20.sp)
+            modifier = Modifier.height(40.dp).fillMaxWidth(buttonWidthFraction)) {
+        Text(text = stringResource(id = id), fontSize = 20.sp)
     }
 }
+
 @Composable
-fun calendar(date: MutableState<String>, onDateSelected: (String) -> Unit) {
+fun calendar(onDateSelected: (String) -> Unit) {
     AndroidView(
         factory = { CalendarView(it) },
         update = {
@@ -95,7 +92,9 @@ fun calendar(date: MutableState<String>, onDateSelected: (String) -> Unit) {
                 onDateSelected(formattedDate) // Call the callback function
             }
         },
-        modifier = Modifier.background(color = colorResource(R.color.light_cream)).border(width = 10.dp, color = colorResource(id = R.color.dark_green))
+        modifier = Modifier.background(color = colorResource(R.color.light_cream))
+                            .border(width = 10.dp, color = colorResource(id = R.color.dark_green))
+                            .fillMaxWidth()
     )
 }
 @Composable
