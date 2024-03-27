@@ -24,11 +24,11 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import com.barbuceanuconstantin.proiectlicenta.FourthButton
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.ThreeTopButtons
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
-import com.barbuceanuconstantin.proiectlicenta.fourthButton
-import com.barbuceanuconstantin.proiectlicenta.threeTopButtons
-import com.barbuceanuconstantin.proiectlicenta.data.model.tranzactiiLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
@@ -55,7 +55,7 @@ fun TransactionsComposableScreen(showA: MutableState<Boolean>,
         val dateMutable: MutableState<String> = mutableStateOf("")
         if (sem.value == 1) {
             dateMutable.value = lTrA[index.value].data
-            transactionUpdateScreen(
+            TransactionUpdateScreen(
                 indexUpdate = index.value,
                 trList = lTrA,
                 subcategoriesList = listaSubcategorysActive,
@@ -65,7 +65,7 @@ fun TransactionsComposableScreen(showA: MutableState<Boolean>,
         }
         if (sem.value == 2) {
             dateMutable.value = lTrP[index.value].data
-            transactionUpdateScreen(
+            TransactionUpdateScreen(
                 indexUpdate = index.value,
                 trList = lTrP,
                 subcategoriesList = listaSubcategorysPasive,
@@ -75,7 +75,7 @@ fun TransactionsComposableScreen(showA: MutableState<Boolean>,
         }
         if (sem.value == 3) {
             dateMutable.value = lTrD[index.value].data
-            transactionUpdateScreen(
+            TransactionUpdateScreen(
                 indexUpdate = index.value,
                 trList = lTrD,
                 subcategoriesList = listaSubcategorysDatorii,
@@ -90,7 +90,7 @@ fun TransactionsComposableScreen(showA: MutableState<Boolean>,
             val formattedDate = dateTime.format(dateFormatter)
             val date by remember { mutableStateOf(formattedDate) }
             val dateMutable: MutableState<String> = mutableStateOf(date)
-            showTransactionDialog(onDismissRequest = { addButton.value = false },
+            ShowTransactionDialog(onDismissRequest = { addButton.value = false },
                                   onConfirmation = {addButton.value = false},
                                   lActive = lTrA, lPasive = lTrP, lDatorii = lTrD,
                                   dateMutable = dateMutable)
@@ -107,22 +107,22 @@ fun TransactionsComposableScreen(showA: MutableState<Boolean>,
                     Spacer(modifier = Modifier.fillMaxHeight(50F / LocalConfiguration.current.screenHeightDp))
 
                     Row() {
-                        threeTopButtons(first = showA, second = showP, third = showD, firstId = R.string.active, secondId = R.string.pasive, thirdId = R.string.datorii)
+                        ThreeTopButtons(first = showA, second = showP, third = showD, firstId = R.string.active, secondId = R.string.pasive, thirdId = R.string.datorii)
                     }
 
-                    fourthButton(id = R.string.toate_tranzactiile, first = showA, second = showP, third = showD)
+                    FourthButton(id = R.string.toate_tranzactiile, first = showA, second = showP, third = showD)
 
                     if (showA.value && !showP.value && !showD.value) {
-                        tranzactiiLazyColumn(tranzactii = lTrA, lTrA = lTrA, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
+                        TranzactiiLazyColumn(tranzactii = lTrA, lTrA = lTrA, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
                         sem.value = 1
                     } else if (showP.value && !showA.value && !showD.value) {
-                        tranzactiiLazyColumn(tranzactii = lTrP, lTrP = lTrP, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
+                        TranzactiiLazyColumn(tranzactii = lTrP, lTrP = lTrP, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
                         sem.value = 2
                     } else if (showD.value && !showA.value && !showP.value) {
-                        tranzactiiLazyColumn(tranzactii = lTrD, lTrD = lTrD, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
+                        TranzactiiLazyColumn(tranzactii = lTrD, lTrD = lTrD, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)
                         sem.value = 3
                     } else if (showA.value && showP.value && showD.value) {
-                        tranzactiiLazyColumn(tranzactii = (lTrA + lTrP + lTrD).toMutableStateList(),
+                        TranzactiiLazyColumn(tranzactii = (lTrA + lTrP + lTrD).toMutableStateList(),
                                              lTrA, lTrP, lTrD, indexState = index, sem, updateTransactionButton
                         )
                     }
