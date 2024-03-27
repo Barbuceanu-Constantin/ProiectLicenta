@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Colorize
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Update
 import androidx.compose.material3.Icon
@@ -43,16 +45,18 @@ private fun Tranzactie( subcategory: String, value: Double, currency: String, de
                         data: String, payee: String, onDeleteItem: () -> Unit, update: () -> Unit,
                         buttons: Boolean = true) {
 
-    val color: Color =  if (subcategorysPredefiniteActive[subcategory.first()]?.contains(subcategory) == true) colorResource(id = R.color.yellow)
-                        else if (subcategorysPredefinitePasive[subcategory.first()]?.contains(subcategory) == true) colorResource(id = R.color.red)
-                        else if (subcategorysPredefiniteDatorii[subcategory.first()]?.contains(subcategory) == true) colorResource(id = R.color.light_blue) else colorResource(id = R.color.gray)
+    val color: Color =  if (subcategorysPredefiniteActive[subcategory.first()]?.contains(subcategory) == true)
+                            colorResource(id = R.color.light_cream_yellow)
+                        else if (subcategorysPredefinitePasive[subcategory.first()]?.contains(subcategory) == true)
+                            colorResource(id = R.color.light_cream_red)
+                        else if (subcategorysPredefiniteDatorii[subcategory.first()]?.contains(subcategory) == true)
+                            colorResource(id = R.color.light_cream_blue) else colorResource(id = R.color.light_cream_gray)
 
     Text (text = "${subcategory} ---> ${value} (${currency})", fontSize = 18.sp, fontWeight = FontWeight.Bold,
-          modifier = Modifier.fillMaxWidth().background(color)
-    )
+          modifier = Modifier.fillMaxWidth().background(color))
 
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(text = payee, maxLines = 2)
+    Column(modifier = Modifier.fillMaxWidth().background(colorResource(id = R.color.light_cream_purple))) {
+        Text(text = "${stringResource(id = R.string.furnizor_sau_beneficiar)} : $payee", maxLines = 2)
 
         Text(text = "${stringResource(id = R.string.data)} : $data", maxLines = 2)
 
@@ -61,7 +65,7 @@ private fun Tranzactie( subcategory: String, value: Double, currency: String, de
         if (buttons) {
             Row() {
                 IconButton(onClick = update, modifier = Modifier.fillMaxSize(fraction = 1f).weight(1f)) {
-                    Icon(Icons.Filled.Update, contentDescription = "Update", tint = colorResource(id = R.color.black))
+                    Icon(Icons.Filled.Colorize, contentDescription = "Update", tint = colorResource(id = R.color.black))
                 }
 
                 IconButton(onClick = onDeleteItem, modifier = Modifier.fillMaxSize(fraction = 1f).weight(1f)) {
@@ -73,11 +77,14 @@ private fun Tranzactie( subcategory: String, value: Double, currency: String, de
 }
 
 @Composable
-fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>, lTrA: SnapshotStateList<Tranzactie>? = null,
-                         lTrP: SnapshotStateList<Tranzactie>? = null, lTrD: SnapshotStateList<Tranzactie>? = null,
-                         indexState: MutableState<Int>, sem: MutableState<Int>, updateScreenButton: MutableState<Boolean>) {
+fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>,
+                         lTrA: SnapshotStateList<Tranzactie>? = null,
+                         lTrP: SnapshotStateList<Tranzactie>? = null,
+                         lTrD: SnapshotStateList<Tranzactie>? = null,
+                         indexState: MutableState<Int>, sem: MutableState<Int>,
+                         updateScreenButton: MutableState<Boolean>) {
 
-    LazyColumn(Modifier.fillMaxHeight(700F / LocalConfiguration.current.screenHeightDp).fillMaxWidth(0.8f)) {
+    LazyColumn(Modifier.fillMaxHeight().fillMaxWidth()) {
         items(tranzactii) {
             tranzactie -> Tranzactie(tranzactie.subcategory, tranzactie.suma, tranzactie.valuta,
                                     tranzactie.descriere, tranzactie.data, tranzactie.payee,

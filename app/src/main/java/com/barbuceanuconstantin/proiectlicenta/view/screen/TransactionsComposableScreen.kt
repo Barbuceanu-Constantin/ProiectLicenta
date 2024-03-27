@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -19,12 +21,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
 import com.barbuceanuconstantin.proiectlicenta.FourthButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.ThreeTopButtons
@@ -100,15 +103,22 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
         if (!addButton.value) {
             Scaffold(
                 floatingActionButton = {
-                    FloatingActionButton(onClick = { addButton.value = !addButton.value }) {
+                    FloatingActionButton(onClick = { addButton.value = !addButton.value },
+                                         elevation = FloatingActionButtonDefaults.elevation(
+                                             defaultElevation = 12.dp,
+                                             pressedElevation = 16.dp,
+                                             hoveredElevation = 8.dp,
+                                             focusedElevation = 3.dp
+                                         )) {
                         Icon(Icons.Default.Add, contentDescription = "Add")
                     }
                 }
             ) { innerPadding ->
-                Column(modifier = Modifier.fillMaxWidth().padding(innerPadding), horizontalAlignment = Alignment.CenterHorizontally,) {
-                    Spacer(modifier = Modifier.fillMaxHeight(50F / LocalConfiguration.current.screenHeightDp))
+                Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
+                        horizontalAlignment = Alignment.CenterHorizontally) {
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.half_hundred)))
 
-                    Row() {
+                    Row {
                         ThreeTopButtons(first = showA, second = showP, third = showD, firstId = R.string.active, secondId = R.string.pasive, thirdId = R.string.datorii)
                     }
 
@@ -125,8 +135,7 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
                         sem.value = 3
                     } else if (showA.value && showP.value && showD.value) {
                         TranzactiiLazyColumn(tranzactii = (lTrA + lTrP + lTrD).toMutableStateList(),
-                                             lTrA, lTrP, lTrD, indexState = index, sem, updateTransactionButton
-                        )
+                                             lTrA, lTrP, lTrD, indexState = index, sem, updateTransactionButton)
                     }
                 }
             }
