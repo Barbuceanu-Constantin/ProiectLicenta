@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.barbuceanuconstantin.proiectlicenta.R
 
 @Composable
-private fun TotalBalance(revenue: Float, expenses: Float, debt: Float) {
+private fun TotalBalance() {
     Column() {
         Box(modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction = 70f / LocalConfiguration.current.screenHeightDp)
                                 .background(color = colorResource(R.color.yellow), shape = CutCornerShape(0.5f))
@@ -58,7 +58,7 @@ private fun TotalBalance(revenue: Float, expenses: Float, debt: Float) {
     }
 }
 @Composable
-fun PrincipalComposableScreen(revenue: Float, expenses: Float, debt: Float) {
+fun PrincipalComposableScreen() {
     Scaffold() { innerPadding ->
         Column(
             modifier = Modifier.fillMaxWidth().padding(innerPadding),
@@ -67,7 +67,7 @@ fun PrincipalComposableScreen(revenue: Float, expenses: Float, debt: Float) {
         ) {
             Spacer(modifier = Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
 
-            TotalBalance(revenue, expenses, debt)
+            TotalBalance()
         }
     }
 }

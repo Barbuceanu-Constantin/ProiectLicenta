@@ -40,26 +40,13 @@ private var listSubcategoriesDebts = subcategorysPredefiniteDatorii.map {
 }.toMutableStateList()
 @Composable
 fun Screen0() {
-    var sumRevenue: Float = 0f;
-    var sumExpenses: Float = 0f;
-    var sumDebt: Float = 0f;
-    PrincipalComposableScreen(sumRevenue, sumExpenses, sumDebt)
+    PrincipalComposableScreen()
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Screen1() {
-    //Tvar showA by remember { mutableStateOf(true) }
-
-    val showA = mutableStateOf(true)
-    val showP = mutableStateOf(true)
-    val showD = mutableStateOf(true)
-    val addButton = mutableStateOf(false)
-    val index = mutableIntStateOf(-1)
-    val sem = mutableIntStateOf(-1)
-    val updateTransactionButton = mutableStateOf(false)
-
-    TransactionsComposableScreen(showA, showP, showD, addButton, lTranzactiiActive, lTranzactiiPasive, lTranzactiiDatorii, index, sem, updateTransactionButton)
+    TransactionsComposableScreen(lTranzactiiActive, lTranzactiiPasive, lTranzactiiDatorii)
 }
 @Composable
 fun Screen2() {

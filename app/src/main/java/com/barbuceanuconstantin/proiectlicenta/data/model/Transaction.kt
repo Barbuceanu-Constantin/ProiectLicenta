@@ -15,7 +15,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -73,9 +72,11 @@ private fun Tranzactie( subcategory: String, value: Double, currency: String, de
 }
 
 @Composable
-fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>, lTrA: SnapshotStateList<Tranzactie>? = null,
-                         lTrP: SnapshotStateList<Tranzactie>? = null, lTrD: SnapshotStateList<Tranzactie>? = null,
-                         indexState: MutableState<Int>, sem: MutableState<Int>, updateScreenButton: MutableState<Boolean>) {
+fun TranzactiiLazyColumn(
+    tranzactii: SnapshotStateList<Tranzactie>, lTrA: SnapshotStateList<Tranzactie>? = null,
+    lTrP: SnapshotStateList<Tranzactie>? = null, lTrD: SnapshotStateList<Tranzactie>? = null,
+    indexState: Int, sem: Int, updateScreenButton: Boolean
+) {
     var index = 0
 
     LazyColumn(Modifier.fillMaxHeight(700F / LocalConfiguration.current.screenHeightDp).fillMaxWidth(0.8f)) {

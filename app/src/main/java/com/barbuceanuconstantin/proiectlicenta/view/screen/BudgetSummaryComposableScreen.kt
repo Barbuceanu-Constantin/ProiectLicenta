@@ -35,7 +35,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.FourthButton
 import com.barbuceanuconstantin.proiectlicenta.IntToMonth
@@ -128,7 +127,8 @@ fun BudgetSummaryComposableScreen(daily: MutableState<Boolean>,
                 Spacer(modifier = Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
 
                 Row() {
-                    ThreeTopButtons(first = daily, second = weekly, third = monthly,
+                    ThreeTopButtons(
+                        first = daily, second = weekly, third = monthly,
                                     firstId = R.string.zilnic, secondId = R.string.saptamanal, thirdId = R.string.lunar)
                 }
 

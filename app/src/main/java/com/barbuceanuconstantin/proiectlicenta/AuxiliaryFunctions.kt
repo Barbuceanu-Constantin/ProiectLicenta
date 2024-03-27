@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
@@ -132,9 +131,9 @@ fun FourthButton(id: Int, first: MutableState<Boolean>, second: MutableState<Boo
     Spacer(Modifier.fillMaxHeight(fraction = 10F / LocalConfiguration.current.screenHeightDp))
 
     Button(onClick = {
-        first.value = true
-        second.value = true
-        third.value = true
+                        first.value = true
+                        second.value = true
+                        third.value = true
     }, modifier = Modifier, colors = ButtonColors(containerColor = containerColor, contentColor = contentColor, disabledContainerColor = colorResource(id = R.color.gray), disabledContentColor = colorResource(id = R.color.gray))) {
         Text(text = stringResource(id = id), fontSize = 20.sp)
     }
@@ -143,9 +142,10 @@ fun FourthButton(id: Int, first: MutableState<Boolean>, second: MutableState<Boo
 }
 
 @Composable
-fun ThreeTopButtons(first: MutableState<Boolean>, second: MutableState<Boolean>,
-                    third: MutableState<Boolean>, shortName: Boolean = false,
-                    firstId: Int, secondId: Int, thirdId: Int
+fun ThreeTopButtons(
+    first: MutableState<Boolean>, second: MutableState<Boolean>,
+    third: MutableState<Boolean>, shortName: Boolean = false,
+    firstId: Int, secondId: Int, thirdId: Int
 ) {
     val modifier: Modifier = Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp)
     val containerColor1 = colorResource(id = R.color.dark_purple)
