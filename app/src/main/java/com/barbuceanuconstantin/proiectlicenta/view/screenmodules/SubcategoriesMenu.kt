@@ -2,7 +2,9 @@ package com.barbuceanuconstantin.proiectlicenta.view.screenmodules
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -23,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.OkButton
@@ -40,14 +43,15 @@ fun ShowMenuSubcategories(lSubcategorys: MutableList<String>, showMeniuSubcatego
             value = selectedItem,
             onValueChange = { selectedItem = it },
             modifier = Modifier.fillMaxWidth(fraction).onGloballyPositioned { coordinates ->
-                    textFilledSize = coordinates.size.toSize()
-                },
+                textFilledSize = coordinates.size.toSize()
+            },
             label = { Text(text = stringResource(id = R.string.selectare_subcategory)) },
             trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) }
         )
 
-        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false },
-                     modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
+        DropdownMenu(
+            expanded = expanded, onDismissRequest = { expanded = false },
+            modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
         ) {
             lSubcategorys.forEach { label ->
                 DropdownMenuItem(onClick = {
@@ -61,6 +65,9 @@ fun ShowMenuSubcategories(lSubcategorys: MutableList<String>, showMeniuSubcatego
         }
 
         if (okButton)
-            OkButton(showMeniuSubcategorys)
-    }
+            Column {
+                Spacer(Modifier.height(dimensionResource(id = R.dimen.three_hundred)))
+                OkButton(showMeniuSubcategorys)
+            }
+        }
 }

@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -77,7 +78,8 @@ fun resetButtons(showA: MutableState<Boolean>, showP: MutableState<Boolean>, sho
 fun OkButton(ok: MutableState<Boolean>, id: Int = R.string.ok) {
     val buttonWidthFraction = if (id == R.string.ok) 0.3f else 0.5f
     Button( onClick = { ok.value = !ok.value },
-            modifier = Modifier.height(40.dp).fillMaxWidth(buttonWidthFraction)) {
+            modifier = Modifier.height(dimensionResource(id = R.dimen.ok_button_height))
+                                .fillMaxWidth(buttonWidthFraction)) {
         Text(text = stringResource(id = id), fontSize = 20.sp)
     }
 }
@@ -92,9 +94,10 @@ fun Calendar(onDateSelected: (String) -> Unit) {
                 onDateSelected(formattedDate) // Call the callback function
             }
         },
-        modifier = Modifier.background(color = colorResource(R.color.light_cream))
-                            .border(width = 10.dp, color = colorResource(id = R.color.dark_green))
-                            .fillMaxWidth()
+        modifier = Modifier
+            .background(color = colorResource(R.color.light_cream))
+            .border(width = 10.dp, color = colorResource(id = R.color.dark_green))
+            .fillMaxWidth()
     )
 }
 @Composable

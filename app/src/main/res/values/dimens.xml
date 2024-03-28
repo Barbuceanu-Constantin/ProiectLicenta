@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="ten_dp">10dp</dimen>
     <dimen name="margin">16dp</dimen>
+    <dimen name="thirty_dp">30dp</dimen>
+    <dimen name="ok_button_height">40dp</dimen>
     <dimen name="half_hundred">50dp</dimen>
+    <dimen name="hundred">100dp</dimen>
+    <dimen name="three_hundred">300dp</dimen>
 </resources>

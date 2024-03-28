@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePickerDialog
@@ -86,7 +87,8 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
         DatePickerDialog(onDismissRequest = {dateButton.value = false},
             confirmButton = {},
             dismissButton = {}) {
-                Column(modifier = Modifier.fillMaxSize()) {
+                Column( modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally) {
                     Calendar(onDateSelected = { selectedDate -> dateMutable.value = selectedDate })
 
                     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
@@ -96,44 +98,48 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
         }
     } else {
         Scaffold() { innerPadding ->
-            Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)) {
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .padding(innerPadding)) {
                 HeaderSelectCategoryOrTransactionWindow(showAB, showPB, showDB)
 
-                Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
+                Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 
-                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
-                ) {
-                    Button(
-                        onClick = {
-                            if (!(showAB.value && showPB.value && showDB.value) && !showMeniuValute.value && !showMeniuSubcategorys.value) {
-                                showMeniuSubcategorys.value = !showMeniuSubcategorys.value
-                            }
-                        }
-                    ) { Text(stringResource(R.string.mesaj_selectare_subcategory)) }
-                }
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                    Button(
-                        onClick = {
-                            if (!(showAB.value && showPB.value && showDB.value) && !showMeniuSubcategorys.value && !showMeniuValute.value) {
-                                showMeniuValute.value = !showMeniuValute.value
+                    Row{
+                        Button(
+                            onClick = {
+                                if (!(showAB.value && showPB.value && showDB.value) && !showMeniuValute.value && !showMeniuSubcategorys.value) {
+                                    showMeniuSubcategorys.value = !showMeniuSubcategorys.value
+                                }
                             }
-                        }
-                    ) { Text(stringResource(R.string.mesaj_selectare_valuta)) }
+                        ) { Text(stringResource(R.string.mesaj_selectare_subcategory)) }
+
+                        Spacer(Modifier.width(dimensionResource(id = R.dimen.ten_dp)))
+
+                        Button(
+                            onClick = {
+                                if (!(showAB.value && showPB.value && showDB.value) && !showMeniuSubcategorys.value && !showMeniuValute.value) {
+                                    showMeniuValute.value = !showMeniuValute.value
+                                }
+                            }
+                        ) { Text(stringResource(R.string.mesaj_selectare_valuta)) }
+                    }
                 }
 
                 if (!showMeniuValute.value && !showMeniuSubcategorys.value) {
                     if (!(showAB.value && showPB.value && showDB.value)) {
-                        Spacer(Modifier.fillMaxHeight(5f / LocalConfiguration.current.screenHeightDp))
+                        Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 
                         Text(text = "${stringResource(id = R.string.subcategory)} : $subcategory", fontWeight = FontWeight.SemiBold,
                              modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
 
-                        Spacer(Modifier.fillMaxHeight(5f / LocalConfiguration.current.screenHeightDp))
+                        Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 
                         Text(text = "${stringResource(id = R.string.valuta)} : $currency", fontWeight = FontWeight.SemiBold,
                              modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
 
-                        Spacer(Modifier.fillMaxHeight(5f / LocalConfiguration.current.screenHeightDp))
+                        Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             OutlinedTextField(
@@ -141,18 +147,20 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                                 onValueChange = { valueSum = it },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                 label = { Text(stringResource(id = R.string.introduceti_suma)) },
-                                maxLines = 2,
+                                maxLines = 1,
                             )
+
+                            Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 
                             OutlinedTextField(
                                 value = payee,
                                 onValueChange = { payee = it },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                                 label = { Text(text = stringResource(id = R.string.furnizor_sau_beneficiar)) },
-                                maxLines = 2,
+                                maxLines = 1,
                             )
 
-                            Spacer(Modifier.fillMaxHeight(30f / LocalConfiguration.current.screenHeightDp))
+                            Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 
                             OutlinedTextField(
                                     value = dateMutable.value,
@@ -160,7 +168,7 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                                     onValueChange = { dateMutable.value = it },
                                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                                     label = { Text(text = stringResource(id = R.string.data)) },
-                                    maxLines = 2,
+                                    maxLines = 1,
                                     modifier = Modifier.clickable { dateButton.value = !dateButton.value },
                                     colors = OutlinedTextFieldDefaults.colors(
                                         disabledTextColor = MaterialTheme.colorScheme.onSurface,
@@ -172,17 +180,21 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                                     )
                             )
 
+                            Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+
                             OutlinedTextField(
                                 value = description,
                                 onValueChange = { description = it },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                                 label = { Text(text = stringResource(id = R.string.descriere)) },
-                                maxLines = 2,
+                                maxLines = 1,
                             )
 
-                            Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
+                            Spacer(Modifier.height(dimensionResource(id = R.dimen.hundred)))
 
-                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                            Row(modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center) {
+
                                 Button(onClick = {
                                     if (currency != "" && subcategory != "" && valueSum != "" && payee != "" && dateMutable.value != "" && description != "") {
                                         if (showAB.value && !showPB.value && !showDB.value) {
@@ -221,7 +233,7 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                                     onConfirmation()
                                 }) { Text(stringResource(R.string.confirmare)) }
 
-                                Spacer(modifier = Modifier.fillMaxWidth(30f / LocalConfiguration.current.screenWidthDp))
+                                Spacer(Modifier.width(dimensionResource(id = R.dimen.thirty_dp)))
 
                                 Button(onClick = {
                                     resetButtons(showAB, showPB, showDB)
@@ -230,12 +242,16 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                             }
                         }
                     } else {
+                        Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
                         WarningNotSelectedCategory()
                     }
                 } else {
                     if (showAB.value && showPB.value && showDB.value) {
+                        Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
                         WarningNotSelectedCategory()
                     } else {
+                        Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
+
                         if (showMeniuValute.value && !showMeniuSubcategorys.value) {
                             ShowMenuCurrencies(showMeniuValute = showMeniuValute) {
                                 currency = it
