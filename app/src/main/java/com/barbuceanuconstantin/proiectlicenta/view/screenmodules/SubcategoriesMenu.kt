@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -30,19 +31,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
+
 @Composable
-fun ShowMenuSubcategories(lSubcategorys: MutableList<String>, showMeniuSubcategorys: MutableState<Boolean>, okButton: Boolean = true, onSelect: (String) -> Unit) {
+fun ShowMenuSubcategories(lSubcategorys: MutableList<String>,
+                          showMeniuSubcategorys: MutableState<Boolean>,
+                          okButton: Boolean = true, onSelect: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf("") }
     var textFilledSize by remember { mutableStateOf(Size.Zero) }
     val icon =  if (expanded) { Icons.Filled.KeyboardArrowUp } else { Icons.Filled.KeyboardArrowDown }
 
-    val fraction = if (okButton) 1f else 0.7f
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         OutlinedTextField(
             value = selectedItem,
             onValueChange = { selectedItem = it },
-            modifier = Modifier.fillMaxWidth(fraction).onGloballyPositioned { coordinates ->
+            modifier = Modifier.fillMaxWidth().onGloballyPositioned { coordinates ->
                 textFilledSize = coordinates.size.toSize()
             },
             label = { Text(text = stringResource(id = R.string.selectare_subcategory)) },
@@ -64,10 +67,11 @@ fun ShowMenuSubcategories(lSubcategorys: MutableList<String>, showMeniuSubcatego
             }
         }
 
-        if (okButton)
+        if (okButton) {
             Column {
                 Spacer(Modifier.height(dimensionResource(id = R.dimen.three_hundred)))
                 OkButton(showMeniuSubcategorys)
             }
         }
+    }
 }

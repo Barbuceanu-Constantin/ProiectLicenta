@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="two_dp">2dp</dimen>
+    <dimen name="five_dp">5dp</dimen>
     <dimen name="ten_dp">10dp</dimen>
+    <dimen name="twelve_dp">12dp</dimen>
     <dimen name="margin">16dp</dimen>
     <dimen name="thirty_dp">30dp</dimen>
     <dimen name="ok_button_height">40dp</dimen>

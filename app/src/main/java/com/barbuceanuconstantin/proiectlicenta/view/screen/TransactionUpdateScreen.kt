@@ -36,6 +36,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -51,10 +52,11 @@ private val showMeniuSubcategorys1 = mutableStateOf(false)
 private val dateButton = mutableStateOf(false)
 
 @Composable
-fun TransactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzactie>, updateTransactionButton: MutableState<Boolean>,
-                            subcategoriesList: MutableList<String>, dateMutable: MutableState<String>) {
+fun TransactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzactie>,
+                            updateTransactionButton: MutableState<Boolean>,
+                            subcategoriesList: MutableList<String>,
+                            dateMutable: MutableState<String>) {
     val tr = trList[indexUpdate]
-    //Log.e("asdsad","recompozitie")
     var currency by remember { mutableStateOf(tr.valuta) }
     var subcategory by remember { mutableStateOf(tr.subcategory) }
     var payee by remember { mutableStateOf(tr.payee) }
@@ -81,41 +83,53 @@ fun TransactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
             }
         }
     } else {
-        Scaffold() { innerPadding ->
+        Scaffold { innerPadding ->
             Column(modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(innerPadding),
                    horizontalAlignment = Alignment.CenterHorizontally) {
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+
                 ShowMenuSubcategories(okButton = false, lSubcategorys = subcategoriesList,
                                       showMeniuSubcategorys = showMeniuSubcategorys1) {
                     subcategory = it
                 }
 
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+
                 OutlinedTextField(value = subcategory, onValueChange = { subcategory = it },
                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                                  label = { Text(stringResource(id = R.string.subcategory)) }, maxLines = 2)
+                                  label = { Text(stringResource(id = R.string.subcategory)) }, maxLines = 1,
+                                  modifier = Modifier.fillMaxWidth()
+                                                     .background(colorResource(R.color.light_cream_purple)))
+
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 
                 ShowMenuCurrencies(showMeniuValute = showMeniuValute1, okButton = false) {
                     currency = it
                 }
+
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 
                 OutlinedTextField(
                     value = currency,
                     onValueChange = { currency = it },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     label = { Text(stringResource(id = R.string.valuta)) },
-                    maxLines = 2
+                    maxLines = 1,
+                    modifier = Modifier.fillMaxWidth().background(colorResource(R.color.light_cream_purple))
                 )
 
-                Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 
                 OutlinedTextField(
                     value = payee,
                     onValueChange = { payee = it },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     label = { Text(stringResource(id = R.string.furnizor_sau_beneficiar)) },
-                    maxLines = 2
+                    maxLines = 1,
+                    modifier = Modifier.fillMaxWidth()
                 )
 
-                Spacer(Modifier.fillMaxHeight(10f / LocalConfiguration.current.screenHeightDp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 
                 OutlinedTextField(
                     value = dateMutable.value,
@@ -123,8 +137,8 @@ fun TransactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
                     onValueChange = { dateMutable.value = it },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     label = { Text(stringResource(id = R.string.data)) },
-                    maxLines = 2,
-                    modifier = Modifier.clickable { dateButton.value = !dateButton.value },
+                    maxLines = 1,
+                    modifier = Modifier.fillMaxWidth().clickable { dateButton.value = !dateButton.value },
                     colors = OutlinedTextFieldDefaults.colors(
                         disabledTextColor = MaterialTheme.colorScheme.onSurface,
                         disabledBorderColor = MaterialTheme.colorScheme.outline,
@@ -132,23 +146,29 @@ fun TransactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
                         disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                         disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
                         disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
+                    ),
                 )
+
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 
                 OutlinedTextField(
                     value = valueSum,
                     onValueChange = { valueSum = it },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     label = { Text(stringResource(id = R.string.introduceti_suma)) },
-                    maxLines = 2
+                    maxLines = 1,
+                    modifier = Modifier.fillMaxWidth()
                 )
+
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 
                 OutlinedTextField(
                     value = description,
                     onValueChange = { description = it },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     label = { Text(stringResource(id = R.string.descriere)) },
-                    maxLines = 2
+                    maxLines = 1,
+                    modifier = Modifier.fillMaxWidth()
                 )
                 
                 trList[indexUpdate].valuta = currency

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
 import android.os.Build
@@ -40,16 +38,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.FourthButton
 import com.barbuceanuconstantin.proiectlicenta.IntToMonth
 import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.ThreeTopButtons
-import com.barbuceanuconstantin.proiectlicenta.data.model.SummaryTranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 import com.barbuceanuconstantin.proiectlicenta.getStartAndEndDateOfWeek
+import com.barbuceanuconstantin.proiectlicenta.data.model.SummaryTranzactiiLazyColumn
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -90,6 +87,7 @@ fun SelectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<St
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
@@ -124,8 +122,10 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
             }
         }
     } else {
-        Scaffold() { innerPadding ->
-            Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
+        Scaffold { innerPadding ->
+            Column( modifier = Modifier
+                .fillMaxWidth()
+                .padding(innerPadding),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly
             ) {
@@ -138,7 +138,7 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
 
                 Spacer(modifier = Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
 
-                Row() {
+                Row {
                     ThreeTopButtons(first = daily, second = weekly, third = monthly,
                                     firstId = R.string.zilnic, secondId = R.string.saptamanal, thirdId = R.string.lunar)
                 }

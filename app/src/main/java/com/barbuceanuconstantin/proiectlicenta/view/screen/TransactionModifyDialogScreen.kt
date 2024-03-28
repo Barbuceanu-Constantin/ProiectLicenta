@@ -98,9 +98,7 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
         }
     } else {
         Scaffold() { innerPadding ->
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .padding(innerPadding)) {
+            Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)) {
                 HeaderSelectCategoryOrTransactionWindow(showAB, showPB, showDB)
 
                 Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
@@ -148,6 +146,7 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                 label = { Text(stringResource(id = R.string.introduceti_suma)) },
                                 maxLines = 1,
+                                modifier = Modifier.fillMaxWidth()
                             )
 
                             Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
@@ -158,6 +157,7 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                                 label = { Text(text = stringResource(id = R.string.furnizor_sau_beneficiar)) },
                                 maxLines = 1,
+                                modifier = Modifier.fillMaxWidth()
                             )
 
                             Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
@@ -169,7 +169,8 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                                     label = { Text(text = stringResource(id = R.string.data)) },
                                     maxLines = 1,
-                                    modifier = Modifier.clickable { dateButton.value = !dateButton.value },
+                                    modifier = Modifier.clickable { dateButton.value = !dateButton.value }
+                                                        .fillMaxWidth(),
                                     colors = OutlinedTextFieldDefaults.colors(
                                         disabledTextColor = MaterialTheme.colorScheme.onSurface,
                                         disabledBorderColor = MaterialTheme.colorScheme.outline,
@@ -188,6 +189,7 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                                 label = { Text(text = stringResource(id = R.string.descriere)) },
                                 maxLines = 1,
+                                modifier = Modifier.fillMaxWidth()
                             )
 
                             Spacer(Modifier.height(dimensionResource(id = R.dimen.hundred)))

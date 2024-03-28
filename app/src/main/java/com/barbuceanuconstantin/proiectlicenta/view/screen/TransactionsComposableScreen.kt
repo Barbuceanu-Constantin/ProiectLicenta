@@ -57,7 +57,7 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
     val sem: MutableState<Int> = remember { mutableIntStateOf(-1) }
 
     if (index.value != -1 && updateTransactionButton.value) {
-        val dateMutable: MutableState<String> = mutableStateOf("")
+        val dateMutable: MutableState<String> = remember { mutableStateOf("") }
         if (sem.value == 1) {
             dateMutable.value = lTrA[index.value].data
             TransactionUpdateScreen(
