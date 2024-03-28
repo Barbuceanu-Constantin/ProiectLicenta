@@ -40,6 +40,9 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.WarningNotSelectedCategory
 import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
 import com.barbuceanuconstantin.proiectlicenta.resetButtons
+import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
+import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
+import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 
 private fun addSubcategory(l: MutableList<Subcategory>, firstLetter:String, filledText:String) {
     val foundSubcategory = l.find{it.name == firstLetter}
@@ -61,9 +64,7 @@ private fun addSubcategory(l: MutableList<Subcategory>, firstLetter:String, fill
 
 private fun eliminareSubcategory(l: MutableList<Subcategory>, firstLetter:String, filledText:String) {
     val foundSubcategory = l.find{it.name == firstLetter}
-    if (foundSubcategory != null) {
-        foundSubcategory.items.remove(filledText)
-    }
+    foundSubcategory?.items?.remove(filledText)
 }
 
 @Composable
@@ -101,13 +102,8 @@ fun ShowCategoryDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit,
                         value = filledText, onValueChange = { filledText = it },
                         textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
                         label = { Text(text = stringResource(R.string.denumire)) },
-                        placeholder = { Text(text = stringResource(id = R.string.underscores)) },
                         leadingIcon = {
                             Icon(imageVector = Icons.Outlined.ModeEdit,
-                                contentDescription = stringResource(id = R.string.add))
-                        },
-                        trailingIcon = {
-                            Icon(imageVector = Icons.Outlined.Category,
                                 contentDescription = stringResource(id = R.string.add))
                         }
                     )
@@ -119,28 +115,50 @@ fun ShowCategoryDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit,
                         .padding(horizontal = 25.dp)) {
                         val words = specificMessage.trim().split("\\s+".toRegex())
 
-                        val lastWord = words.last()
-
                         Button(onClick = {
                             if (filledText != "") {
                                 val firstLetter = filledText[0].toString().uppercase()
+                                var ok = true
 
-                                if (lastWord == "adaugati") {
-                                    if (showA.value && !showP.value && !showD.value) {
+                                if (showA.value && !showP.value && !showD.value) {
+                                    if (subcategorysPredefinitePasive.any { entry ->
+                                            entry.value.contains(filledText)
+                                        }) {
+                                        ok = false
+                                    }
+                                    if (subcategorysPredefiniteDatorii.any { entry ->
+                                            entry.value.contains(filledText)
+                                        }) {
+                                        ok = false
+                                    }
+                                    if (ok)
                                         addSubcategory(lActive, firstLetter, filledText)
-                                    } else if (showP.value && !showA.value && !showD.value) {
+                                } else if (showP.value && !showA.value && !showD.value) {
+                                    if (subcategorysPredefiniteActive.any { entry ->
+                                            entry.value.contains(filledText)
+                                        }) {
+                                        ok = false
+                                    }
+                                    if (subcategorysPredefiniteDatorii.any { entry ->
+                                            entry.value.contains(filledText)
+                                        }) {
+                                        ok = false
+                                    }
+                                    if (ok)
                                         addSubcategory(lPasive, firstLetter, filledText)
-                                    } else if (showD.value && !showA.value && !showP.value) {
+                                } else if (showD.value && !showA.value && !showP.value) {
+                                    if (subcategorysPredefiniteActive.any { entry ->
+                                            entry.value.contains(filledText)
+                                        }) {
+                                        ok = false
+                                    }
+                                    if (subcategorysPredefinitePasive.any { entry ->
+                                            entry.value.contains(filledText)
+                                        }) {
+                                        ok = false
+                                    }
+                                    if (ok)
                                         addSubcategory(lDatorii, firstLetter, filledText)
-                                    }
-                                } else if (lastWord == "eliminati") {
-                                    if (showA.value && !showP.value && !showD.value) {
-                                        eliminareSubcategory(lActive, firstLetter, filledText)
-                                    } else if (showP.value && !showA.value && !showD.value) {
-                                        eliminareSubcategory(lPasive, firstLetter, filledText)
-                                    } else if (showD.value && !showA.value && !showP.value) {
-                                        eliminareSubcategory(lDatorii, firstLetter, filledText)
-                                    }
                                 }
                             }
                             resetButtons(showA, showP, showD)

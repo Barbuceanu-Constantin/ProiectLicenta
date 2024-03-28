@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -18,6 +19,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.dimensionResource
+import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.FourthButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.ThreeTopButtons
@@ -48,32 +51,29 @@ fun CategoriesComposableScreen(lSA: MutableList<Subcategory>, lSP: MutableList<S
     } else {
         Scaffold(
             floatingActionButton = {
-                FloatingActionButton(onClick = { addButton.value = !addButton.value }) {
-                    Icon(Icons.Default.Add, contentDescription = "Add")
-                }
+                FloatingActionButtonCustom(addButton = addButton)
             }
         ) { innerPadding ->
-            Column(modifier = Modifier.fillMaxWidth().padding(innerPadding), horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
+            Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
+                    horizontalAlignment = Alignment.CenterHorizontally) {
+                Spacer (Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 
-                Row() {
+                Row {
                     ThreeTopButtons(first = showA, second = showP, third = showD, firstId = R.string.active, secondId = R.string.pasive, thirdId = R.string.datorii)
                 }
 
                 FourthButton(id = R.string.toate_subcategoriile, first = showA, second = showP, third = showD)
 
                 if (showA.value && !showP.value && !showD.value) {
-                    SubcategorysLazyColumn(categorii = lSA)
+                    SubcategorysLazyColumn(categorii = lSA, a = true, p = false, d = false)
                 } else if (showP.value && !showA.value && !showD.value) {
-                    SubcategorysLazyColumn(categorii = lSP)
+                    SubcategorysLazyColumn(categorii = lSP, a = false, p = true, d = false)
                 } else if (showD.value && !showA.value && !showP.value) {
-                    SubcategorysLazyColumn(categorii = lSD)
+                    SubcategorysLazyColumn(categorii = lSD, a = false, p = false, d = true)
                 } else if (showA.value && showP.value && showD.value) {
-                    SubcategorysLazyColumn(categorii = (lSA + lSP + lSD).toMutableList(), 0, lSA.size, lSA.size + lSP.size)
+                    SubcategorysLazyColumn(categorii = (lSA + lSP + lSD).toMutableList(), a = true, p = true, d = true)
                 }
             }
         }
     }
 }
-

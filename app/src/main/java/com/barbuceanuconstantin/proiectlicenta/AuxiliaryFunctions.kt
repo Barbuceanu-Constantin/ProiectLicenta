@@ -12,8 +12,13 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -29,6 +34,18 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import java.util.Locale
 
+@Composable
+fun FloatingActionButtonCustom(addButton : MutableState<Boolean>) {
+    FloatingActionButton(onClick = { addButton.value = !addButton.value },
+        elevation = FloatingActionButtonDefaults.elevation(
+            defaultElevation = dimensionResource(id = R.dimen.twelve_dp),
+            pressedElevation = dimensionResource(id = R.dimen.margin),
+            hoveredElevation = dimensionResource(id = R.dimen.eight_dp),
+            focusedElevation = dimensionResource(id = R.dimen.three_dp)
+        )) {
+        Icon(Icons.Default.Add, contentDescription = "Add")
+    }
+}
 fun getStartAndEndDateOfWeek(dateString: String): Pair<String, String> {
     // Parse the input date string
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())

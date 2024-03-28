@@ -56,53 +56,51 @@ private fun Tranzactie( subcategory: String, value: Double, currency: String, de
             colorResource(id = R.color.light_cream_blue) else colorResource(id = R.color.light_cream_gray)
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Card(
-                shape = RoundedCornerShape(dimensionResource(id = R.dimen.ten_dp)),
-                border = BorderStroke(
-                    dimensionResource(id = R.dimen.two_dp),
-                    colorResource(id = R.color.light_cream)
+        Card(
+            shape = RoundedCornerShape(dimensionResource(id = R.dimen.ten_dp)),
+            border = BorderStroke(
+                dimensionResource(id = R.dimen.two_dp),
+                colorResource(id = R.color.light_cream)
+            )
+        ) {
+            Column {
+                Text(
+                    text = "${subcategory} ---> ${value} (${currency})", fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold, modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color)
                 )
-            ) {
-                Column {
-                    Text(
-                        text = "${subcategory} ---> ${value} (${currency})", fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold, modifier = Modifier
-                            .fillMaxWidth()
-                            .background(color)
-                    )
-                    Text(
-                        text = "${stringResource(id = R.string.furnizor_sau_beneficiar)} : $payee",
-                        maxLines = 2
-                    )
-                    Text(text = "${stringResource(id = R.string.data)} : $data", maxLines = 2)
-                    Text(
-                        text = "${stringResource(id = R.string.descriere)} : $descriere",
-                        maxLines = 2
-                    )
-                    if (buttons) {
-                        Row() {
-                            IconButton(
-                                onClick = update, modifier = Modifier
-                                    .fillMaxSize(fraction = 1f)
-                                    .weight(1f)
-                            ) {
-                                Icon(
-                                    Icons.Filled.Colorize, contentDescription = "Update",
-                                    tint = colorResource(id = R.color.black)
-                                )
-                            }
+                Text(
+                    text = "${stringResource(id = R.string.furnizor_sau_beneficiar)} : $payee",
+                    maxLines = 2
+                )
+                Text(text = "${stringResource(id = R.string.data)} : $data", maxLines = 2)
+                Text(
+                    text = "${stringResource(id = R.string.descriere)} : $descriere",
+                    maxLines = 2
+                )
+                if (buttons) {
+                    Row {
+                        IconButton(
+                            onClick = update, modifier = Modifier
+                                .fillMaxSize(fraction = 1f)
+                                .weight(1f)
+                        ) {
+                            Icon(
+                                Icons.Filled.Colorize, contentDescription = "Update",
+                                tint = colorResource(id = R.color.black)
+                            )
+                        }
 
-                            IconButton(
-                                onClick = onDeleteItem, modifier = Modifier
-                                    .fillMaxSize(fraction = 1f)
-                                    .weight(1f)
-                            ) {
-                                Icon(
-                                    Icons.Filled.Delete, contentDescription = "Delete",
-                                    tint = colorResource(id = R.color.black)
-                                )
-                            }
+                        IconButton(
+                            onClick = onDeleteItem, modifier = Modifier
+                                .fillMaxSize(fraction = 1f)
+                                .weight(1f)
+                        ) {
+                            Icon(
+                                Icons.Filled.Delete, contentDescription = "Delete",
+                                tint = colorResource(id = R.color.black)
+                            )
                         }
                     }
                 }
