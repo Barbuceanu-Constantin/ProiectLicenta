@@ -28,26 +28,15 @@ import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
 import com.barbuceanuconstantin.proiectlicenta.data.model.SubcategorysLazyColumn
 
 @Composable
-private fun ShowAddSubcategoryDialog(lSA: MutableList<Subcategory>, lSP: MutableList<Subcategory>,
-                                     lSD: MutableList<Subcategory>, addButton: MutableState<Boolean>,
-                                     onDismissRequest: () -> Unit = { addButton.value = false },
-                                     onConfirmation: () -> Unit = { addButton.value = false },
-) {
-    ShowCategoryDialog(onDismissRequest = onDismissRequest, onConfirmation = onConfirmation,
-        strId = R.string.mesaj_adaugare_subcategory,
-        lActive = lSA, lPasive = lSP, lDatorii = lSD
-    )
-}
-
-@Composable
-fun CategoriesComposableScreen(lSA: MutableList<Subcategory>, lSP: MutableList<Subcategory>, lSD: MutableList<Subcategory>) {
+fun CategoriesComposableScreen(lSA: MutableList<Subcategory>, lSP: MutableList<Subcategory>,
+                               lSD: MutableList<Subcategory>) {
     val showA: MutableState<Boolean> = remember { mutableStateOf(true) }
     val showP: MutableState<Boolean> = remember { mutableStateOf(true) }
     val showD: MutableState<Boolean> = remember { mutableStateOf(true) }
     val addButton: MutableState<Boolean> = remember { mutableStateOf(false) }
 
     if (addButton.value) {
-        ShowAddSubcategoryDialog(lSA = lSA, lSP = lSP, lSD = lSD, addButton = addButton)
+        ShowAddSubcategoryScreen(R.string.mesaj_adaugare_subcategory, lSA, lSP, lSD, addButton)
     } else {
         Scaffold(
             floatingActionButton = {

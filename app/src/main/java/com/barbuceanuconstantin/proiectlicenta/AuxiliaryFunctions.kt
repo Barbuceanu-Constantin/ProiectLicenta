@@ -3,6 +3,7 @@ package com.barbuceanuconstantin.proiectlicenta
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.widget.CalendarView
+import androidx.annotation.DimenRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -25,15 +26,25 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import java.util.Locale
 
+@Composable
+fun fontDimensionResource(@DimenRes id: Int): TextUnit {
+    val dpValue = dimensionResource(id = id).value
+    val spValue = LocalDensity.current.run {
+        dpValue.toSp()
+    }
+    return spValue
+}
 @Composable
 fun FloatingActionButtonCustom(addButton : MutableState<Boolean>) {
     FloatingActionButton(onClick = { addButton.value = !addButton.value },
@@ -95,8 +106,9 @@ fun resetButtons(showA: MutableState<Boolean>, showP: MutableState<Boolean>, sho
 fun OkButton(ok: MutableState<Boolean>, id: Int = R.string.ok) {
     val buttonWidthFraction = if (id == R.string.ok) 0.3f else 0.5f
     Button( onClick = { ok.value = !ok.value },
-            modifier = Modifier.height(dimensionResource(id = R.dimen.ok_button_height))
-                                .fillMaxWidth(buttonWidthFraction)) {
+            modifier = Modifier
+                .height(dimensionResource(id = R.dimen.ok_button_height))
+                .fillMaxWidth(buttonWidthFraction)) {
         Text(text = stringResource(id = id), fontSize = 20.sp)
     }
 }
@@ -120,20 +132,26 @@ fun Calendar(onDateSelected: (String) -> Unit) {
 @Composable
 fun HeaderSelectCategoryOrTransactionWindow(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>) {
     Text(text = stringResource(R.string.mesaj_selectare_categorie_principala),
-        modifier = Modifier.fillMaxWidth(), fontSize = 20.sp, fontWeight = FontWeight.Bold, color = colorResource(id = R.color.red))
+         modifier = Modifier.fillMaxWidth(),
+         fontSize = fontDimensionResource(R.dimen.fifty_sp),
+         fontWeight = FontWeight.Bold,
+         color = colorResource(id = R.color.red))
 
-    Spacer(Modifier.fillMaxHeight(fraction = 5F / LocalConfiguration.current.screenHeightDp))
+    Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
         ThreeTopButtons(first = showA, second = showP, third = showD, shortName = true, firstId = R.string.prescurtareActive, secondId = R.string.prescurtarePasive, thirdId = R.string.prescurtareDatorii)
     }
 
-    Spacer(Modifier.fillMaxHeight(fraction = 15F / LocalConfiguration.current.screenHeightDp))
+    Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 }
 @Composable
 fun WarningNotSelectedCategory() {
-    Text(text = stringResource(id = R.string.avertisment_neselectare_categorie), modifier = Modifier.fillMaxWidth(),
-         fontSize = 20.sp, fontWeight = FontWeight.Bold, color = colorResource(id = R.color.red))
+    Text(text = stringResource(id = R.string.avertisment_neselectare_categorie),
+         modifier = Modifier.fillMaxWidth(),
+         fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
+         fontWeight = FontWeight.Bold,
+         color = colorResource(id = R.color.red))
 }
 
 @Composable

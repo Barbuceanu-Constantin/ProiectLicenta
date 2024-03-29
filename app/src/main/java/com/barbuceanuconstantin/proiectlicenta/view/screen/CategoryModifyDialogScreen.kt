@@ -7,10 +7,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material.icons.outlined.ModeEdit
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -33,12 +34,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindow
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.WarningNotSelectedCategory
 import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
+import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.resetButtons
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
@@ -62,131 +63,120 @@ private fun addSubcategory(l: MutableList<Subcategory>, firstLetter:String, fill
     }
 }
 
-private fun eliminareSubcategory(l: MutableList<Subcategory>, firstLetter:String, filledText:String) {
-    val foundSubcategory = l.find{it.name == firstLetter}
-    foundSubcategory?.items?.remove(filledText)
-}
-
 @Composable
-fun ShowCategoryDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, strId: Int,
-                       lActive: MutableList<Subcategory>, lPasive: MutableList<Subcategory>,
-                       lDatorii: MutableList<Subcategory>
+fun ShowAddSubcategoryScreen(strId: Int, lActive: MutableList<Subcategory>,
+                             lPasive: MutableList<Subcategory>, lDatorii: MutableList<Subcategory>,
+                             addButton: MutableState<Boolean>
 ) {
     val specificMessage = stringResource(id = strId)
     val showA: MutableState<Boolean> = remember { mutableStateOf(true) }
     val showP: MutableState<Boolean> = remember { mutableStateOf(true) }
     val showD: MutableState<Boolean> = remember { mutableStateOf(true) }
 
-    Dialog(onDismissRequest = {
-        resetButtons(showA, showP, showD)
-        onDismissRequest()
-    }) {
-        Card(
-            modifier = Modifier.fillMaxSize(),
-            shape = RoundedCornerShape(dimensionResource(id = R.dimen.margin))
-        ) {
-            Column( horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceEvenly ) {
-                HeaderSelectCategoryOrTransactionWindow(showA, showP, showD)
+    Column( horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly ) {
+        HeaderSelectCategoryOrTransactionWindow(showA, showP, showD)
 
-                Text(text = specificMessage, modifier = Modifier.fillMaxWidth(),
-                    fontSize = 25.sp, fontWeight = FontWeight.Bold
-                )
+        Text(text = specificMessage, modifier = Modifier.fillMaxWidth(),
+             fontSize = fontDimensionResource(R.dimen.fifty_sp),
+             fontWeight = FontWeight.Bold)
 
-                if (!(showA.value && showD.value && showP.value)) {
-                    var filledText by remember { mutableStateOf("") }
+        if (!(showA.value && showD.value && showP.value)) {
+            var filledText by remember { mutableStateOf("") }
 
-                    Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.fifty_sp)))
 
-                    OutlinedTextField(
-                        value = filledText, onValueChange = { filledText = it },
-                        textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
-                        label = { Text(text = stringResource(R.string.denumire)) },
-                        leadingIcon = {
-                            Icon(imageVector = Icons.Outlined.ModeEdit,
-                                contentDescription = stringResource(id = R.string.add))
-                        }
-                    )
+            OutlinedTextField(
+                value = filledText, onValueChange = { filledText = it },
+                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
+                label = { Text(text = stringResource(R.string.denumire)) },
+                leadingIcon = {
+                    Icon(imageVector = Icons.Outlined.ModeEdit,
+                        contentDescription = stringResource(id = R.string.add))
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
 
-                    Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.two_hundred)))
 
-                    Row(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 25.dp)) {
-                        val words = specificMessage.trim().split("\\s+".toRegex())
+            Row(modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center) {
+                Button(onClick = {
+                    if (filledText != "") {
+                        val firstLetter = filledText[0].toString().uppercase()
+                        var ok = true
 
-                        Button(onClick = {
-                            if (filledText != "") {
-                                val firstLetter = filledText[0].toString().uppercase()
-                                var ok = true
-
-                                if (showA.value && !showP.value && !showD.value) {
-                                    if (subcategorysPredefinitePasive.any { entry ->
-                                            entry.value.contains(filledText)
-                                        }) {
-                                        ok = false
-                                    }
-                                    if (subcategorysPredefiniteDatorii.any { entry ->
-                                            entry.value.contains(filledText)
-                                        }) {
-                                        ok = false
-                                    }
-                                    if (ok)
-                                        addSubcategory(lActive, firstLetter, filledText)
-                                } else if (showP.value && !showA.value && !showD.value) {
-                                    if (subcategorysPredefiniteActive.any { entry ->
-                                            entry.value.contains(filledText)
-                                        }) {
-                                        ok = false
-                                    }
-                                    if (subcategorysPredefiniteDatorii.any { entry ->
-                                            entry.value.contains(filledText)
-                                        }) {
-                                        ok = false
-                                    }
-                                    if (ok)
-                                        addSubcategory(lPasive, firstLetter, filledText)
-                                } else if (showD.value && !showA.value && !showP.value) {
-                                    if (subcategorysPredefiniteActive.any { entry ->
-                                            entry.value.contains(filledText)
-                                        }) {
-                                        ok = false
-                                    }
-                                    if (subcategorysPredefinitePasive.any { entry ->
-                                            entry.value.contains(filledText)
-                                        }) {
-                                        ok = false
-                                    }
-                                    if (ok)
-                                        addSubcategory(lDatorii, firstLetter, filledText)
-                                }
+                        if (showA.value && !showP.value && !showD.value) {
+                            if (subcategorysPredefinitePasive.any { entry ->
+                                    entry.value.contains(filledText)
+                                }) {
+                                ok = false
                             }
-                            resetButtons(showA, showP, showD)
-                            onConfirmation()
-                        }) { Text(stringResource(R.string.confirmare)) }
-
-                        Spacer(Modifier.fillMaxWidth(fraction = 100F / LocalConfiguration.current.screenHeightDp))
-
-                        Button(onClick = {
-                            resetButtons(showA, showP, showD)
-                            onDismissRequest()
-                        }) { Text(stringResource(R.string.renuntare)) }
+                            if (subcategorysPredefiniteDatorii.any { entry ->
+                                    entry.value.contains(filledText)
+                                }) {
+                                ok = false
+                            }
+                            if (ok)
+                                addSubcategory(lActive, firstLetter, filledText)
+                        } else if (showP.value && !showA.value && !showD.value) {
+                            if (subcategorysPredefiniteActive.any { entry ->
+                                    entry.value.contains(filledText)
+                                }) {
+                                ok = false
+                            }
+                            if (subcategorysPredefiniteDatorii.any { entry ->
+                                    entry.value.contains(filledText)
+                                }) {
+                                ok = false
+                            }
+                            if (ok)
+                                addSubcategory(lPasive, firstLetter, filledText)
+                        } else if (showD.value && !showA.value && !showP.value) {
+                            if (subcategorysPredefiniteActive.any { entry ->
+                                    entry.value.contains(filledText)
+                                }) {
+                                ok = false
+                            }
+                            if (subcategorysPredefinitePasive.any { entry ->
+                                    entry.value.contains(filledText)
+                                }) {
+                                ok = false
+                            }
+                            if (ok)
+                                addSubcategory(lDatorii, firstLetter, filledText)
+                        }
                     }
-                    Spacer(Modifier.fillMaxHeight(0.075f))
-                } else {
-                    Spacer(modifier = Modifier.fillMaxHeight(fraction = 20F / LocalConfiguration.current.screenHeightDp))
 
-                    WarningNotSelectedCategory()
-
-                    Spacer(modifier = Modifier.fillMaxHeight(fraction = 40F / LocalConfiguration.current.screenHeightDp))
-
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                        Button(onClick = {
-                            resetButtons(showA, showP, showD)
-                            onDismissRequest()
-                        }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.renuntare)) }
-                    }
+                    resetButtons(showA, showP, showD)
+                    addButton.value = !addButton.value
+                }) {
+                    Text(stringResource(R.string.confirmare))
                 }
+
+                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.thirty_dp)))
+
+                Button( onClick = {
+                    resetButtons(showA, showP, showD)
+                    addButton.value = !addButton.value
+                } ) {
+                    Text(stringResource(R.string.renuntare))
+                }
+            }
+
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+        } else {
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+
+            WarningNotSelectedCategory()
+
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.hundred)))
+
+            Row(modifier = Modifier.fillMaxWidth(0.5F), horizontalArrangement = Arrangement.Center) {
+                Button(onClick = {
+                    resetButtons(showA, showP, showD)
+                    addButton.value = !addButton.value
+                }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.renuntare)) }
             }
         }
     }
