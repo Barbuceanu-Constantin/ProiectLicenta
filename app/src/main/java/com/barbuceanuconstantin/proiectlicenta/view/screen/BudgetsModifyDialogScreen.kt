@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Category
@@ -51,6 +52,7 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.OkButton
+import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -83,10 +85,12 @@ fun ShowBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
         DatePickerDialog(onDismissRequest = { dateButton1.value = !dateButton1.value },
                          confirmButton = {},
                          dismissButton = {}) {
-            Column(modifier = Modifier.fillMaxSize()) {
+            Column (modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Calendar(onDateSelected = { selectedDate ->
                     if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
-                        dateMutable1.value = selectedDate // Update the date value
+                        dateMutable1.value = selectedDate
                     }
                 })
 
@@ -99,10 +103,12 @@ fun ShowBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
         DatePickerDialog(onDismissRequest = {dateButton2.value = !dateButton2.value},
                          confirmButton = {},
                          dismissButton = {}) {
-            Column(modifier = Modifier.fillMaxSize()) {
+            Column( modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Calendar(onDateSelected = { selectedDate ->
                     if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
-                        dateMutable2.value = selectedDate // Update the date value
+                        dateMutable2.value = selectedDate
                     }
                 })
 
@@ -112,51 +118,39 @@ fun ShowBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
             }
         }
     } else if (!dateButton1.value && !dateButton2.value) {
-        Scaffold() { innerPadding ->
-            Column( modifier = Modifier
-                .fillMaxWidth()
-                .padding(innerPadding), verticalArrangement = Arrangement.Center,
+        Scaffold { innerPadding ->
+            Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
+                    verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally) {
-                Spacer(Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 
                 Text(text = stringResource(id = R.string.introduceti_detalii_buget),
                      style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         color = colorResource(id = R.color.brown)
                      ),
-                     fontSize = 25.sp
+                     fontSize = fontDimensionResource(id = R.dimen.seventy_five_sp)
                 )
 
-                Spacer(Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 
                 OutlinedTextField(
                     value = filledText, onValueChange = { filledText = it },
                     textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
                     label = { Text(text = stringResource(R.string.denumire)) },
-                    placeholder = { Text(text = stringResource(id = R.string.underscores)) },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Outlined.ModeEdit,
-                            contentDescription = stringResource(id = R.string.add)
-                        )
-                    },
-                    trailingIcon = {
-                        Icon(
-                            imageVector = Icons.Outlined.Category,
-                            contentDescription = stringResource(id = R.string.add)
-                        )
-                    }
+                    maxLines = 1
                 )
 
-                Spacer(Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
 
-                OutlinedTextField(value = valueSum, onValueChange = { valueSum = it },
-                                  keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                  label = { Text(stringResource(id = R.string.introduceti_suma)) },
-                                  maxLines = 2,
+                OutlinedTextField(
+                    value = valueSum, onValueChange = { valueSum = it },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    label = { Text(stringResource(id = R.string.introduceti_suma)) },
+                    maxLines = 1,
                 )
 
-                Spacer(Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
 
                 OutlinedTextField(
                     value = dateMutable1.value,
@@ -168,7 +162,7 @@ fun ShowBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
                     },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     label = { Text(text = stringResource(id = R.string.data_inceput)) },
-                    maxLines = 2,
+                    maxLines = 1,
                     modifier = Modifier.clickable { dateButton1.value = !dateButton1.value },
                     colors = OutlinedTextFieldDefaults.colors(
                         disabledTextColor = MaterialTheme.colorScheme.onSurface,
@@ -180,7 +174,7 @@ fun ShowBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
                     )
                 )
 
-                Spacer(Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
 
                 OutlinedTextField(
                     value = dateMutable2.value,
@@ -192,7 +186,7 @@ fun ShowBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
                     },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     label = { Text(text = stringResource(id = R.string.data_final)) },
-                    maxLines = 2,
+                    maxLines = 1,
                     modifier = Modifier.clickable { dateButton2.value = !dateButton2.value },
                     colors = OutlinedTextFieldDefaults.colors(
                         disabledTextColor = MaterialTheme.colorScheme.onSurface,
@@ -204,17 +198,18 @@ fun ShowBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
                     )
                 )
 
-                Spacer(Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.hundred)))
 
-                Row() {
+                Row {
                     Button(onClick = {
                         if (filledText != "" && valueSum != "") {
-                            addBudget(lFixedBudgets, filledText, valueSum, dateMutable1.value, dateMutable2.value)
+                            addBudget(lFixedBudgets, filledText, valueSum,
+                                      dateMutable1.value, dateMutable2.value)
                         }
                         onConfirmation()
                     }) { Text(stringResource(R.string.confirmare)) }
 
-                    Spacer(Modifier.fillMaxWidth(20F / LocalConfiguration.current.screenHeightDp))
+                    Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.thirty_dp)))
 
                     Button(onClick = {
                         onDismissRequest()

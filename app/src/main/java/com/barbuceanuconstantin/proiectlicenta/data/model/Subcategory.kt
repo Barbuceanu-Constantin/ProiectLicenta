@@ -7,7 +7,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,15 +19,11 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
@@ -97,9 +92,9 @@ private fun Subcategory(text: String, a : Boolean, p : Boolean, d : Boolean,
 fun SubcategorysLazyColumn(categorii: MutableList<Subcategory>,
                            a: Boolean = false, p: Boolean = false, d: Boolean = false) {
 
-    var copy_a : Boolean = a
-    var copy_p : Boolean = p
-    var copy_d : Boolean = d
+    var copyA : Boolean = a
+    var copyP : Boolean = p
+    var copyD : Boolean = d
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         categorii.forEach() { subcateg ->
@@ -126,23 +121,23 @@ fun SubcategorysLazyColumn(categorii: MutableList<Subcategory>,
                     if (subcategorysPredefiniteActive.any { entry ->
                             entry.value.contains(text)
                     }) {
-                        copy_a = true
-                        copy_p = false
-                        copy_d = false
+                        copyA = true
+                        copyP = false
+                        copyD = false
                     } else if (subcategorysPredefinitePasive.any { entry ->
                             entry.value.contains(text)
                         }) {
-                        copy_a = false
-                        copy_p = true
-                        copy_d = false
+                        copyA = false
+                        copyP = true
+                        copyD = false
                     } else if (subcategorysPredefiniteDatorii.any { entry ->
                             entry.value.contains(text)
                         }) {
-                        copy_a = false
-                        copy_p = false
-                        copy_d = true
+                        copyA = false
+                        copyP = false
+                        copyD = true
                     }
-                    Subcategory(text = text, copy_a, copy_p, copy_d) {
+                    Subcategory(text = text, copyA, copyP, copyD) {
                         subcateg.items.remove(text)
                     }
                 } else {
