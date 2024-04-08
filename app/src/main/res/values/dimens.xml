@@ -11,10 +11,13 @@
     <dimen name="thirty_dp">30dp</dimen>
     <dimen name="ok_button_height">40dp</dimen>
     <dimen name="half_hundred">50dp</dimen>
+    <dimen name="sixty_dp">60dp</dimen>
+    <dimen name="eighty_dp">80dp</dimen>
     <dimen name="hundred">100dp</dimen>
     <dimen name="two_hundred">200dp</dimen>
     <dimen name="three_hundred">300dp</dimen>
 
+    <dimen name="twenty_sp">20sp</dimen>
     <dimen name="fifty_sp">50sp</dimen>
     <dimen name="seventy_five_sp">75sp</dimen>
 </resources>
