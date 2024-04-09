@@ -1,73 +1,197 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.barbuceanuconstantin.proiectlicenta.Balanta
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
+import com.barbuceanuconstantin.proiectlicenta.lTrA
+import com.barbuceanuconstantin.proiectlicenta.lTrD
+import com.barbuceanuconstantin.proiectlicenta.lTrP
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 private fun TotalBalance() {
-    Column() {
-        Box(modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction = 70f / LocalConfiguration.current.screenHeightDp)
-                                .background(color = colorResource(R.color.yellow), shape = CutCornerShape(0.5f))
-        ) {
-            Text(text = stringResource(id = R.string.active) + " : ", modifier = Modifier.padding(start = 10.dp).align(Alignment.CenterStart), fontSize = 20.sp)
+    Column {
+        Card(shape = RoundedCornerShape(dimensionResource(id = R.dimen.margin))) {
+            HorizontalDivider(
+                thickness = dimensionResource(id = R.dimen.five_dp),
+                color = colorResource(id = R.color.gray)
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(dimensionResource(id = R.dimen.sixty_dp))
+                    .background(color = colorResource(R.color.light_cream_yellow))
+            ) {
+                Text(
+                    text = stringResource(id = R.string.active) + " : ",
+                    modifier = Modifier
+                        .padding(start = dimensionResource(id = R.dimen.ten_dp))
+                        .align(Alignment.CenterStart),
+                    fontSize = fontDimensionResource(id = R.dimen.fifty_sp)
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(dimensionResource(id = R.dimen.sixty_dp))
+                    .background(color = colorResource(R.color.light_cream_red))
+            ) {
+                Text(
+                    text = stringResource(id = R.string.pasive) + " : ",
+                    modifier = Modifier
+                        .padding(start = dimensionResource(id = R.dimen.ten_dp))
+                        .align(Alignment.CenterStart),
+                    fontSize = fontDimensionResource(id = R.dimen.fifty_sp)
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(dimensionResource(id = R.dimen.sixty_dp))
+                    .background(color = colorResource(R.color.light_cream_blue))
+            ) {
+                Text(
+                    text = stringResource(id = R.string.datorii) + " : ",
+                    modifier = Modifier
+                        .padding(start = dimensionResource(id = R.dimen.ten_dp))
+                        .align(Alignment.CenterStart),
+                    fontSize = fontDimensionResource(id = R.dimen.fifty_sp)
+                )
+            }
+            HorizontalDivider(
+                thickness = dimensionResource(id = R.dimen.five_dp),
+                color = colorResource(id = R.color.gray)
+            )
         }
 
-        Box(
-            modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction = 70f / LocalConfiguration.current.screenHeightDp)
-                                .background(color = colorResource(id = R.color.red), shape = CutCornerShape(0.5f))
-        ) {
-            Text(text = stringResource(id = R.string.pasive) + " : ", modifier = Modifier.padding(start = 10.dp).align(Alignment.CenterStart), fontSize = 20.sp)
-        }
+        Spacer(Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
 
-        Box(modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction = 70f / LocalConfiguration.current.screenHeightDp)
-                                .background(color = colorResource(R.color.blue), shape = CutCornerShape(0.5f))
-        ) {
-            Text(text = stringResource(id = R.string.datorii) + " : ", modifier = Modifier.padding(start = 10.dp).align(Alignment.CenterStart), fontSize = 20.sp)
-        }
-
-        Spacer(Modifier.fillMaxHeight(20f / LocalConfiguration.current.screenHeightDp))
-
-        HorizontalDivider(thickness = 5.dp, color = colorResource(id = R.color.gray))
-
-        Spacer(Modifier.fillMaxHeight(20f / LocalConfiguration.current.screenHeightDp))
-
-        Box(modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction = 70f / LocalConfiguration.current.screenHeightDp)
-                                .background(color = colorResource(R.color.medium_green), shape = CutCornerShape(0.5f))
-        ) {
-            Text(text = stringResource(id = R.string.balanta) + " : ", modifier = Modifier.padding(start = 10.dp).align(Alignment.CenterStart), fontSize = 20.sp)
-        }
+        Balanta()
     }
 }
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PrincipalComposableScreen() {
-    Scaffold() { innerPadding ->
-        Column(
-            modifier = Modifier.fillMaxWidth().padding(innerPadding),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Spacer(modifier = Modifier.fillMaxHeight(100F / LocalConfiguration.current.screenHeightDp))
+    val addButton: MutableState<Boolean> = remember { mutableStateOf(false) }
+    var selectedIndex by remember { mutableStateOf(0) }
+    val options = listOf(
+        stringResource(id = R.string.Cheltuieli),
+        stringResource(id = R.string.Venituri),
+        stringResource(id = R.string.Datorii)
+    )
 
-            TotalBalance()
+    if (addButton.value) {
+        val dateTime = LocalDateTime.now()
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val formattedDate = dateTime.format(dateFormatter)
+        val date by remember { mutableStateOf(formattedDate) }
+        val dateMutable: MutableState<String> = remember { mutableStateOf(date) }
+        val showAB: MutableState<Boolean> = remember { mutableStateOf(true) }
+        val showPB: MutableState<Boolean> = remember { mutableStateOf(true) }
+        val showDB: MutableState<Boolean> = remember { mutableStateOf(true) }
+        when (selectedIndex) {
+            0 -> {
+                showPB.value = false
+                showDB.value = false
+            }
+            1 -> {
+                showAB.value = false
+                showDB.value = false
+            }
+            2 -> {
+                showAB.value = false
+                showPB.value = false
+            }
+        }
+        ShowTransactionDialog(onDismissRequest = { addButton.value = false },
+            onConfirmation = {addButton.value = false},
+            lActive = lTrA, lPasive = lTrP, lDatorii = lTrD,
+            dateMutable = dateMutable, showAB = showAB,
+            showPB = showPB, showDB = showDB)
+    } else {
+        Scaffold { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(innerPadding),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Spacer(Modifier.height(dimensionResource(id = R.dimen.eighty_dp)))
+
+                TotalBalance()
+
+                Spacer(Modifier.height(dimensionResource(id = R.dimen.one_half_hundred)))
+
+                SingleChoiceSegmentedButtonRow {
+                    options.forEachIndexed { index, label ->
+                        SegmentedButton(
+                            shape = SegmentedButtonDefaults.itemShape(
+                                index = index,
+                                count = options.size
+                            ),
+                            onClick = {
+                                selectedIndex = index
+                                addButton.value = true
+                            },
+                            selected = index == selectedIndex,
+                            modifier = Modifier.height(dimensionResource(id = R.dimen.sixty_dp))
+                        ) {
+                            Row {
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = "Add",
+                                    modifier = Modifier.size(24.dp)
+                                )
+                                Text(label)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

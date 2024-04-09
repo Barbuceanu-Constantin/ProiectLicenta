@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import com.barbuceanuconstantin.proiectlicenta.Balanta
 import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
@@ -82,29 +83,6 @@ fun CalendarComposableScreen() {
 
         Spacer(Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
 
-        Card(shape = RoundedCornerShape(dimensionResource(id = R.dimen.margin))) {
-            HorizontalDivider(
-                thickness = dimensionResource(id = R.dimen.five_dp),
-                color = colorResource(id = R.color.gray)
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(dimensionResource(id = R.dimen.sixty_dp))
-                    .background(color = colorResource(R.color.light_cream_green))
-            ) {
-                Text(
-                    text = stringResource(id = R.string.balanta) + " : ",
-                    modifier = Modifier
-                        .padding(start = dimensionResource(id = R.dimen.ten_dp))
-                        .align(Alignment.CenterStart),
-                    fontSize = fontDimensionResource(id = R.dimen.fifty_sp)
-                )
-            }
-            HorizontalDivider(
-                thickness = dimensionResource(id = R.dimen.five_dp),
-                color = colorResource(id = R.color.gray)
-            )
-        }
+        Balanta()
     }
 }

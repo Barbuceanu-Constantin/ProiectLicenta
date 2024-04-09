@@ -55,10 +55,7 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.ShowMenuCurrencies
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.ShowMenuSubcategories
 
-val showMeniuValute = mutableStateOf(false)
-private val showAB = mutableStateOf(true)
-private val showPB = mutableStateOf(true)
-private val showDB = mutableStateOf(true)
+private val showMeniuValute = mutableStateOf(false)
 private val showMeniuSubcategorys = mutableStateOf(false)
 private val dateButton = mutableStateOf(false)
 
@@ -75,7 +72,8 @@ private fun adaugareTranzactie(l: SnapshotStateList<Tranzactie>, currency:String
 @Composable
 fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit,
                           lActive: SnapshotStateList<Tranzactie>, lPasive: SnapshotStateList<Tranzactie>,
-                          lDatorii: SnapshotStateList<Tranzactie>, dateMutable: MutableState<String>
+                          lDatorii: SnapshotStateList<Tranzactie>, dateMutable: MutableState<String>,
+                          showAB: MutableState<Boolean>, showPB: MutableState<Boolean>, showDB: MutableState<Boolean>
 ) {
     var currency by remember { mutableStateOf("") }
     var subcategory by remember { mutableStateOf("") }
@@ -97,7 +95,7 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                 }
         }
     } else {
-        Scaffold() { innerPadding ->
+        Scaffold { innerPadding ->
             Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)) {
                 HeaderSelectCategoryOrTransactionWindow(showAB, showPB, showDB)
 

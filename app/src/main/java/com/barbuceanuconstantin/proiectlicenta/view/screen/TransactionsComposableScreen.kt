@@ -95,11 +95,15 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
             val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
             val formattedDate = dateTime.format(dateFormatter)
             val date by remember { mutableStateOf(formattedDate) }
-            val dateMutable: MutableState<String> = mutableStateOf(date)
+            val dateMutable: MutableState<String> = remember { mutableStateOf(date) }
+            val showAB: MutableState<Boolean> = remember { mutableStateOf(true) }
+            val showPB: MutableState<Boolean> = remember { mutableStateOf(true) }
+            val showDB: MutableState<Boolean> = remember { mutableStateOf(true) }
             ShowTransactionDialog(onDismissRequest = { addButton.value = false },
                                   onConfirmation = {addButton.value = false},
                                   lActive = lTrA, lPasive = lTrP, lDatorii = lTrD,
-                                  dateMutable = dateMutable)
+                                  dateMutable = dateMutable, showAB = showAB,
+                                  showPB = showPB, showDB = showDB)
         }
         if (!addButton.value) {
             Scaffold(

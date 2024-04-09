@@ -109,6 +109,10 @@
     <string name="add">Add</string>
     <string name="ok">OK</string>
 
+    <string name="Cheltuieli">Cheltuieli</string>
+    <string name="Venituri">Venituri</string>
+    <string name="Datorii">Datorii</string>
+
     <string name="coroana_norvegiana">Coroana norvegiana</string>
     <string name="dolar_australian">Dolar australian</string>
     <string name="dolar_american">Dolar american</string>

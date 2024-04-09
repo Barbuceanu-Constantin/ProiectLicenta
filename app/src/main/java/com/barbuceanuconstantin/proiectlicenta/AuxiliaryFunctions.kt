@@ -7,23 +7,29 @@ import androidx.annotation.DimenRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -37,6 +43,34 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import java.util.Locale
+
+@Composable
+fun Balanta() {
+    Card(shape = RoundedCornerShape(dimensionResource(id = R.dimen.margin))) {
+        HorizontalDivider(
+            thickness = dimensionResource(id = R.dimen.five_dp),
+            color = colorResource(id = R.color.gray)
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(dimensionResource(id = R.dimen.sixty_dp))
+                .background(color = colorResource(R.color.light_cream_green))
+        ) {
+            Text(
+                text = stringResource(id = R.string.balanta) + " : ",
+                modifier = Modifier
+                    .padding(start = dimensionResource(id = R.dimen.ten_dp))
+                    .align(Alignment.CenterStart),
+                fontSize = fontDimensionResource(id = R.dimen.fifty_sp)
+            )
+        }
+        HorizontalDivider(
+            thickness = dimensionResource(id = R.dimen.five_dp),
+            color = colorResource(id = R.color.gray)
+        )
+    }
+}
 
 @Composable
 fun fontDimensionResource(@DimenRes id: Int): TextUnit {
