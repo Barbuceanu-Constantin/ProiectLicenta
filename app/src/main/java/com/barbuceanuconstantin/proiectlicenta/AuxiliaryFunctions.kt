@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -28,7 +27,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -140,6 +138,7 @@ fun resetButtons(showA: MutableState<Boolean>, showP: MutableState<Boolean>, sho
 @Composable
 fun OkButton(ok: MutableState<Boolean>, id: Int = R.string.ok) {
     val buttonWidthFraction = if (id == R.string.ok) 0.3f else 0.5f
+
     Button( onClick = { ok.value = !ok.value },
             modifier = Modifier
                 .height(dimensionResource(id = R.dimen.ok_button_height))

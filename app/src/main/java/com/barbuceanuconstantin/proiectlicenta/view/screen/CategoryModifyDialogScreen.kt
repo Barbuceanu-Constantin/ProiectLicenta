@@ -77,11 +77,11 @@ fun ShowAddSubcategoryScreen(strId: Int, lActive: MutableList<Subcategory>,
             verticalArrangement = Arrangement.SpaceEvenly ) {
         HeaderSelectCategoryOrTransactionWindow(showA, showP, showD)
 
-        Text(text = specificMessage, modifier = Modifier.fillMaxWidth(),
-             fontSize = fontDimensionResource(R.dimen.fifty_sp),
-             fontWeight = FontWeight.Bold)
-
         if (!(showA.value && showD.value && showP.value)) {
+            Text(text = specificMessage, modifier = Modifier.fillMaxWidth(),
+                fontSize = fontDimensionResource(R.dimen.fifty_sp),
+                fontWeight = FontWeight.Bold)
+
             var filledText by remember { mutableStateOf("") }
 
             Spacer(Modifier.height(dimensionResource(id = R.dimen.fifty_sp)))
@@ -172,7 +172,10 @@ fun ShowAddSubcategoryScreen(strId: Int, lActive: MutableList<Subcategory>,
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.hundred)))
 
-            Row(modifier = Modifier.fillMaxWidth(0.5F), horizontalArrangement = Arrangement.Center) {
+            Row(modifier = Modifier.fillMaxWidth(0.5F)
+                                    .height(dimensionResource(id = R.dimen.hundred)),
+                horizontalArrangement = Arrangement.Center)
+            {
                 Button(onClick = {
                     resetButtons(showA, showP, showD)
                     addButton.value = !addButton.value

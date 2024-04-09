@@ -2,10 +2,7 @@
 
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
-import android.util.Log
-import android.widget.CalendarView
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.Alignment
@@ -25,7 +22,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -34,16 +30,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextDecoration
 import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
+import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.ShowMenuCurrencies
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.ShowMenuSubcategories
 
@@ -87,6 +85,14 @@ fun TransactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
             Column(modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(innerPadding),
                    horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+
+                Text(text = stringResource(id = R.string.ecran_modificare_tranzactie),
+                    style = TextStyle(
+                        fontStyle = FontStyle.Italic,
+                        textDecoration = TextDecoration.Underline
+                    ),
+                    fontSize = fontDimensionResource(id = R.dimen.fifty_sp)
+                )
 
                 ShowMenuSubcategories(okButton = false, lSubcategorys = subcategoriesList,
                                       showMeniuSubcategorys = showMeniuSubcategorys1) {
@@ -179,7 +185,7 @@ fun TransactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
                 if (valueSum != "")
                     trList[indexUpdate].suma = valueSum.toDouble()
 
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 
                 OkButton(ok = updateTransactionButton)
             }

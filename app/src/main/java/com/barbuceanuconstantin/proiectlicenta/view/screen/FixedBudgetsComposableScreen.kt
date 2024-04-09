@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextDecoration
+import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.BudgetsLazyColumn
@@ -56,12 +57,10 @@ fun FixedBudgetsComposableScreen(lFixedBudgets: SnapshotStateList<Budget>) {
     if (fab.value) {
         ShowAddBudgetDialog(lFixedBudgets = lFixedBudgets, fab = fab)
     } else {
-        Scaffold(floatingActionButton = {
-            FloatingActionButton(onClick = { fab.value = !fab.value }) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
-            }
-        }) { innerPadding ->
-            Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
+        Scaffold(floatingActionButton = { FloatingActionButtonCustom(addButton = fab) }) { innerPadding ->
+            Column( modifier = Modifier
+                .fillMaxWidth()
+                .padding(innerPadding),
                     horizontalAlignment = Alignment.CenterHorizontally ) {
                 Spacer(Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 

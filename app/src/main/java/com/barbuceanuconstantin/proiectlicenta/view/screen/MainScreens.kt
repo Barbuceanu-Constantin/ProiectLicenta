@@ -28,6 +28,7 @@ private var listSubcategoriesExpenses = subcategorysPredefinitePasive.map {
 private var listSubcategoriesDebts = subcategorysPredefiniteDatorii.map {
     Subcategory(name = it.key.toString(), items = it.value.toMutableStateList())
 }.toMutableStateList()
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Screen0() {
     PrincipalComposableScreen()
@@ -54,10 +55,11 @@ fun Screen4() {
 @Composable
 fun Screen6() {
     initHardcodedTransactions()
-        BudgetSummaryComposableScreen(lTrA = lTrA, lTrP = lTrP)
+    BudgetSummaryComposableScreen(lTrA = lTrA, lTrP = lTrP)
 }
 
 @Composable
 fun Screen7() {
-    CalendarComposableScreen()
+    initHardcodedTransactions()
+    CalendarComposableScreen(lTrA = lTrA, lTrP = lTrP)
 }

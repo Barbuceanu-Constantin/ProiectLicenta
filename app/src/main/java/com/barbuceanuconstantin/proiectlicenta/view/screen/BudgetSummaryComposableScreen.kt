@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,7 +26,6 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -36,8 +34,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.FourthButton
 import com.barbuceanuconstantin.proiectlicenta.IntToMonth
@@ -47,6 +43,7 @@ import com.barbuceanuconstantin.proiectlicenta.ThreeTopButtons
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 import com.barbuceanuconstantin.proiectlicenta.getStartAndEndDateOfWeek
 import com.barbuceanuconstantin.proiectlicenta.data.model.SummaryTranzactiiLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -54,11 +51,11 @@ private val dateButton = mutableStateOf(false)
 @Composable
 fun SelectDay(dateMutable: MutableState<String>) {
     Button(onClick = { dateButton.value = !dateButton.value }) {
-        Text(text = stringResource(id = R.string.selectare_zi), fontSize = 20.sp)
+        Text(text = stringResource(id = R.string.selectare_zi), fontSize = fontDimensionResource(id = R.dimen.fifty_sp))
     }
 
     Text(text = "${stringResource(id = R.string.ziua)} ${dateMutable.value}", fontWeight = FontWeight.SemiBold,
-        modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, fontSize = 18.sp)
+        modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, fontSize = fontDimensionResource(R.dimen.fifty_sp))
 }
 
 @Composable
@@ -66,11 +63,13 @@ fun SelectWeek(dateMutable: MutableState<String>) {
     val limits = getStartAndEndDateOfWeek(dateMutable.value)
 
     Button(onClick = { dateButton.value = !dateButton.value }) {
-        Text(text = stringResource(id = R.string.selectare_saptamana), fontSize = 20.sp)
+        Text(text = stringResource(id = R.string.selectare_saptamana),
+             fontSize = fontDimensionResource(id = R.dimen.fifty_sp))
     }
 
     Text(text = "${stringResource(id = R.string.saptamana)} (${limits.first} ; ${limits.second})",
-        fontWeight = FontWeight.SemiBold, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, fontSize = 18.sp
+        fontWeight = FontWeight.SemiBold, modifier = Modifier.fillMaxWidth(),
+        textAlign = TextAlign.Center, fontSize = fontDimensionResource(R.dimen.fifty_sp)
     )
 }
 @Composable
@@ -79,11 +78,13 @@ fun SelectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<St
     IntToMonth(month, monthMutable)
 
     Button(onClick = { dateButton.value = !dateButton.value }) {
-        Text(text = stringResource(id = R.string.selectare_luna), fontSize = 20.sp)
+        Text(text = stringResource(id = R.string.selectare_luna),
+             fontSize = fontDimensionResource(id = R.dimen.fifty_sp))
     }
 
-    Text(text = "${stringResource(id = R.string.luna)} ${monthMutable.value}", fontWeight = FontWeight.SemiBold,
-        modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, fontSize = 18.sp
+    Text(text = "${stringResource(id = R.string.luna)} ${monthMutable.value}",
+         fontWeight = FontWeight.SemiBold, modifier = Modifier.fillMaxWidth(),
+         textAlign = TextAlign.Center, fontSize = fontDimensionResource(id = R.dimen.fifty_sp)
     )
 }
 
@@ -113,10 +114,7 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
 
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                     OkButton(ok = dateButton) // Confirm button
                 }
             }
@@ -129,14 +127,15 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly
             ) {
-                Spacer(modifier = Modifier.fillMaxHeight(50F / LocalConfiguration.current.screenHeightDp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 
-                Text(text = stringResource(id = R.string.selectare_interval_timp), fontSize = 20.sp, style = TextStyle(
-                    fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
-                    modifier = Modifier.background(colorResource(R.color.light_cream))
+                Text(text = stringResource(id = R.string.selectare_interval_timp),
+                     fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
+                     style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
+                                        modifier = Modifier.background(colorResource(R.color.light_cream))
                 )
 
-                Spacer(modifier = Modifier.fillMaxHeight(20F / LocalConfiguration.current.screenHeightDp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
 
                 Row {
                     ThreeTopButtons(first = daily, second = weekly, third = monthly,
@@ -163,14 +162,17 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
 
                     SelectMonth(dateMutable, monthMutable)
                 } else if (daily.value && weekly.value && monthly.value) {
+                    HorizontalDivider(thickness = dimensionResource(id = R.dimen.three_dp), color = colorResource(id = R.color.gray))
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.five_dp)))
                     SummaryTranzactiiLazyColumn(tranzactii = (lTrP + lTrA).toMutableStateList())
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.five_dp)))
+                    HorizontalDivider(thickness = dimensionResource(id = R.dimen.three_dp), color = colorResource(id = R.color.gray))
                 }
 
-                HorizontalDivider(thickness = 3.dp, color = colorResource(id = R.color.black))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 
-                Spacer(modifier = Modifier.fillMaxHeight(30F / LocalConfiguration.current.screenHeightDp))
-
-                Text(text = stringResource(id = R.string.bilant), modifier = Modifier.fillMaxWidth(), fontSize = 40.sp,
+                Text(text = stringResource(id = R.string.bilant), modifier = Modifier.fillMaxWidth(),
+                     fontSize = fontDimensionResource(id = R.dimen.seventy_five_sp),
                      fontWeight = FontWeight.Bold,
                      color = colorResource(id = R.color.medium_green)
                 )

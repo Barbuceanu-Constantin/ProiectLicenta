@@ -64,12 +64,14 @@
 
     <string name="avertisment_neselectare_categorie">Nu ati selectat categoria principala</string>
 
+    <string name="ecran_bugete_fixe">Ecran bugete fixe</string>
+    <string name="ecran_modificare_tranzactie">Ecran modificare tranzactie</string>
+
     <string name="introduceti_detalii_buget">Introduceti detalii buget</string>
     <string name="furnizor_sau_beneficiar">Furnizor/Beneficiar</string>
     <string name="cheltuieli_zi_curenta">Cheltuieli zi curenta</string>
     <string name="toate_subcategoriile">Toate subcategoriile</string>
     <string name="toate_tranzactiile">Toate tranzactiile</string>
-    <string name="ecran_bugete_fixe">Ecran bugete fixe</string>
     <string name="introduceti_suma">Introduceti suma</string>
     <string name="venit_zi_curenta">Venit zi curenta</string>
     <string name="data_inceput">Data de inceput :</string>

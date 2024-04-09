@@ -18,7 +18,9 @@
     <dimen name="two_hundred">200dp</dimen>
     <dimen name="three_hundred">300dp</dimen>
 
+    <dimen name="eighteen_sp">18sp</dimen>
     <dimen name="twenty_sp">20sp</dimen>
+    <dimen name="fourthy_sp">40sp</dimen>
     <dimen name="fifty_sp">50sp</dimen>
     <dimen name="seventy_five_sp">75sp</dimen>
 </resources>
