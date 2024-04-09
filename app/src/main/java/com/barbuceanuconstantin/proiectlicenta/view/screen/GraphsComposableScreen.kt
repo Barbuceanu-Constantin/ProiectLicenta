@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 @Composable
-fun graphsComposableScreen(modifier: Modifier = Modifier) {
+fun GraphsComposableScreen(modifier: Modifier = Modifier) {
     Column (
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,

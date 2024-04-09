@@ -5,89 +5,64 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.dimensionResource
+import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
+import com.barbuceanuconstantin.proiectlicenta.FourthButton
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.allSubcategoriesOrTransactions
+import com.barbuceanuconstantin.proiectlicenta.ThreeTopButtons
 import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
-import com.barbuceanuconstantin.proiectlicenta.selectCategoryItemList
-import com.barbuceanuconstantin.proiectlicenta.data.model.subcategorysLazyColumn
-import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.showCategoryDialog
+import com.barbuceanuconstantin.proiectlicenta.data.model.SubcategorysLazyColumn
 
 @Composable
-private fun showAddSubcategoryDialog(
-    lSA: MutableList<Subcategory>,
-    lSP: MutableList<Subcategory>,
-    lSD: MutableList<Subcategory>,
-    addButton: MutableState<Boolean>,
-    deleteButton: MutableState<Boolean>,
-    onDismissRequest: () -> Unit = { addButton.value = false },
-    onConfirmation: () -> Unit = { addButton.value = false },
-) {
-    showCategoryDialog(
-        onDismissRequest = onDismissRequest,
-        onConfirmation = onConfirmation,
-        strId = R.string.mesaj_adaugare_subcategory,
-        lActive = lSA,
-        lPasive = lSP,
-        lDatorii = lSD
-    )
-}
+fun CategoriesComposableScreen(lSA: MutableList<Subcategory>, lSP: MutableList<Subcategory>,
+                               lSD: MutableList<Subcategory>) {
+    val showA: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val showP: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val showD: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val addButton: MutableState<Boolean> = remember { mutableStateOf(false) }
 
-@Composable
-fun categoriesComposableScreen(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>,
-                     addButton: MutableState<Boolean>, deleteButton: MutableState<Boolean>,
-                     lSA: MutableList<Subcategory>, lSP: MutableList<Subcategory>, lSD: MutableList<Subcategory>) {
     if (addButton.value) {
-        showAddSubcategoryDialog(lSA = lSA, lSP = lSP, lSD = lSD, addButton = addButton, deleteButton = deleteButton)
-    }
-    if (!addButton.value) {
+        ShowAddSubcategoryScreen(R.string.mesaj_adaugare_subcategory, lSA, lSP, lSD, addButton)
+    } else {
         Scaffold(
             floatingActionButton = {
-                FloatingActionButton(onClick = { addButton.value = !addButton.value }) {
-                    Icon(Icons.Default.Add, contentDescription = "Add")
-                }
+                FloatingActionButtonCustom(addButton = addButton)
             }
         ) { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(innerPadding),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Spacer(Modifier.fillMaxHeight(fraction = 50F / LocalConfiguration.current.screenHeightDp))
-                Row() {
-                    selectCategoryItemList(showA = showA, showP = showP, showD = showD)
+            Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
+                    horizontalAlignment = Alignment.CenterHorizontally) {
+                Spacer (Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+
+                Row {
+                    ThreeTopButtons(first = showA, second = showP, third = showD, firstId = R.string.active, secondId = R.string.pasive, thirdId = R.string.datorii)
                 }
 
-                allSubcategoriesOrTransactions(id = R.string.toate_subcategoriile, showA = showA, showP = showP, showD = showD)
+                FourthButton(id = R.string.toate_subcategoriile, first = showA, second = showP, third = showD)
 
                 if (showA.value && !showP.value && !showD.value) {
-                    subcategorysLazyColumn(categorii = lSA)
+                    SubcategorysLazyColumn(categorii = lSA, a = true, p = false, d = false)
                 } else if (showP.value && !showA.value && !showD.value) {
-                    subcategorysLazyColumn(categorii = lSP)
+                    SubcategorysLazyColumn(categorii = lSP, a = false, p = true, d = false)
                 } else if (showD.value && !showA.value && !showP.value) {
-                    subcategorysLazyColumn(categorii = lSD)
+                    SubcategorysLazyColumn(categorii = lSD, a = false, p = false, d = true)
                 } else if (showA.value && showP.value && showD.value) {
-                    subcategorysLazyColumn(categorii = (lSA + lSP + lSD).toMutableList(), 0, lSA.size, lSA.size + lSP.size)
+                    SubcategorysLazyColumn(categorii = (lSA + lSP + lSD).toMutableList(), a = true, p = true, d = true)
                 }
             }
         }
     }
 }
-
