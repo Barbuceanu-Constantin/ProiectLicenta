@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.R
 @Composable
-fun showMenuButton() {
+fun ShowMenuButton() {
     var expanded by remember { mutableStateOf(false) }
     val list = listOf(
         stringResource(id = R.string.ecran_principal),
@@ -54,11 +54,11 @@ fun showMenuButton() {
                     textFilledSize = coordinates.size.toSize()
                 },
             label = { Text(text = stringResource(id = R.string.selectare_ecran)) },
-            trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
+            trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) }
+        )
+
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false },
+                     modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
         ) {
             list.forEach { label ->
                 DropdownMenuItem(onClick = {

@@ -36,22 +36,51 @@
         <item>MYR</item>
     </string-array>
 
+    <string name="ianuarie">ianuarie</string>
+    <string name="februarie">februarie</string>
+    <string name="martie">martie</string>
+    <string name="aprilie">aprilie</string>
+    <string name="mai">mai</string>
+    <string name="iunie">iunie</string>
+    <string name="iulie">iulie</string>
+    <string name="august">august</string>
+    <string name="septembrie">septembrie</string>
+    <string name="octombrie">octombrie</string>
+    <string name="noiembrie">noiembrie</string>
+    <string name="decembrie">decembrie</string>
+
+    <string name="selectare_zi">Selectati ziua</string>
+    <string name="selectare_saptamana">Selectati saptamana</string>
+    <string name="selectare_luna">Selectati luna</string>
+    <string name="selectare_interval_timp">Selectati intervalul de timp:</string>
+    <string name="selectare_subcategory">Selecteaza subcategoria</string>
+    <string name="selectare_valuta">Selecteaza valuta</string>
+
     <string name="mesaj_eliminare_subcategory">Introduceti numele subcategoriei pe care vreti sa o eliminati</string>
     <string name="mesaj_adaugare_subcategory">Introduceti numele subcategoriei pe care vreti sa o adaugati</string>
     <string name="mesaj_selectare_categorie_principala">Alegeti categoria principala (obligatoriu):</string>
-    <string name="avertisment_neselectare_categorie">Nu ati selectat categoria principala</string>
     <string name="mesaj_selectare_subcategory">Alegeti subcategoria: </string>
-    <string name="selectare_subcategory">Selecteaza subcategoria</string>
+    <string name="mesaj_selectare_valuta">Alegeti valuta: </string>
+
+    <string name="avertisment_neselectare_categorie">Nu ati selectat categoria principala</string>
+
+    <string name="introduceti_detalii_buget">Introduceti detalii buget</string>
     <string name="furnizor_sau_beneficiar">Furnizor/Beneficiar</string>
     <string name="cheltuieli_zi_curenta">Cheltuieli zi curenta</string>
     <string name="toate_subcategoriile">Toate subcategoriile</string>
     <string name="toate_tranzactiile">Toate tranzactiile</string>
+    <string name="ecran_bugete_fixe">Ecran bugete fixe</string>
     <string name="introduceti_suma">Introduceti suma</string>
     <string name="venit_zi_curenta">Venit zi curenta</string>
+    <string name="data_inceput">Data de inceput :</string>
+    <string name="prag_superior">Prag superior :</string>
+    <string name="data_final">Data de final :</string>
     <string name="subcategory">Subcategorie</string>
+    <string name="Bugete_fixe">Bugete fixe</string>
+    <string name="saptamanal">Saptamanal</string>
     <string name="beneficiar">Beneficiar</string>
     <string name="confirmare">Confirmare</string>
-    <string name="Bugete_fixe">Bugete fixe</string>
+    <string name="saptamana">Saptamana :</string>
     <string name="prescurtareDatorii">D</string>
     <string name="renuntare">Renuntare</string>
     <string name="prescurtareActive">A</string>
@@ -66,15 +95,24 @@
     <string name="salariu">Salariu</string>
     <string name="datorii">Datorii</string>
     <string name="balanta">Balanta</string>
+    <string name="bilant">Bilant :</string>
     <string name="pasive">Pasive</string>
+    <string name="zilnic">Zilnic</string>
     <string name="active">Active</string>
     <string name="valuta">Valuta</string>
+    <string name="inapoi">INAPOI</string>
+    <string name="luna">Luna :</string>
+    <string name="total">Total</string>
+    <string name="lunar">Lunar</string>
+    <string name="ziua">Ziua :</string>
     <string name="data">Data</string>
     <string name="add">Add</string>
     <string name="ok">OK</string>
 
-    <string name="mesaj_selectare_valuta">Alegeti valuta: </string>
-    <string name="selectare_valuta">Selecteaza valuta</string>
+    <string name="Cheltuieli">Cheltuieli</string>
+    <string name="Venituri">Venituri</string>
+    <string name="Datorii">Datorii</string>
+
     <string name="coroana_norvegiana">Coroana norvegiana</string>
     <string name="dolar_australian">Dolar australian</string>
     <string name="dolar_american">Dolar american</string>

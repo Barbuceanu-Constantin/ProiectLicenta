@@ -2,8 +2,9 @@ package com.barbuceanuconstantin.proiectlicenta.view.screenmodules
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -24,54 +25,52 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.okButton
 
-class MeniuSubcategorys {
-    @Composable
-    fun showMenu(selected: String,
-                 lSubcategorys: MutableList<String>,
-                 showMeniuSubcategorys: MutableState<Boolean>,
-                 onSelect: (String) -> Unit) {
-        var expanded by remember { mutableStateOf(false) }
-        var selectedItem by remember { mutableStateOf("") }
-        var textFilledSize by remember { mutableStateOf(Size.Zero) }
-        val icon =  if (expanded) { Icons.Filled.KeyboardArrowUp }
-        else { Icons.Filled.KeyboardArrowDown }
+@Composable
+fun ShowMenuSubcategories(lSubcategorys: MutableList<String>,
+                          showMeniuSubcategorys: MutableState<Boolean>,
+                          okButton: Boolean = true, onSelect: (String) -> Unit) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedItem by remember { mutableStateOf("") }
+    var textFilledSize by remember { mutableStateOf(Size.Zero) }
+    val icon =  if (expanded) { Icons.Filled.KeyboardArrowUp } else { Icons.Filled.KeyboardArrowDown }
 
-        Column(
-            modifier = Modifier.padding(top = 50.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        OutlinedTextField(
+            value = selectedItem,
+            onValueChange = { selectedItem = it },
+            modifier = Modifier.fillMaxWidth().onGloballyPositioned { coordinates ->
+                textFilledSize = coordinates.size.toSize()
+            },
+            label = { Text(text = stringResource(id = R.string.selectare_subcategory)) },
+            trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) }
+        )
+
+        DropdownMenu(
+            expanded = expanded, onDismissRequest = { expanded = false },
+            modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
         ) {
-            OutlinedTextField(
-                value = selectedItem,
-                onValueChange = { selectedItem = it },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .onGloballyPositioned { coordinates ->
-                        textFilledSize = coordinates.size.toSize()
-                    },
-                label = { Text(text = stringResource(id = R.string.selectare_subcategory)) },
-                trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) })
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
-            ) {
-                lSubcategorys.forEach { label ->
-                    DropdownMenuItem(onClick = {
-                        selectedItem = label
-                        expanded = false
-                        onSelect(label) //
-                    },
-                        text = { Text(text = label) }
-                    )
-                }
+            lSubcategorys.forEach { label ->
+                DropdownMenuItem(onClick = {
+                    selectedItem = label
+                    expanded = false
+                    onSelect(label) //
+                },
+                    text = { Text(text = label) }
+                )
             }
-            okButton(selectedItem, showMeniuSubcategorys)
+        }
+
+        if (okButton) {
+            Column {
+                Spacer(Modifier.height(dimensionResource(id = R.dimen.three_hundred)))
+                OkButton(showMeniuSubcategorys)
+            }
         }
     }
 }

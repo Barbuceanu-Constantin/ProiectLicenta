@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun currenciesComposableScreen(modifier: Modifier = Modifier) {
+fun CurrenciesComposableScreen(modifier: Modifier = Modifier) {
     Column (
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
