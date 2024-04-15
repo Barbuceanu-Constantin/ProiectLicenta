@@ -23,6 +23,7 @@ import androidx.compose.ui.res.dimensionResource
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.FourthButton
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.SegmentedButton4
 import com.barbuceanuconstantin.proiectlicenta.ThreeTopButtons
 import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
 import com.barbuceanuconstantin.proiectlicenta.data.model.SubcategorysLazyColumn
@@ -31,8 +32,8 @@ import com.barbuceanuconstantin.proiectlicenta.data.model.SubcategorysLazyColumn
 fun CategoriesComposableScreen(lSA: MutableList<Subcategory>, lSP: MutableList<Subcategory>,
                                lSD: MutableList<Subcategory>) {
     val showA: MutableState<Boolean> = remember { mutableStateOf(true) }
-    val showP: MutableState<Boolean> = remember { mutableStateOf(true) }
-    val showD: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
     val addButton: MutableState<Boolean> = remember { mutableStateOf(false) }
 
     if (addButton.value) {
@@ -47,11 +48,9 @@ fun CategoriesComposableScreen(lSA: MutableList<Subcategory>, lSP: MutableList<S
                     horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer (Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 
-                Row {
-                    ThreeTopButtons(first = showA, second = showP, third = showD, firstId = R.string.active, secondId = R.string.pasive, thirdId = R.string.datorii)
-                }
+                SegmentedButton4(first = showA, second = showP, third = showD)
 
-                FourthButton(id = R.string.toate_subcategoriile, first = showA, second = showP, third = showD)
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.half_hundred)))
 
                 if (showA.value && !showP.value && !showD.value) {
                     SubcategorysLazyColumn(categorii = lSA, a = true, p = false, d = false)

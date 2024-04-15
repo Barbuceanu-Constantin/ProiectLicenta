@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindow
+import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindowSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.WarningNotSelectedCategory
 import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
@@ -75,7 +76,7 @@ fun ShowAddSubcategoryScreen(strId: Int, lActive: MutableList<Subcategory>,
 
     Column( horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly ) {
-        HeaderSelectCategoryOrTransactionWindow(showA, showP, showD)
+        HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA, showP, showD)
 
         if (!(showA.value && showD.value && showP.value)) {
             Text(text = specificMessage, modifier = Modifier.fillMaxWidth(),
