@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ModeEdit
 import androidx.compose.material3.Button
@@ -29,9 +31,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -73,6 +78,7 @@ fun ShowAddSubcategoryScreen(strId: Int, lActive: MutableList<Subcategory>,
     val showA: MutableState<Boolean> = remember { mutableStateOf(true) }
     val showP: MutableState<Boolean> = remember { mutableStateOf(true) }
     val showD: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Column( horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly ) {
@@ -95,7 +101,16 @@ fun ShowAddSubcategoryScreen(strId: Int, lActive: MutableList<Subcategory>,
                     Icon(imageVector = Icons.Outlined.ModeEdit,
                         contentDescription = stringResource(id = R.string.add))
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done // Specify imeAction as Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide() // Close the keyboard
+                    }
+                ),
             )
 
             Spacer(Modifier.height(dimensionResource(id = R.dimen.two_hundred)))
