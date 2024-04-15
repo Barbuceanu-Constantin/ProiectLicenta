@@ -184,6 +184,14 @@ fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<B
     Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 
     var selectedIndex by remember { mutableStateOf(-1) }
+
+    if (showA.value && !showP.value && !showD.value)
+        selectedIndex = 0
+    else if (showP.value && !showA.value && !showD.value)
+        selectedIndex = 1
+    else if (showD.value && !showA.value && !showP.value)
+        selectedIndex = 2
+
     val options = listOf(
         stringResource(id = R.string.active),
         stringResource(id = R.string.pasive),

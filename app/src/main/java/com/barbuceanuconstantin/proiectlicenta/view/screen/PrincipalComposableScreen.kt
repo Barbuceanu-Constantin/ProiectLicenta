@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
 import android.os.Build
@@ -108,11 +106,12 @@ private fun TotalBalance() {
         Balanta()
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PrincipalComposableScreen() {
     val addButton: MutableState<Boolean> = remember { mutableStateOf(false) }
-    var selectedIndex by remember { mutableStateOf(0) }
+    var selectedIndex by remember { mutableStateOf(-1) }
     val options = listOf(
         stringResource(id = R.string.Venituri),
         stringResource(id = R.string.Cheltuieli),
