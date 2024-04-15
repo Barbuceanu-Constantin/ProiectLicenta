@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.barbuceanuconstantin.proiectlicenta
 
 import android.icu.text.SimpleDateFormat
@@ -20,13 +22,21 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -162,6 +172,48 @@ fun Calendar(onDateSelected: (String) -> Unit) {
             .border(width = 10.dp, color = colorResource(id = R.color.dark_green))
             .fillMaxWidth()
     )
+}
+
+@Composable
+fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>) {
+    Text(text = stringResource(R.string.mesaj_selectare_categorie_principala),
+        modifier = Modifier.fillMaxWidth(),
+        fontSize = fontDimensionResource(R.dimen.fifty_sp),
+        fontWeight = FontWeight.Bold,
+        color = colorResource(id = R.color.red))
+
+    Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
+
+    var selectedIndex by remember { mutableStateOf(0) }
+    val options = listOf(
+        stringResource(id = R.string.active),
+        stringResource(id = R.string.pasive),
+        stringResource(id = R.string.datorii)
+    )
+
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+        SingleChoiceSegmentedButtonRow {
+            options.forEachIndexed { index, label ->
+                SegmentedButton(
+                    shape = SegmentedButtonDefaults.itemShape(
+                        index = index,
+                        count = options.size
+                    ),
+                    onClick = {
+                        selectedIndex = index
+                    },
+                    selected = index == selectedIndex,
+                    modifier = Modifier.height(dimensionResource(id = R.dimen.sixty_dp))
+                ) {
+                    Row {
+                        Text(text = label)
+                    }
+                }
+            }
+        }
+    }
+
+    Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 }
 @Composable
 fun HeaderSelectCategoryOrTransactionWindow(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>) {

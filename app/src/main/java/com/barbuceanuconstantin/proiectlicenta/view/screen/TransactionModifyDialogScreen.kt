@@ -40,6 +40,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindow
+import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindowSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.WarningNotSelectedCategory
@@ -93,7 +94,7 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
     } else {
         Scaffold { innerPadding ->
             Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)) {
-                HeaderSelectCategoryOrTransactionWindow(showAB, showPB, showDB)
+                HeaderSelectCategoryOrTransactionWindowSegmentedButton(showAB, showPB, showDB)
 
                 Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 

@@ -114,8 +114,8 @@ fun PrincipalComposableScreen() {
     val addButton: MutableState<Boolean> = remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf(0) }
     val options = listOf(
-        stringResource(id = R.string.Cheltuieli),
         stringResource(id = R.string.Venituri),
+        stringResource(id = R.string.Cheltuieli),
         stringResource(id = R.string.Datorii)
     )
 
@@ -177,12 +177,7 @@ fun PrincipalComposableScreen() {
                             modifier = Modifier.height(dimensionResource(id = R.dimen.sixty_dp))
                         ) {
                             Row {
-                                Icon(
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = "Add",
-                                    modifier = Modifier.size(24.dp)
-                                )
-                                Text(label)
+                                Text(text = label)
                             }
                         }
                     }

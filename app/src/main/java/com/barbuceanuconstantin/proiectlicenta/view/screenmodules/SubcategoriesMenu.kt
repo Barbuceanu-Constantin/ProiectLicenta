@@ -12,7 +12,9 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -47,8 +49,17 @@ fun ShowMenuSubcategories(lSubcategorys: MutableList<String>,
             modifier = Modifier.fillMaxWidth().onGloballyPositioned { coordinates ->
                 textFilledSize = coordinates.size.toSize()
             },
+            enabled = false,
             label = { Text(text = stringResource(id = R.string.selectare_subcategory)) },
-            trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) }
+            trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) },
+            colors = OutlinedTextFieldDefaults.colors(
+                disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                disabledBorderColor = MaterialTheme.colorScheme.outline,
+                disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         )
 
         DropdownMenu(
