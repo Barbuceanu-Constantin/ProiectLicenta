@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.barbuceanuconstantin.proiectlicenta.data.model
 
 import androidx.compose.foundation.BorderStroke
@@ -84,6 +82,7 @@ fun InfoBudget(value: Double, startDate: String, endDate: String) {
         )
     }
 }
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>) {
     LazyColumn(Modifier.fillMaxSize()) {
@@ -91,15 +90,11 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>) {
             this@LazyColumn.stickyHeader {
                 Card(
                     shape = RoundedCornerShape(dimensionResource(id = R.dimen.ten_dp)),
-                    border = BorderStroke(
-                        dimensionResource(id = R.dimen.five_dp),
-                        colorResource(id = R.color.light_cream)
-                    )
                 ){
                     HeaderBudget(text = budget.name, onDeleteItem = { lFixedBudgets.remove(budget) })
                     InfoBudget(budget.value, budget.start_date, budget.end_date)
                 }
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
             }
         }
     }

@@ -72,6 +72,8 @@ fun FixedBudgetsComposableScreen(lFixedBudgets: SnapshotStateList<Budget>) {
                      fontSize = fontDimensionResource(id = R.dimen.seventy_five_sp)
                 )
 
+                Spacer(Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+
                 BudgetsLazyColumn(lFixedBudgets)
             }
         }
