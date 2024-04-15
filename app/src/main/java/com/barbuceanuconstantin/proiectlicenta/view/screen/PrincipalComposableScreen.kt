@@ -35,6 +35,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.barbuceanuconstantin.proiectlicenta.Balanta
 import com.barbuceanuconstantin.proiectlicenta.R
@@ -160,6 +163,18 @@ fun PrincipalComposableScreen() {
                 TotalBalance()
 
                 Spacer(Modifier.height(dimensionResource(id = R.dimen.one_half_hundred)))
+
+                Text(
+                    text = stringResource(id = R.string.adaugare_tranzactie) + " : ",
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        textDecoration = TextDecoration.Underline
+                    )
+                )
+
+                Spacer(Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
 
                 SingleChoiceSegmentedButtonRow {
                     options.forEachIndexed { index, label ->

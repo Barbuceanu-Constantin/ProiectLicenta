@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePickerDialog
@@ -33,9 +34,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import com.barbuceanuconstantin.proiectlicenta.Calendar
@@ -77,6 +80,7 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
     var payee by remember { mutableStateOf("") }
     var valueSum by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     if (dateButton.value) {
         DatePickerDialog(onDismissRequest = {dateButton.value = false},
@@ -138,7 +142,13 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                             OutlinedTextField(
                                 value = valueSum,
                                 onValueChange = { valueSum = it },
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Number,
+                                    imeAction = ImeAction.Done // Specify imeAction as Done
+                                ),
+                                keyboardActions = KeyboardActions(
+                                    onDone = { keyboardController?.hide() }
+                                ),
                                 label = { Text(stringResource(id = R.string.introduceti_suma)) },
                                 maxLines = 1,
                                 modifier = Modifier.fillMaxWidth()
@@ -149,7 +159,13 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                             OutlinedTextField(
                                 value = payee,
                                 onValueChange = { payee = it },
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Text,
+                                    imeAction = ImeAction.Done
+                                ),
+                                keyboardActions = KeyboardActions(
+                                    onDone = { keyboardController?.hide() }
+                                ),
                                 label = { Text(text = stringResource(id = R.string.furnizor_sau_beneficiar)) },
                                 maxLines = 1,
                                 modifier = Modifier.fillMaxWidth()
@@ -181,7 +197,13 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                             OutlinedTextField(
                                 value = description,
                                 onValueChange = { description = it },
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                                keyboardOptions = KeyboardOptions(
+                                                        keyboardType = KeyboardType.Text,
+                                                        imeAction = ImeAction.Done
+                                                ),
+                                keyboardActions = KeyboardActions(
+                                    onDone = { keyboardController?.hide() }
+                                ),
                                 label = { Text(text = stringResource(id = R.string.descriere)) },
                                 maxLines = 1,
                                 modifier = Modifier.fillMaxWidth()

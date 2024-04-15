@@ -58,6 +58,7 @@ fun Screen6() {
     BudgetSummaryComposableScreen(lTrA = lTrA, lTrP = lTrP)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Screen7() {
     initHardcodedTransactions()
