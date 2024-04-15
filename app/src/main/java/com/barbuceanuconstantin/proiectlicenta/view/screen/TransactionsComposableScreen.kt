@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.FourthButton
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.SegmentedButton4
 import com.barbuceanuconstantin.proiectlicenta.ThreeTopButtons
 import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
@@ -50,8 +51,8 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
                                  lTrP: SnapshotStateList<Tranzactie>,
                                  lTrD: SnapshotStateList<Tranzactie>) {
     val showA: MutableState<Boolean> = remember { mutableStateOf(true) }
-    val showP: MutableState<Boolean> = remember { mutableStateOf(true) }
-    val showD: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
     val addButton: MutableState<Boolean> = remember { mutableStateOf(false) }
     val updateTransactionButton: MutableState<Boolean> = remember { mutableStateOf(false) }
     val index: MutableState<Int> = remember { mutableIntStateOf(-1) }
@@ -117,11 +118,9 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
                         horizontalAlignment = Alignment.CenterHorizontally) {
                     Spacer(modifier = Modifier.height(dimensionResource(R.dimen.half_hundred)))
 
-                    Row {
-                        ThreeTopButtons(first = showA, second = showP, third = showD, firstId = R.string.active, secondId = R.string.pasive, thirdId = R.string.datorii)
-                    }
+                    SegmentedButton4(first = showA, second = showP, third = showD)
 
-                    FourthButton(id = R.string.toate_tranzactiile, first = showA, second = showP, third = showD)
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.half_hundred)))
 
                     if (showA.value && !showP.value && !showD.value) {
                         TranzactiiLazyColumn(tranzactii = lTrA, lTrA = lTrA, indexState = index, sem = sem, updateScreenButton = updateTransactionButton)

@@ -91,8 +91,10 @@ fun TransactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
                         fontStyle = FontStyle.Italic,
                         textDecoration = TextDecoration.Underline
                     ),
-                    fontSize = fontDimensionResource(id = R.dimen.fifty_sp)
+                    fontSize = fontDimensionResource(id = R.dimen.seventy_five_sp)
                 )
+
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 
                 ShowMenuSubcategories(okButton = false, lSubcategorys = subcategoriesList,
                                       showMeniuSubcategorys = showMeniuSubcategorys1) {
@@ -101,28 +103,9 @@ fun TransactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
 
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 
-                OutlinedTextField(value = subcategory, onValueChange = { subcategory = it },
-                                  keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                                  label = { Text(stringResource(id = R.string.subcategory)) }, maxLines = 1,
-                                  modifier = Modifier.fillMaxWidth()
-                                                     .background(colorResource(R.color.light_cream_purple)))
-
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
-
                 ShowMenuCurrencies(showMeniuValute = showMeniuValute1, okButton = false) {
                     currency = it
                 }
-
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
-
-                OutlinedTextField(
-                    value = currency,
-                    onValueChange = { currency = it },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                    label = { Text(stringResource(id = R.string.valuta)) },
-                    maxLines = 1,
-                    modifier = Modifier.fillMaxWidth().background(colorResource(R.color.light_cream_purple))
-                )
 
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 
@@ -185,7 +168,7 @@ fun TransactionUpdateScreen(indexUpdate: Int, trList: SnapshotStateList<Tranzact
                 if (valueSum != "")
                     trList[indexUpdate].suma = valueSum.toDouble()
 
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 
                 OkButton(ok = updateTransactionButton)
             }

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.barbuceanuconstantin.proiectlicenta
 
 import android.icu.text.SimpleDateFormat
@@ -174,6 +172,7 @@ fun Calendar(onDateSelected: (String) -> Unit) {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>) {
     Text(text = stringResource(R.string.mesaj_selectare_categorie_principala),
@@ -264,6 +263,61 @@ fun FourthButton(id: Int, first: MutableState<Boolean>, second: MutableState<Boo
     }
 
     Spacer(Modifier.fillMaxHeight(fraction = 25F / LocalConfiguration.current.screenHeightDp))
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SegmentedButton4(first: MutableState<Boolean>, second: MutableState<Boolean>,
+                     third: MutableState<Boolean>) {
+    var selectedIndex by remember { mutableStateOf(0) }
+    val options = listOf(
+        stringResource(id = R.string.active),
+        stringResource(id = R.string.pasive),
+        stringResource(id = R.string.datorii),
+        stringResource(id = R.string.toate)
+    )
+
+    SingleChoiceSegmentedButtonRow {
+        options.forEachIndexed { index, label ->
+            SegmentedButton(
+                shape = SegmentedButtonDefaults.itemShape(
+                    index = index,
+                    count = options.size
+                ),
+                onClick = {
+                    selectedIndex = index
+                    when (selectedIndex) {
+                        0 -> {
+                            first.value = true
+                            second.value = false
+                            third.value = false
+                        }
+                        1 -> {
+                            second.value = true
+                            first.value = false
+                            third.value = false
+                        }
+                        2 -> {
+                            third.value = true
+                            first.value = false
+                            second.value = false
+                        }
+                        3 -> {
+                            first.value = true
+                            second.value = true
+                            third.value = true
+                        }
+                    }
+                },
+                selected = index == selectedIndex,
+                modifier = Modifier.height(dimensionResource(id = R.dimen.sixty_dp))
+            ) {
+                Row {
+                    Text(text = label)
+                }
+            }
+        }
+    }
 }
 
 @Composable

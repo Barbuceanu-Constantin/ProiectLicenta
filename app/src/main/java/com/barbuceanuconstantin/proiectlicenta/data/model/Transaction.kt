@@ -67,11 +67,7 @@ private fun Tranzactie( subcategory: String, value: Double, currency: String, de
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Card(
-            shape = RoundedCornerShape(dimensionResource(id = R.dimen.ten_dp)),
-            border = BorderStroke(
-                dimensionResource(id = R.dimen.two_dp),
-                colorResource(id = R.color.light_cream)
-            )
+            shape = RoundedCornerShape(dimensionResource(id = R.dimen.ten_dp))
         ) {
             Column {
                 Text(
@@ -79,15 +75,25 @@ private fun Tranzactie( subcategory: String, value: Double, currency: String, de
                     fontWeight = FontWeight.Bold, modifier = Modifier
                         .fillMaxWidth()
                         .background(color)
+                        .padding(start = dimensionResource(id = R.dimen.margin))
                 )
                 Text(
                     text = "${stringResource(id = R.string.furnizor_sau_beneficiar)} : $payee",
-                    maxLines = 2
+                    maxLines = 2,
+                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
+                                                top = dimensionResource(id = R.dimen.eight_dp))
                 )
-                Text(text = "${stringResource(id = R.string.data)} : $data", maxLines = 2)
+                Text(
+                    text = "${stringResource(id = R.string.data)} : $data",
+                    maxLines = 2,
+                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
+                                                top = dimensionResource(id = R.dimen.eight_dp))
+                )
                 Text(
                     text = "${stringResource(id = R.string.descriere)} : $descriere",
-                    maxLines = 2
+                    maxLines = 2,
+                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
+                                                top = dimensionResource(id = R.dimen.eight_dp))
                 )
                 if (buttons) {
                     Row {
