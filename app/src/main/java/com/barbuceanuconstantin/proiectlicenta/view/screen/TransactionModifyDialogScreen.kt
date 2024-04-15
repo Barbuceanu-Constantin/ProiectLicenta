@@ -222,7 +222,7 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                                                 currency,
                                                 subcategory,
                                                 valueSum,
-                                                "Furnizor : $payee",
+                                                "Furnizor -> $payee",
                                                 dateMutable.value,
                                                 description
                                             )
@@ -232,7 +232,7 @@ fun ShowTransactionDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Un
                                                 currency,
                                                 subcategory,
                                                 valueSum,
-                                                "Beneficiar : $payee",
+                                                "Beneficiar -> $payee",
                                                 dateMutable.value,
                                                 description
                                             )
