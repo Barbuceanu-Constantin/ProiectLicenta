@@ -110,7 +110,7 @@ fun ShowAddSubcategoryScreen(strId: Int, lActive: MutableList<Subcategory>,
                     onDone = {
                         keyboardController?.hide() // Close the keyboard
                     }
-                ),
+                )
             )
 
             Spacer(Modifier.height(dimensionResource(id = R.dimen.two_hundred)))

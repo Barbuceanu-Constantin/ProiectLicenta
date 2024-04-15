@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePickerDialog
@@ -33,11 +34,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import com.barbuceanuconstantin.proiectlicenta.R
@@ -72,6 +75,7 @@ fun ShowBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
                      dateMutable1: MutableState<String>, dateMutable2: MutableState<String>) {
     var filledText by remember { mutableStateOf("") }
     var valueSum by remember { mutableStateOf("") }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     if (dateButton1.value && !dateButton2.value) {
         DatePickerDialog(onDismissRequest = { dateButton1.value = !dateButton1.value },
@@ -130,16 +134,32 @@ fun ShowBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
                     value = filledText, onValueChange = { filledText = it },
                     textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
                     label = { Text(text = stringResource(R.string.denumire)) },
-                    maxLines = 1
+                    maxLines = 1,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done // Specify imeAction as Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            keyboardController?.hide() // Close the keyboard
+                        }
+                    )
                 )
 
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
 
                 OutlinedTextField(
                     value = valueSum, onValueChange = { valueSum = it },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyboardOptions = KeyboardOptions(
+                                                    keyboardType = KeyboardType.Number,
+                                                    imeAction = ImeAction.Done),
                     label = { Text(stringResource(id = R.string.introduceti_suma)) },
                     maxLines = 1,
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            keyboardController?.hide() // Close the keyboard
+                        }
+                    )
                 )
 
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
