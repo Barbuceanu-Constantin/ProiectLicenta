@@ -4,8 +4,10 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.widget.CalendarView
 import androidx.annotation.DimenRes
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -30,6 +33,7 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,18 +41,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import kotlinx.coroutines.delay
 import java.util.Locale
+import kotlin.math.roundToInt
 
 @Composable
 fun Balanta() {
@@ -434,5 +445,60 @@ fun ThreeTopButtons(first: MutableState<Boolean>, second: MutableState<Boolean>,
             Text(text = stringResource(id = thirdId), fontSize = 20.sp)
         else
             Text(text = stringResource(id = thirdId))
+    }
+}
+
+@Composable
+fun SwipeCard(onSwipeLeft: () -> Unit = {},
+              onSwipeRight: () -> Unit = {},
+              swipeThreshold: Float = 200f,
+              sensitivityFactor: Float = 4f,
+              content: @Composable () -> Unit) {
+    var offset by remember { mutableStateOf(0f) }
+    var dismissRight by remember { mutableStateOf(false) }
+    var dismissLeft by remember { mutableStateOf(false) }
+    val density = LocalDensity.current.density
+
+    LaunchedEffect(dismissRight) {
+        if (dismissRight) {
+            delay(200)
+            onSwipeRight.invoke()
+            dismissRight = false
+        }
+    }
+
+    LaunchedEffect(dismissLeft) {
+        if (dismissLeft) {
+            delay(200)
+            onSwipeLeft.invoke()
+            dismissLeft = false
+        }
+    }
+
+    Box(modifier = Modifier
+        .offset { IntOffset(offset.roundToInt(), 0) }
+        .pointerInput(Unit) {
+            detectHorizontalDragGestures(onDragEnd = {
+                offset = 0f
+            }) { change, dragAmount ->
+
+                offset += (dragAmount / density) * sensitivityFactor
+                when {
+                    offset > swipeThreshold -> {
+                        dismissRight = true
+                    }
+
+                    offset < -swipeThreshold -> {
+                        dismissLeft = true
+                    }
+                }
+                if (change.positionChange() != Offset.Zero) change.consume()
+            }
+        }
+        .graphicsLayer(
+            alpha = 10f - animateFloatAsState(if (dismissRight) 1f else 0f).value,
+            rotationZ = animateFloatAsState(offset / 50).value
+        )) {
+        content()
     }
 }

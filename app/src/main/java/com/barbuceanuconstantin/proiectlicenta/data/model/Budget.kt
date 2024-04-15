@@ -27,6 +27,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.SwipeCard
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 
 data class Budget(
@@ -50,7 +51,9 @@ private fun HeaderBudget(text: String, onDeleteItem: () -> Unit) {
                     )
                     .weight(1f))
 
-            IconButton(onClick = onDeleteItem, modifier = Modifier.fillMaxSize().weight(1f)) {
+            IconButton(onClick = onDeleteItem, modifier = Modifier
+                .fillMaxSize()
+                .weight(1f)) {
                 Icon(Icons.Filled.Delete, contentDescription = "Delete", tint = colorResource(id = R.color.dark_blue))
             }
         }
@@ -64,21 +67,27 @@ fun InfoBudget(value: Double, startDate: String, endDate: String) {
             text = stringResource(id = R.string.prag_superior) + " $value",
             fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.fillMaxWidth().padding(dimensionResource(id = R.dimen.margin))
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dimensionResource(id = R.dimen.margin))
         )
 
         Text(
             text = stringResource(id = R.string.data_inceput) + " $startDate",
             fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.fillMaxWidth().padding(dimensionResource(id = R.dimen.margin))
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dimensionResource(id = R.dimen.margin))
         )
 
         Text(
             text = stringResource(id = R.string.data_final) + " $endDate",
             fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.fillMaxWidth().padding(dimensionResource(id = R.dimen.margin))
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dimensionResource(id = R.dimen.margin))
         )
     }
 }
@@ -88,11 +97,16 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>) {
     LazyColumn(Modifier.fillMaxSize()) {
         lFixedBudgets.forEach() { budget ->
             this@LazyColumn.stickyHeader {
-                Card(
-                    shape = RoundedCornerShape(dimensionResource(id = R.dimen.ten_dp)),
-                ){
-                    HeaderBudget(text = budget.name, onDeleteItem = { lFixedBudgets.remove(budget) })
-                    InfoBudget(budget.value, budget.start_date, budget.end_date)
+                SwipeCard (onSwipeLeft = { lFixedBudgets.remove(budget) },
+                           onSwipeRight = { lFixedBudgets.remove(budget) }){
+                    Card(
+                        shape = RoundedCornerShape(dimensionResource(id = R.dimen.ten_dp)),
+                    ) {
+                        HeaderBudget(
+                            text = budget.name,
+                            onDeleteItem = { lFixedBudgets.remove(budget) })
+                        InfoBudget(budget.value, budget.start_date, budget.end_date)
+                    }
                 }
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
             }

@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.SwipeCard
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
@@ -66,57 +67,66 @@ private fun Tranzactie( subcategory: String, value: Double, currency: String, de
             colorResource(id = R.color.light_cream_blue) else colorResource(id = R.color.light_cream_gray)
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        Card(
-            shape = RoundedCornerShape(dimensionResource(id = R.dimen.ten_dp))
-        ) {
-            Column {
-                Text(
-                    text = "${subcategory} ---> ${value} (${currency})", fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold, modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color)
-                        .padding(start = dimensionResource(id = R.dimen.margin))
-                )
-                Text(
-                    text = "${stringResource(id = R.string.furnizor_sau_beneficiar)} : $payee",
-                    maxLines = 2,
-                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
-                                                top = dimensionResource(id = R.dimen.eight_dp))
-                )
-                Text(
-                    text = "${stringResource(id = R.string.data)} : $data",
-                    maxLines = 2,
-                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
-                                                top = dimensionResource(id = R.dimen.eight_dp))
-                )
-                Text(
-                    text = "${stringResource(id = R.string.descriere)} : $descriere",
-                    maxLines = 2,
-                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
-                                                top = dimensionResource(id = R.dimen.eight_dp))
-                )
-                if (buttons) {
-                    Row {
-                        IconButton(
-                            onClick = update, modifier = Modifier
-                                .fillMaxSize(fraction = 1f)
-                                .weight(1f)
-                        ) {
-                            Icon(
-                                Icons.Filled.Colorize, contentDescription = "Update",
-                                tint = colorResource(id = R.color.black)
-                            )
-                        }
+        SwipeCard(onSwipeLeft = onDeleteItem,
+                  onSwipeRight = onDeleteItem) {
+            Card(
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.ten_dp))
+            ) {
+                Column {
+                    Text(
+                        text = "${subcategory} ---> ${value} (${currency})", fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold, modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color)
+                            .padding(start = dimensionResource(id = R.dimen.margin))
+                    )
+                    Text(
+                        text = "${stringResource(id = R.string.furnizor_sau_beneficiar)} : $payee",
+                        maxLines = 2,
+                        modifier = Modifier.padding(
+                            start = dimensionResource(id = R.dimen.margin),
+                            top = dimensionResource(id = R.dimen.eight_dp)
+                        )
+                    )
+                    Text(
+                        text = "${stringResource(id = R.string.data)} : $data",
+                        maxLines = 2,
+                        modifier = Modifier.padding(
+                            start = dimensionResource(id = R.dimen.margin),
+                            top = dimensionResource(id = R.dimen.eight_dp)
+                        )
+                    )
+                    Text(
+                        text = "${stringResource(id = R.string.descriere)} : $descriere",
+                        maxLines = 2,
+                        modifier = Modifier.padding(
+                            start = dimensionResource(id = R.dimen.margin),
+                            top = dimensionResource(id = R.dimen.eight_dp)
+                        )
+                    )
+                    if (buttons) {
+                        Row {
+                            IconButton(
+                                onClick = update, modifier = Modifier
+                                    .fillMaxSize(fraction = 1f)
+                                    .weight(1f)
+                            ) {
+                                Icon(
+                                    Icons.Filled.Colorize, contentDescription = "Update",
+                                    tint = colorResource(id = R.color.black)
+                                )
+                            }
 
-                        IconButton(
-                            onClick = onDeleteItem, modifier = Modifier
-                                .fillMaxSize(fraction = 1f)
-                                .weight(1f)
-                        ) {
-                            Icon(
-                                Icons.Filled.Delete, contentDescription = "Delete",
-                                tint = colorResource(id = R.color.black)
-                            )
+                            IconButton(
+                                onClick = onDeleteItem, modifier = Modifier
+                                    .fillMaxSize(fraction = 1f)
+                                    .weight(1f)
+                            ) {
+                                Icon(
+                                    Icons.Filled.Delete, contentDescription = "Delete",
+                                    tint = colorResource(id = R.color.black)
+                                )
+                            }
                         }
                     }
                 }
