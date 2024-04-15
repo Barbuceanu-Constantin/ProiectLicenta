@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,6 +28,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -76,6 +78,7 @@ fun ShowBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
     var filledText by remember { mutableStateOf("") }
     var valueSum by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
+    val openDialog = remember { mutableStateOf(false) }
 
     if (dateButton1.value && !dateButton2.value) {
         DatePickerDialog(onDismissRequest = { dateButton1.value = !dateButton1.value },
@@ -96,26 +99,60 @@ fun ShowBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
             }
         }
     } else if (!dateButton1.value && dateButton2.value) {
-        DatePickerDialog(onDismissRequest = {dateButton2.value = !dateButton2.value},
-                         confirmButton = {},
-                         dismissButton = {}) {
-            Column( modifier = Modifier.fillMaxSize(),
+        if (!openDialog.value) {
+            DatePickerDialog(onDismissRequest = { dateButton2.value = !dateButton2.value },
+                confirmButton = {},
+                dismissButton = {}) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Calendar(onDateSelected = { selectedDate ->
-                    if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
-                        dateMutable2.value = selectedDate
-                    }
-                })
+                ) {
+                    Calendar(onDateSelected = { selectedDate ->
+                        if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
+                            val dateString: String = dateMutable1.value
+                            val formatter: DateTimeFormatter =
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                            val localDate: LocalDate = LocalDate.parse(dateString, formatter)
+                            if (isDateAfterOrEqualToCurrent(selectedDate, localDate)) {
+                                dateMutable2.value = selectedDate
+                            } else {
+                                openDialog.value = true
+                            }
+                        }
+                    })
 
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
 
-                OkButton(ok = dateButton2)
+                    OkButton(ok = dateButton2)
+                }
             }
+        } else {
+            AlertDialog(
+                onDismissRequest = {
+                    openDialog.value = false // Dismiss the dialog when the user clicks outside the dialog or on the back button
+                },
+                title = {
+                    Text(text = stringResource(id = R.string.avertisment_data))
+                },
+                text = {
+                    Text(text = stringResource(id = R.string.avertisment_data_continut))
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            openDialog.value = false
+                        }
+                    ) {
+                        Text(text = stringResource(id = R.string.ok))
+                    }
+                }
+            )
         }
     } else if (!dateButton1.value && !dateButton2.value) {
         Scaffold { innerPadding ->
-            Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
+            Column( modifier = Modifier
+                .fillMaxWidth()
+                .padding(innerPadding),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
@@ -136,7 +173,7 @@ fun ShowBudgetDialog(onDismissRequest: () -> Unit, onConfirmation: () -> Unit, l
                     label = { Text(text = stringResource(R.string.denumire)) },
                     maxLines = 1,
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
+                        keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Done // Specify imeAction as Done
                     ),
                     keyboardActions = KeyboardActions(

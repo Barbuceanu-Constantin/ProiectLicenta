@@ -67,6 +67,9 @@
     <string name="ecran_bugete_fixe">Ecran bugete fixe</string>
     <string name="ecran_modificare_tranzactie">Ecran modificare tranzactie</string>
 
+    <string name="avertisment_data">Atentie !</string>
+    <string name="avertisment_data_continut">Data de final trebuie sa fie dupa data de inceput</string>
+
     <string name="introduceti_detalii_buget">Introduceti detalii buget</string>
     <string name="furnizor_sau_beneficiar">Furnizor/Beneficiar</string>
     <string name="cheltuieli_zi_curenta">Cheltuieli zi curenta</string>
