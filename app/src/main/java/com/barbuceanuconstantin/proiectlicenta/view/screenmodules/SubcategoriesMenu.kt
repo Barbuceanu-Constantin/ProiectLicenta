@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -48,10 +49,11 @@ fun ShowMenuSubcategories(lSubcategorys: MutableList<String>,
             onValueChange = { selectedItem = it },
             modifier = Modifier.fillMaxWidth().onGloballyPositioned { coordinates ->
                 textFilledSize = coordinates.size.toSize()
-            },
+            }.padding(start = dimensionResource(id = R.dimen.margin),
+                      end = dimensionResource(id = R.dimen.margin)),
             enabled = false,
             label = { Text(text = stringResource(id = R.string.selectare_subcategory)) },
-            trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) },
+            trailingIcon = { Icon(icon, "", Modifier.clickable { expanded = !expanded }) } ,
             colors = OutlinedTextFieldDefaults.colors(
                 disabledTextColor = MaterialTheme.colorScheme.onSurface,
                 disabledBorderColor = MaterialTheme.colorScheme.outline,
@@ -74,13 +76,6 @@ fun ShowMenuSubcategories(lSubcategorys: MutableList<String>,
                 },
                     text = { Text(text = label) }
                 )
-            }
-        }
-
-        if (okButton) {
-            Column {
-                Spacer(Modifier.height(dimensionResource(id = R.dimen.three_hundred)))
-                OkButton(showMeniuSubcategorys)
             }
         }
     }

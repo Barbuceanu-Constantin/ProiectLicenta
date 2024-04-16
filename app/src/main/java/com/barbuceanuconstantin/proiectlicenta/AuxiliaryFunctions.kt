@@ -183,7 +183,10 @@ fun Calendar(onDateSelected: (String) -> Unit) {
 @Composable
 fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>) {
     Text(text = stringResource(R.string.mesaj_selectare_categorie_principala),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = dimensionResource(id = R.dimen.margin),
+                     top = dimensionResource(id = R.dimen.margin)),
         fontSize = fontDimensionResource(R.dimen.fifty_sp),
         fontWeight = FontWeight.Bold,
         color = colorResource(id = R.color.red))
@@ -206,7 +209,8 @@ fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<B
     )
 
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        SingleChoiceSegmentedButtonRow {
+        SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
+                                                                                  end = dimensionResource(id = R.dimen.margin))) {
             options.forEachIndexed { index, label ->
                 SegmentedButton(
                     shape = SegmentedButtonDefaults.itemShape(
@@ -235,8 +239,7 @@ fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<B
                             }
                         }
                     },
-                    selected = index == selectedIndex,
-                    modifier = Modifier.height(dimensionResource(id = R.dimen.sixty_dp))
+                    selected = index == selectedIndex
                 ) {
                     Row {
                         Text(text = label)
@@ -251,7 +254,8 @@ fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<B
 @Composable
 fun WarningNotSelectedCategory() {
     Text(text = stringResource(id = R.string.avertisment_neselectare_categorie),
-         modifier = Modifier.fillMaxWidth(),
+         modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
+                                                    top = dimensionResource(id = R.dimen.margin)),
          fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
          fontWeight = FontWeight.Bold,
          color = colorResource(id = R.color.red))
@@ -269,7 +273,8 @@ fun SegmentedButton4(first: MutableState<Boolean>, second: MutableState<Boolean>
         stringResource(id = R.string.toate)
     )
 
-    SingleChoiceSegmentedButtonRow {
+    SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
+                                                                              end = dimensionResource(id = R.dimen.margin))) {
         options.forEachIndexed { index, label ->
             SegmentedButton(
                 shape = SegmentedButtonDefaults.itemShape(
@@ -302,7 +307,6 @@ fun SegmentedButton4(first: MutableState<Boolean>, second: MutableState<Boolean>
                     }
                 },
                 selected = index == selectedIndex,
-                modifier = Modifier.height(dimensionResource(id = R.dimen.sixty_dp))
             ) {
                 Row {
                     Text(text = label)

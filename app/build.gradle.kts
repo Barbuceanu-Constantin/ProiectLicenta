@@ -116,4 +116,7 @@ dependencies {
     // Coroutine Lifecycle Scopes
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+
+    //DatePicker
+    implementation ("androidx.compose.material3:material3:1.2.0-alpha02")
 }

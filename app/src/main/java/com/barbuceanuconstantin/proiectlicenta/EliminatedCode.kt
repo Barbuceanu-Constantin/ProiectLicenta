@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
@@ -20,6 +21,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 
 @Composable
 fun ThreeTopButtons(first: MutableState<Boolean>, second: MutableState<Boolean>,
@@ -185,3 +187,91 @@ enum class CategoryType(val id: Int) {
     DATORII(3)
 }
  */
+
+/*
+Din PrincipalComposableScreen
+
+addButton.value = true -> in OnClick
+val addButton: MutableState<Boolean> = remember { mutableStateOf(false) }
+
+if (addButton.value) {
+    val dateTime = LocalDateTime.now()
+    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val formattedDate = dateTime.format(dateFormatter)
+    val date by remember { mutableStateOf(formattedDate) }
+    val dateMutable: MutableState<String> = remember { mutableStateOf(date) }
+    val showAB: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val showPB: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val showDB: MutableState<Boolean> = remember { mutableStateOf(true) }
+    when (selectedIndex) {
+        0 -> {
+            showPB.value = false
+            showDB.value = false
+        }
+        1 -> {
+            showAB.value = false
+            showDB.value = false
+        }
+        2 -> {
+            showAB.value = false
+            showPB.value = false
+        }
+    }
+    ShowTransactionDialog(onDismissRequest = { addButton.value = false },
+        onConfirmation = {addButton.value = false},
+        lActive = lTrA, lPasive = lTrP, lDatorii = lTrD,
+        dateMutable = dateMutable, showAB = showAB,
+        showPB = showPB, showDB = showDB)
+}*/
+
+/*Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+    Row{
+        Button(
+            onClick = {
+                if (!(showA.value && showP.value && showD.value) && !showMeniuValute.value && !showMeniuSubcategorys.value) {
+                    showMeniuSubcategorys.value = !showMeniuSubcategorys.value
+                }
+            }
+        ) { Text(stringResource(R.string.mesaj_selectare_subcategory)) }
+
+        Spacer(Modifier.width(dimensionResource(id = R.dimen.ten_dp)))
+
+        Button(
+            onClick = {
+                if (!(showA.value && showP.value && showD.value) && !showMeniuSubcategorys.value && !showMeniuValute.value) {
+                    showMeniuValute.value = !showMeniuValute.value
+                }
+            }
+        ) { Text(stringResource(R.string.mesaj_selectare_valuta)) }
+    }
+}*/
+
+/*Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+    Row{
+        Button(
+            onClick = {
+                if (!(showA.value && showP.value && showD.value) && !showMeniuValute.value && !showMeniuSubcategorys.value) {
+                    showMeniuSubcategorys.value = !showMeniuSubcategorys.value
+                }
+            }
+        ) { Text(stringResource(R.string.mesaj_selectare_subcategory)) }
+
+        Spacer(Modifier.width(dimensionResource(id = R.dimen.ten_dp)))
+
+        Button(
+            onClick = {
+                if (!(showA.value && showP.value && showD.value) && !showMeniuSubcategorys.value && !showMeniuValute.value) {
+                    showMeniuValute.value = !showMeniuValute.value
+                }
+            }
+        ) { Text(stringResource(R.string.mesaj_selectare_valuta)) }
+    }
+}*/
+
+/*
+private fun adaugareTranzactie(l: SnapshotStateList<Tranzactie>, currency:String, subcategory:String,
+                               valueSum:String, payee:String, date:String, description:String) {
+    val newTranzactie = Tranzactie(valueSum.toDouble(), currency, description, subcategory, date, payee)
+    l.add(0, newTranzactie)
+}
+*/

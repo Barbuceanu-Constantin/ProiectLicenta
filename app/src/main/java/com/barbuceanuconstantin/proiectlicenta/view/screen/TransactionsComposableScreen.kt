@@ -100,11 +100,11 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
             val showAB: MutableState<Boolean> = remember { mutableStateOf(true) }
             val showPB: MutableState<Boolean> = remember { mutableStateOf(true) }
             val showDB: MutableState<Boolean> = remember { mutableStateOf(true) }
-            ShowTransactionDialog(onDismissRequest = { addButton.value = false },
+            /*ShowTransactionDialog(onDismissRequest = { addButton.value = false },
                                   onConfirmation = {addButton.value = false},
                                   lActive = lTrA, lPasive = lTrP, lDatorii = lTrD,
                                   dateMutable = dateMutable, showAB = showAB,
-                                  showPB = showPB, showDB = showDB)
+                                  showPB = showPB, showDB = showDB)*/
         }
         if (!addButton.value) {
             Scaffold(

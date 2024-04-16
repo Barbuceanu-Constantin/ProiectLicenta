@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -58,7 +59,8 @@ fun ShowMenuCurrencies(showMeniuValute: MutableState<Boolean>,
             onValueChange = { selectedItem = it },
             modifier = Modifier.fillMaxWidth().onGloballyPositioned { coordinates ->
                                                         textFilledSize = coordinates.size.toSize()
-                                                    },
+                                                    }.padding(start = dimensionResource(id = R.dimen.margin),
+                                                              end = dimensionResource(id = R.dimen.margin)),
             enabled = false,
             label = { Text(text = stringResource(R.string.selectare_valuta)) },
             trailingIcon = {
@@ -88,11 +90,6 @@ fun ShowMenuCurrencies(showMeniuValute: MutableState<Boolean>,
                                             text = { Text(text = label) }
                 )
             }
-        }
-
-        if(okButton) {
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.three_hundred)))
-            OkButton(showMeniuValute)
         }
     }
 }
