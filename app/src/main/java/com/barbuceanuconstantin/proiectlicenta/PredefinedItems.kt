@@ -2,7 +2,7 @@ package com.barbuceanuconstantin.proiectlicenta
 
 import androidx.compose.runtime.mutableStateListOf
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
-import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
+import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 
 var subcategorysPredefiniteActive = mutableStateListOf(
     "Salariu",
@@ -29,9 +29,9 @@ var subcategorysPredefiniteDatorii = mutableStateListOf(
     "Credit3",
 ).groupByTo(mutableMapOf()) { it.first() }.toSortedMap()
 
-var lTrA = mutableStateListOf<Tranzactie>()
-var lTrP = mutableStateListOf<Tranzactie>()
-var lTrD = mutableStateListOf<Tranzactie>()
+var lTrA = mutableStateListOf<Transaction>()
+var lTrP = mutableStateListOf<Transaction>()
+var lTrD = mutableStateListOf<Transaction>()
 
 var lBudgets = mutableStateListOf<Budget>()
 fun InitHardcodedBudgets() {
@@ -47,21 +47,21 @@ fun InitHardcodedBudgets() {
     lBudgets.add(Budget("---", "---", "---", 0f.toDouble()))
 }
 fun initHardcodedTransactions() {
-    lTrA.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
-    lTrA.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
-    lTrA.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
-    lTrA.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
-    lTrA.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
+    lTrA.add(Transaction(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
+    lTrA.add(Transaction(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
+    lTrA.add(Transaction(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
+    lTrA.add(Transaction(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
+    lTrA.add(Transaction(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Salariu"))
 
-    lTrP.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
-    lTrP.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
-    lTrP.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
-    lTrP.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
-    lTrP.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
+    lTrP.add(Transaction(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
+    lTrP.add(Transaction(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
+    lTrP.add(Transaction(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
+    lTrP.add(Transaction(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
+    lTrP.add(Transaction(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Mancare"))
 
-    lTrD.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Credit1"))
-    lTrD.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Credit1"))
-    lTrD.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Credit1"))
-    lTrD.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Credit1"))
-    lTrD.add(Tranzactie(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Credit1"))
+    lTrD.add(Transaction(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Credit1"))
+    lTrD.add(Transaction(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Credit1"))
+    lTrD.add(Transaction(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Credit1"))
+    lTrD.add(Transaction(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Credit1"))
+    lTrD.add(Transaction(suma = 0F.toDouble(), valuta = "EURO", data = "", descriere = "", payee = "", subcategory = "Credit1"))
 }

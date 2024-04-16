@@ -40,7 +40,7 @@ import com.barbuceanuconstantin.proiectlicenta.IntToMonth
 import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.ThreeTopButtons
-import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
+import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.getStartAndEndDateOfWeek
 import com.barbuceanuconstantin.proiectlicenta.data.model.SummaryTranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
@@ -91,8 +91,8 @@ fun SelectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<St
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
-                                  lTrP: SnapshotStateList<Tranzactie>) {
+fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
+                                  lTrP: SnapshotStateList<Transaction>) {
     val daily: MutableState<Boolean> = remember { mutableStateOf(true) }
     val weekly: MutableState<Boolean> = remember { mutableStateOf(true) }
     val monthly: MutableState<Boolean> = remember { mutableStateOf(true) }

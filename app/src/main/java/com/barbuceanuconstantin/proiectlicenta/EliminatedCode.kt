@@ -6,13 +6,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -21,7 +19,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
 
 @Composable
 fun ThreeTopButtons(first: MutableState<Boolean>, second: MutableState<Boolean>,
@@ -286,3 +283,17 @@ private fun adaugareTranzactie(l: SnapshotStateList<Tranzactie>, currency:String
 //                    OkButton(ok = dateButton)
 //                }
 //        }
+
+//Text(text = stringResource(R.string.mesaj_selectare_categorie_principala),
+//modifier = Modifier
+//.fillMaxWidth()
+//.padding(start = dimensionResource(id = R.dimen.margin),
+//top = dimensionResource(id = R.dimen.margin)),
+//fontSize = fontDimensionResource(R.dimen.fifty_sp),
+//fontWeight = FontWeight.Bold,
+//color = colorResource(id = R.color.red))
+
+/*else if (showA.value && showP.value && showD.value) {
+    Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
+    WarningNotSelectedCategory()
+}*/

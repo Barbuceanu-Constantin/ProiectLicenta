@@ -1,8 +1,6 @@
 package com.barbuceanuconstantin.proiectlicenta.data.model
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,8 +21,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,7 +41,7 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 
-class Tranzactie(
+data class Transaction(
     var suma: Double,
     var valuta: String,
     var descriere: String,
@@ -136,10 +132,10 @@ private fun Tranzactie( subcategory: String, value: Double, currency: String, de
 }
 
 @Composable
-fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>,
-                         lTrA: SnapshotStateList<Tranzactie>? = null,
-                         lTrP: SnapshotStateList<Tranzactie>? = null,
-                         lTrD: SnapshotStateList<Tranzactie>? = null,
+fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>,
+                         lTrA: SnapshotStateList<Transaction>? = null,
+                         lTrP: SnapshotStateList<Transaction>? = null,
+                         lTrD: SnapshotStateList<Transaction>? = null,
                          indexState: MutableState<Int>, sem: MutableState<Int>,
                          updateScreenButton: MutableState<Boolean>) {
     LazyColumn(
@@ -198,7 +194,7 @@ fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>,
 }
 
 @Composable
-fun SummaryTranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>) {
+fun SummaryTranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>) {
 
     val modifier: Modifier = Modifier.fillMaxHeight(0.8F)
 
@@ -217,7 +213,7 @@ fun SummaryTranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>) {
 }
 
 @Composable
-fun CalendarSummaryTranzactiiLazyColumn(tranzactii: SnapshotStateList<Tranzactie>,
+fun CalendarSummaryTranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>,
                                         backButton: MutableState<Boolean>,
                                         incomesOrExpenses: Boolean,
                                         date: MutableState<String>) {

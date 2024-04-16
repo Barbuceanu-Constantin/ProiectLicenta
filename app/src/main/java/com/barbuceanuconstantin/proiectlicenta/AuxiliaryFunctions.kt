@@ -181,19 +181,15 @@ fun Calendar(onDateSelected: (String) -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>) {
-    Text(text = stringResource(R.string.mesaj_selectare_categorie_principala),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = dimensionResource(id = R.dimen.margin),
-                     top = dimensionResource(id = R.dimen.margin)),
-        fontSize = fontDimensionResource(R.dimen.fifty_sp),
-        fontWeight = FontWeight.Bold,
-        color = colorResource(id = R.color.red))
-
+fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<Boolean>,
+                                                           showP: MutableState<Boolean>,
+                                                           showD: MutableState<Boolean>,
+                                                           defaultValueSelected: Boolean = false) {
     Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 
     var selectedIndex by remember { mutableStateOf(-1) }
+
+    if(defaultValueSelected) selectedIndex = 0
 
     if (showA.value && !showP.value && !showD.value)
         selectedIndex = 0

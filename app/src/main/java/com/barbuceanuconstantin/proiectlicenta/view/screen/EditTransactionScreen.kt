@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -32,7 +31,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -48,12 +46,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindowSegmentedButton
-import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.WarningNotSelectedCategory
-import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
+import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
@@ -69,10 +65,7 @@ private var listaSubcategorysActive = subcategorysPredefiniteActive.values.flatt
 private var listaSubcategorysPasive = subcategorysPredefinitePasive.values.flatten().toMutableList()
 private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.values.flatten().toMutableList()
 @Composable
-fun AddTransactionScreen(lActive: SnapshotStateList<Tranzactie>,
-                         lPasive: SnapshotStateList<Tranzactie>,
-                         lDatorii: SnapshotStateList<Tranzactie>
-) {
+fun EditTransactionScreen(transaction: Transaction? = null) {
     var currency by remember { mutableStateOf("") }
     var subcategory by remember { mutableStateOf("") }
     var payee by remember { mutableStateOf("") }
@@ -88,9 +81,11 @@ fun AddTransactionScreen(lActive: SnapshotStateList<Tranzactie>,
     val formattedDate = dateTime.format(dateFormatter)
     val date by remember { mutableStateOf(formattedDate) }
     val dateMutable: MutableState<String> = remember { mutableStateOf(date) }
-    val showA: MutableState<Boolean> = remember { mutableStateOf(true) }
-    val showP: MutableState<Boolean> = remember { mutableStateOf(true) }
-    val showD: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val showA: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
+
+    if (transaction == null) showA.value = true
 
     val (item1, item2, item3) = remember { FocusRequester.createRefs() }
     val focusManager = LocalFocusManager.current
@@ -106,8 +101,16 @@ fun AddTransactionScreen(lActive: SnapshotStateList<Tranzactie>,
     val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
 
     Scaffold { innerPadding ->
-        Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)) {
-            HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA, showP, showD)
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(innerPadding)) {
+            if (transaction == null)
+                //Add
+                HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA, showP, showD,
+                                                                        defaultValueSelected = true)
+            else
+                //Update
+                HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA, showP, showD)
 
             Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
 
@@ -149,20 +152,17 @@ fun AddTransactionScreen(lActive: SnapshotStateList<Tranzactie>,
                         onValueChange = { valueSum = it },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Decimal,
-                            imeAction = ImeAction.Done          // Specify imeAction as Done
-                        ),
-                        keyboardActions = KeyboardActions(
-                            onDone = { focusManager.moveFocus(FocusDirection.Next) }
+                            imeAction = ImeAction.Next
                         ),
                         label = { Text(stringResource(id = R.string.introduceti_suma)) },
                         maxLines = 1,
-                        modifier = Modifier.fillMaxWidth().focusRequester(item1)
-                                                          .focusProperties {
-                                                                next = item2
-                                                                right = item2
-                                                          }
-                                                          .padding(start = dimensionResource(id = R.dimen.margin),
-                                                                   end = dimensionResource(id = R.dimen.margin))
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                start = dimensionResource(id = R.dimen.margin),
+                                end = dimensionResource(id = R.dimen.margin)
+                            )
+                            .weight(0.3f)
                     )
 
                     Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
@@ -172,21 +172,14 @@ fun AddTransactionScreen(lActive: SnapshotStateList<Tranzactie>,
                         onValueChange = { payee = it },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Done,
+                            imeAction = ImeAction.Next,
                             capitalization = KeyboardCapitalization.Words
-                        ),
-                        keyboardActions = KeyboardActions(
-                            onDone = { focusManager.moveFocus(FocusDirection.Next) }
                         ),
                         label = { Text(text = stringResource(id = R.string.furnizor_sau_beneficiar)) },
                         maxLines = 1,
-                        modifier = Modifier.fillMaxWidth().focusRequester(item2)
-                                                          .focusProperties {
-                                                              next = item3
-                                                              right = item3
-                                                          }
-                                                          .padding(start = dimensionResource(id = R.dimen.margin),
+                        modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
                                                                    end = dimensionResource(id = R.dimen.margin))
+                                                          .weight(0.3f)
                     )
 
                     Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
@@ -204,8 +197,10 @@ fun AddTransactionScreen(lActive: SnapshotStateList<Tranzactie>,
                         ),
                         label = { Text(text = stringResource(id = R.string.descriere)) },
                         maxLines = 1,
-                        modifier = Modifier.fillMaxWidth().focusRequester(item3).padding(start = dimensionResource(id = R.dimen.margin),
-                                                                                         end = dimensionResource(id = R.dimen.margin))
+                        modifier = Modifier.fillMaxWidth().focusRequester(item3)
+                                            .padding(start = dimensionResource(id = R.dimen.margin),
+                                                     end = dimensionResource(id = R.dimen.margin))
+                                            .weight(0.3f)
                     )
 
                     Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
@@ -222,7 +217,8 @@ fun AddTransactionScreen(lActive: SnapshotStateList<Tranzactie>,
                         modifier = Modifier
                             .clickable { dateButton.value = !dateButton.value }
                             .fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
-                                                    end = dimensionResource(id = R.dimen.margin)),
+                                                    end = dimensionResource(id = R.dimen.margin))
+                            .weight(0.3f),
                         colors = OutlinedTextFieldDefaults.colors(
                             disabledTextColor = MaterialTheme.colorScheme.onSurface,
                             disabledBorderColor = MaterialTheme.colorScheme.outline,
@@ -233,21 +229,23 @@ fun AddTransactionScreen(lActive: SnapshotStateList<Tranzactie>,
                         )
                     )
 
-                    Spacer(Modifier.height(dimensionResource(id = R.dimen.hundred)))
+                    Row(modifier = Modifier.fillMaxWidth().weight(1f),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.Bottom) {
 
-                    Row(modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center) {
-
-                        Button(onClick = {}) { Text(stringResource(R.string.confirmare)) }
+                        Button(onClick = {}, modifier = Modifier.weight(1f).padding(start = dimensionResource(
+                            id = R.dimen.margin
+                        )))
+                        { Text(stringResource(R.string.confirmare)) }
 
                         Spacer(Modifier.width(dimensionResource(id = R.dimen.thirty_dp)))
 
-                        Button(onClick = {}) { Text(stringResource(R.string.renuntare)) }
+                        Button(onClick = {}, modifier = Modifier.weight(1f).padding(end = dimensionResource(
+                            id = R.dimen.margin
+                        )))
+                        { Text(stringResource(R.string.renuntare)) }
                     }
                 }
-            } else if (showA.value && showP.value && showD.value) {
-                Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
-                WarningNotSelectedCategory()
             }
         }
     }

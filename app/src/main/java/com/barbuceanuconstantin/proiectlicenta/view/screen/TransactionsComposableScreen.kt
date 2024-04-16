@@ -3,17 +3,10 @@ package com.barbuceanuconstantin.proiectlicenta.view.screen
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -25,15 +18,11 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
-import com.barbuceanuconstantin.proiectlicenta.FourthButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.SegmentedButton4
-import com.barbuceanuconstantin.proiectlicenta.ThreeTopButtons
-import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
+import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
@@ -47,9 +36,9 @@ private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.values.fla
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun TransactionsComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
-                                 lTrP: SnapshotStateList<Tranzactie>,
-                                 lTrD: SnapshotStateList<Tranzactie>) {
+fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
+                                 lTrP: SnapshotStateList<Transaction>,
+                                 lTrD: SnapshotStateList<Transaction>) {
     val showA: MutableState<Boolean> = remember { mutableStateOf(true) }
     val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
@@ -62,33 +51,33 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
         val dateMutable: MutableState<String> = remember { mutableStateOf("") }
         if (sem.value == 1) {
             dateMutable.value = lTrA[index.value].data
-            TransactionUpdateScreen(
-                indexUpdate = index.value,
-                trList = lTrA,
-                subcategoriesList = listaSubcategorysActive,
-                updateTransactionButton = updateTransactionButton,
-                dateMutable = dateMutable
-            )
+//            TransactionUpdateScreen(
+//                indexUpdate = index.value,
+//                trList = lTrA,
+//                subcategoriesList = listaSubcategorysActive,
+//                updateTransactionButton = updateTransactionButton,
+//                dateMutable = dateMutable
+//            )
         }
         if (sem.value == 2) {
             dateMutable.value = lTrP[index.value].data
-            TransactionUpdateScreen(
-                indexUpdate = index.value,
-                trList = lTrP,
-                subcategoriesList = listaSubcategorysPasive,
-                updateTransactionButton = updateTransactionButton,
-                dateMutable = dateMutable
-            )
+//            TransactionUpdateScreen(
+//                indexUpdate = index.value,
+//                trList = lTrP,
+//                subcategoriesList = listaSubcategorysPasive,
+//                updateTransactionButton = updateTransactionButton,
+//                dateMutable = dateMutable
+//            )
         }
         if (sem.value == 3) {
             dateMutable.value = lTrD[index.value].data
-            TransactionUpdateScreen(
-                indexUpdate = index.value,
-                trList = lTrD,
-                subcategoriesList = listaSubcategorysDatorii,
-                updateTransactionButton = updateTransactionButton,
-                dateMutable = dateMutable
-            )
+//            TransactionUpdateScreen(
+//                indexUpdate = index.value,
+//                trList = lTrD,
+//                subcategoriesList = listaSubcategorysDatorii,
+//                updateTransactionButton = updateTransactionButton,
+//                dateMutable = dateMutable
+//            )
         }
     } else {
         if (addButton.value) {

@@ -29,14 +29,14 @@ import com.barbuceanuconstantin.proiectlicenta.Balanta
 import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.CalendarSummaryTranzactiiLazyColumn
-import com.barbuceanuconstantin.proiectlicenta.data.model.Tranzactie
+import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CalendarComposableScreen(lTrA: SnapshotStateList<Tranzactie>,
-                             lTrP: SnapshotStateList<Tranzactie>
+fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
+                             lTrP: SnapshotStateList<Transaction>
 ) {
     val dateMutable: MutableState<String> = remember { mutableStateOf(LocalDate.now().toString()) }
     val incomes: MutableState<Boolean> = remember { mutableStateOf(false) }
