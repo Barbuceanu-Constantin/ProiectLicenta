@@ -35,9 +35,17 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 
 data class Subcategory(
+    val id: Int,
+    val categoryType: CategoryType,
     val name: String,
     val items: SnapshotStateList<String>
 )
+
+enum class CategoryType(val id: Int) {
+    ACTIVE(1),
+    PASIVE(2),
+    DATORII(3)
+}
 
 @Composable
 private fun AntetSubcategory(text: String, color: Color) {
@@ -98,24 +106,6 @@ fun SubcategorysLazyColumn(categorii: MutableList<Subcategory>,
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         categorii.forEach() { subcateg ->
-
-            /*
-            this@LazyColumn.stickyHeader {
-                if (a && p && d) {
-                    val color = when (subcateg) {
-                        categorii[a] -> colorResource(R.color.yellow)
-                        categorii[p] -> colorResource(R.color.red)
-                        categorii[d] -> colorResource(R.color.blue)
-                        else -> MaterialTheme.colorScheme.primaryContainer
-                    }
-                    AntetSubcategory(text = subcateg.name, color)
-                } else {
-                    AntetSubcategory(text = subcateg.name, MaterialTheme.colorScheme.primaryContainer)
-                }
-                index.value += 1
-            }
-            */
-
             items(subcateg.items) { text ->
                 if (a && p && d) {
                     if (subcategorysPredefiniteActive.any { entry ->

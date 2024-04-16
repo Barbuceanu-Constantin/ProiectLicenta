@@ -152,3 +152,20 @@ fun HeaderSelectCategoryOrTransactionWindow(showA: MutableState<Boolean>, showP:
 
     Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 }
+
+            /*
+            this@LazyColumn.stickyHeader {
+                if (a && p && d) {
+                    val color = when (subcateg) {
+                        categorii[a] -> colorResource(R.color.yellow)
+                        categorii[p] -> colorResource(R.color.red)
+                        categorii[d] -> colorResource(R.color.blue)
+                        else -> MaterialTheme.colorScheme.primaryContainer
+                    }
+                    AntetSubcategory(text = subcateg.name, color)
+                } else {
+                    AntetSubcategory(text = subcateg.name, MaterialTheme.colorScheme.primaryContainer)
+                }
+                index.value += 1
+            }
+            */
