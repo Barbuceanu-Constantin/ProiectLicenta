@@ -16,12 +16,11 @@ import com.barbuceanuconstantin.proiectlicenta.view.screen.Screen7
 //Branch ecrane-individuale//
 
 class MainActivity : ComponentActivity() {
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ProiectLicentaTheme {
-                Screen4()
+                Screen0()
             }
         }
     }

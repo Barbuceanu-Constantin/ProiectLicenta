@@ -35,17 +35,9 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 
 data class Subcategory(
-    val id: Int,
-    val categoryType: CategoryType,
     val name: String,
     val items: SnapshotStateList<String>
 )
-
-enum class CategoryType(val id: Int) {
-    ACTIVE(1),
-    PASIVE(2),
-    DATORII(3)
-}
 
 @Composable
 private fun AntetSubcategory(text: String, color: Color) {

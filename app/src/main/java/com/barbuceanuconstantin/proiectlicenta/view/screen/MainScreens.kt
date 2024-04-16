@@ -1,7 +1,5 @@
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
@@ -28,13 +26,10 @@ private var listSubcategoriesExpenses = subcategorysPredefinitePasive.map {
 private var listSubcategoriesDebts = subcategorysPredefiniteDatorii.map {
     Subcategory(name = it.key.toString(), items = it.value.toMutableStateList())
 }.toMutableStateList()
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Screen0() {
     PrincipalComposableScreen()
 }
-
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Screen1() {
     initHardcodedTransactions()
@@ -44,21 +39,16 @@ fun Screen1() {
 fun Screen2() {
     CategoriesComposableScreen(listSubcategoriesRevenue, listSubcategoriesExpenses, listSubcategoriesDebts)
 }
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Screen4() {
     InitHardcodedBudgets()
     FixedBudgetsComposableScreen(lFixedBudgets)
 }
-
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Screen6() {
     initHardcodedTransactions()
     BudgetSummaryComposableScreen(lTrA = lTrA, lTrP = lTrP)
 }
-
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Screen7() {
     initHardcodedTransactions()

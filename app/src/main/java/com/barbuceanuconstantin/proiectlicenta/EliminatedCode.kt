@@ -11,6 +11,7 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -153,19 +154,34 @@ fun HeaderSelectCategoryOrTransactionWindow(showA: MutableState<Boolean>, showP:
     Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 }
 
-            /*
-            this@LazyColumn.stickyHeader {
-                if (a && p && d) {
-                    val color = when (subcateg) {
-                        categorii[a] -> colorResource(R.color.yellow)
-                        categorii[p] -> colorResource(R.color.red)
-                        categorii[d] -> colorResource(R.color.blue)
-                        else -> MaterialTheme.colorScheme.primaryContainer
-                    }
-                    AntetSubcategory(text = subcateg.name, color)
-                } else {
-                    AntetSubcategory(text = subcateg.name, MaterialTheme.colorScheme.primaryContainer)
-                }
-                index.value += 1
-            }
-            */
+/*
+this@LazyColumn.stickyHeader {
+    if (a && p && d) {
+        val color = when (subcateg) {
+            categorii[a] -> colorResource(R.color.yellow)
+            categorii[p] -> colorResource(R.color.red)
+            categorii[d] -> colorResource(R.color.blue)
+            else -> MaterialTheme.colorScheme.primaryContainer
+        }
+        AntetSubcategory(text = subcateg.name, color)
+    } else {
+        AntetSubcategory(text = subcateg.name, MaterialTheme.colorScheme.primaryContainer)
+    }
+    index.value += 1
+}
+*/
+
+/*
+data class Subcategory(
+    val id: Int,
+    val categoryType: CategoryType,
+    val name: String,
+    val items: SnapshotStateList<String>
+)
+
+enum class CategoryType(val id: Int) {
+    ACTIVE(1),
+    PASIVE(2),
+    DATORII(3)
+}
+ */
