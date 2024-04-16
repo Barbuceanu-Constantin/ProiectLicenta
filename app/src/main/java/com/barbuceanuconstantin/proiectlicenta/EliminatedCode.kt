@@ -275,3 +275,14 @@ private fun adaugareTranzactie(l: SnapshotStateList<Tranzactie>, currency:String
     l.add(0, newTranzactie)
 }
 */
+
+//        DatePickerDialog() {
+//                Column( modifier = Modifier.fillMaxSize(),
+//                        horizontalAlignment = Alignment.CenterHorizontally) {
+//                    Calendar(onDateSelected = { selectedDate -> dateMutable.value = selectedDate })
+//
+//                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+//
+//                    OkButton(ok = dateButton)
+//                }
+//        }
