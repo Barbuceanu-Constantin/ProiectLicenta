@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
-import com.barbuceanuconstantin.proiectlicenta.data.model.Subcategory
+import com.barbuceanuconstantin.proiectlicenta.data.model.Category
 import com.barbuceanuconstantin.proiectlicenta.initHardcodedTransactions
 import com.barbuceanuconstantin.proiectlicenta.lBudgets
 import com.barbuceanuconstantin.proiectlicenta.lTrA
@@ -18,13 +18,13 @@ import com.barbuceanuconstantin.proiectlicenta.InitHardcodedBudgets
 private var lFixedBudgets: SnapshotStateList<Budget> = lBudgets
 
 private var listSubcategoriesRevenue = subcategorysPredefiniteActive.map {
-    Subcategory(name = it.key.toString(), items = it.value.toMutableStateList())
+    Category(name = it.key.toString(), items = it.value.toMutableStateList())
 }.toMutableStateList()
 private var listSubcategoriesExpenses = subcategorysPredefinitePasive.map {
-    Subcategory(name = it.key.toString(), items = it.value.toMutableStateList())
+    Category(name = it.key.toString(), items = it.value.toMutableStateList())
 }.toMutableStateList()
 private var listSubcategoriesDebts = subcategorysPredefiniteDatorii.map {
-    Subcategory(name = it.key.toString(), items = it.value.toMutableStateList())
+    Category(name = it.key.toString(), items = it.value.toMutableStateList())
 }.toMutableStateList()
 @Composable
 fun Screen0() {

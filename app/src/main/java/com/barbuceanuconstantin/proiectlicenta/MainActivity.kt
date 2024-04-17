@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import com.barbuceanuconstantin.proiectlicenta.ui.theme.ProiectLicentaTheme
+import com.barbuceanuconstantin.proiectlicenta.view.screen.EditCategoryScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.EditTransactionScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.Screen0
 import com.barbuceanuconstantin.proiectlicenta.view.screen.Screen1
@@ -24,6 +25,8 @@ class MainActivity : ComponentActivity() {
                 //Screen0()
                 //EditTransactionScreen()
                 //Screen1()
+                //Screen2()
+                EditCategoryScreen()
             }
         }
     }

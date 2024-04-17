@@ -10,6 +10,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -186,8 +187,8 @@ fun Calendar(onDateSelected: (String) -> Unit) {
 fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<Boolean>,
                                                            showP: MutableState<Boolean>,
                                                            showD: MutableState<Boolean>,
+    
                                                            defaultValueSelected: Boolean = false) {
-    Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 
     var selectedIndex by remember { mutableStateOf(-1) }
 
@@ -206,54 +207,63 @@ fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<B
         stringResource(id = R.string.datorii)
     )
 
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
-                                                                                  end = dimensionResource(id = R.dimen.margin))) {
-            options.forEachIndexed { index, label ->
-                SegmentedButton(
-                    shape = SegmentedButtonDefaults.itemShape(
-                        index = index,
-                        count = options.size
-                    ),
-                    onClick = {
-                        selectedIndex = index
-                        when (selectedIndex) {
-                            0 -> {
-                                showA.value = true
-                                showP.value = false
-                                showD.value = false
-                            }
+    Column {
+        Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 
-                            1 -> {
-                                showP.value = true
-                                showA.value = false
-                                showD.value = false
-                            }
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+            SingleChoiceSegmentedButtonRow(
+                modifier = Modifier.fillMaxWidth().padding(
+                    start = dimensionResource(id = R.dimen.margin),
+                    end = dimensionResource(id = R.dimen.margin)
+                )
+            ) {
+                options.forEachIndexed { index, label ->
+                    SegmentedButton(
+                        shape = SegmentedButtonDefaults.itemShape(
+                            index = index,
+                            count = options.size
+                        ),
+                        onClick = {
+                            selectedIndex = index
+                            when (selectedIndex) {
+                                0 -> {
+                                    showA.value = true
+                                    showP.value = false
+                                    showD.value = false
+                                }
 
-                            2 -> {
-                                showD.value = true
-                                showA.value = false
-                                showP.value = false
+                                1 -> {
+                                    showP.value = true
+                                    showA.value = false
+                                    showD.value = false
+                                }
+
+                                2 -> {
+                                    showD.value = true
+                                    showA.value = false
+                                    showP.value = false
+                                }
                             }
+                        },
+                        selected = index == selectedIndex
+                    ) {
+                        Row {
+                            Text(text = label)
                         }
-                    },
-                    selected = index == selectedIndex
-                ) {
-                    Row {
-                        Text(text = label)
                     }
                 }
             }
         }
-    }
 
-    Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
+        Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
+    }
 }
 @Composable
 fun WarningNotSelectedCategory() {
     Text(text = stringResource(id = R.string.avertisment_neselectare_categorie),
          modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
-                                                    top = dimensionResource(id = R.dimen.margin)),
+                                                    top = dimensionResource(id = R.dimen.margin))
+        ,
          fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
          fontWeight = FontWeight.Bold,
          color = colorResource(id = R.color.red))
@@ -369,8 +379,8 @@ fun SwipeCard(onSwipeLeft: () -> Unit = {},
             }
         }
         .graphicsLayer(
-            alpha = 10f - animateFloatAsState(if (dismissRight) 1f else 0f).value,
-            rotationZ = animateFloatAsState(offset / 50).value
+            alpha = 10f - animateFloatAsState(if (dismissRight) 1f else 0f, label = "").value,
+            rotationZ = animateFloatAsState(offset / 50, label = "").value
         )) {
         content()
     }

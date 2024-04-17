@@ -1,17 +1,20 @@
 package com.barbuceanuconstantin.proiectlicenta
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -21,7 +24,9 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.barbuceanuconstantin.proiectlicenta.data.model.Category
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -322,3 +327,117 @@ private fun adaugareTranzactie(l: SnapshotStateList<Tranzactie>, currency:String
                           dateMutable = dateMutable, showAB = showAB,
                           showPB = showPB, showDB = showDB)*//*
 }*/
+
+//@Composable
+//private fun AntetSubcategory(text: String, color: Color) {
+//    Text(text = text, fontSize = 16.sp, fontWeight = FontWeight.Bold,
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .background(color)
+//            .padding(16.dp)
+//    )
+//}
+
+//val color : Color = if (a) {
+//    colorResource(R.color.light_cream_yellow)
+//} else if (p) {
+//    colorResource(R.color.light_cream_red)
+//} else if (d) {
+//    colorResource(R.color.light_cream_blue)
+//} else {
+//    colorResource(R.color.light_cream_gray)
+//}
+
+/*
+private fun addSubcategory(l: MutableList<Category>, firstLetter:String, filledText:String) {
+    val foundSubcategory = l.find{it.name == firstLetter}
+
+    if (foundSubcategory != null) {
+        foundSubcategory.items.add(filledText)
+    } else {
+        val insertionIndex = l.binarySearch { it.name.compareTo(firstLetter) }
+
+        val newSubcategory = Category(name = firstLetter, items = mutableStateListOf(filledText))
+
+        if (insertionIndex < 0) {
+            l.add(-insertionIndex - 1, newSubcategory)
+        } else {
+            l.add(insertionIndex, newSubcategory)
+        }
+    }
+}*/
+
+//if (showA.value && !showP.value && !showD.value) {
+//    if (subcategorysPredefinitePasive.any { entry ->
+//            entry.value.contains(filledText)
+//        }) {
+//        ok = false
+//    }
+//    if (subcategorysPredefiniteDatorii.any { entry ->
+//            entry.value.contains(filledText)
+//        }) {
+//        ok = false
+//    }
+//    if (ok)
+//        addSubcategory(lActive, firstLetter, filledText)
+//} else if (showP.value && !showA.value && !showD.value) {
+//    if (subcategorysPredefiniteActive.any { entry ->
+//            entry.value.contains(filledText)
+//        }) {
+//        ok = false
+//    }
+//    if (subcategorysPredefiniteDatorii.any { entry ->
+//            entry.value.contains(filledText)
+//        }) {
+//        ok = false
+//    }
+//    if (ok)
+//        addSubcategory(lPasive, firstLetter, filledText)
+//} else if (showD.value && !showA.value && !showP.value) {
+//    if (subcategorysPredefiniteActive.any { entry ->
+//            entry.value.contains(filledText)
+//        }) {
+//        ok = false
+//    }
+//    if (subcategorysPredefinitePasive.any { entry ->
+//            entry.value.contains(filledText)
+//        }) {
+//        ok = false
+//    }
+//    if (ok)
+//        addSubcategory(lDatorii, firstLetter, filledText)
+//}
+
+//resetButtons(showA, showP, showD)
+//addButton.value = !addButton.value
+
+//if (filledText != "") {
+//    val firstLetter = filledText[0].toString().uppercase()
+//    var ok = true
+//}
+
+//Text(text = stringResource(id = R.string.mesaj_selectare_subcategory),
+//modifier = Modifier.fillMaxWidth(),
+//fontSize = fontDimensionResource(R.dimen.fifty_sp),
+//fontWeight = FontWeight.Bold)
+
+//if (a && p && d) {
+//    if (subcategorysPredefiniteActive.any { entry ->
+//            entry.value.contains(text)
+//        }) {
+//        copyA = true
+//        copyP = false
+//        copyD = false
+//    } else if (subcategorysPredefinitePasive.any { entry ->
+//            entry.value.contains(text)
+//        }) {
+//        copyA = false
+//        copyP = true
+//        copyD = false
+//    } else if (subcategorysPredefiniteDatorii.any { entry ->
+//            entry.value.contains(text)
+//        }) {
+//        copyA = false
+//        copyP = false
+//        copyD = true
+//    }
