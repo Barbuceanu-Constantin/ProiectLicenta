@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
             ProiectLicentaTheme {
                 //Screen0()
                 //EditTransactionScreen()
-                Screen1()
+                //Screen1()
             }
         }
     }

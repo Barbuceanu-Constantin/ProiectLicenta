@@ -11,6 +11,9 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -19,6 +22,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun ThreeTopButtons(first: MutableState<Boolean>, second: MutableState<Boolean>,
@@ -300,4 +305,20 @@ private fun adaugareTranzactie(l: SnapshotStateList<Tranzactie>, currency:String
 
 /*ShowMenuCurrencies(showMeniuValute = showMeniuValute) {
     currency = it
+}*/
+
+/*if (addButton.value) {
+    val dateTime = LocalDateTime.now()
+    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val formattedDate = dateTime.format(dateFormatter)
+    val date by remember { mutableStateOf(formattedDate) }
+    val dateMutable: MutableState<String> = remember { mutableStateOf(date) }
+    val showAB: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val showPB: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val showDB: MutableState<Boolean> = remember { mutableStateOf(true) }
+    *//*ShowTransactionDialog(onDismissRequest = { addButton.value = false },
+                          onConfirmation = {addButton.value = false},
+                          lActive = lTrA, lPasive = lTrP, lDatorii = lTrD,
+                          dateMutable = dateMutable, showAB = showAB,
+                          showPB = showPB, showDB = showDB)*//*
 }*/

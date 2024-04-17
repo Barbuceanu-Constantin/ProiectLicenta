@@ -48,12 +48,10 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindowSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.WarningNotSelectedCategory
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
-import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.ShowMenuCurrencies
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.ShowMenuSubcategories
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -71,6 +69,13 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
     var valueSum by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
 
+    if (transaction != null) {
+        subcategory = transaction.subcategory
+        payee = transaction.payee
+        valueSum = transaction.suma.toString()
+        description = transaction.descriere
+    }
+
     val dateButton = remember { mutableStateOf(false) }
     val dateTime = LocalDateTime.now()
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -82,6 +87,14 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
     val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
 
     if (transaction == null) showA.value = true
+    else {
+        if (listaSubcategorysActive.contains(transaction.subcategory))
+            showA.value = true
+        else if (listaSubcategorysPasive.contains(transaction.subcategory))
+            showP.value = true
+        else if (listaSubcategorysDatorii.contains(transaction.subcategory))
+            showD.value = true
+    }
 
     val keyboardController = LocalSoftwareKeyboardController.current
 

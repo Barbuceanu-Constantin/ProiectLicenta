@@ -26,6 +26,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MultiChoiceSegmentedButtonRow
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
@@ -34,6 +35,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -261,15 +263,14 @@ fun WarningNotSelectedCategory() {
 @Composable
 fun SegmentedButton4(first: MutableState<Boolean>, second: MutableState<Boolean>,
                      third: MutableState<Boolean>) {
-    var selectedIndex by remember { mutableStateOf(0) }
+    val checkedList = remember { mutableStateListOf<Int>() }
     val options = listOf(
         stringResource(id = R.string.active),
         stringResource(id = R.string.pasive),
-        stringResource(id = R.string.datorii),
-        stringResource(id = R.string.toate)
+        stringResource(id = R.string.datorii)
     )
 
-    SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
+    MultiChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
                                                                               end = dimensionResource(id = R.dimen.margin))) {
         options.forEachIndexed { index, label ->
             SegmentedButton(
@@ -277,32 +278,40 @@ fun SegmentedButton4(first: MutableState<Boolean>, second: MutableState<Boolean>
                     index = index,
                     count = options.size
                 ),
-                onClick = {
-                    selectedIndex = index
-                    when (selectedIndex) {
-                        0 -> {
-                            first.value = true
-                            second.value = false
-                            third.value = false
+                onCheckedChange = {
+                    if (index in checkedList) {
+                        checkedList.remove(index)
+                        when (index) {
+                            0 -> {
+                                first.value = false
+                            }
+
+                            1 -> {
+                                second.value = false
+                            }
+
+                            2 -> {
+                                third.value = false
+                            }
                         }
-                        1 -> {
-                            second.value = true
-                            first.value = false
-                            third.value = false
-                        }
-                        2 -> {
-                            third.value = true
-                            first.value = false
-                            second.value = false
-                        }
-                        3 -> {
-                            first.value = true
-                            second.value = true
-                            third.value = true
+                    } else {
+                        checkedList.add(index)
+                        when (index) {
+                            0 -> {
+                                first.value = true
+                            }
+
+                            1 -> {
+                                second.value = true
+                            }
+
+                            2 -> {
+                                third.value = true
+                            }
                         }
                     }
                 },
-                selected = index == selectedIndex,
+                checked = index in checkedList
             ) {
                 Row {
                     Text(text = label)
