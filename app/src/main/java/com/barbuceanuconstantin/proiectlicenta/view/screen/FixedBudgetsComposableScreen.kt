@@ -1,16 +1,10 @@
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +27,6 @@ import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun ShowAddBudgetDialog(lFixedBudgets: SnapshotStateList<Budget>, fab: MutableState<Boolean>,
                                 onDismissRequest: () -> Unit = { fab.value = false },
@@ -45,11 +38,10 @@ private fun ShowAddBudgetDialog(lFixedBudgets: SnapshotStateList<Budget>, fab: M
     val dateMutable1: MutableState<String> = mutableStateOf(formattedDate)
     val dateMutable2: MutableState<String> = mutableStateOf(formattedDate)
 
-    ShowBudgetDialog(onDismissRequest = onDismissRequest, onConfirmation = onConfirmation,
-                     lFixedBudgets = lFixedBudgets, dateMutable1 = dateMutable1,
-                     dateMutable2 = dateMutable2)
+//    ShowBudgetDialog(onDismissRequest = onDismissRequest, onConfirmation = onConfirmation,
+//                     lFixedBudgets = lFixedBudgets, dateMutable1 = dateMutable1,
+//                     dateMutable2 = dateMutable2)
 }
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun FixedBudgetsComposableScreen(lFixedBudgets: SnapshotStateList<Budget>) {
     val fab: MutableState<Boolean> = remember { mutableStateOf(false) }

@@ -2,14 +2,18 @@ package com.barbuceanuconstantin.proiectlicenta
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -17,6 +21,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -26,7 +32,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.data.model.Category
+import com.barbuceanuconstantin.proiectlicenta.view.screen.isDateAfterOrEqualToCurrent
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -441,3 +450,89 @@ private fun addSubcategory(l: MutableList<Category>, firstLetter:String, filledT
 //        copyP = false
 //        copyD = true
 //    }
+
+//private fun addBudget(lFixedBudgets: SnapshotStateList<Budget>, filledText: String, valueSum: String,
+//                      date1: String, date2: String) {
+//    val newBudget = Budget(date1, date2, filledText, valueSum.toDouble())
+//    lFixedBudgets.add(0, newBudget)
+//}
+
+//if (filledText != "" && valueSum != "") {
+//    addBudget(lFixedBudgets, filledText, valueSum,
+//        dateMutable1.value, dateMutable2.value)
+//}
+
+/*
+if (dateButton1.value && !dateButton2.value) {
+    DatePickerDialog(onDismissRequest = { dateButton1.value = !dateButton1.value },
+        confirmButton = {},
+        dismissButton = {}) {
+        Column (modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Calendar(onDateSelected = { selectedDate ->
+                if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
+                    dateMutable1.value = selectedDate
+                }
+            })
+
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+
+            OkButton(ok = dateButton1)
+        }
+    }
+} else if (!dateButton1.value && dateButton2.value) {
+    if (!openDialog.value) {
+        DatePickerDialog(onDismissRequest = { dateButton2.value = !dateButton2.value },
+            confirmButton = {},
+            dismissButton = {}) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Calendar(onDateSelected = { selectedDate ->
+                    if (isDateAfterOrEqualToCurrent(selectedDate, LocalDate.now())) {
+                        val dateString: String = dateMutable1.value
+                        val formatter: DateTimeFormatter =
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        val localDate: LocalDate = LocalDate.parse(dateString, formatter)
+                        if (isDateAfterOrEqualToCurrent(selectedDate, localDate)) {
+                            dateMutable2.value = selectedDate
+                        } else {
+                            openDialog.value = true
+                        }
+                    }
+                })
+
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+
+                OkButton(ok = dateButton2)
+            }
+        }
+    } else {
+        AlertDialog(
+            onDismissRequest = {
+                openDialog.value = false // Dismiss the dialog when the user clicks outside the dialog or on the back button
+            },
+            title = {
+                Text(text = stringResource(id = R.string.avertisment_data))
+            },
+            text = {
+                Text(text = stringResource(id = R.string.avertisment_data_continut))
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        openDialog.value = false
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.ok))
+                }
+            }
+        )
+    }
+} else if (!dateButton1.value && !dateButton2.value) {*/
+
+/*
+val dateButton1 = remember { mutableStateOf(false) }
+val dateButton2 = remember { mutableStateOf(false) }*/

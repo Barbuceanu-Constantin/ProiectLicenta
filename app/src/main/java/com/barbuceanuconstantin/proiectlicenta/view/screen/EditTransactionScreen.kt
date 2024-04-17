@@ -1,6 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
-    ExperimentalComposeUiApi::class
-)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
@@ -18,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-//import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -32,14 +29,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusProperties
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -76,7 +67,6 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
         description = transaction.descriere
     }
 
-    val dateButton = remember { mutableStateOf(false) }
     val dateTime = LocalDateTime.now()
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val formattedDate = dateTime.format(dateFormatter)
@@ -214,7 +204,19 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                         label = { Text(text = stringResource(id = R.string.data)) },
                         maxLines = 1,
                         modifier = Modifier
-                            .clickable { dateButton.value = !dateButton.value }
+                            .clickable {
+                                        val datePickerDialog = DatePickerDialog(context, { _, year1, month1, dayOfMonth1 ->
+                                        // Handle the selected date
+                                        val selectedDate: Calendar = Calendar.getInstance()
+                                        selectedDate.set(year1, month1, dayOfMonth1)
+
+                                        // Perform any necessary operations with the selected date here
+                                        // For example, update a TextView with the selected date
+                                        dateMutable.value = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(selectedDate.time)
+                                        }, year, month, dayOfMonth)
+
+                                        datePickerDialog.show()
+                            }
                             .fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
                                                     end = dimensionResource(id = R.dimen.margin))
                             .weight(0.25f),
@@ -232,9 +234,7 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.Bottom) {
 
-                        Button(onClick = {}, modifier = Modifier.weight(1f).padding(start = dimensionResource(
-                            id = R.dimen.margin
-                        )))
+                        Button(onClick = {}, modifier = Modifier.weight(1f).padding(start = dimensionResource(id = R.dimen.margin)))
                         { Text(stringResource(R.string.confirmare)) }
 
                         Spacer(Modifier.width(dimensionResource(id = R.dimen.thirty_dp)))
@@ -244,23 +244,10 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                         )))
                         { Text(stringResource(R.string.renuntare)) }
                     }
+
+                    Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
                 }
             }
         }
-    }
-
-    if (dateButton.value) {
-        val datePickerDialog = DatePickerDialog(context, { _, year1, month1, dayOfMonth1 ->
-            // Handle the selected date
-            val selectedDate: Calendar = Calendar.getInstance()
-            selectedDate.set(year1, month1, dayOfMonth1)
-
-            // Perform any necessary operations with the selected date here
-            // For example, update a TextView with the selected date
-            dateMutable.value = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(selectedDate.time)
-            dateButton.value = false
-        }, year, month, dayOfMonth)
-
-        datePickerDialog.show()
     }
 }
