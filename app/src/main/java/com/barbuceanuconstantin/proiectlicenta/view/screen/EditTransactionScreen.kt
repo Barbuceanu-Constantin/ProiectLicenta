@@ -66,14 +66,10 @@ private var listaSubcategorysPasive = subcategorysPredefinitePasive.values.flatt
 private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.values.flatten().toMutableList()
 @Composable
 fun EditTransactionScreen(transaction: Transaction? = null) {
-    var currency by remember { mutableStateOf("") }
     var subcategory by remember { mutableStateOf("") }
     var payee by remember { mutableStateOf("") }
     var valueSum by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-
-    val showMeniuValute = remember { mutableStateOf(false) }
-    val showMeniuSubcategorys = remember { mutableStateOf(false) }
 
     val dateButton = remember { mutableStateOf(false) }
     val dateTime = LocalDateTime.now()
@@ -87,8 +83,6 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
 
     if (transaction == null) showA.value = true
 
-    val (item1, item2, item3) = remember { FocusRequester.createRefs() }
-    val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
     // Obtain the context from your activity or fragment
@@ -118,30 +112,21 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                 if (showA.value && !showP.value && !showD.value) {
                     ShowMenuSubcategories(
                         lSubcategorys = listaSubcategorysActive,
-                        showMeniuSubcategorys
                     ) {
                         subcategory = it
                     }
                 } else if (showP.value && !showA.value && !showD.value) {
                     ShowMenuSubcategories(
                         lSubcategorys = listaSubcategorysPasive,
-                        showMeniuSubcategorys
                     ) {
                         subcategory = it
                     }
                 } else if (showD.value && !showA.value && !showP.value) {
                     ShowMenuSubcategories(
                         lSubcategorys = listaSubcategorysDatorii,
-                        showMeniuSubcategorys
                     ) {
                         subcategory = it
                     }
-                }
-
-                Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
-
-                ShowMenuCurrencies(showMeniuValute = showMeniuValute) {
-                    currency = it
                 }
 
                 Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
@@ -162,7 +147,8 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                                 start = dimensionResource(id = R.dimen.margin),
                                 end = dimensionResource(id = R.dimen.margin)
                             )
-                            .weight(0.3f)
+                            .weight(0.25f),
+                        suffix = { Text ("RON") },
                     )
 
                     Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
@@ -179,7 +165,7 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                         maxLines = 1,
                         modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
                                                                    end = dimensionResource(id = R.dimen.margin))
-                                                          .weight(0.3f)
+                                                          .weight(0.25f)
                     )
 
                     Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
@@ -197,10 +183,10 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                         ),
                         label = { Text(text = stringResource(id = R.string.descriere)) },
                         maxLines = 1,
-                        modifier = Modifier.fillMaxWidth().focusRequester(item3)
+                        modifier = Modifier.fillMaxWidth()
                                             .padding(start = dimensionResource(id = R.dimen.margin),
                                                      end = dimensionResource(id = R.dimen.margin))
-                                            .weight(0.3f)
+                                            .weight(0.25f)
                     )
 
                     Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
@@ -218,7 +204,7 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                             .clickable { dateButton.value = !dateButton.value }
                             .fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
                                                     end = dimensionResource(id = R.dimen.margin))
-                            .weight(0.3f),
+                            .weight(0.25f),
                         colors = OutlinedTextFieldDefaults.colors(
                             disabledTextColor = MaterialTheme.colorScheme.onSurface,
                             disabledBorderColor = MaterialTheme.colorScheme.outline,

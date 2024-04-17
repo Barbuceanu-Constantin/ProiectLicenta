@@ -36,8 +36,7 @@ import com.barbuceanuconstantin.proiectlicenta.R
 
 @Composable
 fun ShowMenuSubcategories(lSubcategorys: MutableList<String>,
-                          showMeniuSubcategorys: MutableState<Boolean>,
-                          okButton: Boolean = true, onSelect: (String) -> Unit) {
+                          onSelect: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf("") }
     var textFilledSize by remember { mutableStateOf(Size.Zero) }
@@ -72,7 +71,7 @@ fun ShowMenuSubcategories(lSubcategorys: MutableList<String>,
                 DropdownMenuItem(onClick = {
                     selectedItem = label
                     expanded = false
-                    onSelect(label) //
+                    onSelect(label)
                 },
                     text = { Text(text = label) }
                 )

@@ -297,3 +297,7 @@ private fun adaugareTranzactie(l: SnapshotStateList<Tranzactie>, currency:String
     Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
     WarningNotSelectedCategory()
 }*/
+
+/*ShowMenuCurrencies(showMeniuValute = showMeniuValute) {
+    currency = it
+}*/
