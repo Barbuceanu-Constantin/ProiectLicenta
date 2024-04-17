@@ -34,7 +34,6 @@ private var listaSubcategorysActive = subcategorysPredefiniteActive.values.flatt
 private var listaSubcategorysPasive = subcategorysPredefinitePasive.values.flatten().toMutableList()
 private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.values.flatten().toMutableList()
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                  lTrP: SnapshotStateList<Transaction>,

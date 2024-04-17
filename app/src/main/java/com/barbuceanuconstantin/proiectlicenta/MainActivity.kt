@@ -22,7 +22,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProiectLicentaTheme {
                 //Screen0()
-                EditTransactionScreen()
+                //EditTransactionScreen()
+                Screen1()
             }
         }
     }

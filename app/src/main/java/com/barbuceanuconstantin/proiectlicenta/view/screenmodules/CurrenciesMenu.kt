@@ -34,9 +34,7 @@ import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
 @Composable
-fun ShowMenuCurrencies(showMeniuValute: MutableState<Boolean>,
-                       okButton: Boolean = true,
-                       onSelect: (String) -> Unit) {
+fun ShowMenuCurrencies(onSelect: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     val list = mutableListOf(
         stringResource(id = R.string.dolar_american),
