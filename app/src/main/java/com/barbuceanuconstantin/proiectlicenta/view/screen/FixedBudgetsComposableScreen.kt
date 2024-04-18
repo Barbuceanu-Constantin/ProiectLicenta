@@ -24,50 +24,32 @@ import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.BudgetsLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
-@Composable
-private fun ShowAddBudgetDialog(lFixedBudgets: SnapshotStateList<Budget>, fab: MutableState<Boolean>,
-                                onDismissRequest: () -> Unit = { fab.value = false },
-                                onConfirmation: () -> Unit = { fab.value = false },
-) {
-    val dateTime = LocalDateTime.now()
-    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    val formattedDate = dateTime.format(dateFormatter)
-    val dateMutable1: MutableState<String> = mutableStateOf(formattedDate)
-    val dateMutable2: MutableState<String> = mutableStateOf(formattedDate)
-
-//    ShowBudgetDialog(onDismissRequest = onDismissRequest, onConfirmation = onConfirmation,
-//                     lFixedBudgets = lFixedBudgets, dateMutable1 = dateMutable1,
-//                     dateMutable2 = dateMutable2)
-}
 @Composable
 fun FixedBudgetsComposableScreen(lFixedBudgets: SnapshotStateList<Budget>) {
     val fab: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val buttons: MutableState<Boolean> = remember { mutableStateOf(false)}
 
-    if (fab.value) {
-        ShowAddBudgetDialog(lFixedBudgets = lFixedBudgets, fab = fab)
-    } else {
-        Scaffold(floatingActionButton = { FloatingActionButtonCustom(addButton = fab) }) { innerPadding ->
-            Column( modifier = Modifier
-                .fillMaxWidth()
-                .padding(innerPadding),
-                    horizontalAlignment = Alignment.CenterHorizontally ) {
-                Spacer(Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+    Scaffold(
+        floatingActionButton = { FloatingActionButtonCustom(addButton = fab) }
+    ) { innerPadding ->
+        Column( modifier = Modifier
+            .fillMaxWidth()
+            .padding(innerPadding),
+                horizontalAlignment = Alignment.CenterHorizontally ) {
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 
-                Text(text = stringResource(id = R.string.ecran_bugete_fixe),
-                     style = TextStyle(
-                        fontStyle = FontStyle.Italic,
-                        textDecoration = TextDecoration.Underline
-                     ),
-                     fontSize = fontDimensionResource(id = R.dimen.seventy_five_sp)
-                )
+            Text(text = stringResource(id = R.string.ecran_bugete_fixe),
+                 style = TextStyle(
+                    fontStyle = FontStyle.Italic,
+                    textDecoration = TextDecoration.Underline
+                 ),
+                 fontSize = fontDimensionResource(id = R.dimen.seventy_five_sp)
+            )
 
-                Spacer(Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 
-                BudgetsLazyColumn(lFixedBudgets)
-            }
+            BudgetsLazyColumn(lFixedBudgets, buttons)
         }
     }
 }

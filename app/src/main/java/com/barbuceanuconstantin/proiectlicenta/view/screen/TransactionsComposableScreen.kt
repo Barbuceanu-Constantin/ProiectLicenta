@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.SegmentedButton4
+import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
 
@@ -42,7 +42,7 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
                 horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.thirty_dp)))
 
-            SegmentedButton4(first = showA, second = showP, third = showD)
+            SegmentedButton3(first = showA, second = showP, third = showD)
 
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.thirty_dp)))
 

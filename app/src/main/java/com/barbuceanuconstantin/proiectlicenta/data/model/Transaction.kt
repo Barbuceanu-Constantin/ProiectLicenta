@@ -55,7 +55,7 @@ data class Transaction(
 )
 
 @Composable
-private fun Tranzactie( transaction: Transaction, buttons: MutableState<Boolean>) {
+private fun Tranzactie(transaction: Transaction, buttons: MutableState<Boolean>) {
     val color: Color =
         if (subcategorysPredefiniteActive[transaction.subcategory.first()]?.contains(transaction.subcategory) == true)
             colorResource(id = R.color.light_cream_yellow)

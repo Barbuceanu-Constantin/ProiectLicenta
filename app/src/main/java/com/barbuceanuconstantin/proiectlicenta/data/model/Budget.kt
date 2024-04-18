@@ -3,6 +3,7 @@ package com.barbuceanuconstantin.proiectlicenta.data.model
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,12 +14,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Colorize
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 
@@ -38,24 +43,18 @@ data class Budget(
 )
 
 @Composable
-private fun HeaderBudget(text: String, onDeleteItem: () -> Unit) {
+private fun HeaderBudget(text: String) {
     Column {
         Row(modifier = Modifier
             .fillMaxWidth()
-            .background(colorResource(id = R.color.brown_cream))) {
-            Text(text = text, fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
+            .background(colorResource(id = R.color.brown_light_cream))) {
+            Text(text = text, fontSize = fontDimensionResource(id = R.dimen.fourthy_sp),
                  fontWeight = FontWeight.Bold, modifier = Modifier
                     .fillMaxSize()
                     .padding(
                         dimensionResource(id = R.dimen.eight_dp)
                     )
                     .weight(1f))
-
-            IconButton(onClick = onDeleteItem, modifier = Modifier
-                .fillMaxSize()
-                .weight(1f)) {
-                Icon(Icons.Filled.Delete, contentDescription = "Delete", tint = colorResource(id = R.color.dark_blue))
-            }
         }
     }
 }
@@ -65,51 +64,97 @@ fun InfoBudget(value: Double, startDate: String, endDate: String) {
     Column(modifier = Modifier.background(colorResource(id = R.color.light_cream_gray))) {
         Text(
             text = stringResource(id = R.string.prag_superior) + " $value",
-            fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
+            fontSize = fontDimensionResource(id = R.dimen.fourthy_sp),
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.margin))
+                .padding(dimensionResource(id = R.dimen.eight_dp))
         )
 
         Text(
             text = stringResource(id = R.string.data_inceput) + " $startDate",
-            fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
+            fontSize = fontDimensionResource(id = R.dimen.fourthy_sp),
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.margin))
+                .padding(dimensionResource(id = R.dimen.eight_dp))
         )
 
         Text(
             text = stringResource(id = R.string.data_final) + " $endDate",
-            fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
+            fontSize = fontDimensionResource(id = R.dimen.fourthy_sp),
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.margin))
+                .padding(dimensionResource(id = R.dimen.eight_dp))
         )
     }
 }
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>) {
+fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>, buttons: MutableState<Boolean>) {
     LazyColumn(Modifier.fillMaxSize()) {
         lFixedBudgets.forEach() { budget ->
             this@LazyColumn.stickyHeader {
-                SwipeCard (onSwipeLeft = { lFixedBudgets.remove(budget) },
-                           onSwipeRight = { lFixedBudgets.remove(budget) }){
-                    Card(
-                        shape = RoundedCornerShape(dimensionResource(id = R.dimen.ten_dp)),
-                    ) {
-                        HeaderBudget(
-                            text = budget.name,
-                            onDeleteItem = { lFixedBudgets.remove(budget) })
-                        InfoBudget(budget.value, budget.start_date, budget.end_date)
-                    }
+                Card(
+                    shape = RoundedCornerShape(dimensionResource(id = R.dimen.ten_dp)),
+                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
+                                                end = dimensionResource(id = R.dimen.margin))
+                                        .combinedClickable(
+                                                            onClick = { },
+                                                            onLongClick = { buttons.value = !buttons.value },
+                                                        )
+                ) {
+                    HeaderBudget(text = budget.name)
+                    InfoBudget(budget.value, budget.start_date, budget.end_date)
                 }
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
             }
         }
+    }
+
+    if (buttons.value) {
+        AlertDialog(
+            onDismissRequest = {
+                buttons.value = !buttons.value
+            },
+            title = {
+                Text(text = stringResource(id = R.string.selectare_actiune))
+            },
+            text = {
+                Text(text = stringResource(id = R.string.mesaj_selectare_actiune),
+                    fontSize = fontDimensionResource(id = R.dimen.fourthy_sp))
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        buttons.value = !buttons.value
+                    }
+                ) {
+                    Row {
+                        Text(text = stringResource(id = R.string.modificare))
+                        Icon(
+                            Icons.Filled.Colorize, contentDescription = "Delete",
+                            tint = colorResource(id = R.color.white)
+                        )
+                    }
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        buttons.value = !buttons.value
+                    }
+                ) {
+                    Row {
+                        Text(text = stringResource(id = R.string.stergere))
+                        Icon(
+                            Icons.Filled.Delete, contentDescription = "Update",
+                            tint = colorResource(id = R.color.white)
+                        )
+                    }
+                }
+            }
+        )
     }
 }

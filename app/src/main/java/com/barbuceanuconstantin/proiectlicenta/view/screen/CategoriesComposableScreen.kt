@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.SegmentedButton4
+import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
 import com.barbuceanuconstantin.proiectlicenta.data.model.Category
 import com.barbuceanuconstantin.proiectlicenta.data.model.SubcategorysLazyColumn
 
@@ -36,7 +36,7 @@ fun CategoriesComposableScreen(lSA: MutableList<Category>, lSP: MutableList<Cate
                 horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer (Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 
-            SegmentedButton4(first = showA, second = showP, third = showD)
+            SegmentedButton3(first = showA, second = showP, third = showD)
 
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.thirty_dp)))
 

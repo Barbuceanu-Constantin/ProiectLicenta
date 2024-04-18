@@ -182,6 +182,15 @@ fun Calendar(onDateSelected: (String) -> Unit) {
     )
 }
 
+@Composable
+fun TimeIntervalSegmentedButton(daily: MutableState<Boolean>,
+                                weekly: MutableState<Boolean>,
+                                monthly: MutableState<Boolean>,
+                                all: MutableState<Boolean>) {
+
+
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<Boolean>,
@@ -271,7 +280,7 @@ fun WarningNotSelectedCategory() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SegmentedButton4(first: MutableState<Boolean>, second: MutableState<Boolean>,
+fun SegmentedButton3(first: MutableState<Boolean>, second: MutableState<Boolean>,
                      third: MutableState<Boolean>) {
     val checkedList = remember { mutableStateListOf<Int>() }
     val options = listOf(

@@ -1,10 +1,8 @@
 package com.barbuceanuconstantin.proiectlicenta
 
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
 import com.barbuceanuconstantin.proiectlicenta.ui.theme.ProiectLicentaTheme
 import com.barbuceanuconstantin.proiectlicenta.view.screen.EditBudgetScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.EditCategoryScreen
@@ -30,6 +28,7 @@ class MainActivity : ComponentActivity() {
                 //EditCategoryScreen()
                 //Screen4()
                 //EditBudgetScreen()
+                Screen6()
             }
         }
     }

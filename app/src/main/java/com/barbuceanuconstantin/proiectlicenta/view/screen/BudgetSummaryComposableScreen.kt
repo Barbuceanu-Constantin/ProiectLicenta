@@ -35,11 +35,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import com.barbuceanuconstantin.proiectlicenta.Calendar
-import com.barbuceanuconstantin.proiectlicenta.FourthButton
 import com.barbuceanuconstantin.proiectlicenta.IntToMonth
 import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.ThreeTopButtons
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.getStartAndEndDateOfWeek
 import com.barbuceanuconstantin.proiectlicenta.data.model.SummaryTranzactiiLazyColumn
@@ -89,7 +87,6 @@ fun SelectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<St
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                   lTrP: SnapshotStateList<Transaction>) {
@@ -127,7 +124,7 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly
             ) {
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 
                 Text(text = stringResource(id = R.string.selectare_interval_timp),
                      fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
@@ -135,14 +132,7 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                         modifier = Modifier.background(colorResource(R.color.light_cream))
                 )
 
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
-
-                Row {
-                    ThreeTopButtons(first = daily, second = weekly, third = monthly,
-                                    firstId = R.string.zilnic, secondId = R.string.saptamanal, thirdId = R.string.lunar)
-                }
-
-                FourthButton(id = R.string.total, first = daily, second = weekly, third = monthly)
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 
                 //Aici voi face bilantul total al cheltuielilor si veniturilor.
                 //Dar pentru inceput le voi lista pe toate fara sa filtrez, asta si pentru ca
