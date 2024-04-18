@@ -112,11 +112,11 @@ private fun Tranzactie(transaction: Transaction, buttons: MutableState<Boolean>)
 }
 
 @Composable
-fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>, buttons: MutableState<Boolean>) {
-    LazyColumn(
-        Modifier
-            .fillMaxHeight()
-            .fillMaxWidth()) {
+fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>, buttons: MutableState<Boolean>,
+                         summary: Boolean = false) {
+    val modifier = if (summary) Modifier.fillMaxHeight(0.85F) else Modifier.fillMaxHeight().fillMaxWidth()
+
+    LazyColumn(modifier = modifier) {
         items(tranzactii) {
             tranzactie -> Tranzactie(tranzactie, buttons)
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.five_dp)))
@@ -166,21 +166,6 @@ fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>, buttons: Mu
                 }
             }
         )
-    }
-}
-
-@Composable
-fun SummaryTranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>) {
-
-    val modifier: Modifier = Modifier.fillMaxHeight(0.8F)
-
-    val buttons: MutableState<Boolean> = remember { mutableStateOf(false)}
-
-    LazyColumn(modifier = modifier) {
-        items(tranzactii) {
-                tranzactie -> Tranzactie(transaction = tranzactie, buttons)
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.five_dp)))
-        }
     }
 }
 

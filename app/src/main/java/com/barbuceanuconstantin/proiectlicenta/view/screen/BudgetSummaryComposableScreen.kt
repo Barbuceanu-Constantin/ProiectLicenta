@@ -1,19 +1,16 @@
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.content.Context
+import android.content.DialogInterface
+import android.provider.Settings.Global.getString
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -26,6 +23,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -34,20 +32,21 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.IntToMonth
-import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.TimeIntervalSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.getStartAndEndDateOfWeek
-import com.barbuceanuconstantin.proiectlicenta.data.model.SummaryTranzactiiLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Locale
 
-private val dateButton = mutableStateOf(false)
 @Composable
-fun SelectDay(dateMutable: MutableState<String>) {
+fun SelectDay(dateMutable: MutableState<String>, dateButton: MutableState<Boolean>) {
     Button(onClick = { dateButton.value = !dateButton.value }) {
         Text(text = stringResource(id = R.string.selectare_zi), fontSize = fontDimensionResource(id = R.dimen.fifty_sp))
     }
@@ -57,7 +56,7 @@ fun SelectDay(dateMutable: MutableState<String>) {
 }
 
 @Composable
-fun SelectWeek(dateMutable: MutableState<String>) {
+fun SelectWeek(dateMutable: MutableState<String>, dateButton: MutableState<Boolean>) {
     val limits = getStartAndEndDateOfWeek(dateMutable.value)
 
     Button(onClick = { dateButton.value = !dateButton.value }) {
@@ -71,7 +70,7 @@ fun SelectWeek(dateMutable: MutableState<String>) {
     )
 }
 @Composable
-fun SelectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<String>) {
+fun SelectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<String>, dateButton: MutableState<Boolean>) {
     val month : Int = (dateMutable.value[5].code - 48) * 10 + (dateMutable.value[6].code - 48)
     IntToMonth(month, monthMutable)
 
@@ -86,7 +85,6 @@ fun SelectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<St
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                   lTrP: SnapshotStateList<Transaction>) {
@@ -99,75 +97,96 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
     val date by remember { mutableStateOf(formattedDate) }
     val dateMutable: MutableState<String> = remember { mutableStateOf(date) }
     val monthMutable : MutableState<String> = remember { mutableStateOf("") }
+    val buttons: MutableState<Boolean> = remember { mutableStateOf(false)}
+    val dateButton = remember { mutableStateOf(false) }
 
-    if (dateButton.value) {
-        DatePickerDialog(onDismissRequest = {dateButton.value = false},
-                         confirmButton = {},
-                         dismissButton = {}) {
-            Column(modifier = Modifier.fillMaxSize()) {
-                Calendar(onDateSelected = {
-                    selectedDate -> dateMutable.value = selectedDate // Update the date value
-                })
+    // Obtain the context from your activity or fragment
+    val context: Context = LocalContext.current
 
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+    // Get the current date
+    val calendar: Calendar = Calendar.getInstance()
+    val year: Int = calendar.get(Calendar.YEAR)
+    val month: Int = calendar.get(Calendar.MONTH)
+    val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
 
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                    OkButton(ok = dateButton) // Confirm button
-                }
+    Scaffold { innerPadding ->
+        Column( modifier = Modifier
+            .fillMaxWidth()
+            .padding(innerPadding),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+
+            Text(text = stringResource(id = R.string.selectare_interval_timp),
+                 fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
+                 style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
+                                    modifier = Modifier.background(colorResource(R.color.light_cream))
+            )
+
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+
+            TimeIntervalSegmentedButton(daily = daily, weekly = weekly, monthly = monthly)
+
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+
+            //Aici voi face bilantul total al cheltuielilor si veniturilor.
+            //Dar pentru inceput le voi lista pe toate fara sa filtrez, asta si pentru ca
+            //o sa fie mai relevant probabil cand conectez cu baza de date.
+            if (daily.value && !weekly.value && !monthly.value) {
+                //Se selecteaza ziua pentru care se vrea bilantul cheltuielilor si veniturilor
+
+                SelectDay(dateMutable, dateButton)
+            } else if (weekly.value && !daily.value && !monthly.value) {
+                //Se selecteaza saptamana pentru care se vrea bilantul cheltuielilor si veniturilor,
+                //prin selectarea unei zile si extragerea saptamanii din care face parte
+
+                SelectWeek(dateMutable, dateButton)
+            } else if (monthly.value && !daily.value && !weekly.value) {
+                //Se selecteaza luna pentru care se vrea bilantul cheltuielilor si veniturilor
+                //prin selectarea unei zile si extragerea lunii din care face parte
+
+                SelectMonth(dateMutable, monthMutable, dateButton)
+            } else if (daily.value && weekly.value && monthly.value) {
+                HorizontalDivider(thickness = dimensionResource(id = R.dimen.three_dp), color = colorResource(id = R.color.gray))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.five_dp)))
+                TranzactiiLazyColumn(tranzactii = (lTrP + lTrA).toMutableStateList(), buttons, summary = true)
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.five_dp)))
+                HorizontalDivider(thickness = dimensionResource(id = R.dimen.three_dp), color = colorResource(id = R.color.gray))
             }
-        }
-    } else {
-        Scaffold { innerPadding ->
-            Column( modifier = Modifier
-                .fillMaxWidth()
-                .padding(innerPadding),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
 
-                Text(text = stringResource(id = R.string.selectare_interval_timp),
-                     fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
-                     style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
-                                        modifier = Modifier.background(colorResource(R.color.light_cream))
-                )
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
 
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
-
-                //Aici voi face bilantul total al cheltuielilor si veniturilor.
-                //Dar pentru inceput le voi lista pe toate fara sa filtrez, asta si pentru ca
-                //o sa fie mai relevant probabil cand conectez cu baza de date.
-                if (daily.value && !weekly.value && !monthly.value) {
-                    //Se selecteaza ziua pentru care se vrea bilantul cheltuielilor si veniturilor
-
-                    SelectDay(dateMutable)
-                } else if (weekly.value && !daily.value && !monthly.value) {
-                    //Se selecteaza saptamana pentru care se vrea bilantul cheltuielilor si veniturilor,
-                    //prin selectarea unei zile si extragerea saptamanii din care face parte
-
-                    SelectWeek(dateMutable)
-                } else if (monthly.value && !daily.value && !weekly.value) {
-                    //Se selecteaza luna pentru care se vrea bilantul cheltuielilor si veniturilor
-                    //prin selectarea unei zile si extragerea lunii din care face parte
-
-                    SelectMonth(dateMutable, monthMutable)
-                } else if (daily.value && weekly.value && monthly.value) {
-                    HorizontalDivider(thickness = dimensionResource(id = R.dimen.three_dp), color = colorResource(id = R.color.gray))
-                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.five_dp)))
-                    SummaryTranzactiiLazyColumn(tranzactii = (lTrP + lTrA).toMutableStateList())
-                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.five_dp)))
-                    HorizontalDivider(thickness = dimensionResource(id = R.dimen.three_dp), color = colorResource(id = R.color.gray))
-                }
-
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
-
-                Text(text = stringResource(id = R.string.bilant), modifier = Modifier.fillMaxWidth(),
-                     fontSize = fontDimensionResource(id = R.dimen.seventy_five_sp),
-                     fontWeight = FontWeight.Bold,
-                     color = colorResource(id = R.color.medium_green)
-                )
-            }
+            Text(text = stringResource(id = R.string.bilant),
+                 modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
+                                                            end = dimensionResource(id = R.dimen.margin))
+                                    .weight(1f),
+                 fontSize = fontDimensionResource(id = R.dimen.seventy_five_sp),
+                 fontWeight = FontWeight.Bold,
+                 color = colorResource(id = R.color.medium_green)
+            )
         }
     }
+
+    if (dateButton.value) {
+        val datePickerDialog =
+            android.app.DatePickerDialog(context, { _, year1, month1, dayOfMonth1 ->
+                // Handle the selected date
+                val selectedDate: Calendar = Calendar.getInstance()
+                selectedDate.set(year1, month1, dayOfMonth1)
+
+                // Perform any necessary operations with the selected date here
+                // For example, update a TextView with the selected date
+                dateMutable.value =
+                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time)
+            }, year, month, dayOfMonth)
+
+        datePickerDialog.setOnDismissListener {
+            dateButton.value = !dateButton.value
+        }
+
+        datePickerDialog.show()
+    }
 }
+
 

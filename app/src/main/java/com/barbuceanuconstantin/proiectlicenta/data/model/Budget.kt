@@ -32,7 +32,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.SwipeCard
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 
 data class Budget(

@@ -66,6 +66,7 @@
 
     <string name="modificare">Modificare</string>
     <string name="stergere">Stergere</string>
+    <string name="anulare">Anulare</string>
 
     <string name="avertisment_neselectare_categorie">Nu ati selectat categoria principala</string>
 

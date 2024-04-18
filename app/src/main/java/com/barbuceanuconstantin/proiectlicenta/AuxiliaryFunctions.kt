@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.barbuceanuconstantin.proiectlicenta
 
 import android.icu.text.SimpleDateFormat
@@ -185,10 +187,169 @@ fun Calendar(onDateSelected: (String) -> Unit) {
 @Composable
 fun TimeIntervalSegmentedButton(daily: MutableState<Boolean>,
                                 weekly: MutableState<Boolean>,
-                                monthly: MutableState<Boolean>,
-                                all: MutableState<Boolean>) {
+                                monthly: MutableState<Boolean>) {
+    var selectedIndex1 by remember { mutableStateOf(-1) }
+    var selectedIndex2 by remember { mutableStateOf(0) }
 
+    val options1 = listOf(
+        stringResource(id = R.string.zilnic),
+        stringResource(id = R.string.saptamanal),
+        stringResource(id = R.string.lunar),
+    )
 
+    val options2 = listOf(
+        stringResource(id = R.string.toate),
+    )
+
+    Column {
+        Row(modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly) {
+            SingleChoiceSegmentedButtonRow(
+                modifier = Modifier.fillMaxWidth().padding(
+                    start = dimensionResource(id = R.dimen.margin),
+                    end = dimensionResource(id = R.dimen.margin)
+                )
+            ) {
+                options1.forEachIndexed { index, label ->
+                    SegmentedButton(
+                        shape = SegmentedButtonDefaults.itemShape(
+                            index = index,
+                            count = options1.size
+                        ),
+                        onClick = {
+                            selectedIndex1 = index
+                            when (selectedIndex1) {
+                                0 -> {
+                                    daily.value = true
+                                    weekly.value = false
+                                    monthly.value = false
+                                    selectedIndex2 = -1
+                                }
+
+                                1 -> {
+                                    weekly.value = true
+                                    daily.value = false
+                                    monthly.value = false
+                                    selectedIndex2 = -1
+                                }
+
+                                2 -> {
+                                    monthly.value = true
+                                    daily.value = false
+                                    weekly.value = false
+                                    selectedIndex2 = -1
+                                }
+                            }
+                        },
+                        selected = index == selectedIndex1
+                    ) {
+                        Row {
+                            Text(text = label)
+                        }
+                    }
+                }
+            }
+        }
+
+        Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+
+        Row(modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly) {
+            SingleChoiceSegmentedButtonRow(
+                modifier = Modifier.fillMaxWidth().padding(
+                    start = dimensionResource(id = R.dimen.margin),
+                    end = dimensionResource(id = R.dimen.margin)
+                )
+            ) {
+                options2.forEachIndexed { index, label ->
+                    SegmentedButton(
+                        shape = SegmentedButtonDefaults.itemShape(
+                            index = index,
+                            count = options2.size
+                        ),
+                        onClick = {
+                            selectedIndex2 = index
+                            when (selectedIndex2) {
+                                0 -> {
+                                    daily.value = true
+                                    weekly.value = true
+                                    monthly.value = true
+                                    selectedIndex1 = -1
+                                }
+                            }
+                        },
+                        selected = index == selectedIndex2
+                    ) {
+                        Row {
+                            Text(text = label)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SegmentedButton3(first: MutableState<Boolean>, second: MutableState<Boolean>,
+                     third: MutableState<Boolean>) {
+    val checkedList = remember { mutableStateListOf<Int>() }
+    val options = listOf(
+        stringResource(id = R.string.active),
+        stringResource(id = R.string.pasive),
+        stringResource(id = R.string.datorii)
+    )
+
+    MultiChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
+        end = dimensionResource(id = R.dimen.margin))) {
+        options.forEachIndexed { index, label ->
+            SegmentedButton(
+                shape = SegmentedButtonDefaults.itemShape(
+                    index = index,
+                    count = options.size
+                ),
+                onCheckedChange = {
+                    if (index in checkedList) {
+                        checkedList.remove(index)
+                        when (index) {
+                            0 -> {
+                                first.value = false
+                            }
+
+                            1 -> {
+                                second.value = false
+                            }
+
+                            2 -> {
+                                third.value = false
+                            }
+                        }
+                    } else {
+                        checkedList.add(index)
+                        when (index) {
+                            0 -> {
+                                first.value = true
+                            }
+
+                            1 -> {
+                                second.value = true
+                            }
+
+                            2 -> {
+                                third.value = true
+                            }
+                        }
+                    }
+                },
+                checked = index in checkedList
+            ) {
+                Row {
+                    Text(text = label)
+                }
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -276,121 +437,4 @@ fun WarningNotSelectedCategory() {
          fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
          fontWeight = FontWeight.Bold,
          color = colorResource(id = R.color.red))
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SegmentedButton3(first: MutableState<Boolean>, second: MutableState<Boolean>,
-                     third: MutableState<Boolean>) {
-    val checkedList = remember { mutableStateListOf<Int>() }
-    val options = listOf(
-        stringResource(id = R.string.active),
-        stringResource(id = R.string.pasive),
-        stringResource(id = R.string.datorii)
-    )
-
-    MultiChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
-                                                                              end = dimensionResource(id = R.dimen.margin))) {
-        options.forEachIndexed { index, label ->
-            SegmentedButton(
-                shape = SegmentedButtonDefaults.itemShape(
-                    index = index,
-                    count = options.size
-                ),
-                onCheckedChange = {
-                    if (index in checkedList) {
-                        checkedList.remove(index)
-                        when (index) {
-                            0 -> {
-                                first.value = false
-                            }
-
-                            1 -> {
-                                second.value = false
-                            }
-
-                            2 -> {
-                                third.value = false
-                            }
-                        }
-                    } else {
-                        checkedList.add(index)
-                        when (index) {
-                            0 -> {
-                                first.value = true
-                            }
-
-                            1 -> {
-                                second.value = true
-                            }
-
-                            2 -> {
-                                third.value = true
-                            }
-                        }
-                    }
-                },
-                checked = index in checkedList
-            ) {
-                Row {
-                    Text(text = label)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun SwipeCard(onSwipeLeft: () -> Unit = {},
-              onSwipeRight: () -> Unit = {},
-              swipeThreshold: Float = 200f,
-              sensitivityFactor: Float = 4f,
-              content: @Composable () -> Unit) {
-    var offset by remember { mutableStateOf(0f) }
-    var dismissRight by remember { mutableStateOf(false) }
-    var dismissLeft by remember { mutableStateOf(false) }
-    val density = LocalDensity.current.density
-
-    LaunchedEffect(dismissRight) {
-        if (dismissRight) {
-            delay(200)
-            onSwipeRight.invoke()
-            dismissRight = false
-        }
-    }
-
-    LaunchedEffect(dismissLeft) {
-        if (dismissLeft) {
-            delay(200)
-            onSwipeLeft.invoke()
-            dismissLeft = false
-        }
-    }
-
-    Box(modifier = Modifier
-        .offset { IntOffset(offset.roundToInt(), 0) }
-        .pointerInput(Unit) {
-            detectHorizontalDragGestures(onDragEnd = {
-                offset = 0f
-            }) { change, dragAmount ->
-
-                offset += (dragAmount / density) * sensitivityFactor
-                when {
-                    offset > swipeThreshold -> {
-                        dismissRight = true
-                    }
-
-                    offset < -swipeThreshold -> {
-                        dismissLeft = true
-                    }
-                }
-                if (change.positionChange() != Offset.Zero) change.consume()
-            }
-        }
-        .graphicsLayer(
-            alpha = 10f - animateFloatAsState(if (dismissRight) 1f else 0f, label = "").value,
-            rotationZ = animateFloatAsState(offset / 50, label = "").value
-        )) {
-        content()
-    }
 }
