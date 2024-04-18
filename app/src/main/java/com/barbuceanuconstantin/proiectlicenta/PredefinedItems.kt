@@ -9,7 +9,7 @@ var subcategorysPredefiniteActive = mutableStateListOf(
     "Pensie",
     "Bursa",
     "Treburi marunte"
-).groupByTo(mutableMapOf()) { it.first() }.toSortedMap()
+)
 
 var subcategorysPredefinitePasive = mutableStateListOf(
     "Mancare",
@@ -21,13 +21,13 @@ var subcategorysPredefinitePasive = mutableStateListOf(
     "Abonament metrou",
     "Abonament transport suprafata",
     "Tips"
-).groupByTo(mutableMapOf()) { it.first() }.toSortedMap()
+)
 
 var subcategorysPredefiniteDatorii = mutableStateListOf(
     "Credit1",
     "Credit2",
     "Credit3",
-).groupByTo(mutableMapOf()) { it.first() }.toSortedMap()
+)
 
 var lTrA = mutableStateListOf<Transaction>()
 var lTrP = mutableStateListOf<Transaction>()

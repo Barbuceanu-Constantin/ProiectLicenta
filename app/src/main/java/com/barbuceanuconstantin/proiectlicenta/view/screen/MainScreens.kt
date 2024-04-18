@@ -18,13 +18,13 @@ import com.barbuceanuconstantin.proiectlicenta.InitHardcodedBudgets
 private var lFixedBudgets: SnapshotStateList<Budget> = lBudgets
 
 private var listSubcategoriesRevenue = subcategorysPredefiniteActive.map {
-    Category(name = it.key.toString(), items = it.value.toMutableStateList())
+    Category(name = it)
 }.toMutableStateList()
 private var listSubcategoriesExpenses = subcategorysPredefinitePasive.map {
-    Category(name = it.key.toString(), items = it.value.toMutableStateList())
+    Category(name = it)
 }.toMutableStateList()
 private var listSubcategoriesDebts = subcategorysPredefiniteDatorii.map {
-    Category(name = it.key.toString(), items = it.value.toMutableStateList())
+    Category(name = it)
 }.toMutableStateList()
 @Composable
 fun Screen0() {

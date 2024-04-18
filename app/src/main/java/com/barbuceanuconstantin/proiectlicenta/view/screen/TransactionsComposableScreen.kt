@@ -40,11 +40,11 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
             .fillMaxWidth()
             .padding(innerPadding),
                 horizontalAlignment = Alignment.CenterHorizontally) {
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.thirty_dp)))
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.gap)))
 
             SegmentedButton3(first = showA, second = showP, third = showD)
 
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.thirty_dp)))
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.gap)))
 
             if (showA.value && !showP.value && !showD.value) {
                 TranzactiiLazyColumn(tranzactii = lTrA, buttons = buttons)

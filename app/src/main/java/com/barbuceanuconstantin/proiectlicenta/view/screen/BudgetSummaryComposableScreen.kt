@@ -48,11 +48,11 @@ import java.util.Locale
 @Composable
 fun SelectDay(dateMutable: MutableState<String>, dateButton: MutableState<Boolean>) {
     Button(onClick = { dateButton.value = !dateButton.value }) {
-        Text(text = stringResource(id = R.string.selectare_zi), fontSize = fontDimensionResource(id = R.dimen.fifty_sp))
+        Text(text = stringResource(id = R.string.selectare_zi), fontSize = fontDimensionResource(id = R.dimen.medium_text_size))
     }
 
     Text(text = "${stringResource(id = R.string.ziua)} ${dateMutable.value}", fontWeight = FontWeight.SemiBold,
-        modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, fontSize = fontDimensionResource(R.dimen.fifty_sp))
+        modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, fontSize = fontDimensionResource(R.dimen.medium_text_size))
 }
 
 @Composable
@@ -61,12 +61,12 @@ fun SelectWeek(dateMutable: MutableState<String>, dateButton: MutableState<Boole
 
     Button(onClick = { dateButton.value = !dateButton.value }) {
         Text(text = stringResource(id = R.string.selectare_saptamana),
-             fontSize = fontDimensionResource(id = R.dimen.fifty_sp))
+             fontSize = fontDimensionResource(id = R.dimen.medium_text_size))
     }
 
     Text(text = "${stringResource(id = R.string.saptamana)} (${limits.first} ; ${limits.second})",
         fontWeight = FontWeight.SemiBold, modifier = Modifier.fillMaxWidth(),
-        textAlign = TextAlign.Center, fontSize = fontDimensionResource(R.dimen.fifty_sp)
+        textAlign = TextAlign.Center, fontSize = fontDimensionResource(R.dimen.medium_text_size)
     )
 }
 @Composable
@@ -76,12 +76,12 @@ fun SelectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<St
 
     Button(onClick = { dateButton.value = !dateButton.value }) {
         Text(text = stringResource(id = R.string.selectare_luna),
-             fontSize = fontDimensionResource(id = R.dimen.fifty_sp))
+             fontSize = fontDimensionResource(id = R.dimen.medium_text_size))
     }
 
     Text(text = "${stringResource(id = R.string.luna)} ${monthMutable.value}",
          fontWeight = FontWeight.SemiBold, modifier = Modifier.fillMaxWidth(),
-         textAlign = TextAlign.Center, fontSize = fontDimensionResource(id = R.dimen.fifty_sp)
+         textAlign = TextAlign.Center, fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
     )
 }
 
@@ -116,19 +116,19 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             Text(text = stringResource(id = R.string.selectare_interval_timp),
-                 fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
+                 fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
                  style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
                                     modifier = Modifier.background(colorResource(R.color.light_cream))
             )
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             TimeIntervalSegmentedButton(daily = daily, weekly = weekly, monthly = monthly)
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             //Aici voi face bilantul total al cheltuielilor si veniturilor.
             //Dar pentru inceput le voi lista pe toate fara sa filtrez, asta si pentru ca
@@ -148,20 +148,20 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
 
                 SelectMonth(dateMutable, monthMutable, dateButton)
             } else if (daily.value && weekly.value && monthly.value) {
-                HorizontalDivider(thickness = dimensionResource(id = R.dimen.three_dp), color = colorResource(id = R.color.gray))
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.five_dp)))
+                HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
                 TranzactiiLazyColumn(tranzactii = (lTrP + lTrA).toMutableStateList(), buttons, summary = true)
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.five_dp)))
-                HorizontalDivider(thickness = dimensionResource(id = R.dimen.three_dp), color = colorResource(id = R.color.gray))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
+                HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
             }
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             Text(text = stringResource(id = R.string.bilant),
                  modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
                                                             end = dimensionResource(id = R.dimen.margin))
                                     .weight(1f),
-                 fontSize = fontDimensionResource(id = R.dimen.seventy_five_sp),
+                 fontSize = fontDimensionResource(id = R.dimen.big_text_size),
                  fontWeight = FontWeight.Bold,
                  color = colorResource(id = R.color.medium_green)
             )

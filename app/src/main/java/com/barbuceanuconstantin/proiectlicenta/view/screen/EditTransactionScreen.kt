@@ -50,9 +50,9 @@ import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 
-private var listaSubcategorysActive = subcategorysPredefiniteActive.values.flatten().toMutableList()
-private var listaSubcategorysPasive = subcategorysPredefinitePasive.values.flatten().toMutableList()
-private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.values.flatten().toMutableList()
+private var listaSubcategorysActive = subcategorysPredefiniteActive.toMutableList()
+private var listaSubcategorysPasive = subcategorysPredefinitePasive.toMutableList()
+private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.toMutableList()
 @Composable
 fun EditTransactionScreen(transaction: Transaction? = null) {
     var subcategory by remember { mutableStateOf("") }
@@ -109,7 +109,7 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                 //Update
                 HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA, showP, showD)
 
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 
             if (!(showA.value && showP.value && showD.value)) {
                 if (showA.value && !showP.value && !showD.value) {
@@ -132,7 +132,7 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                     }
                 }
 
-                Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+                Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     OutlinedTextField(
@@ -154,7 +154,7 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                         suffix = { Text ("RON") },
                     )
 
-                    Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+                    Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 
                     OutlinedTextField(
                         value = payee,
@@ -171,7 +171,7 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                                                           .weight(0.25f)
                     )
 
-                    Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+                    Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 
                     OutlinedTextField(
                         value = description,
@@ -192,7 +192,7 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                                             .weight(0.25f)
                     )
 
-                    Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+                    Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 
                     OutlinedTextField(
                         value = dateMutable.value,
@@ -237,7 +237,7 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                         Button(onClick = {}, modifier = Modifier.weight(1f).padding(start = dimensionResource(id = R.dimen.margin)))
                         { Text(stringResource(R.string.confirmare)) }
 
-                        Spacer(Modifier.width(dimensionResource(id = R.dimen.thirty_dp)))
+                        Spacer(Modifier.width(dimensionResource(id = R.dimen.gap)))
 
                         Button(onClick = {}, modifier = Modifier.weight(1f).padding(end = dimensionResource(
                             id = R.dimen.margin
@@ -245,7 +245,7 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                         { Text(stringResource(R.string.renuntare)) }
                     }
 
-                    Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+                    Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
                 }
             }
         }

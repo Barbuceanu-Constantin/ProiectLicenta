@@ -38,60 +38,62 @@ import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 @Composable
 private fun TotalBalance() {
     Column {
-        Card(shape = RoundedCornerShape(dimensionResource(id = R.dimen.margin))) {
+        Card(shape = RoundedCornerShape(dimensionResource(id = R.dimen.margin)),
+             modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
+                                         end = dimensionResource(id = R.dimen.margin))) {
             HorizontalDivider(
-                thickness = dimensionResource(id = R.dimen.five_dp),
+                thickness = dimensionResource(id = R.dimen.thin_line),
                 color = colorResource(id = R.color.gray)
             )
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(dimensionResource(id = R.dimen.sixty_dp))
+                    .height(dimensionResource(id = R.dimen.upper_middle))
                     .background(color = colorResource(R.color.light_cream_yellow))
             ) {
                 Text(
                     text = stringResource(id = R.string.active) + " : ",
                     modifier = Modifier
-                        .padding(start = dimensionResource(id = R.dimen.ten_dp))
+                        .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),
-                    fontSize = fontDimensionResource(id = R.dimen.fifty_sp)
+                    fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
                 )
             }
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(dimensionResource(id = R.dimen.sixty_dp))
+                    .height(dimensionResource(id = R.dimen.upper_middle))
                     .background(color = colorResource(R.color.light_cream_red))
             ) {
                 Text(
                     text = stringResource(id = R.string.pasive) + " : ",
                     modifier = Modifier
-                        .padding(start = dimensionResource(id = R.dimen.ten_dp))
+                        .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),
-                    fontSize = fontDimensionResource(id = R.dimen.fifty_sp)
+                    fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
                 )
             }
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(dimensionResource(id = R.dimen.sixty_dp))
+                    .height(dimensionResource(id = R.dimen.upper_middle))
                     .background(color = colorResource(R.color.light_cream_blue))
             ) {
                 Text(
                     text = stringResource(id = R.string.datorii) + " : ",
                     modifier = Modifier
-                        .padding(start = dimensionResource(id = R.dimen.ten_dp))
+                        .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),
-                    fontSize = fontDimensionResource(id = R.dimen.fifty_sp)
+                    fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
                 )
             }
             HorizontalDivider(
-                thickness = dimensionResource(id = R.dimen.five_dp),
+                thickness = dimensionResource(id = R.dimen.thin_line),
                 color = colorResource(id = R.color.gray)
             )
         }
 
-        Spacer(Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+        Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
         Balanta()
     }
@@ -114,7 +116,7 @@ fun PrincipalComposableScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.eighty_dp)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.almost_hundred)))
 
             TotalBalance()
 
@@ -123,14 +125,14 @@ fun PrincipalComposableScreen() {
             Text(
                 text = stringResource(id = R.string.adaugare_tranzactie) + " : ",
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
+                fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     textDecoration = TextDecoration.Underline
                 )
             )
 
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             SingleChoiceSegmentedButtonRow {
                 options.forEachIndexed { index, label ->
@@ -143,7 +145,7 @@ fun PrincipalComposableScreen() {
                             selectedIndex = index
                         },
                         selected = index == selectedIndex,
-                        modifier = Modifier.height(dimensionResource(id = R.dimen.sixty_dp))
+                        modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle))
                     ) {
                         Row {
                             Text(text = label)

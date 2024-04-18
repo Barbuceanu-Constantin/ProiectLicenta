@@ -92,17 +92,17 @@ fun EditBudgetScreen() {
             .padding(innerPadding),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally) {
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.gap)))
 
             Text(text = stringResource(id = R.string.introduceti_detalii_buget),
                  style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     color = colorResource(id = R.color.brown)
                  ),
-                 fontSize = fontDimensionResource(id = R.dimen.seventy_five_sp)
+                 fontSize = fontDimensionResource(id = R.dimen.big_text_size)
             )
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.gap)))
 
             OutlinedTextField(
                 value = filledText, onValueChange = { filledText = it },
@@ -117,7 +117,7 @@ fun EditBudgetScreen() {
                 modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin), end = dimensionResource(id = R.dimen.margin)),
             )
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             OutlinedTextField(
                 value = valueSum, onValueChange = { valueSum = it },
@@ -135,7 +135,7 @@ fun EditBudgetScreen() {
                 modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin), end = dimensionResource(id = R.dimen.margin)),
             )
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             OutlinedTextField(
                 value = dateMutable1.value,
@@ -183,7 +183,7 @@ fun EditBudgetScreen() {
                 ),
             )
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             OutlinedTextField(
                 value = dateMutable2.value,
@@ -230,6 +230,8 @@ fun EditBudgetScreen() {
                                                 } else {
                                                     openWarningDialog.value = true
                                                 }
+                                            }  else {
+                                                openWarningDialog.value = true
                                             }
                                         }, year, month, dayOfMonth)
 
@@ -251,12 +253,12 @@ fun EditBudgetScreen() {
                 Row {
                     Button(onClick = {}) { Text(stringResource(R.string.confirmare)) }
 
-                    Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.thirty_dp)))
+                    Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.gap)))
 
                     Button(onClick = {}) { Text(stringResource(R.string.renuntare)) }
                 }
 
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
             }
         }
     }

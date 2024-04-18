@@ -34,13 +34,12 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 
 data class Category(
-    val name: String,
-    val items: SnapshotStateList<String>
+    val name: String
 )
 
-private var listaSubcategorysActive = subcategorysPredefiniteActive.values.flatten().toMutableList()
-private var listaSubcategorysPasive = subcategorysPredefinitePasive.values.flatten().toMutableList()
-private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.values.flatten().toMutableList()
+private var listaSubcategorysActive = subcategorysPredefiniteActive.toMutableList()
+private var listaSubcategorysPasive = subcategorysPredefinitePasive.toMutableList()
+private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.toMutableList()
 
 @Composable
 private fun Subcategory(text: String) {
@@ -50,7 +49,7 @@ private fun Subcategory(text: String) {
     var color = colorResource(R.color.light_cream_gray)
 
     Card(
-        shape = RoundedCornerShape(dimensionResource(id = R.dimen.ten_dp)),
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.medium_line)),
         modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
                                     end = dimensionResource(id = R.dimen.margin))
                             .combinedClickable(
@@ -84,11 +83,9 @@ private fun Subcategory(text: String) {
 @Composable
 fun SubcategorysLazyColumn(categorii: MutableList<Category>) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        categorii.forEach() { subcateg ->
-            items(subcateg.items) { text ->
-                Subcategory(text = text)
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.five_dp)))
-            }
+        items(categorii) { subcateg ->
+            Subcategory(text = subcateg.name)
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
         }
     }
 }

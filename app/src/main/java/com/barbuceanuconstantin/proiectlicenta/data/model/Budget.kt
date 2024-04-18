@@ -47,11 +47,11 @@ private fun HeaderBudget(text: String) {
         Row(modifier = Modifier
             .fillMaxWidth()
             .background(colorResource(id = R.color.brown_light_cream))) {
-            Text(text = text, fontSize = fontDimensionResource(id = R.dimen.fourthy_sp),
+            Text(text = text, fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
                  fontWeight = FontWeight.Bold, modifier = Modifier
                     .fillMaxSize()
                     .padding(
-                        dimensionResource(id = R.dimen.eight_dp)
+                        dimensionResource(id = R.dimen.spacing)
                     )
                     .weight(1f))
         }
@@ -63,29 +63,29 @@ fun InfoBudget(value: Double, startDate: String, endDate: String) {
     Column(modifier = Modifier.background(colorResource(id = R.color.light_cream_gray))) {
         Text(
             text = stringResource(id = R.string.prag_superior) + " $value",
-            fontSize = fontDimensionResource(id = R.dimen.fourthy_sp),
+            fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.eight_dp))
+                .padding(dimensionResource(id = R.dimen.spacing))
         )
 
         Text(
             text = stringResource(id = R.string.data_inceput) + " $startDate",
-            fontSize = fontDimensionResource(id = R.dimen.fourthy_sp),
+            fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.eight_dp))
+                .padding(dimensionResource(id = R.dimen.spacing))
         )
 
         Text(
             text = stringResource(id = R.string.data_final) + " $endDate",
-            fontSize = fontDimensionResource(id = R.dimen.fourthy_sp),
+            fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.eight_dp))
+                .padding(dimensionResource(id = R.dimen.spacing))
         )
     }
 }
@@ -96,7 +96,7 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>, buttons: Mutable
         lFixedBudgets.forEach() { budget ->
             this@LazyColumn.stickyHeader {
                 Card(
-                    shape = RoundedCornerShape(dimensionResource(id = R.dimen.ten_dp)),
+                    shape = RoundedCornerShape(dimensionResource(id = R.dimen.medium_line)),
                     modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
                                                 end = dimensionResource(id = R.dimen.margin))
                                         .combinedClickable(
@@ -107,7 +107,7 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>, buttons: Mutable
                     HeaderBudget(text = budget.name)
                     InfoBudget(budget.value, budget.start_date, budget.end_date)
                 }
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
             }
         }
     }
@@ -122,7 +122,7 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>, buttons: Mutable
             },
             text = {
                 Text(text = stringResource(id = R.string.mesaj_selectare_actiune),
-                    fontSize = fontDimensionResource(id = R.dimen.fourthy_sp))
+                    fontSize = fontDimensionResource(id = R.dimen.normal_text_size))
             },
             confirmButton = {
                 Button(

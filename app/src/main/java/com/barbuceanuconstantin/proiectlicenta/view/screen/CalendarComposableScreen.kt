@@ -1,7 +1,5 @@
 package com.barbuceanuconstantin.proiectlicenta.view.screen
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -33,7 +31,6 @@ import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import java.time.LocalDate
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
                              lTrP: SnapshotStateList<Transaction>
@@ -41,37 +38,48 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
     val dateMutable: MutableState<String> = remember { mutableStateOf(LocalDate.now().toString()) }
     val incomes: MutableState<Boolean> = remember { mutableStateOf(false) }
     val expenses: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val buttons: MutableState<Boolean> = remember { mutableStateOf(false) }
 
     if (incomes.value || expenses.value) {
         if (incomes.value && !expenses.value) {
             CalendarSummaryTranzactiiLazyColumn(tranzactii = lTrA, backButton = incomes,
-                                                incomesOrExpenses = true, date = dateMutable)
+                                                incomesOrExpenses = true, date = dateMutable,
+                                                buttons = buttons)
         } else if (!incomes.value && expenses.value) {
             CalendarSummaryTranzactiiLazyColumn(tranzactii = lTrP, backButton = expenses,
-                                                incomesOrExpenses = false, date = dateMutable)
+                                                incomesOrExpenses = false, date = dateMutable,
+                                                buttons = buttons)
         }
     } else {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize()
         ) {
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.eighty_dp)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.almost_hundred)))
 
-            Calendar(onDateSelected = { selectedDate ->
-                dateMutable.value = selectedDate // Update the date value
-            })
+            Box(
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.margin))
+            ) {
+                Calendar(
+                    onDateSelected = { selectedDate ->
+                        dateMutable.value = selectedDate
+                    }
+                )
+            }
 
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
-            Card(shape = RoundedCornerShape(dimensionResource(id = R.dimen.margin))) {
+            Card(shape = RoundedCornerShape(dimensionResource(id = R.dimen.margin)),
+                 modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
+                                             end = dimensionResource(id = R.dimen.margin))) {
                 HorizontalDivider(
-                    thickness = dimensionResource(id = R.dimen.five_dp),
+                    thickness = dimensionResource(id = R.dimen.thin_line),
                     color = colorResource(id = R.color.gray)
                 )
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(dimensionResource(id = R.dimen.sixty_dp))
+                        .height(dimensionResource(id = R.dimen.upper_middle))
                         .background(color = colorResource(R.color.light_cream_yellow))
                         .clickable {
                             incomes.value = true
@@ -80,16 +88,16 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
                     Text(
                         text = stringResource(id = R.string.venit_zi_curenta) + " : ",
                         modifier = Modifier
-                            .padding(start = dimensionResource(id = R.dimen.ten_dp))
+                            .padding(start = dimensionResource(id = R.dimen.medium_line))
                             .align(Alignment.CenterStart),
-                        fontSize = fontDimensionResource(id = R.dimen.fifty_sp)
+                        fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
                     )
                 }
 
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(dimensionResource(id = R.dimen.sixty_dp))
+                        .height(dimensionResource(id = R.dimen.upper_middle))
                         .background(color = colorResource(R.color.light_cream_red))
                         .clickable {
                             expenses.value = true
@@ -98,18 +106,18 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
                     Text(
                         text = stringResource(id = R.string.cheltuieli_zi_curenta) + " : ",
                         modifier = Modifier
-                            .padding(start = dimensionResource(id = R.dimen.ten_dp))
+                            .padding(start = dimensionResource(id = R.dimen.medium_line))
                             .align(Alignment.CenterStart),
-                        fontSize = fontDimensionResource(id = R.dimen.fifty_sp)
+                        fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
                     )
                 }
                 HorizontalDivider(
-                    thickness = dimensionResource(id = R.dimen.five_dp),
+                    thickness = dimensionResource(id = R.dimen.thin_line),
                     color = colorResource(id = R.color.gray)
                 )
             }
 
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             Balanta()
         }

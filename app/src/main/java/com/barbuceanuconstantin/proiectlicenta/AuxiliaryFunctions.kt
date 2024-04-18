@@ -64,27 +64,28 @@ import kotlin.math.roundToInt
 
 @Composable
 fun Balanta() {
-    Card(shape = RoundedCornerShape(dimensionResource(id = R.dimen.margin))) {
+    Card(shape = RoundedCornerShape(dimensionResource(id = R.dimen.margin)),
+         modifier = Modifier.padding(dimensionResource(id = R.dimen.margin))) {
         HorizontalDivider(
-            thickness = dimensionResource(id = R.dimen.five_dp),
+            thickness = dimensionResource(id = R.dimen.thin_line),
             color = colorResource(id = R.color.gray)
         )
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(dimensionResource(id = R.dimen.sixty_dp))
+                .height(dimensionResource(id = R.dimen.upper_middle))
                 .background(color = colorResource(R.color.light_cream_green))
         ) {
             Text(
                 text = stringResource(id = R.string.balanta) + " : ",
                 modifier = Modifier
-                    .padding(start = dimensionResource(id = R.dimen.ten_dp))
+                    .padding(start = dimensionResource(id = R.dimen.medium_line))
                     .align(Alignment.CenterStart),
-                fontSize = fontDimensionResource(id = R.dimen.fifty_sp)
+                fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
             )
         }
         HorizontalDivider(
-            thickness = dimensionResource(id = R.dimen.five_dp),
+            thickness = dimensionResource(id = R.dimen.thin_line),
             color = colorResource(id = R.color.gray)
         )
     }
@@ -102,10 +103,10 @@ fun fontDimensionResource(@DimenRes id: Int): TextUnit {
 fun FloatingActionButtonCustom(addButton : MutableState<Boolean>) {
     FloatingActionButton(onClick = { addButton.value = !addButton.value },
         elevation = FloatingActionButtonDefaults.elevation(
-            defaultElevation = dimensionResource(id = R.dimen.twelve_dp),
+            defaultElevation = dimensionResource(id = R.dimen.medium_line),
             pressedElevation = dimensionResource(id = R.dimen.margin),
-            hoveredElevation = dimensionResource(id = R.dimen.eight_dp),
-            focusedElevation = dimensionResource(id = R.dimen.three_dp)
+            hoveredElevation = dimensionResource(id = R.dimen.spacing),
+            focusedElevation = dimensionResource(id = R.dimen.very_thin_line)
         )) {
         Icon(Icons.Default.Add, contentDescription = "Add")
     }
@@ -251,7 +252,7 @@ fun TimeIntervalSegmentedButton(daily: MutableState<Boolean>,
             }
         }
 
-        Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+        Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 
         Row(modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly) {
@@ -378,7 +379,7 @@ fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<B
     )
 
     Column {
-        Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
+        Spacer(Modifier.height(dimensionResource(id = R.dimen.gap)))
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             SingleChoiceSegmentedButtonRow(
@@ -425,7 +426,7 @@ fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<B
             }
         }
 
-        Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
+        Spacer(Modifier.height(dimensionResource(id = R.dimen.gap)))
     }
 }
 @Composable
@@ -434,7 +435,7 @@ fun WarningNotSelectedCategory() {
          modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
                                                     top = dimensionResource(id = R.dimen.margin))
         ,
-         fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
+         fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
          fontWeight = FontWeight.Bold,
          color = colorResource(id = R.color.red))
 }

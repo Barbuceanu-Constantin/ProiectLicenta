@@ -37,17 +37,17 @@ fun FixedBudgetsComposableScreen(lFixedBudgets: SnapshotStateList<Budget>) {
             .fillMaxWidth()
             .padding(innerPadding),
                 horizontalAlignment = Alignment.CenterHorizontally ) {
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.gap)))
 
             Text(text = stringResource(id = R.string.ecran_bugete_fixe),
                  style = TextStyle(
                     fontStyle = FontStyle.Italic,
                     textDecoration = TextDecoration.Underline
                  ),
-                 fontSize = fontDimensionResource(id = R.dimen.seventy_five_sp)
+                 fontSize = fontDimensionResource(id = R.dimen.big_text_size)
             )
 
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.gap)))
 
             BudgetsLazyColumn(lFixedBudgets, buttons)
         }

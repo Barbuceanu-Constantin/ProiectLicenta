@@ -31,6 +31,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindowSegmentedButton
@@ -62,13 +63,13 @@ fun EditCategoryScreen(category: Category? = null) {
                         start = dimensionResource(id = R.dimen.margin),
                         end = dimensionResource(id = R.dimen.margin)
                     ),
-                fontSize = fontDimensionResource(R.dimen.fifty_sp),
+                fontSize = fontDimensionResource(R.dimen.medium_text_size),
                 fontWeight = FontWeight.Bold)
 
             var filledText by remember { mutableStateOf("") }
             if (category != null) filledText = category.name
 
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.middle)))
 
             OutlinedTextField(
                 value = filledText, onValueChange = { filledText = it },
@@ -84,7 +85,8 @@ fun EditCategoryScreen(category: Category? = null) {
                                                           ),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Done // Specify imeAction as Done
+                    imeAction = ImeAction.Done,
+                    capitalization = KeyboardCapitalization.Words
                 ),
                 keyboardActions = KeyboardActions(
                     onDone = {
@@ -102,7 +104,7 @@ fun EditCategoryScreen(category: Category? = null) {
                         Text(stringResource(R.string.confirmare))
                     }
 
-                    Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.thirty_dp)))
+                    Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.gap)))
 
                     Button(onClick = {}) {
                         Text(stringResource(R.string.renuntare))
@@ -110,7 +112,7 @@ fun EditCategoryScreen(category: Category? = null) {
                 }
             }
 
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
         } else {
             WarningNotSelectedCategory()
 
@@ -122,7 +124,7 @@ fun EditCategoryScreen(category: Category? = null) {
                 }
             }
 
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.ten_dp)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
         }
     }
 }

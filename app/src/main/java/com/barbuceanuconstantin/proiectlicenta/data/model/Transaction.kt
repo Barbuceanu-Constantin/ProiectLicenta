@@ -57,16 +57,16 @@ data class Transaction(
 @Composable
 private fun Tranzactie(transaction: Transaction, buttons: MutableState<Boolean>) {
     val color: Color =
-        if (subcategorysPredefiniteActive[transaction.subcategory.first()]?.contains(transaction.subcategory) == true)
+        if (subcategorysPredefiniteActive.contains(transaction.subcategory))
             colorResource(id = R.color.light_cream_yellow)
-        else if (subcategorysPredefinitePasive[transaction.subcategory.first()]?.contains(transaction.subcategory) == true)
+        else if (subcategorysPredefinitePasive.contains(transaction.subcategory))
             colorResource(id = R.color.light_cream_red)
-        else if (subcategorysPredefiniteDatorii[transaction.subcategory.first()]?.contains(transaction.subcategory) == true)
+        else if (subcategorysPredefiniteDatorii.contains(transaction.subcategory))
             colorResource(id = R.color.light_cream_blue) else colorResource(id = R.color.light_cream_gray)
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Card(
-            shape = RoundedCornerShape(dimensionResource(id = R.dimen.ten_dp)),
+            shape = RoundedCornerShape(dimensionResource(id = R.dimen.medium_line)),
             modifier = Modifier
                 .combinedClickable(
                     onClick = { },
@@ -87,7 +87,7 @@ private fun Tranzactie(transaction: Transaction, buttons: MutableState<Boolean>)
                     maxLines = 2,
                     modifier = Modifier.padding(
                         start = dimensionResource(id = R.dimen.margin),
-                        top = dimensionResource(id = R.dimen.eight_dp)
+                        top = dimensionResource(id = R.dimen.spacing)
                     )
                 )
                 Text(
@@ -95,7 +95,7 @@ private fun Tranzactie(transaction: Transaction, buttons: MutableState<Boolean>)
                     maxLines = 2,
                     modifier = Modifier.padding(
                         start = dimensionResource(id = R.dimen.margin),
-                        top = dimensionResource(id = R.dimen.eight_dp)
+                        top = dimensionResource(id = R.dimen.spacing)
                     )
                 )
                 Text(
@@ -103,7 +103,7 @@ private fun Tranzactie(transaction: Transaction, buttons: MutableState<Boolean>)
                     maxLines = 2,
                     modifier = Modifier.padding(
                         start = dimensionResource(id = R.dimen.margin),
-                        top = dimensionResource(id = R.dimen.eight_dp)
+                        top = dimensionResource(id = R.dimen.spacing)
                     )
                 )
             }
@@ -119,7 +119,7 @@ fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>, buttons: Mu
     LazyColumn(modifier = modifier) {
         items(tranzactii) {
             tranzactie -> Tranzactie(tranzactie, buttons)
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.five_dp)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
         }
     }
 
@@ -133,7 +133,7 @@ fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>, buttons: Mu
             },
             text = {
                 Text(text = stringResource(id = R.string.mesaj_selectare_actiune),
-                     fontSize = fontDimensionResource(id = R.dimen.fourthy_sp))
+                     fontSize = fontDimensionResource(id = R.dimen.normal_text_size))
             },
             confirmButton = {
                 Button(
@@ -173,42 +173,86 @@ fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>, buttons: Mu
 fun CalendarSummaryTranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>,
                                         backButton: MutableState<Boolean>,
                                         incomesOrExpenses: Boolean,
-                                        date: MutableState<String>) {
+                                        date: MutableState<String>,
+                                        buttons: MutableState<Boolean>) {
 
-    val modifier: Modifier = Modifier.fillMaxHeight(0.8F)
-
-    val buttons: MutableState<Boolean> = remember { mutableStateOf(false)}
+    val modifier: Modifier = Modifier.fillMaxHeight(0.9F)
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_hundred)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
         if (incomesOrExpenses) {
             //Coloana venituri
             Text(text = stringResource(id = R.string.Venituri) + " " + date.value,
-                fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
+                fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
                 style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
                 modifier = Modifier.background(colorResource(R.color.light_cream))
             )
         } else {
             //Coloana cheltuieli
             Text(text = stringResource(id = R.string.Cheltuieli) + " " + date.value,
-                fontSize = fontDimensionResource(id = R.dimen.fifty_sp),
+                fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
                 style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
                 modifier = Modifier.background(colorResource(R.color.light_cream))
             )
         }
 
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.twenty_dp)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
         LazyColumn(modifier = modifier) {
             items(tranzactii) { tranzactie ->
                 Tranzactie(tranzactie, buttons)
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.five_dp)))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
             }
         }
 
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thirty_dp)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
         OkButton(ok = backButton)
+    }
+
+    if (buttons.value) {
+        AlertDialog(
+            onDismissRequest = {
+                buttons.value = !buttons.value
+            },
+            title = {
+                Text(text = stringResource(id = R.string.selectare_actiune))
+            },
+            text = {
+                Text(text = stringResource(id = R.string.mesaj_selectare_actiune),
+                    fontSize = fontDimensionResource(id = R.dimen.normal_text_size))
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        buttons.value = !buttons.value
+                    }
+                ) {
+                    Row {
+                        Text(text = stringResource(id = R.string.modificare))
+                        Icon(
+                            Icons.Filled.Colorize, contentDescription = "Delete",
+                            tint = colorResource(id = R.color.white)
+                        )
+                    }
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        buttons.value = !buttons.value
+                    }
+                ) {
+                    Row {
+                        Text(text = stringResource(id = R.string.stergere))
+                        Icon(
+                            Icons.Filled.Delete, contentDescription = "Update",
+                            tint = colorResource(id = R.color.white)
+                        )
+                    }
+                }
+            }
+        )
     }
 }

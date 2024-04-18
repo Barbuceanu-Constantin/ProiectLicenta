@@ -28,7 +28,8 @@ class MainActivity : ComponentActivity() {
                 //EditCategoryScreen()
                 //Screen4()
                 //EditBudgetScreen()
-                Screen6()
+                //Screen6()
+                //Screen7()
             }
         }
     }
