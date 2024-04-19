@@ -54,7 +54,7 @@ private var listaSubcategorysActive = subcategorysPredefiniteActive.toMutableLis
 private var listaSubcategorysPasive = subcategorysPredefinitePasive.toMutableList()
 private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.toMutableList()
 @Composable
-fun EditTransactionScreen(transaction: Transaction? = null) {
+fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit, transaction: Transaction? = null) {
     var subcategory by remember { mutableStateOf("") }
     var payee by remember { mutableStateOf("") }
     var valueSum by remember { mutableStateOf("") }
@@ -234,12 +234,12 @@ fun EditTransactionScreen(transaction: Transaction? = null) {
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.Bottom) {
 
-                        Button(onClick = {}, modifier = Modifier.weight(1f).padding(start = dimensionResource(id = R.dimen.margin)))
+                        Button(onClick = {onNavigateToHomeScreen()}, modifier = Modifier.weight(1f).padding(start = dimensionResource(id = R.dimen.margin)))
                         { Text(stringResource(R.string.confirmare)) }
 
                         Spacer(Modifier.width(dimensionResource(id = R.dimen.gap)))
 
-                        Button(onClick = {}, modifier = Modifier.weight(1f).padding(end = dimensionResource(
+                        Button(onClick = {onNavigateToHomeScreen()}, modifier = Modifier.weight(1f).padding(end = dimensionResource(
                             id = R.dimen.margin
                         )))
                         { Text(stringResource(R.string.renuntare)) }

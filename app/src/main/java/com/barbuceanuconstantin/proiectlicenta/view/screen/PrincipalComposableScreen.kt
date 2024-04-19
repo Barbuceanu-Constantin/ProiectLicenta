@@ -32,6 +32,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import com.barbuceanuconstantin.proiectlicenta.Balanta
+import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 
@@ -100,7 +101,11 @@ private fun TotalBalance() {
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PrincipalComposableScreen() {
+fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: () -> Unit,
+                              onNavigateToHomeScreen: () -> Unit,
+                              onNavigateToTransactionScreen: () -> Unit,
+                              onNavigateToCategoriesScreen: () -> Unit,
+                              onNavigateToFixedBudgetsScreen: () -> Unit) {
     var selectedIndex by remember { mutableStateOf(-1) }
     val options = listOf(
         stringResource(id = R.string.Venituri),
@@ -108,7 +113,16 @@ fun PrincipalComposableScreen() {
         stringResource(id = R.string.Datorii)
     )
 
-    Scaffold { innerPadding ->
+    Scaffold(
+                bottomBar = {
+                                BottomNavigationBar(
+                                                    onNavigateToHomeScreen,
+                                                    onNavigateToTransactionScreen,
+                                                    onNavigateToCategoriesScreen,
+                                                    onNavigateToFixedBudgetsScreen
+                                )
+                }
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -143,6 +157,7 @@ fun PrincipalComposableScreen() {
                         ),
                         onClick = {
                             selectedIndex = index
+                            onNavigateToEditTransactionScreen()
                         },
                         selected = index == selectedIndex,
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle))

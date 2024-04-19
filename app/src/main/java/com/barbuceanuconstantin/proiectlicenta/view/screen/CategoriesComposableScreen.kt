@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
@@ -20,8 +21,13 @@ import com.barbuceanuconstantin.proiectlicenta.data.model.Category
 import com.barbuceanuconstantin.proiectlicenta.data.model.SubcategorysLazyColumn
 
 @Composable
-fun CategoriesComposableScreen(lSA: MutableList<Category>, lSP: MutableList<Category>,
-                               lSD: MutableList<Category>) {
+fun CategoriesComposableScreen(lSA: MutableList<Category>,
+                               lSP: MutableList<Category>,
+                               lSD: MutableList<Category>,
+                               onNavigateToHomeScreen: () -> Unit,
+                               onNavigateToTransactionScreen: () -> Unit,
+                               onNavigateToCategoriesScreen: () -> Unit,
+                               onNavigateToFixedBudgetsScreen: () -> Unit) {
     val showA: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
@@ -30,6 +36,14 @@ fun CategoriesComposableScreen(lSA: MutableList<Category>, lSP: MutableList<Cate
     Scaffold(
         floatingActionButton = {
             FloatingActionButtonCustom(addButton = addButton)
+        },
+        bottomBar = {
+            BottomNavigationBar(
+                onNavigateToHomeScreen,
+                onNavigateToTransactionScreen,
+                onNavigateToCategoriesScreen,
+                onNavigateToFixedBudgetsScreen
+            )
         }
     ) { innerPadding ->
         Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),

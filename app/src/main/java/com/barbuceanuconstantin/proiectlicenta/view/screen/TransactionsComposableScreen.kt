@@ -15,6 +15,7 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
@@ -24,7 +25,11 @@ import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
 @Composable
 fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                  lTrP: SnapshotStateList<Transaction>,
-                                 lTrD: SnapshotStateList<Transaction>) {
+                                 lTrD: SnapshotStateList<Transaction>,
+                                 onNavigateToHomeScreen: () -> Unit,
+                                 onNavigateToTransactionScreen: () -> Unit,
+                                 onNavigateToCategoriesScreen: () -> Unit,
+                                 onNavigateToFixedBudgetsScreen: () -> Unit) {
     val showA: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
@@ -34,6 +39,14 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
     Scaffold(
         floatingActionButton = {
             FloatingActionButtonCustom(addButton = addButton)
+        },
+        bottomBar = {
+            BottomNavigationBar(
+                onNavigateToHomeScreen,
+                onNavigateToTransactionScreen,
+                onNavigateToCategoriesScreen,
+                onNavigateToFixedBudgetsScreen
+            )
         }
     ) { innerPadding ->
         Column( modifier = Modifier

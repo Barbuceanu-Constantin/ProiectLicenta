@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextDecoration
+import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.R
@@ -26,12 +27,26 @@ import com.barbuceanuconstantin.proiectlicenta.data.model.BudgetsLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 
 @Composable
-fun FixedBudgetsComposableScreen(lFixedBudgets: SnapshotStateList<Budget>) {
+fun FixedBudgetsComposableScreen(
+    lFixedBudgets: SnapshotStateList<Budget>,
+    onNavigateToHomeScreen: () -> Unit,
+    onNavigateToTransactionScreen: () -> Unit,
+    onNavigateToCategoriesScreen: () -> Unit,
+    onNavigateToFixedBudgetsScreen: () -> Unit
+) {
     val fab: MutableState<Boolean> = remember { mutableStateOf(false) }
     val buttons: MutableState<Boolean> = remember { mutableStateOf(false)}
 
     Scaffold(
-        floatingActionButton = { FloatingActionButtonCustom(addButton = fab) }
+        floatingActionButton = { FloatingActionButtonCustom(addButton = fab) },
+        bottomBar = {
+            BottomNavigationBar(
+                onNavigateToHomeScreen,
+                onNavigateToTransactionScreen,
+                onNavigateToCategoriesScreen,
+                onNavigateToFixedBudgetsScreen
+            )
+        }
     ) { innerPadding ->
         Column( modifier = Modifier
             .fillMaxWidth()

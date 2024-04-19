@@ -649,3 +649,13 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //        content()
 //    }
 //}
+
+//Screen0()
+//EditTransactionScreen()
+//Screen1()
+//Screen2()
+//EditCategoryScreen()
+//Screen4()
+//EditBudgetScreen()
+//Screen6()
+//Screen7()

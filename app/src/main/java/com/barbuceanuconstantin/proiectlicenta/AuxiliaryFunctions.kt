@@ -6,22 +6,27 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.widget.CalendarView
 import androidx.annotation.DimenRes
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBalanceWallet
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Calculate
+import androidx.compose.material.icons.filled.Category
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,7 +40,6 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -44,23 +48,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import kotlinx.coroutines.delay
 import java.util.Locale
-import kotlin.math.roundToInt
 
 @Composable
 fun Balanta() {
@@ -206,10 +203,12 @@ fun TimeIntervalSegmentedButton(daily: MutableState<Boolean>,
         Row(modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly) {
             SingleChoiceSegmentedButtonRow(
-                modifier = Modifier.fillMaxWidth().padding(
-                    start = dimensionResource(id = R.dimen.margin),
-                    end = dimensionResource(id = R.dimen.margin)
-                )
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = dimensionResource(id = R.dimen.margin),
+                        end = dimensionResource(id = R.dimen.margin)
+                    )
             ) {
                 options1.forEachIndexed { index, label ->
                     SegmentedButton(
@@ -257,10 +256,12 @@ fun TimeIntervalSegmentedButton(daily: MutableState<Boolean>,
         Row(modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly) {
             SingleChoiceSegmentedButtonRow(
-                modifier = Modifier.fillMaxWidth().padding(
-                    start = dimensionResource(id = R.dimen.margin),
-                    end = dimensionResource(id = R.dimen.margin)
-                )
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = dimensionResource(id = R.dimen.margin),
+                        end = dimensionResource(id = R.dimen.margin)
+                    )
             ) {
                 options2.forEachIndexed { index, label ->
                     SegmentedButton(
@@ -302,8 +303,12 @@ fun SegmentedButton3(first: MutableState<Boolean>, second: MutableState<Boolean>
         stringResource(id = R.string.datorii)
     )
 
-    MultiChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
-        end = dimensionResource(id = R.dimen.margin))) {
+    MultiChoiceSegmentedButtonRow(modifier = Modifier
+        .fillMaxWidth()
+        .padding(
+            start = dimensionResource(id = R.dimen.margin),
+            end = dimensionResource(id = R.dimen.margin)
+        )) {
         options.forEachIndexed { index, label ->
             SegmentedButton(
                 shape = SegmentedButtonDefaults.itemShape(
@@ -383,10 +388,12 @@ fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<B
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             SingleChoiceSegmentedButtonRow(
-                modifier = Modifier.fillMaxWidth().padding(
-                    start = dimensionResource(id = R.dimen.margin),
-                    end = dimensionResource(id = R.dimen.margin)
-                )
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = dimensionResource(id = R.dimen.margin),
+                        end = dimensionResource(id = R.dimen.margin)
+                    )
             ) {
                 options.forEachIndexed { index, label ->
                     SegmentedButton(
@@ -432,10 +439,96 @@ fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<B
 @Composable
 fun WarningNotSelectedCategory() {
     Text(text = stringResource(id = R.string.avertisment_neselectare_categorie),
-         modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
-                                                    top = dimensionResource(id = R.dimen.margin))
+         modifier = Modifier
+             .fillMaxWidth()
+             .padding(
+                 start = dimensionResource(id = R.dimen.margin),
+                 top = dimensionResource(id = R.dimen.margin)
+             )
         ,
          fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
          fontWeight = FontWeight.Bold,
          color = colorResource(id = R.color.red))
+}
+
+@Composable
+fun BottomNavigationBar(
+    onNavigateToScreen0: () -> Unit,
+    onNavigateToScreen1: () -> Unit,
+    onNavigateToScreen2: () -> Unit,
+    onNavigateToScreen4: () -> Unit,
+) {
+    BottomNavigation(
+        backgroundColor = colorResource(id = R.color.white),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Home,
+                    contentDescription = stringResource(id = R.string.acasa),
+                    tint = colorResource(id = R.color.black),
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.margin_extra))
+                )
+            },
+            label = { Text(text = stringResource(id = R.string.acasa),
+                            fontSize = fontDimensionResource(id = R.dimen.normal_text_size)) },
+            selected = true,
+            onClick = { onNavigateToScreen0() },
+            alwaysShowLabel = true,
+            selectedContentColor = colorResource(id = R.color.black),
+            unselectedContentColor = colorResource(id = R.color.gray),
+        )
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.AccountBalanceWallet,
+                    contentDescription = stringResource(id = R.string.tranzactii),
+                    tint = colorResource(id = R.color.black),
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.margin_extra))
+                )
+            },
+            label = { Text(text = stringResource(id = R.string.tranzactii),
+                            fontSize = fontDimensionResource(id = R.dimen.normal_text_size)) },
+            selected = true,
+            onClick = { onNavigateToScreen1() },
+            alwaysShowLabel = true,
+            selectedContentColor = colorResource(id = R.color.black),
+            unselectedContentColor = colorResource(id = R.color.gray),
+        )
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Category,
+                    contentDescription = stringResource(id = R.string.categorii),
+                    tint = colorResource(id = R.color.black),
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.margin_extra))
+                )
+            },
+            label = { Text(text = stringResource(id = R.string.categorii),
+                            fontSize = fontDimensionResource(id = R.dimen.normal_text_size)) },
+            selected = true,
+            onClick = { onNavigateToScreen2() },
+            alwaysShowLabel = true,
+            selectedContentColor = colorResource(id = R.color.black),
+            unselectedContentColor = colorResource(id = R.color.gray)
+        )
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Calculate,
+                    contentDescription = stringResource(id = R.string.bugete),
+                    tint = colorResource(id = R.color.black),
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.margin_extra))
+                )
+            },
+            label = { Text(text = stringResource(id = R.string.bugete),
+                            fontSize = fontDimensionResource(id = R.dimen.normal_text_size)) },
+            selected = true,
+            onClick = { onNavigateToScreen4() },
+            alwaysShowLabel = true,
+            selectedContentColor = colorResource(id = R.color.black),
+            unselectedContentColor = colorResource(id = R.color.gray)
+        )
+    }
 }
