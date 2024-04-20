@@ -66,7 +66,7 @@ fun isDateAfterOrEqualToCurrent(dateString: String, current: LocalDate): Boolean
     }
 }
 @Composable
-fun EditBudgetScreen() {
+fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit) {
     val dateTime = LocalDateTime.now()
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val formattedDate = dateTime.format(dateFormatter)
@@ -251,11 +251,11 @@ fun EditBudgetScreen() {
             Column(verticalArrangement = Arrangement.Bottom,
                     modifier = Modifier.weight(1f)) {
                 Row {
-                    Button(onClick = {}) { Text(stringResource(R.string.confirmare)) }
+                    Button(onClick = { onNavigateToFixedBudgetsScreen() }) { Text(stringResource(R.string.confirmare)) }
 
                     Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.gap)))
 
-                    Button(onClick = {}) { Text(stringResource(R.string.renuntare)) }
+                    Button(onClick = { onNavigateToFixedBudgetsScreen() }) { Text(stringResource(R.string.renuntare)) }
                 }
 
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))

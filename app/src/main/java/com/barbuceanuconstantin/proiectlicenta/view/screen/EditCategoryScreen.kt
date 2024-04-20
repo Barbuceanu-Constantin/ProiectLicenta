@@ -45,7 +45,8 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 
 @Composable
-fun EditCategoryScreen(category: Category? = null) {
+fun EditCategoryScreen(category: Category? = null,
+                       onNavigateToCategoryScreen : () -> Unit) {
     val showA: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
@@ -100,13 +101,13 @@ fun EditCategoryScreen(category: Category? = null) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Button(onClick = {}) {
+                    Button(onClick = { onNavigateToCategoryScreen() }) {
                         Text(stringResource(R.string.confirmare))
                     }
 
                     Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.gap)))
 
-                    Button(onClick = {}) {
+                    Button(onClick = { onNavigateToCategoryScreen() }) {
                         Text(stringResource(R.string.renuntare))
                     }
                 }
@@ -120,7 +121,7 @@ fun EditCategoryScreen(category: Category? = null) {
                     modifier = Modifier.weight(1f)) {
                 Row(horizontalArrangement = Arrangement.Center)
                 {
-                    Button(onClick = {}) { Text(stringResource(R.string.renuntare)) }
+                    Button(onClick = { onNavigateToCategoryScreen() }) { Text(stringResource(R.string.renuntare)) }
                 }
             }
 

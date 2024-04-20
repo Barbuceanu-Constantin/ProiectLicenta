@@ -20,6 +20,8 @@ import com.barbuceanuconstantin.proiectlicenta.data.model.Category
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.ui.theme.ProiectLicentaTheme
 import com.barbuceanuconstantin.proiectlicenta.view.screen.CategoriesComposableScreen
+import com.barbuceanuconstantin.proiectlicenta.view.screen.EditBudgetScreen
+import com.barbuceanuconstantin.proiectlicenta.view.screen.EditCategoryScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.EditTransactionScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.FixedBudgetsComposableScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.PrincipalComposableScreen
@@ -120,6 +122,9 @@ class MainActivity : ComponentActivity() {
                         //Tranzactii
                         TransactionsComposableScreen(
                             lTrA, lTrP, lTrD,
+                            onNavigateToEditTransactionScreen = {index ->
+                                navController.navigate("editTransactionScreen/$index")
+                            },
                             onNavigateToHomeScreen = {
                                 navController.navigate("homeScreen") {
                                     popUpTo("homeScreen") {
@@ -150,6 +155,9 @@ class MainActivity : ComponentActivity() {
                             listSubcategoriesRevenue,
                             listSubcategoriesExpenses,
                             listSubcategoriesDebts,
+                            onNavigateToEditCategoriesScreen = {
+                                navController.navigate("editCategoryScreen")
+                            },
                             onNavigateToHomeScreen = {
                                 navController.navigate("homeScreen") {
                                     popUpTo("homeScreen") {
@@ -174,10 +182,13 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     }
-                    composable("FixedBudgetsScreen") {
+                    composable("fixedBudgetsScreen") {
                         //Bugete fixe
                         FixedBudgetsComposableScreen(
                             lBudgets,
+                            onNavigateToEditBudgetScreen = {
+                                navController.navigate("editBudgetScreen")
+                            },
                             onNavigateToHomeScreen = {
                                 navController.navigate("homeScreen") {
                                     popUpTo("homeScreen") {
@@ -211,15 +222,52 @@ class MainActivity : ComponentActivity() {
                     )
                     {backStackEntry ->
                         val index = requireNotNull(backStackEntry.arguments).getInt("index")
-                        EditTransactionScreen(onNavigateToHomeScreen = {
-                                                                        navController.navigate("homeScreen") {
-                                                                            popUpTo("homeScreen") {
-                                                                                inclusive = true
-                                                                            }
-                                                                        }
-                                                                    },
+                        var lambda = {
+                            navController.navigate("homeScreen") {
+                                popUpTo("homeScreen") {
+                                    inclusive = true
+                                }
+                            }
+                        }
+
+                        if (index == 3) {
+                            lambda = {
+                                navController.navigate("transactionScreen") {
+                                    popUpTo("transactionScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            }
+                        }
+
+                        EditTransactionScreen(
+                                                onNavigateToHomeScreen = lambda,
                                                 index = index
-                                            )
+                        )
+                    }
+                    composable("editCategoryScreen")
+                    {
+                        EditCategoryScreen(
+                            onNavigateToCategoryScreen = {
+                                navController.navigate("categoriesScreen") {
+                                    popUpTo("categoriesScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            }
+                        )
+                    }
+                    composable("editBudgetScreen")
+                    {
+                        EditBudgetScreen(
+                            onNavigateToFixedBudgetsScreen = {
+                                navController.navigate("fixedBudgetsScreen") {
+                                    popUpTo("fixedBudgetsScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            }
+                        )
                     }
                     // Add more destinations similarly.
                 }

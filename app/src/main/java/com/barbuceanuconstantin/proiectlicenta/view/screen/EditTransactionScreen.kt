@@ -54,7 +54,8 @@ private var listaSubcategorysActive = subcategorysPredefiniteActive.toMutableLis
 private var listaSubcategorysPasive = subcategorysPredefinitePasive.toMutableList()
 private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.toMutableList()
 @Composable
-fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit, transaction: Transaction? = null,
+fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
+                          transaction: Transaction? = null,
                           index: Int = 0) {
     var subcategory by remember { mutableStateOf("") }
     var payee by remember { mutableStateOf("") }

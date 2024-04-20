@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
-import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
+import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonTransactions
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
@@ -26,6 +26,7 @@ import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
 fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                  lTrP: SnapshotStateList<Transaction>,
                                  lTrD: SnapshotStateList<Transaction>,
+                                 onNavigateToEditTransactionScreen: (index : Int) -> Unit,
                                  onNavigateToHomeScreen: () -> Unit,
                                  onNavigateToTransactionScreen: () -> Unit,
                                  onNavigateToCategoriesScreen: () -> Unit,
@@ -33,12 +34,14 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
     val showA: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val addButton: MutableState<Boolean> = remember { mutableStateOf(false) }
     val buttons: MutableState<Boolean> = remember { mutableStateOf(false)}
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButtonCustom(addButton = addButton)
+            FloatingActionButtonTransactions(
+                                        navigateAction = onNavigateToEditTransactionScreen,
+                                        returnBackIndex = 3
+                                    )
         },
         bottomBar = {
             BottomNavigationBar(

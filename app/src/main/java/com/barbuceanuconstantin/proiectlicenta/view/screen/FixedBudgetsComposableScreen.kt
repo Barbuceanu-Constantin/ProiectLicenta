@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextDecoration
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
+import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.BudgetsLazyColumn
@@ -29,16 +30,19 @@ import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 @Composable
 fun FixedBudgetsComposableScreen(
     lFixedBudgets: SnapshotStateList<Budget>,
+    onNavigateToEditBudgetScreen: () -> Unit,
     onNavigateToHomeScreen: () -> Unit,
     onNavigateToTransactionScreen: () -> Unit,
     onNavigateToCategoriesScreen: () -> Unit,
     onNavigateToFixedBudgetsScreen: () -> Unit
 ) {
-    val fab: MutableState<Boolean> = remember { mutableStateOf(false) }
     val buttons: MutableState<Boolean> = remember { mutableStateOf(false)}
 
     Scaffold(
-        floatingActionButton = { FloatingActionButtonCustom(addButton = fab) },
+        floatingActionButton = { FloatingActionButtonCustom(
+                                                            navigateAction = onNavigateToEditBudgetScreen,
+                                                            )
+                               },
         bottomBar = {
             BottomNavigationBar(
                 onNavigateToHomeScreen,

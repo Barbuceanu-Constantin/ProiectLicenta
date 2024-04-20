@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -96,9 +95,23 @@ fun fontDimensionResource(@DimenRes id: Int): TextUnit {
     }
     return spValue
 }
+
 @Composable
-fun FloatingActionButtonCustom(addButton : MutableState<Boolean>) {
-    FloatingActionButton(onClick = { addButton.value = !addButton.value },
+fun FloatingActionButtonCustom(navigateAction: () -> Unit) {
+    FloatingActionButton(onClick = { navigateAction() },
+        elevation = FloatingActionButtonDefaults.elevation(
+            defaultElevation = dimensionResource(id = R.dimen.medium_line),
+            pressedElevation = dimensionResource(id = R.dimen.margin),
+            hoveredElevation = dimensionResource(id = R.dimen.spacing),
+            focusedElevation = dimensionResource(id = R.dimen.very_thin_line)
+        )) {
+        Icon(Icons.Default.Add, contentDescription = "Add")
+    }
+}
+@Composable
+fun FloatingActionButtonTransactions(navigateAction: (index : Int) -> Unit,
+                                     returnBackIndex: Int = 3) {
+    FloatingActionButton(onClick = { navigateAction(returnBackIndex) },
         elevation = FloatingActionButtonDefaults.elevation(
             defaultElevation = dimensionResource(id = R.dimen.medium_line),
             pressedElevation = dimensionResource(id = R.dimen.margin),
