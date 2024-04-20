@@ -101,7 +101,7 @@ private fun TotalBalance() {
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: () -> Unit,
+fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -> Unit,
                               onNavigateToHomeScreen: () -> Unit,
                               onNavigateToTransactionScreen: () -> Unit,
                               onNavigateToCategoriesScreen: () -> Unit,
@@ -157,7 +157,7 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: () -> Unit,
                         ),
                         onClick = {
                             selectedIndex = index
-                            onNavigateToEditTransactionScreen()
+                            onNavigateToEditTransactionScreen(selectedIndex)
                         },
                         selected = index == selectedIndex,
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle))

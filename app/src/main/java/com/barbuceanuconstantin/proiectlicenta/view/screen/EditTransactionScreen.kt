@@ -54,17 +54,35 @@ private var listaSubcategorysActive = subcategorysPredefiniteActive.toMutableLis
 private var listaSubcategorysPasive = subcategorysPredefinitePasive.toMutableList()
 private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.toMutableList()
 @Composable
-fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit, transaction: Transaction? = null) {
+fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit, transaction: Transaction? = null,
+                          index: Int = 0) {
     var subcategory by remember { mutableStateOf("") }
     var payee by remember { mutableStateOf("") }
     var valueSum by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
+
+    val showA: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
 
     if (transaction != null) {
         subcategory = transaction.subcategory
         payee = transaction.payee
         valueSum = transaction.suma.toString()
         description = transaction.descriere
+
+        if (listaSubcategorysActive.contains(transaction.subcategory))
+            showA.value = true
+        else if (listaSubcategorysPasive.contains(transaction.subcategory))
+            showP.value = true
+        else if (listaSubcategorysDatorii.contains(transaction.subcategory))
+            showD.value = true
+    } else {
+        when (index) {
+            0 -> showA.value = true
+            1 -> showP.value = true
+            2 -> showD.value = true
+        }
     }
 
     val dateTime = LocalDateTime.now()
@@ -72,19 +90,6 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit, transaction: Tran
     val formattedDate = dateTime.format(dateFormatter)
     val date by remember { mutableStateOf(formattedDate) }
     val dateMutable: MutableState<String> = remember { mutableStateOf(date) }
-    val showA: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
-
-    if (transaction == null) showA.value = true
-    else {
-        if (listaSubcategorysActive.contains(transaction.subcategory))
-            showA.value = true
-        else if (listaSubcategorysPasive.contains(transaction.subcategory))
-            showP.value = true
-        else if (listaSubcategorysDatorii.contains(transaction.subcategory))
-            showD.value = true
-    }
 
     val keyboardController = LocalSoftwareKeyboardController.current
 

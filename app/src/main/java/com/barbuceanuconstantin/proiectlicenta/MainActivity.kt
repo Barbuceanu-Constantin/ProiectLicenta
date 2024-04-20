@@ -4,12 +4,17 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.data.model.Category
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
@@ -84,8 +89,8 @@ class MainActivity : ComponentActivity() {
                     {
                         //Ecran principal
                         PrincipalComposableScreen(
-                                onNavigateToEditTransactionScreen = {
-                                                                        navController.navigate("editTransactionScreen")
+                                onNavigateToEditTransactionScreen = {index ->
+                                                                        navController.navigate("editTransactionScreen/$index")
                                                                     },
                                 onNavigateToHomeScreen = { },
                                 onNavigateToTransactionScreen = {
@@ -197,15 +202,23 @@ class MainActivity : ComponentActivity() {
                             onNavigateToFixedBudgetsScreen = { }
                         )
                     }
-                    composable("editTransactionScreen")
-                    {
+                    composable("editTransactionScreen/{index}",
+                                arguments = listOf(navArgument("index") {
+                                                        type = NavType.IntType
+                                                        defaultValue = 0
+                                                    }
+                                )
+                    )
+                    {backStackEntry ->
+                        val index = requireNotNull(backStackEntry.arguments).getInt("index")
                         EditTransactionScreen(onNavigateToHomeScreen = {
                                                                         navController.navigate("homeScreen") {
                                                                             popUpTo("homeScreen") {
                                                                                 inclusive = true
                                                                             }
                                                                         }
-                                                                    }
+                                                                    },
+                                                index = index
                                             )
                     }
                     // Add more destinations similarly.
