@@ -37,16 +37,16 @@ private var listSubcategoriesDebts = subcategorysPredefiniteDatorii.map {
     Category(name = it)
 }.toMutableStateList()
 fun initHardcodedBudgets(lBudgets: SnapshotStateList<Budget>) {
-    lBudgets.add(Budget("aaa", "bbb", "ccc", 2f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("2024-04-21", "2024-04-21", "ccc", 2f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
 }
 fun initHardcodedTransactions(lTrA: SnapshotStateList<Transaction>,
                               lTrP: SnapshotStateList<Transaction>,

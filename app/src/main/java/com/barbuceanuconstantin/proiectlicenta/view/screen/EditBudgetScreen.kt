@@ -50,6 +50,7 @@ import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
+import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.ShowMenuSubcategories
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -129,18 +130,12 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
-            OutlinedTextField(
-                value = category, onValueChange = { category = it },
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
-                label = { Text(text = stringResource(R.string.category)) },
-                maxLines = 1,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Next,
-                    capitalization = KeyboardCapitalization.Sentences
-                ),
-                modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin), end = dimensionResource(id = R.dimen.margin)),
-            )
+            ShowMenuSubcategories(
+                lSubcategorys = listaSubcategorysPasive,
+                subcategory = category
+            ) {
+                category = it
+            }
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
@@ -166,6 +161,8 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                 value = dateMutable1.value,
                 enabled = false,
                 onValueChange = {
+                    //Am facut in asa fel incat sa nu poti seta un buget
+                    //cu data mai mica decat data curenta.
                     if (isDateAfterOrEqualToCurrent(it, LocalDate.now())) {
                         dateMutable1.value = it
                     }
@@ -181,7 +178,6 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                                             selectedDate.set(year1, month1, dayOfMonth1)
 
                                             // Perform any necessary operations with the selected date here
-                                            // For example, update a TextView with the selected date
                                             if (isDateAfterOrEqualToCurrent(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
                                                     selectedDate.time
                                                 ), LocalDate.now())) {
@@ -214,6 +210,8 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                 value = dateMutable2.value,
                 enabled = false,
                 onValueChange = {
+                    //Am facut in asa fel incat sa nu poti seta un buget
+                    //cu data mai mica decat data curenta.
                     if (isDateAfterOrEqualToCurrent(it, LocalDate.now())) {
                         dateMutable2.value = it
                     }
@@ -234,7 +232,6 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                                             selectedDate.set(year1, month1, dayOfMonth1)
 
                                             // Perform any necessary operations with the selected date here
-                                            // For example, update a TextView with the selected date
                                             if (isDateAfterOrEqualToCurrent(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
                                                     selectedDate.time
                                                 ), LocalDate.now())) {
@@ -276,7 +273,20 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
             Column(verticalArrangement = Arrangement.Bottom,
                     modifier = Modifier.weight(1f)) {
                 Row {
-                    Button(onClick = { onNavigateToFixedBudgetsScreen() }) { Text(stringResource(R.string.confirmare)) }
+                    Button(onClick = {
+                                        //La confirmare trebuie ca data de final sa fie dupa data
+                                        //de inceput.a
+                                        var dateString: String = dateMutable1.value
+                                        val formatter: DateTimeFormatter =
+                                            DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                                        val localDate: LocalDate = LocalDate.parse(dateString, formatter)
+                                        dateString = dateMutable2.value
+                                        if (isDateAfterOrEqualToCurrent(dateString, localDate)) {
+                                            onNavigateToFixedBudgetsScreen()
+                                        } else {
+                                            openWarningDialog.value = true
+                                        }
+                    }) { Text(stringResource(R.string.confirmare)) }
 
                     Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.gap)))
 
