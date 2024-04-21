@@ -1,13 +1,9 @@
 package com.barbuceanuconstantin.proiectlicenta
 
 import android.os.Bundle
-import android.preference.PreferenceManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.navigation.NavType
@@ -26,6 +22,8 @@ import com.barbuceanuconstantin.proiectlicenta.view.screen.EditTransactionScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.FixedBudgetsComposableScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.PrincipalComposableScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.TransactionsComposableScreen
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 
 
 //Branch ecrane-individuale//
@@ -38,22 +36,22 @@ private var listSubcategoriesExpenses = subcategorysPredefinitePasive.map {
 private var listSubcategoriesDebts = subcategorysPredefiniteDatorii.map {
     Category(name = it)
 }.toMutableStateList()
-fun InitHardcodedBudgets(lBudgets: SnapshotStateList<Budget>) {
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble()))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble()))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble()))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble()))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble()))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble()))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble()))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble()))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble()))
-    lBudgets.add(Budget("---", "---", "---", 0f.toDouble()))
+fun initHardcodedBudgets(lBudgets: SnapshotStateList<Budget>) {
+    lBudgets.add(Budget("aaa", "bbb", "ccc", 2f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget("---", "---", "---", 0f.toDouble(), "Divertisment"))
 }
 fun initHardcodedTransactions(lTrA: SnapshotStateList<Transaction>,
                               lTrP: SnapshotStateList<Transaction>,
                               lTrD: SnapshotStateList<Transaction>) {
-    lTrA.add(Transaction(suma = 2F.toDouble(), data = "fd", descriere = "fd", payee = "fd", subcategory = "Salariu"))
+    lTrA.add(Transaction(suma = 2F.toDouble(), data = "", descriere = "fd", payee = "fd", subcategory = "Salariu"))
     lTrA.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Salariu"))
     lTrA.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Salariu"))
     lTrA.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Salariu"))
@@ -83,7 +81,7 @@ class MainActivity : ComponentActivity() {
                 val lBudgets = mutableStateListOf<Budget>()
 
                 initHardcodedTransactions(lTrA, lTrP, lTrD)
-                InitHardcodedBudgets(lBudgets)
+                initHardcodedBudgets(lBudgets)
 
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "homeScreen") {
@@ -121,7 +119,7 @@ class MainActivity : ComponentActivity() {
                     composable("transactionScreen") {
                         //Tranzactii
                         TransactionsComposableScreen(
-                            lTrA, lTrP, lTrD,
+                            lTrA, lTrP, lTrD, navController,
                             onNavigateToEditTransactionScreen = {index ->
                                 navController.navigate("editTransactionScreen/$index")
                             },
@@ -185,7 +183,7 @@ class MainActivity : ComponentActivity() {
                     composable("fixedBudgetsScreen") {
                         //Bugete fixe
                         FixedBudgetsComposableScreen(
-                            lBudgets,
+                            lBudgets,  navController,
                             onNavigateToEditBudgetScreen = {
                                 navController.navigate("editBudgetScreen")
                             },
@@ -213,14 +211,24 @@ class MainActivity : ComponentActivity() {
                             onNavigateToFixedBudgetsScreen = { }
                         )
                     }
-                    composable("editTransactionScreen/{index}",
+                    composable("editTransactionScreen/{index}?transaction={transaction}",
                                 arguments = listOf(navArgument("index") {
                                                         type = NavType.IntType
                                                         defaultValue = 0
+                                                    },
+                                                    navArgument("transaction") {
+                                                        nullable = true
                                                     }
                                 )
                     )
                     {backStackEntry ->
+                        // Creating gson object
+                        val gson: Gson = GsonBuilder().create()
+                        /* Extracting the user object json from the route */
+                        val transactionJson = backStackEntry.arguments?.getString("transaction")
+                        // Convert json string to the User data class object
+                        val transactionObject = gson.fromJson(transactionJson, Transaction::class.java)
+
                         val index = requireNotNull(backStackEntry.arguments).getInt("index")
                         var lambda = {
                             navController.navigate("homeScreen") {
@@ -242,7 +250,8 @@ class MainActivity : ComponentActivity() {
 
                         EditTransactionScreen(
                                                 onNavigateToHomeScreen = lambda,
-                                                index = index
+                                                index = index,
+                                                transaction = transactionObject
                         )
                     }
                     composable("editCategoryScreen")
@@ -257,8 +266,15 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     }
-                    composable("editBudgetScreen")
-                    {
+                    composable("editBudgetScreen?budget={budget}")
+                    {backStackEntry ->
+                        // Creating gson object
+                        val gson: Gson = GsonBuilder().create()
+                        /* Extracting the user object json from the route */
+                        val budgetJson = backStackEntry.arguments?.getString("budget")
+                        // Convert json string to the User data class object
+                        val budgetObject = gson.fromJson(budgetJson, Budget::class.java)
+
                         EditBudgetScreen(
                             onNavigateToFixedBudgetsScreen = {
                                 navController.navigate("fixedBudgetsScreen") {
@@ -266,7 +282,8 @@ class MainActivity : ComponentActivity() {
                                         inclusive = true
                                     }
                                 }
-                            }
+                            },
+                            budget = budgetObject
                         )
                     }
                     // Add more destinations similarly.

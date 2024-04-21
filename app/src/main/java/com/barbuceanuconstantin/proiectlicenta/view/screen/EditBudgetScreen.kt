@@ -66,7 +66,8 @@ fun isDateAfterOrEqualToCurrent(dateString: String, current: LocalDate): Boolean
     }
 }
 @Composable
-fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit) {
+fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
+                     budget: Budget? = null) {
     val dateTime = LocalDateTime.now()
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val formattedDate = dateTime.format(dateFormatter)
@@ -76,7 +77,16 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit) {
 
     var filledText by remember { mutableStateOf("") }
     var valueSum by remember { mutableStateOf("") }
+    var category by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    if (budget != null) {
+        dateMutable1.value = budget.start_date
+        dateMutable2.value = budget.end_date
+        filledText = budget.name
+        category = budget.category
+        valueSum = budget.value.toString()
+    }
 
     // Obtain the context from your activity or fragment
     val context: Context = LocalContext.current
@@ -108,6 +118,21 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit) {
                 value = filledText, onValueChange = { filledText = it },
                 textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
                 label = { Text(text = stringResource(R.string.denumire)) },
+                maxLines = 1,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next,
+                    capitalization = KeyboardCapitalization.Sentences
+                ),
+                modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin), end = dimensionResource(id = R.dimen.margin)),
+            )
+
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
+
+            OutlinedTextField(
+                value = category, onValueChange = { category = it },
+                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
+                label = { Text(text = stringResource(R.string.category)) },
                 maxLines = 1,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,

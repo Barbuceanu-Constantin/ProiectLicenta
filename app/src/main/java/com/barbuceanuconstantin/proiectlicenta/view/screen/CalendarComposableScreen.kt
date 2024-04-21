@@ -26,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import com.barbuceanuconstantin.proiectlicenta.Balanta
 import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.data.model.CalendarSummaryTranzactiiLazyColumn
+//import com.barbuceanuconstantin.proiectlicenta.data.model.CalendarSummaryTranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import java.time.LocalDate
@@ -42,13 +42,13 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
 
     if (incomes.value || expenses.value) {
         if (incomes.value && !expenses.value) {
-            CalendarSummaryTranzactiiLazyColumn(tranzactii = lTrA, backButton = incomes,
-                                                incomesOrExpenses = true, date = dateMutable,
-                                                buttons = buttons)
+//            CalendarSummaryTranzactiiLazyColumn(tranzactii = lTrA, backButton = incomes,
+//                                                incomesOrExpenses = true, date = dateMutable,
+//                                                buttons = buttons)
         } else if (!incomes.value && expenses.value) {
-            CalendarSummaryTranzactiiLazyColumn(tranzactii = lTrP, backButton = expenses,
-                                                incomesOrExpenses = false, date = dateMutable,
-                                                buttons = buttons)
+//            CalendarSummaryTranzactiiLazyColumn(tranzactii = lTrP, backButton = expenses,
+//                                                incomesOrExpenses = false, date = dateMutable,
+//                                                buttons = buttons)
         }
     } else {
         Column(

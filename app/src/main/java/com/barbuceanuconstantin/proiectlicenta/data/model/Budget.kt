@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Colorize
@@ -24,6 +25,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 
@@ -31,14 +34,18 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 
 data class Budget(
     var start_date: String,
     var end_date: String,
     var name: String,
-    var value: Double
+    var value: Double,
+    var category: String
 )
 
 @Composable
@@ -51,7 +58,9 @@ private fun HeaderBudget(text: String) {
                  fontWeight = FontWeight.Bold, modifier = Modifier
                     .fillMaxSize()
                     .padding(
-                        dimensionResource(id = R.dimen.spacing)
+                        top = dimensionResource(id = R.dimen.thin_line),
+                        bottom = dimensionResource(id = R.dimen.thin_line),
+                        start = dimensionResource(id = R.dimen.spacing)
                     )
                     .weight(1f))
         }
@@ -59,15 +68,30 @@ private fun HeaderBudget(text: String) {
 }
 
 @Composable
-fun InfoBudget(value: Double, startDate: String, endDate: String) {
+fun InfoBudget(value: Double, startDate: String, endDate: String, category: String) {
     Column(modifier = Modifier.background(colorResource(id = R.color.light_cream_gray))) {
+        Text(
+            text = stringResource(id = R.string.category) + ": $category",
+            fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = dimensionResource(id = R.dimen.thin_line),
+                    start = dimensionResource(id = R.dimen.spacing)
+                )
+        )
+
         Text(
             text = stringResource(id = R.string.prag_superior) + " $value",
             fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.spacing))
+                .padding(
+                        top = dimensionResource(id = R.dimen.thin_line),
+                        start = dimensionResource(id = R.dimen.spacing)
+                )
         )
 
         Text(
@@ -76,7 +100,10 @@ fun InfoBudget(value: Double, startDate: String, endDate: String) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.spacing))
+                .padding(
+                    top = dimensionResource(id = R.dimen.thin_line),
+                    start = dimensionResource(id = R.dimen.spacing)
+                )
         )
 
         Text(
@@ -85,30 +112,40 @@ fun InfoBudget(value: Double, startDate: String, endDate: String) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.spacing))
+                .padding(
+                    top = dimensionResource(id = R.dimen.thin_line),
+                    bottom = dimensionResource(id = R.dimen.thin_line),
+                    start = dimensionResource(id = R.dimen.spacing)
+                )
         )
     }
 }
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>, buttons: MutableState<Boolean>) {
+fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>,
+                      buttons: MutableState<Boolean>,
+                      navController: NavController
+) {
+    val id: MutableState<Int> = remember { mutableIntStateOf(-1) }
+
     LazyColumn(Modifier.fillMaxSize()) {
-        lFixedBudgets.forEach() { budget ->
-            this@LazyColumn.stickyHeader {
-                Card(
-                    shape = RoundedCornerShape(dimensionResource(id = R.dimen.medium_line)),
-                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
-                                                end = dimensionResource(id = R.dimen.margin))
-                                        .combinedClickable(
-                                                            onClick = { },
-                                                            onLongClick = { buttons.value = !buttons.value },
-                                                        )
-                ) {
-                    HeaderBudget(text = budget.name)
-                    InfoBudget(budget.value, budget.start_date, budget.end_date)
-                }
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
+        itemsIndexed(lFixedBudgets) { index, budget ->
+            Card(
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.medium_line)),
+                modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
+                                            end = dimensionResource(id = R.dimen.margin))
+                                    .combinedClickable(
+                                                        onClick = { },
+                                                        onLongClick = {
+                                                                        buttons.value = !buttons.value
+                                                                        id.value = index
+                                                                      },
+                                                    )
+            ) {
+                HeaderBudget(text = budget.name)
+                InfoBudget(budget.value, budget.start_date, budget.end_date, budget.category)
             }
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
         }
     }
 
@@ -125,9 +162,15 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>, buttons: Mutable
                     fontSize = fontDimensionResource(id = R.dimen.normal_text_size))
             },
             confirmButton = {
+                val budgetObj = lFixedBudgets[id.value]
                 Button(
                     onClick = {
                         buttons.value = !buttons.value
+                        val gson: Gson = GsonBuilder().create()
+                        val budgetJson = gson.toJson(budgetObj)
+                        navController.navigate("editBudgetScreen?budget={budget}"
+                            .replace(oldValue = "{budget}", newValue = budgetJson)
+                        )
                     }
                 ) {
                     Row {

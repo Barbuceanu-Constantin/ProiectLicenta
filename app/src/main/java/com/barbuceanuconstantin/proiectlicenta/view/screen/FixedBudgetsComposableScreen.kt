@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonTransactions
@@ -30,6 +31,7 @@ import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 @Composable
 fun FixedBudgetsComposableScreen(
     lFixedBudgets: SnapshotStateList<Budget>,
+    navController: NavController,
     onNavigateToEditBudgetScreen: () -> Unit,
     onNavigateToHomeScreen: () -> Unit,
     onNavigateToTransactionScreen: () -> Unit,
@@ -52,23 +54,11 @@ fun FixedBudgetsComposableScreen(
             )
         }
     ) { innerPadding ->
-        Column( modifier = Modifier
-            .fillMaxWidth()
-            .padding(innerPadding),
+        Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
                 horizontalAlignment = Alignment.CenterHorizontally ) {
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.gap)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.almost_hundred)))
 
-            Text(text = stringResource(id = R.string.ecran_bugete_fixe),
-                 style = TextStyle(
-                    fontStyle = FontStyle.Italic,
-                    textDecoration = TextDecoration.Underline
-                 ),
-                 fontSize = fontDimensionResource(id = R.dimen.big_text_size)
-            )
-
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.gap)))
-
-            BudgetsLazyColumn(lFixedBudgets, buttons)
+            BudgetsLazyColumn(lFixedBudgets, buttons, navController)
         }
     }
 }

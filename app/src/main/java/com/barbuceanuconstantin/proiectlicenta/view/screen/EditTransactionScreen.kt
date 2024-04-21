@@ -66,11 +66,18 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
     val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
 
+    val dateTime = LocalDateTime.now()
+    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val formattedDate = dateTime.format(dateFormatter)
+    val date by remember { mutableStateOf(formattedDate) }
+    val dateMutable: MutableState<String> = remember { mutableStateOf(date) }
+
     if (transaction != null) {
         subcategory = transaction.subcategory
         payee = transaction.payee
         valueSum = transaction.suma.toString()
         description = transaction.descriere
+        dateMutable.value = transaction.data
 
         if (listaSubcategorysActive.contains(transaction.subcategory))
             showA.value = true
@@ -85,12 +92,6 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
             2 -> showD.value = true
         }
     }
-
-    val dateTime = LocalDateTime.now()
-    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    val formattedDate = dateTime.format(dateFormatter)
-    val date by remember { mutableStateOf(formattedDate) }
-    val dateMutable: MutableState<String> = remember { mutableStateOf(date) }
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -121,18 +122,21 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
                 if (showA.value && !showP.value && !showD.value) {
                     ShowMenuSubcategories(
                         lSubcategorys = listaSubcategorysActive,
+                        subcategory = subcategory
                     ) {
                         subcategory = it
                     }
                 } else if (showP.value && !showA.value && !showD.value) {
                     ShowMenuSubcategories(
                         lSubcategorys = listaSubcategorysPasive,
+                        subcategory = subcategory
                     ) {
                         subcategory = it
                     }
                 } else if (showD.value && !showA.value && !showP.value) {
                     ShowMenuSubcategories(
                         lSubcategorys = listaSubcategorysDatorii,
+                        subcategory = subcategory
                     ) {
                         subcategory = it
                     }

@@ -150,7 +150,7 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
             } else if (daily.value && weekly.value && monthly.value) {
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
-                TranzactiiLazyColumn(tranzactii = (lTrP + lTrA).toMutableStateList(), buttons, summary = true)
+                //TranzactiiLazyColumn(tranzactii = (lTrP + lTrA).toMutableStateList(), buttons, summary = true, {})
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
             }

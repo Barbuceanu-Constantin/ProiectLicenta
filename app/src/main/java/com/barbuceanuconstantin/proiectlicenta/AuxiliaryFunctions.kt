@@ -56,6 +56,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import java.util.Locale
 
 @Composable

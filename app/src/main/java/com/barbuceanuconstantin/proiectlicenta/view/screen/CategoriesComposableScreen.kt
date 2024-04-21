@@ -51,11 +51,11 @@ fun CategoriesComposableScreen(lSA: MutableList<Category>,
     ) { innerPadding ->
         Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
                 horizontalAlignment = Alignment.CenterHorizontally) {
-            Spacer (Modifier.height(dimensionResource(id = R.dimen.gap)))
+            Spacer (Modifier.height(dimensionResource(id = R.dimen.upper_middle)))
 
             SegmentedButton3(first = showA, second = showP, third = showD)
 
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.gap)))
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.margin_extra)))
 
             if (showA.value && !showP.value && !showD.value) {
                 SubcategorysLazyColumn(categorii = lSA)

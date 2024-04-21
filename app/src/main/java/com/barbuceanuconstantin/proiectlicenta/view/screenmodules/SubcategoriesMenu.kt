@@ -33,12 +33,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.model.Category
 
 @Composable
 fun ShowMenuSubcategories(lSubcategorys: MutableList<String>,
+                          subcategory: String,
                           onSelect: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedItem by remember { mutableStateOf("") }
+    var selectedItem by remember { mutableStateOf(subcategory) }
     var textFilledSize by remember { mutableStateOf(Size.Zero) }
     val icon =  if (expanded) { Icons.Filled.KeyboardArrowUp } else { Icons.Filled.KeyboardArrowDown }
 

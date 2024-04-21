@@ -659,3 +659,13 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //EditBudgetScreen()
 //Screen6()
 //Screen7()
+
+//Spacer(Modifier.height(dimensionResource(id = R.dimen.gap)))
+//
+//Text(text = stringResource(id = R.string.ecran_bugete_fixe),
+//style = TextStyle(
+//fontStyle = FontStyle.Italic,
+//textDecoration = TextDecoration.Underline
+//),
+//fontSize = fontDimensionResource(id = R.dimen.big_text_size)
+//)
