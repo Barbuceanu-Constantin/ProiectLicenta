@@ -50,9 +50,9 @@ import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 
-private var listaSubcategorysActive = subcategorysPredefiniteActive.toMutableList()
-private var listaSubcategorysPasive = subcategorysPredefinitePasive.toMutableList()
-private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.toMutableList()
+var listaSubcategorysActive = subcategorysPredefiniteActive.toMutableList()
+var listaSubcategorysPasive = subcategorysPredefinitePasive.toMutableList()
+var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.toMutableList()
 @Composable
 fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
                           transaction: Transaction? = null,

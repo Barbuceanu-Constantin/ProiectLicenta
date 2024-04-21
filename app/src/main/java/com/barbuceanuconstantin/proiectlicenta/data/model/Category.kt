@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -22,16 +23,20 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 
 data class Category(
     val name: String
@@ -42,7 +47,10 @@ private var listaSubcategorysPasive = subcategorysPredefinitePasive.toMutableLis
 private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.toMutableList()
 
 @Composable
-private fun Subcategory(text: String) {
+private fun Subcategory(text: String,
+                        index: Int,
+                        navController: NavController,
+                        categorii: MutableList<Category>) {
     val colorA = colorResource(R.color.light_cream_yellow)
     val colorP = colorResource(R.color.light_cream_red)
     val colorD = colorResource(R.color.light_cream_blue)
@@ -54,8 +62,14 @@ private fun Subcategory(text: String) {
                                     end = dimensionResource(id = R.dimen.margin))
                             .combinedClickable(
                                         onClick = { },
-                                        onLongClick = { /*  Aici vine logica de update cand
-                                                            modifici o categorie*/ },
+                                        onLongClick = {
+                                                        val categoryObj = categorii[index]
+                                                        val gson: Gson = GsonBuilder().create()
+                                                        val categoryJson = gson.toJson(categoryObj)
+                                                        navController.navigate("editCategoryScreen?category={category}"
+                                                            .replace(oldValue = "{category}", newValue = categoryJson)
+                                                        )
+                                                      },
                                     )
     ) {
         if (listaSubcategorysActive.contains(text)) color = colorA
@@ -81,10 +95,17 @@ private fun Subcategory(text: String) {
 }
 
 @Composable
-fun SubcategorysLazyColumn(categorii: MutableList<Category>) {
+fun CategoriesLazyColumn(categorii: MutableList<Category>,
+                         navController: NavController
+) {
+    val id: MutableState<Int> = remember { mutableIntStateOf(-1) }
+
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(categorii) { subcateg ->
-            Subcategory(text = subcateg.name)
+        itemsIndexed(categorii) { index, subcateg ->
+            Subcategory(text = subcateg.name,
+                        index = index,
+                        navController = navController,
+                        categorii = categorii)
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
         }
     }

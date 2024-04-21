@@ -52,6 +52,15 @@ fun EditCategoryScreen(category: Category? = null,
     val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    if (category != null) {
+        if (listaSubcategorysActive.contains(category.name))
+            showA.value = true
+        else if (listaSubcategorysPasive.contains(category.name))
+            showP.value = true
+        else if (listaSubcategorysDatorii.contains(category.name))
+            showD.value = true
+    }
+
     Column( horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly ) {
         HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA, showP, showD)

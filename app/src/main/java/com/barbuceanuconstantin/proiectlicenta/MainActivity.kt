@@ -153,6 +153,7 @@ class MainActivity : ComponentActivity() {
                             listSubcategoriesRevenue,
                             listSubcategoriesExpenses,
                             listSubcategoriesDebts,
+                            navController,
                             onNavigateToEditCategoriesScreen = {
                                 navController.navigate("editCategoryScreen")
                             },
@@ -183,7 +184,7 @@ class MainActivity : ComponentActivity() {
                     composable("fixedBudgetsScreen") {
                         //Bugete fixe
                         FixedBudgetsComposableScreen(
-                            lBudgets,  navController,
+                            lBudgets, navController,
                             onNavigateToEditBudgetScreen = {
                                 navController.navigate("editBudgetScreen")
                             },
@@ -254,9 +255,17 @@ class MainActivity : ComponentActivity() {
                                                 transaction = transactionObject
                         )
                     }
-                    composable("editCategoryScreen")
-                    {
+                    composable("editCategoryScreen?category={category}")
+                    { backStackEntry ->
+                        // Creating gson object
+                        val gson: Gson = GsonBuilder().create()
+                        /* Extracting the user object json from the route */
+                        val categoryJson = backStackEntry.arguments?.getString("category")
+                        // Convert json string to the Category data class object
+                        val categoryObject = gson.fromJson(categoryJson, Category::class.java)
+
                         EditCategoryScreen(
+                            category = categoryObject,
                             onNavigateToCategoryScreen = {
                                 navController.navigate("categoriesScreen") {
                                     popUpTo("categoriesScreen") {
@@ -270,9 +279,9 @@ class MainActivity : ComponentActivity() {
                     {backStackEntry ->
                         // Creating gson object
                         val gson: Gson = GsonBuilder().create()
-                        /* Extracting the user object json from the route */
+                        /* Extracting the budget object json from the route */
                         val budgetJson = backStackEntry.arguments?.getString("budget")
-                        // Convert json string to the User data class object
+                        // Convert json string to the Budget data class object
                         val budgetObject = gson.fromJson(budgetJson, Budget::class.java)
 
                         EditBudgetScreen(

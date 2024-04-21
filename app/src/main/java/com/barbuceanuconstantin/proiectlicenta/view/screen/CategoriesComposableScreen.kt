@@ -13,18 +13,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
-import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonTransactions
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
 import com.barbuceanuconstantin.proiectlicenta.data.model.Category
-import com.barbuceanuconstantin.proiectlicenta.data.model.SubcategorysLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.data.model.CategoriesLazyColumn
 
 @Composable
 fun CategoriesComposableScreen(lSA: MutableList<Category>,
                                lSP: MutableList<Category>,
                                lSD: MutableList<Category>,
+                               navController: NavController,
                                onNavigateToEditCategoriesScreen: () -> Unit,
                                onNavigateToHomeScreen: () -> Unit,
                                onNavigateToTransactionScreen: () -> Unit,
@@ -58,19 +59,19 @@ fun CategoriesComposableScreen(lSA: MutableList<Category>,
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.margin_extra)))
 
             if (showA.value && !showP.value && !showD.value) {
-                SubcategorysLazyColumn(categorii = lSA)
+                CategoriesLazyColumn(categorii = lSA, navController = navController)
             } else if (showP.value && !showA.value && !showD.value) {
-                SubcategorysLazyColumn(categorii = lSP)
+                CategoriesLazyColumn(categorii = lSP, navController = navController)
             } else if (showD.value && !showA.value && !showP.value) {
-                SubcategorysLazyColumn(categorii = lSD)
+                CategoriesLazyColumn(categorii = lSD, navController = navController)
             } else if (showA.value && showP.value && showD.value) {
-                SubcategorysLazyColumn(categorii = (lSA + lSP + lSD).toMutableList())
+                CategoriesLazyColumn(categorii = (lSA + lSP + lSD).toMutableList(), navController = navController)
             } else if (showA.value && showP.value && !showD.value) {
-                SubcategorysLazyColumn(categorii = (lSA + lSP).toMutableList())
+                CategoriesLazyColumn(categorii = (lSA + lSP).toMutableList(), navController = navController)
             } else if (showA.value && !showP.value && showD.value) {
-                SubcategorysLazyColumn(categorii = (lSA + lSD).toMutableList())
+                CategoriesLazyColumn(categorii = (lSA + lSD).toMutableList(), navController = navController)
             } else if (!showA.value && showP.value && showD.value) {
-                SubcategorysLazyColumn(categorii = (lSP + lSD).toMutableList())
+                CategoriesLazyColumn(categorii = (lSP + lSD).toMutableList(), navController = navController)
             }
         }
     }
