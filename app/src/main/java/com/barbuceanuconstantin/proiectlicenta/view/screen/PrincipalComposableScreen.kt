@@ -10,14 +10,23 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import com.barbuceanuconstantin.proiectlicenta.Balanta
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.R
@@ -113,6 +123,7 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
         stringResource(id = R.string.Datorii)
     )
 
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Scaffold(
                 bottomBar = {
                                 BottomNavigationBar(
@@ -121,6 +132,25 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
                                                     onNavigateToCategoriesScreen,
                                                     onNavigateToFixedBudgetsScreen
                                 )
+                },
+                topBar = {
+                    TopAppBar(
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            titleContentColor = MaterialTheme.colorScheme.primary,
+                        ),
+                        title = {
+                            Text(stringResource(id = R.string.acasa))
+                        },
+                        actions = {
+                            IconButton(onClick = { /* do something */ }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Menu,
+                                    contentDescription = "Localized description"
+                                )
+                            }
+                        }
+                    )
                 }
     ) { innerPadding ->
         Column(
@@ -130,11 +160,11 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.almost_hundred)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.middle)))
 
             TotalBalance()
 
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.one_half_hundred)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.almost_hundred)))
 
             Text(
                 text = stringResource(id = R.string.adaugare_tranzactie) + " : ",
