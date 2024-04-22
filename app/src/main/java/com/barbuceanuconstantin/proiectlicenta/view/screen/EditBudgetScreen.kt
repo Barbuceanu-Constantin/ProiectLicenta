@@ -177,18 +177,7 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                                             val selectedDate: Calendar = Calendar.getInstance()
                                             selectedDate.set(year1, month1, dayOfMonth1)
 
-                                            // Perform any necessary operations with the selected date here
-                                            if (isDateAfterOrEqualToCurrent(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
-                                                    selectedDate.time
-                                                ), LocalDate.now())) {
-                                                dateMutable1.value =
-                                                    SimpleDateFormat(
-                                                        "yyyy-MM-dd",
-                                                        Locale.getDefault()
-                                                    ).format(
-                                                        selectedDate.time
-                                                    )
-                                            }
+                                            dateMutable1.value = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time)
                                         }, year, month, dayOfMonth)
 
                                         datePickerDialog.show()
@@ -219,36 +208,22 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 label = { Text(text = stringResource(id = R.string.data_final)) },
                 maxLines = 1,
-                modifier = Modifier.fillMaxWidth()
-                                    .clickable {
+                modifier = Modifier.fillMaxWidth().clickable {
                                         val dateString: String = dateMutable1.value
                                         val formatter: DateTimeFormatter =
                                             DateTimeFormatter.ofPattern("yyyy-MM-dd")
                                         val localDate: LocalDate = LocalDate.parse(dateString, formatter)
                                         val datePickerDialog =
+
                                         android.app.DatePickerDialog(context, { _, year1, month1, dayOfMonth1 ->
                                             // Handle the selected date
                                             val selectedDate: Calendar = Calendar.getInstance()
                                             selectedDate.set(year1, month1, dayOfMonth1)
 
                                             // Perform any necessary operations with the selected date here
-                                            if (isDateAfterOrEqualToCurrent(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
-                                                    selectedDate.time
-                                                ), LocalDate.now())) {
-                                                if (isDateAfterOrEqualToCurrent(
-                                                        SimpleDateFormat(
-                                                            "yyyy-MM-dd",
-                                                            Locale.getDefault()
-                                                        ).format(selectedDate.time), localDate
-                                                    )
-                                                ) {
-                                                    dateMutable2.value =
-                                                        SimpleDateFormat(
-                                                            "yyyy-MM-dd",
-                                                            Locale.getDefault()
-                                                        ).format(
-                                                            selectedDate.time
-                                                        )
+                                            if (isDateAfterOrEqualToCurrent(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time), LocalDate.now())) {
+                                                if (isDateAfterOrEqualToCurrent(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time), localDate)) {
+                                                    dateMutable2.value = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time)
                                                 } else {
                                                     openWarningDialog.value = true
                                                 }

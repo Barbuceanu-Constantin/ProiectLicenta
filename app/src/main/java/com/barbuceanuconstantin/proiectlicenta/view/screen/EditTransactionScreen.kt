@@ -160,7 +160,7 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
                                 start = dimensionResource(id = R.dimen.margin),
                                 end = dimensionResource(id = R.dimen.margin)
                             )
-                            .weight(0.25f),
+                            .weight(0.2f),
                         suffix = { Text ("RON") },
                     )
 
@@ -178,7 +178,7 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
                         maxLines = 1,
                         modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
                                                                    end = dimensionResource(id = R.dimen.margin))
-                                                          .weight(0.25f)
+                                                          .weight(0.2f)
                     )
 
                     Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
@@ -199,7 +199,7 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
                         modifier = Modifier.fillMaxWidth()
                                             .padding(start = dimensionResource(id = R.dimen.margin),
                                                      end = dimensionResource(id = R.dimen.margin))
-                                            .weight(0.25f)
+                                            .weight(0.2f)
                     )
 
                     Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
@@ -229,7 +229,7 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
                             }
                             .fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
                                                     end = dimensionResource(id = R.dimen.margin))
-                            .weight(0.25f),
+                            .weight(0.2f),
                         colors = OutlinedTextFieldDefaults.colors(
                             disabledTextColor = MaterialTheme.colorScheme.onSurface,
                             disabledBorderColor = MaterialTheme.colorScheme.outline,

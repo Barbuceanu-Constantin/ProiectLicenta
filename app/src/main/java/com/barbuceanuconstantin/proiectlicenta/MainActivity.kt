@@ -3,7 +3,10 @@ package com.barbuceanuconstantin.proiectlicenta
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.navigation.NavType
@@ -24,6 +27,8 @@ import com.barbuceanuconstantin.proiectlicenta.view.screen.PrincipalComposableSc
 import com.barbuceanuconstantin.proiectlicenta.view.screen.TransactionsComposableScreen
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 //Branch ecrane-individuale//
@@ -283,6 +288,12 @@ class MainActivity : ComponentActivity() {
                         val budgetJson = backStackEntry.arguments?.getString("budget")
                         // Convert json string to the Budget data class object
                         val budgetObject = gson.fromJson(budgetJson, Budget::class.java)
+
+                        val dateTime = LocalDateTime.now()
+                        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        val formattedDate = dateTime.format(dateFormatter)
+                        val dateMutable1: MutableState<String> = remember { mutableStateOf(formattedDate) }
+                        val dateMutable2: MutableState<String> = remember { mutableStateOf(formattedDate) }
 
                         EditBudgetScreen(
                             onNavigateToFixedBudgetsScreen = {
