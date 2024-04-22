@@ -289,12 +289,6 @@ class MainActivity : ComponentActivity() {
                         // Convert json string to the Budget data class object
                         val budgetObject = gson.fromJson(budgetJson, Budget::class.java)
 
-                        val dateTime = LocalDateTime.now()
-                        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                        val formattedDate = dateTime.format(dateFormatter)
-                        val dateMutable1: MutableState<String> = remember { mutableStateOf(formattedDate) }
-                        val dateMutable2: MutableState<String> = remember { mutableStateOf(formattedDate) }
-
                         EditBudgetScreen(
                             onNavigateToFixedBudgetsScreen = {
                                 navController.navigate("fixedBudgetsScreen") {
