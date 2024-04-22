@@ -109,19 +109,6 @@ fun FloatingActionButtonCustom(navigateAction: () -> Unit) {
         Icon(Icons.Default.Add, contentDescription = "Add")
     }
 }
-@Composable
-fun FloatingActionButtonTransactions(navigateAction: (index : Int) -> Unit,
-                                     returnBackIndex: Int = 3) {
-    FloatingActionButton(onClick = { navigateAction(returnBackIndex) },
-        elevation = FloatingActionButtonDefaults.elevation(
-            defaultElevation = dimensionResource(id = R.dimen.medium_line),
-            pressedElevation = dimensionResource(id = R.dimen.margin),
-            hoveredElevation = dimensionResource(id = R.dimen.spacing),
-            focusedElevation = dimensionResource(id = R.dimen.very_thin_line)
-        )) {
-        Icon(Icons.Default.Add, contentDescription = "Add")
-    }
-}
 fun getStartAndEndDateOfWeek(dateString: String): Pair<String, String> {
     // Parse the input date string
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())

@@ -5,11 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,11 +23,12 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
-import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonTransactions
+import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MoreScreensMenu
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,10 +48,7 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButtonTransactions(
-                                        navigateAction = onNavigateToEditTransactionScreen,
-                                        returnBackIndex = 3
-                                    )
+            FloatingActionButtonCustom(navigateAction = { onNavigateToEditTransactionScreen(0) })
         },
         bottomBar = {
             BottomNavigationBar(
@@ -74,12 +68,7 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
                     Text(stringResource(id = R.string.tranzactii))
                 },
                 actions = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            imageVector = Icons.Filled.Menu,
-                            contentDescription = "Localized description"
-                        )
-                    }
+                    MoreScreensMenu()
                 }
             )
         }

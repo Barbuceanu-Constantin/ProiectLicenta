@@ -139,14 +139,16 @@
     <string name="selectare_ecran">Selecteaza valuta</string>
     <string name="meniu_ecrane">Meniu lista ecrane</string>
     <string name="ecran_principal">Ecran principal</string>
+    <string name="sumar_buget">Sumar buget</string>
     <string name="tranzactii">Tranzactii</string>
     <string name="categorii">Categorii</string>
-    <string name="mementouri">Mementouri</string>
     <string name="valute">Valute</string>
-    <string name="sumar_buget">Sumar buget</string>
-    <string name="calendar">Calendar</string>
-    <string name="grafice">Grafice</string>
     <string name="bugete">Bugete</string>
     <string name="acasa">Acasa</string>
     <string name="toate">Toate</string>
+
+    <string name="sumar_tranzactii">Sumar tranzactii</string>
+    <string name="mementouri">Mementouri</string>
+    <string name="calendar">Calendar</string>
+    <string name="grafice">Grafice</string>
 </resources>

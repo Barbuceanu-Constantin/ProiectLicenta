@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,6 +46,7 @@ import com.barbuceanuconstantin.proiectlicenta.Balanta
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
+import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MoreScreensMenu
 
 @Composable
 private fun TotalBalance() {
@@ -123,7 +125,6 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
         stringResource(id = R.string.Datorii)
     )
 
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Scaffold(
                 bottomBar = {
                                 BottomNavigationBar(
@@ -143,12 +144,7 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
                             Text(stringResource(id = R.string.acasa))
                         },
                         actions = {
-                            IconButton(onClick = { /* do something */ }) {
-                                Icon(
-                                    imageVector = Icons.Filled.Menu,
-                                    contentDescription = "Localized description"
-                                )
-                            }
+                            MoreScreensMenu()
                         }
                     )
                 }

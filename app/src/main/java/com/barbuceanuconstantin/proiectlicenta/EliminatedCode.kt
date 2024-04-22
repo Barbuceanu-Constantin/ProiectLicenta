@@ -18,6 +18,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -669,3 +670,29 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //),
 //fontSize = fontDimensionResource(id = R.dimen.big_text_size)
 //)
+
+//DropdownMenu(
+//expanded = expanded, onDismissRequest = { expanded = false },
+//modifier = Modifier.width(with(LocalDensity.current) { textFilledSize.width.toDp() })
+//) {
+//    lSubcategorys.forEach { label ->
+//        DropdownMenuItem(onClick = {
+//            selectedItem = label
+//            expanded = false
+//            onSelect(label)
+//        },
+//            text = { Text(text = label) }
+//        )
+//    }
+//}
+
+//colors = OutlinedTextFieldDefaults.colors(
+//disabledTextColor = MaterialTheme.colorScheme.onSurface,
+//disabledBorderColor = MaterialTheme.colorScheme.outline,
+//disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+//disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+//disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+//disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+//)
+
+//expanded1 || (selectedItem != "" && filteredOptions.size > 1)

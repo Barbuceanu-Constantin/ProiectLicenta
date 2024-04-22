@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,6 +31,7 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
 import com.barbuceanuconstantin.proiectlicenta.data.model.Category
 import com.barbuceanuconstantin.proiectlicenta.data.model.CategoriesLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MoreScreensMenu
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,12 +72,7 @@ fun CategoriesComposableScreen(lSA: MutableList<Category>,
                     Text(stringResource(id = R.string.categorii))
                 },
                 actions = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            imageVector = Icons.Filled.Menu,
-                            contentDescription = "Localized description"
-                        )
-                    }
+                    MoreScreensMenu()
                 }
             )
         }
