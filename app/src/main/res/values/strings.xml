@@ -58,8 +58,8 @@
     <string name="selectare_actiune">Selectati actiunea !</string>
 
     <string name="mesaj_selectare_actiune">Alegeti actiunea dorita pe care doriti sa o executati, modificare sau stergere: </string>
-    <string name="mesaj_eliminare_subcategory">Introduceti numele subcategoriei pe care vreti sa o eliminati</string>
-    <string name="mesaj_adaugare_subcategory">Introduceti numele subcategoriei pe care vreti sa o adaugati</string>
+    <string name="mesaj_eliminare_subcategory">Introduceti numele subcategoriei pe care vreti sa o eliminati: </string>
+    <string name="mesaj_adaugare_subcategory">Introduceti numele subcategoriei pe care vreti sa o adaugati/modificati: </string>
     <string name="mesaj_selectare_categorie_principala">Alegeti categoria principala (obligatoriu):</string>
     <string name="mesaj_selectare_subcategory">Alegeti subcategoria: </string>
     <string name="mesaj_selectare_valuta">Alegeti valuta: </string>
@@ -113,7 +113,7 @@
     <string name="zilnic">Zilnic</string>
     <string name="active">Active</string>
     <string name="valuta">Valuta</string>
-    <string name="inapoi">INAPOI</string>
+    <string name="inapoi">Inapoi</string>
     <string name="luna">Luna :</string>
     <string name="total">Total</string>
     <string name="lunar">Lunar</string>
@@ -151,4 +151,8 @@
     <string name="mementouri">Mementouri</string>
     <string name="calendar">Calendar</string>
     <string name="grafice">Grafice</string>
+
+    <string name="editare_tranzactii">Editare tranzactii</string>
+    <string name="editare_categorii">Editare categorii</string>
+    <string name="editare_bugete">Editare bugete</string>
 </resources>

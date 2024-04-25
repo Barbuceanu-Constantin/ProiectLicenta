@@ -15,13 +15,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -37,6 +45,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
+import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindowSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
@@ -105,7 +115,11 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
     val month: Int = calendar.get(Calendar.MONTH)
     val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
 
-    Scaffold { innerPadding ->
+    Scaffold(
+        topBar = {
+            EditTopAppBar(id = R.string.editare_tranzactii)
+        }
+    ) { innerPadding ->
         Column(modifier = Modifier
             .fillMaxWidth()
             .padding(innerPadding)) {
@@ -176,9 +190,13 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
                     ),
                     label = { Text(text = stringResource(id = R.string.furnizor_sau_beneficiar)) },
                     maxLines = 1,
-                    modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
-                                                               end = dimensionResource(id = R.dimen.margin))
-                                                      .weight(0.2f)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = dimensionResource(id = R.dimen.margin),
+                            end = dimensionResource(id = R.dimen.margin)
+                        )
+                        .weight(0.2f)
                 )
 
                 Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
@@ -196,10 +214,13 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
                     ),
                     label = { Text(text = stringResource(id = R.string.descriere)) },
                     maxLines = 1,
-                    modifier = Modifier.fillMaxWidth()
-                                        .padding(start = dimensionResource(id = R.dimen.margin),
-                                                 end = dimensionResource(id = R.dimen.margin))
-                                        .weight(0.2f)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = dimensionResource(id = R.dimen.margin),
+                            end = dimensionResource(id = R.dimen.margin)
+                        )
+                        .weight(0.2f)
                 )
 
                 Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
@@ -215,20 +236,27 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
                     maxLines = 1,
                     modifier = Modifier
                         .clickable {
-                                    val datePickerDialog = DatePickerDialog(context, { _, year1, month1, dayOfMonth1 ->
+                            val datePickerDialog =
+                                DatePickerDialog(context, { _, year1, month1, dayOfMonth1 ->
                                     // Handle the selected date
                                     val selectedDate: Calendar = Calendar.getInstance()
                                     selectedDate.set(year1, month1, dayOfMonth1)
 
                                     // Perform any necessary operations with the selected date here
                                     // For example, update a TextView with the selected date
-                                    dateMutable.value = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(selectedDate.time)
-                                    }, year, month, dayOfMonth)
+                                    dateMutable.value =
+                                        SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(
+                                            selectedDate.time
+                                        )
+                                }, year, month, dayOfMonth)
 
-                                    datePickerDialog.show()
+                            datePickerDialog.show()
                         }
-                        .fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
-                                                end = dimensionResource(id = R.dimen.margin))
+                        .fillMaxWidth()
+                        .padding(
+                            start = dimensionResource(id = R.dimen.margin),
+                            end = dimensionResource(id = R.dimen.margin)
+                        )
                         .weight(0.2f),
                     colors = OutlinedTextFieldDefaults.colors(
                         disabledTextColor = MaterialTheme.colorScheme.onSurface,
@@ -240,18 +268,26 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
                     )
                 )
 
-                Row(modifier = Modifier.fillMaxWidth().weight(1f),
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.Bottom) {
 
-                    Button(onClick = {onNavigateToHomeScreen()}, modifier = Modifier.weight(1f).padding(start = dimensionResource(id = R.dimen.margin)))
+                    Button(onClick = {onNavigateToHomeScreen()}, modifier = Modifier
+                        .weight(1f)
+                        .padding(start = dimensionResource(id = R.dimen.margin)))
                     { Text(stringResource(R.string.confirmare)) }
 
                     Spacer(Modifier.width(dimensionResource(id = R.dimen.gap)))
 
-                    Button(onClick = {onNavigateToHomeScreen()}, modifier = Modifier.weight(1f).padding(end = dimensionResource(
-                        id = R.dimen.margin
-                    )))
+                    Button(onClick = {onNavigateToHomeScreen()}, modifier = Modifier
+                        .weight(1f)
+                        .padding(
+                            end = dimensionResource(
+                                id = R.dimen.margin
+                            )
+                        ))
                     { Text(stringResource(R.string.renuntare)) }
                 }
 

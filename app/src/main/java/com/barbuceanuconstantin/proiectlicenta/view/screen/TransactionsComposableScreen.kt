@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
+import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
@@ -59,18 +60,7 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
             )
         },
         topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text(stringResource(id = R.string.tranzactii))
-                },
-                actions = {
-                    MoreScreensMenu()
-                }
-            )
+            MainScreenToAppBar(id = R.string.tranzactii)
         }
     ) { innerPadding ->
         Column( modifier = Modifier

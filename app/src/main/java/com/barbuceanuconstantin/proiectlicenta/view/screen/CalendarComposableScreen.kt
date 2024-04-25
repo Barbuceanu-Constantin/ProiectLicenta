@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import com.barbuceanuconstantin.proiectlicenta.Balanta
+import com.barbuceanuconstantin.proiectlicenta.Balance
 import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.R
 //import com.barbuceanuconstantin.proiectlicenta.data.model.CalendarSummaryTranzactiiLazyColumn
@@ -119,7 +119,7 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
 
             Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
-            Balanta()
+            Balance()
         }
     }
 }

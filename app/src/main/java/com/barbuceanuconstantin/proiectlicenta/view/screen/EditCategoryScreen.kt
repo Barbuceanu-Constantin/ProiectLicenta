@@ -16,6 +16,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -34,6 +35,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindowSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.WarningNotSelectedCategory
@@ -61,80 +63,94 @@ fun EditCategoryScreen(category: Category? = null,
             showD.value = true
     }
 
-    Column( horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly ) {
-        HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA, showP, showD)
+    Scaffold (
+        topBar = {
+            EditTopAppBar(id = R.string.editare_categorii)
+        }
+    ) { innerPadding ->
+        Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA, showP, showD)
 
-        if (showA.value || showD.value || showP.value) {
-            Text(text = stringResource(id = R.string.mesaj_adaugare_subcategory),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
+            if (showA.value || showD.value || showP.value) {
+                Text(
+                    text = stringResource(id = R.string.mesaj_adaugare_subcategory),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = dimensionResource(id = R.dimen.margin),
+                            end = dimensionResource(id = R.dimen.margin)
+                        ),
+                    fontSize = fontDimensionResource(R.dimen.medium_text_size),
+                    fontWeight = FontWeight.Bold
+                )
+
+                var filledText by remember { mutableStateOf("") }
+                if (category != null) filledText = category.name
+
+                Spacer(Modifier.height(dimensionResource(id = R.dimen.middle)))
+
+                OutlinedTextField(
+                    value = filledText, onValueChange = { filledText = it },
+                    textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
+                    label = { Text(text = stringResource(R.string.denumire)) },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Outlined.ModeEdit,
+                            contentDescription = stringResource(id = R.string.add)
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth().padding(
                         start = dimensionResource(id = R.dimen.margin),
                         end = dimensionResource(id = R.dimen.margin)
                     ),
-                fontSize = fontDimensionResource(R.dimen.medium_text_size),
-                fontWeight = FontWeight.Bold)
-
-            var filledText by remember { mutableStateOf("") }
-            if (category != null) filledText = category.name
-
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.middle)))
-
-            OutlinedTextField(
-                value = filledText, onValueChange = { filledText = it },
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
-                label = { Text(text = stringResource(R.string.denumire)) },
-                leadingIcon = {
-                    Icon(imageVector = Icons.Outlined.ModeEdit,
-                        contentDescription = stringResource(id = R.string.add))
-                },
-                modifier = Modifier.fillMaxWidth().padding(
-                                                            start = dimensionResource(id = R.dimen.margin),
-                                                            end = dimensionResource(id = R.dimen.margin)
-                                                          ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Done,
-                    capitalization = KeyboardCapitalization.Words
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        keyboardController?.hide() // Close the keyboard
-                    }
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done,
+                        capitalization = KeyboardCapitalization.Words
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            keyboardController?.hide() // Close the keyboard
+                        }
+                    )
                 )
-            )
 
-            Column(verticalArrangement = Arrangement.Bottom, modifier = Modifier.weight(1f)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
+                Column(verticalArrangement = Arrangement.Bottom, modifier = Modifier.weight(1f)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(onClick = { onNavigateToCategoryScreen() }) {
+                            Text(stringResource(R.string.confirmare))
+                        }
+
+                        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.gap)))
+
+                        Button(onClick = { onNavigateToCategoryScreen() }) {
+                            Text(stringResource(R.string.renuntare))
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
+            } else {
+                WarningNotSelectedCategory()
+
+                Column(
+                    verticalArrangement = Arrangement.Bottom,
+                    modifier = Modifier.weight(1f)
                 ) {
-                    Button(onClick = { onNavigateToCategoryScreen() }) {
-                        Text(stringResource(R.string.confirmare))
-                    }
-
-                    Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.gap)))
-
-                    Button(onClick = { onNavigateToCategoryScreen() }) {
-                        Text(stringResource(R.string.renuntare))
+                    Row(horizontalArrangement = Arrangement.Center)
+                    {
+                        Button(onClick = { onNavigateToCategoryScreen() }) { Text(stringResource(R.string.renuntare)) }
                     }
                 }
+
+                Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
             }
-
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
-        } else {
-            WarningNotSelectedCategory()
-
-            Column(verticalArrangement = Arrangement.Bottom,
-                    modifier = Modifier.weight(1f)) {
-                Row(horizontalArrangement = Arrangement.Center)
-                {
-                    Button(onClick = { onNavigateToCategoryScreen() }) { Text(stringResource(R.string.renuntare)) }
-                }
-            }
-
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
         }
     }
 }

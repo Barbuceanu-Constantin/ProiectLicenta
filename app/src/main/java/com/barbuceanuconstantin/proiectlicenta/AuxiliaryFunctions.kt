@@ -18,9 +18,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigation
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountBalanceWallet
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Calculate
@@ -28,16 +31,21 @@ import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MultiChoiceSegmentedButtonRow
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -52,15 +60,65 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
+import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MoreScreensMenu
 import java.util.Locale
 
 @Composable
-fun Balanta() {
+fun MainScreenToAppBar(id: Int) {
+    TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+        ),
+        title = {
+            Text(stringResource(id = id))
+        },
+        actions = {
+            MoreScreensMenu()
+        }
+    )
+}
+
+@Composable
+fun EditTopAppBar(id : Int) {
+    CenterAlignedTopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+        ),
+        title = {
+            Text(
+                text = stringResource(id = id),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
+        navigationIcon = {
+            IconButton(onClick = { /* do something */ }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = stringResource(id = R.string.inapoi)
+                )
+            }
+        },
+        actions = {
+            IconButton(onClick = { /* do something */ }) {
+                Icon(
+                    imageVector = Icons.Filled.Home,
+                    contentDescription = stringResource(id = R.string.acasa)
+                )
+            }
+        }
+    )
+}
+
+@Composable
+fun Balance() {
     Card(shape = RoundedCornerShape(dimensionResource(id = R.dimen.margin)),
          modifier = Modifier.padding(dimensionResource(id = R.dimen.margin))) {
         HorizontalDivider(

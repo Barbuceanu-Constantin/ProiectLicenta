@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
+import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.BudgetsLazyColumn
@@ -64,18 +65,7 @@ fun FixedBudgetsComposableScreen(
             )
         },
         topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text(stringResource(id = R.string.bugete))
-                },
-                actions = {
-                    MoreScreensMenu()
-                }
-            )
+            MainScreenToAppBar(id = R.string.bugete)
         }
     ) { innerPadding ->
         Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),

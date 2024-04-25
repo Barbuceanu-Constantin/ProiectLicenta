@@ -42,6 +42,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
@@ -92,10 +93,13 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
     val year: Int = calendar.get(Calendar.YEAR)
     val month: Int = calendar.get(Calendar.MONTH)
     val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
-    Scaffold { innerPadding ->
-        Column( modifier = Modifier
-            .fillMaxWidth()
-            .padding(innerPadding),
+
+    Scaffold(
+        topBar = {
+            EditTopAppBar(id = R.string.editare_bugete)
+        }
+    ) { innerPadding ->
+        Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.gap)))
