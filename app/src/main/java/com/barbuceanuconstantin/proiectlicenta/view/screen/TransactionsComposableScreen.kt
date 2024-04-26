@@ -41,7 +41,9 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                  onNavigateToHomeScreen: () -> Unit,
                                  onNavigateToTransactionScreen: () -> Unit,
                                  onNavigateToCategoriesScreen: () -> Unit,
-                                 onNavigateToFixedBudgetsScreen: () -> Unit) {
+                                 onNavigateToFixedBudgetsScreen: () -> Unit,
+                                 onNavigateToBudgetSummaryScreen: () -> Unit,
+                                 onNavigateToCalendarScreen: () -> Unit) {
     val showA: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
@@ -60,7 +62,9 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
             )
         },
         topBar = {
-            MainScreenToAppBar(id = R.string.tranzactii)
+            MainScreenToAppBar( id = R.string.tranzactii,
+                                onNavigateToBudgetSummaryScreen = onNavigateToBudgetSummaryScreen,
+                                onNavigateToCalendarScreen = onNavigateToCalendarScreen)
         }
     ) { innerPadding ->
         Column( modifier = Modifier

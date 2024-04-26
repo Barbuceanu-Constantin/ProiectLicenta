@@ -70,8 +70,11 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MoreScreensMenu
 import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreenToAppBar(id: Int, scrollBehavior: TopAppBarScrollBehavior? = null) {
+fun MainScreenToAppBar(id: Int, scrollBehavior: TopAppBarScrollBehavior? = null,
+                       onNavigateToBudgetSummaryScreen: () -> Unit,
+                       onNavigateToCalendarScreen: () -> Unit) {
     var actualScrollBehavior = scrollBehavior
     if (actualScrollBehavior == null) {
         actualScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -86,7 +89,8 @@ fun MainScreenToAppBar(id: Int, scrollBehavior: TopAppBarScrollBehavior? = null)
             Text(stringResource(id = id))
         },
         actions = {
-            MoreScreensMenu()
+            MoreScreensMenu(onNavigateToBudgetSummaryScreen = onNavigateToBudgetSummaryScreen,
+                            onNavigateToCalendarScreen = onNavigateToCalendarScreen)
         },
         scrollBehavior = actualScrollBehavior
     )

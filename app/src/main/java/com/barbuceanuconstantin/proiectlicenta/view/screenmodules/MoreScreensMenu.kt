@@ -26,7 +26,8 @@ import androidx.compose.ui.res.stringResource
 import com.barbuceanuconstantin.proiectlicenta.R
 
 @Composable
-fun MoreScreensMenu() {
+fun MoreScreensMenu(onNavigateToBudgetSummaryScreen: () -> Unit,
+                    onNavigateToCalendarScreen: () -> Unit) {
     val context = LocalContext.current
     var expanded by remember {
         mutableStateOf(false)
@@ -59,7 +60,10 @@ fun MoreScreensMenu() {
                     )
                 },
                 text = { Text(text = stringResource(id = R.string.sumar_buget)) },
-                onClick = { Toast.makeText(context, string1, Toast.LENGTH_SHORT).show() }
+                onClick = {
+                            Toast.makeText(context, string1, Toast.LENGTH_SHORT).show()
+                            onNavigateToBudgetSummaryScreen()
+                }
             )
             DropdownMenuItem(
                 leadingIcon = {
@@ -89,7 +93,10 @@ fun MoreScreensMenu() {
                     )
                 },
                 text = { Text(text = stringResource(id = R.string.calendar)) },
-                onClick = { Toast.makeText(context, string4, Toast.LENGTH_SHORT).show() }
+                onClick = {
+                    Toast.makeText(context, string4, Toast.LENGTH_SHORT).show()
+                    onNavigateToCalendarScreen()
+                }
             )
         }
     }

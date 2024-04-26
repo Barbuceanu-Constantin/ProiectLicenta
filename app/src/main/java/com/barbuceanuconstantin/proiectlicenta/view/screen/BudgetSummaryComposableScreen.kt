@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -32,7 +33,10 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.navigation.NavController
+import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.IntToMonth
+import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.TimeIntervalSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
@@ -85,9 +89,17 @@ fun SelectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<St
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
-                                  lTrP: SnapshotStateList<Transaction>) {
+                                  lTrP: SnapshotStateList<Transaction>,
+                                  onNavigateToHomeScreen: () -> Unit,
+                                  onNavigateToTransactionScreen: () -> Unit,
+                                  onNavigateToCategoriesScreen: () -> Unit,
+                                  onNavigateToFixedBudgetsScreen: () -> Unit,
+                                  onNavigateToBudgetSummaryScreen: () -> Unit,
+                                  onNavigateToCalendarScreen: () -> Unit,
+                                  navController: NavController) {
     val daily: MutableState<Boolean> = remember { mutableStateOf(true) }
     val weekly: MutableState<Boolean> = remember { mutableStateOf(true) }
     val monthly: MutableState<Boolean> = remember { mutableStateOf(true) }
@@ -109,14 +121,26 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
     val month: Int = calendar.get(Calendar.MONTH)
     val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
 
-    Scaffold { innerPadding ->
-        Column( modifier = Modifier
-            .fillMaxWidth()
-            .padding(innerPadding),
+    Scaffold (
+        bottomBar = {
+            BottomNavigationBar(
+                onNavigateToHomeScreen,
+                onNavigateToTransactionScreen,
+                onNavigateToCategoriesScreen,
+                onNavigateToFixedBudgetsScreen
+            )
+        },
+        topBar = {
+            MainScreenToAppBar( id = R.string.sumar_buget,
+                                onNavigateToBudgetSummaryScreen = onNavigateToBudgetSummaryScreen,
+                                onNavigateToCalendarScreen = onNavigateToCalendarScreen)
+        }
+    ) { innerPadding ->
+        Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 
             Text(text = stringResource(id = R.string.selectare_interval_timp),
                  fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
@@ -124,11 +148,11 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                     modifier = Modifier.background(colorResource(R.color.light_cream))
             )
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 
             TimeIntervalSegmentedButton(daily = daily, weekly = weekly, monthly = monthly)
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 
             //Aici voi face bilantul total al cheltuielilor si veniturilor.
             //Dar pentru inceput le voi lista pe toate fara sa filtrez, asta si pentru ca
@@ -150,12 +174,13 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
             } else if (daily.value && weekly.value && monthly.value) {
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
-                //TranzactiiLazyColumn(tranzactii = (lTrP + lTrA).toMutableStateList(), buttons, summary = true, {})
+                TranzactiiLazyColumn(tranzactii = (lTrP + lTrA).toMutableStateList(),
+                                     buttons, summary = true, navController = navController)
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
             }
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
 
             Text(text = stringResource(id = R.string.bilant),
                  modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -28,11 +29,14 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
@@ -126,9 +130,10 @@ fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>,
                          navController: NavController,
                          summary: Boolean = false,
 ) {
-    val modifier = if (summary) Modifier.fillMaxHeight(0.85F) else Modifier
-        .fillMaxHeight()
-        .fillMaxWidth()
+    val modifier =  if (summary)
+                        Modifier.fillMaxHeight(0.9F)
+                    else
+                        Modifier.fillMaxHeight().fillMaxWidth()
 
     val id: MutableState<Int> = remember { mutableIntStateOf(-1) }
 
@@ -158,9 +163,18 @@ fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>,
                         buttons.value = !buttons.value
                         val gson: Gson = GsonBuilder().create()
                         val transactionJson = gson.toJson(transactionObj)
-                        navController.navigate("editTransactionScreen/3?transaction={transaction}"
-                                                .replace(oldValue = "{transaction}", newValue = transactionJson)
-                        )
+
+                        if (!summary) {
+                            navController.navigate(
+                                "editTransactionScreen/3?transaction={transaction}"
+                                    .replace(oldValue = "{transaction}", newValue = transactionJson)
+                            )
+                        } else {
+                            navController.navigate(
+                                "editTransactionScreen/4?transaction={transaction}"
+                                    .replace(oldValue = "{transaction}", newValue = transactionJson)
+                            )
+                        }
                     }
                 ) {
                     Row {
@@ -191,90 +205,91 @@ fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>,
     }
 }
 
-//@Composable
-//fun CalendarSummaryTranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>,
-//                                        backButton: MutableState<Boolean>,
-//                                        incomesOrExpenses: Boolean,
-//                                        date: MutableState<String>,
-//                                        buttons: MutableState<Boolean>) {
-//
-//    val modifier: Modifier = Modifier.fillMaxHeight(0.9F)
-//
-//    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-//        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
-//
-//        if (incomesOrExpenses) {
-//            //Coloana venituri
-//            Text(text = stringResource(id = R.string.Venituri) + " " + date.value,
-//                fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
-//                style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
-//                modifier = Modifier.background(colorResource(R.color.light_cream))
-//            )
-//        } else {
-//            //Coloana cheltuieli
-//            Text(text = stringResource(id = R.string.Cheltuieli) + " " + date.value,
-//                fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
-//                style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
-//                modifier = Modifier.background(colorResource(R.color.light_cream))
-//            )
-//        }
-//
-//        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
-//
-//        LazyColumn(modifier = modifier) {
-//            items(tranzactii) { tranzactie ->
-//                Tranzactie(tranzactie, buttons)
-//                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
-//            }
-//        }
-//
-//        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
-//
-//        OkButton(ok = backButton)
-//    }
-//
-//    if (buttons.value) {
-//        AlertDialog(
-//            onDismissRequest = {
-//                buttons.value = !buttons.value
-//            },
-//            title = {
-//                Text(text = stringResource(id = R.string.selectare_actiune))
-//            },
-//            text = {
-//                Text(text = stringResource(id = R.string.mesaj_selectare_actiune),
-//                    fontSize = fontDimensionResource(id = R.dimen.normal_text_size))
-//            },
-//            confirmButton = {
-//                Button(
-//                    onClick = {
-//                        buttons.value = !buttons.value
-//                    }
-//                ) {
-//                    Row {
-//                        Text(text = stringResource(id = R.string.modificare))
-//                        Icon(
-//                            Icons.Filled.Colorize, contentDescription = "Delete",
-//                            tint = colorResource(id = R.color.white)
-//                        )
-//                    }
-//                }
-//            },
-//            dismissButton = {
-//                Button(
-//                    onClick = {
-//                        buttons.value = !buttons.value
-//                    }
-//                ) {
-//                    Row {
-//                        Text(text = stringResource(id = R.string.stergere))
-//                        Icon(
-//                            Icons.Filled.Delete, contentDescription = "Update",
-//                            tint = colorResource(id = R.color.white)
-//                        )
-//                    }
-//                }
-//            }
-//        )
-//    }
-//}
+@Composable
+fun CalendarSummaryTranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>,
+                                        backButton: MutableState<Boolean>,
+                                        incomesOrExpenses: Boolean,
+                                        date: MutableState<String>,
+                                        buttons: MutableState<Boolean>) {
+
+    val modifier: Modifier = Modifier.fillMaxHeight(0.9F)
+    val id: MutableState<Int> = remember { mutableIntStateOf(-1) }
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
+
+        if (incomesOrExpenses) {
+            //Coloana venituri
+            Text(text = stringResource(id = R.string.Venituri) + " " + date.value,
+                fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
+                style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
+                modifier = Modifier.background(colorResource(R.color.light_cream))
+            )
+        } else {
+            //Coloana cheltuieli
+            Text(text = stringResource(id = R.string.Cheltuieli) + " " + date.value,
+                fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
+                style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
+                modifier = Modifier.background(colorResource(R.color.light_cream))
+            )
+        }
+
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
+
+        LazyColumn(modifier = modifier) {
+            itemsIndexed(tranzactii) { index, tranzactie ->
+                Tranzactie(tranzactie, buttons, index, id)
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
+            }
+        }
+
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
+
+        OkButton(ok = backButton)
+    }
+
+    if (buttons.value) {
+        AlertDialog(
+            onDismissRequest = {
+                buttons.value = !buttons.value
+            },
+            title = {
+                Text(text = stringResource(id = R.string.selectare_actiune))
+            },
+            text = {
+                Text(text = stringResource(id = R.string.mesaj_selectare_actiune),
+                    fontSize = fontDimensionResource(id = R.dimen.normal_text_size))
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        buttons.value = !buttons.value
+                    }
+                ) {
+                    Row {
+                        Text(text = stringResource(id = R.string.modificare))
+                        Icon(
+                            Icons.Filled.Colorize, contentDescription = "Delete",
+                            tint = colorResource(id = R.color.white)
+                        )
+                    }
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        buttons.value = !buttons.value
+                    }
+                ) {
+                    Row {
+                        Text(text = stringResource(id = R.string.stergere))
+                        Icon(
+                            Icons.Filled.Delete, contentDescription = "Update",
+                            tint = colorResource(id = R.color.white)
+                        )
+                    }
+                }
+            }
+        )
+    }
+}
