@@ -48,7 +48,8 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 
 @Composable
 fun EditCategoryScreen(category: Category? = null,
-                       onNavigateToCategoryScreen : () -> Unit) {
+                       onNavigateToCategoryScreen : () -> Unit,
+                       onNavigateToHomeScreen: () -> Unit) {
     val showA: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
@@ -65,7 +66,11 @@ fun EditCategoryScreen(category: Category? = null,
 
     Scaffold (
         topBar = {
-            EditTopAppBar(id = R.string.editare_categorii)
+            EditTopAppBar(
+                            id = R.string.editare_categorii,
+                            onNavigateToBackScreen = onNavigateToCategoryScreen,
+                            onNavigateToHomeScreen = onNavigateToHomeScreen
+            )
         }
     ) { innerPadding ->
         Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),

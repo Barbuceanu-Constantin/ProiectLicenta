@@ -64,7 +64,8 @@ var listaSubcategorysActive = subcategorysPredefiniteActive.toMutableList()
 var listaSubcategorysPasive = subcategorysPredefinitePasive.toMutableList()
 var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.toMutableList()
 @Composable
-fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
+fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
+                          onNavigateToHomeScreen: () -> Unit,
                           transaction: Transaction? = null,
                           index: Int = 0) {
     var subcategory by remember { mutableStateOf("") }
@@ -116,7 +117,11 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
 
     Scaffold(
         topBar = {
-            EditTopAppBar(id = R.string.editare_tranzactii)
+            EditTopAppBar(
+                            id = R.string.editare_tranzactii,
+                            onNavigateToBackScreen = onNavigateToBackScreen,
+                            onNavigateToHomeScreen = onNavigateToHomeScreen
+            )
         }
     ) { innerPadding ->
         Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)) {
@@ -264,14 +269,14 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.Bottom) {
 
-                Button(onClick = {onNavigateToHomeScreen()}, modifier = Modifier
+                Button(onClick = {onNavigateToBackScreen()}, modifier = Modifier
                     .weight(1f)
                     .padding(start = dimensionResource(id = R.dimen.margin)))
                 { Text(stringResource(R.string.confirmare)) }
 
                 Spacer(Modifier.width(dimensionResource(id = R.dimen.gap)))
 
-                Button(onClick = {onNavigateToHomeScreen()}, modifier = Modifier
+                Button(onClick = {onNavigateToBackScreen()}, modifier = Modifier
                     .weight(1f)
                     .padding(
                         end = dimensionResource(

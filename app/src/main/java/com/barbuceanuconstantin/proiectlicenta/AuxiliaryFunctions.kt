@@ -93,7 +93,11 @@ fun MainScreenToAppBar(id: Int, scrollBehavior: TopAppBarScrollBehavior? = null)
 }
 
 @Composable
-fun EditTopAppBar(id : Int) {
+fun EditTopAppBar(
+                    id : Int,
+                    onNavigateToBackScreen: () -> Unit,
+                    onNavigateToHomeScreen: () -> Unit
+) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -107,7 +111,7 @@ fun EditTopAppBar(id : Int) {
             )
         },
         navigationIcon = {
-            IconButton(onClick = { /* do something */ }) {
+            IconButton(onClick = { onNavigateToBackScreen() }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = stringResource(id = R.string.inapoi)
@@ -115,7 +119,7 @@ fun EditTopAppBar(id : Int) {
             }
         },
         actions = {
-            IconButton(onClick = { /* do something */ }) {
+            IconButton(onClick = { onNavigateToHomeScreen() }) {
                 Icon(
                     imageVector = Icons.Filled.Home,
                     contentDescription = stringResource(id = R.string.acasa)

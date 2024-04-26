@@ -68,6 +68,7 @@ fun isDateAfterOrEqualToCurrent(dateString: String, current: LocalDate): Boolean
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
+                     onNavigateToHomeScreen: () -> Unit,
                      budget: Budget? = null) {
     val dateTime = LocalDateTime.now()
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -100,7 +101,11 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
 
     Scaffold(
         topBar = {
-            EditTopAppBar(id = R.string.editare_bugete)
+            EditTopAppBar(
+                            id = R.string.editare_bugete,
+                            onNavigateToBackScreen = onNavigateToFixedBudgetsScreen,
+                            onNavigateToHomeScreen = onNavigateToHomeScreen
+                        )
         }
     ) { innerPadding ->
         Column( modifier = Modifier

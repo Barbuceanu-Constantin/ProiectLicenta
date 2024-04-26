@@ -49,7 +49,7 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButtonCustom(navigateAction = { onNavigateToEditTransactionScreen(0) })
+            FloatingActionButtonCustom(navigateAction = { onNavigateToEditTransactionScreen(3) })
         },
         bottomBar = {
             BottomNavigationBar(

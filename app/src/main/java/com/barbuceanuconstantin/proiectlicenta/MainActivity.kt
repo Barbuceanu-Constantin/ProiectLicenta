@@ -255,7 +255,14 @@ class MainActivity : ComponentActivity() {
                         }
 
                         EditTransactionScreen(
-                                                onNavigateToHomeScreen = lambda,
+                                                onNavigateToBackScreen = lambda,
+                                                onNavigateToHomeScreen = {
+                                                    navController.navigate("homeScreen") {
+                                                        popUpTo("homeScreen") {
+                                                            inclusive = true
+                                                        }
+                                                    }
+                                                },
                                                 index = index,
                                                 transaction = transactionObject
                         )
@@ -277,6 +284,13 @@ class MainActivity : ComponentActivity() {
                                         inclusive = true
                                     }
                                 }
+                            },
+                            onNavigateToHomeScreen = {
+                                navController.navigate("homeScreen") {
+                                    popUpTo("homeScreen") {
+                                        inclusive = true
+                                    }
+                                }
                             }
                         )
                     }
@@ -293,6 +307,13 @@ class MainActivity : ComponentActivity() {
                             onNavigateToFixedBudgetsScreen = {
                                 navController.navigate("fixedBudgetsScreen") {
                                     popUpTo("fixedBudgetsScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            onNavigateToHomeScreen = {
+                                navController.navigate("homeScreen") {
+                                    popUpTo("homeScreen") {
                                         inclusive = true
                                     }
                                 }
