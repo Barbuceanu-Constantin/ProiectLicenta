@@ -24,6 +24,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -42,6 +44,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
@@ -62,6 +65,7 @@ fun isDateAfterOrEqualToCurrent(dateString: String, current: LocalDate): Boolean
         false
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                      budget: Budget? = null) {
@@ -99,7 +103,9 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
             EditTopAppBar(id = R.string.editare_bugete)
         }
     ) { innerPadding ->
-        Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
+        Column( modifier = Modifier
+            .fillMaxWidth()
+            .padding(innerPadding),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.gap)))
@@ -109,10 +115,11 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                     fontWeight = FontWeight.Bold,
                     color = colorResource(id = R.color.brown)
                  ),
-                 fontSize = fontDimensionResource(id = R.dimen.big_text_size)
+                 fontSize = fontDimensionResource(id = R.dimen.big_text_size),
+                 textDecoration = TextDecoration.Underline
             )
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.gap)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.middle)))
 
             OutlinedTextField(
                 value = filledText, onValueChange = { filledText = it },
@@ -124,7 +131,12 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                     imeAction = ImeAction.Next,
                     capitalization = KeyboardCapitalization.Sentences
                 ),
-                modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin), end = dimensionResource(id = R.dimen.margin)),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = dimensionResource(id = R.dimen.margin),
+                        end = dimensionResource(id = R.dimen.margin)
+                    ),
             )
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
@@ -151,7 +163,12 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                         keyboardController?.hide() // Close the keyboard
                     }
                 ),
-                modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin), end = dimensionResource(id = R.dimen.margin)),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = dimensionResource(id = R.dimen.margin),
+                        end = dimensionResource(id = R.dimen.margin)
+                    ),
             )
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
@@ -169,19 +186,27 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 label = { Text(text = stringResource(id = R.string.data_inceput)) },
                 maxLines = 1,
-                modifier = Modifier.fillMaxWidth().clickable {
-                                        val datePickerDialog =
-                                        android.app.DatePickerDialog(context, { _, year1, month1, dayOfMonth1 ->
-                                            // Handle the selected date
-                                            val selectedDate: Calendar = Calendar.getInstance()
-                                            selectedDate.set(year1, month1, dayOfMonth1)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        val datePickerDialog =
+                            android.app.DatePickerDialog(context, { _, year1, month1, dayOfMonth1 ->
+                                // Handle the selected date
+                                val selectedDate: Calendar = Calendar.getInstance()
+                                selectedDate.set(year1, month1, dayOfMonth1)
 
-                                            dateMutable1.value = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time)
-                                        }, year, month, dayOfMonth)
+                                dateMutable1.value =
+                                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
+                                        selectedDate.time
+                                    )
+                            }, year, month, dayOfMonth)
 
-                                        datePickerDialog.show()
-                                    }
-                                   .padding(start = dimensionResource(id = R.dimen.margin), end = dimensionResource(id = R.dimen.margin)),
+                        datePickerDialog.show()
+                    }
+                    .padding(
+                        start = dimensionResource(id = R.dimen.margin),
+                        end = dimensionResource(id = R.dimen.margin)
+                    ),
                 colors = OutlinedTextFieldDefaults.colors(
                     disabledTextColor = MaterialTheme.colorScheme.onSurface,
                     disabledBorderColor = MaterialTheme.colorScheme.outline,
@@ -207,33 +232,53 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 label = { Text(text = stringResource(id = R.string.data_final)) },
                 maxLines = 1,
-                modifier = Modifier.fillMaxWidth().clickable {
-                                        val dateString: String = dateMutable1.value
-                                        val formatter: DateTimeFormatter =
-                                            DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                                        val localDate: LocalDate = LocalDate.parse(dateString, formatter)
-                                        val datePickerDialog =
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        val dateString: String = dateMutable1.value
+                        val formatter: DateTimeFormatter =
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        val localDate: LocalDate = LocalDate.parse(dateString, formatter)
+                        val datePickerDialog =
 
-                                        android.app.DatePickerDialog(context, { _, year1, month1, dayOfMonth1 ->
-                                            // Handle the selected date
-                                            val selectedDate: Calendar = Calendar.getInstance()
-                                            selectedDate.set(year1, month1, dayOfMonth1)
+                            android.app.DatePickerDialog(context, { _, year1, month1, dayOfMonth1 ->
+                                // Handle the selected date
+                                val selectedDate: Calendar = Calendar.getInstance()
+                                selectedDate.set(year1, month1, dayOfMonth1)
 
-                                            // Perform any necessary operations with the selected date here
-                                            if (isDateAfterOrEqualToCurrent(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time), LocalDate.now())) {
-                                                if (isDateAfterOrEqualToCurrent(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time), localDate)) {
-                                                    dateMutable2.value = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time)
-                                                } else {
-                                                    openWarningDialog.value = true
-                                                }
-                                            }  else {
-                                                openWarningDialog.value = true
-                                            }
-                                        }, year, month, dayOfMonth)
-
-                                        datePickerDialog.show()
+                                // Perform any necessary operations with the selected date here
+                                if (isDateAfterOrEqualToCurrent(
+                                        SimpleDateFormat(
+                                            "yyyy-MM-dd",
+                                            Locale.getDefault()
+                                        ).format(selectedDate.time), LocalDate.now()
+                                    )
+                                ) {
+                                    if (isDateAfterOrEqualToCurrent(
+                                            SimpleDateFormat(
+                                                "yyyy-MM-dd",
+                                                Locale.getDefault()
+                                            ).format(selectedDate.time), localDate
+                                        )
+                                    ) {
+                                        dateMutable2.value = SimpleDateFormat(
+                                            "yyyy-MM-dd",
+                                            Locale.getDefault()
+                                        ).format(selectedDate.time)
+                                    } else {
+                                        openWarningDialog.value = true
                                     }
-                                   .padding(start = dimensionResource(id = R.dimen.margin), end = dimensionResource(id = R.dimen.margin)),
+                                } else {
+                                    openWarningDialog.value = true
+                                }
+                            }, year, month, dayOfMonth)
+
+                        datePickerDialog.show()
+                    }
+                    .padding(
+                        start = dimensionResource(id = R.dimen.margin),
+                        end = dimensionResource(id = R.dimen.margin)
+                    ),
                 colors = OutlinedTextFieldDefaults.colors(
                     disabledTextColor = MaterialTheme.colorScheme.onSurface,
                     disabledBorderColor = MaterialTheme.colorScheme.outline,
@@ -244,31 +289,40 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                 )
             )
 
-            Column(verticalArrangement = Arrangement.Bottom,
-                    modifier = Modifier.weight(1f)) {
-                Row {
-                    Button(onClick = {
-                                        //La confirmare trebuie ca data de final sa fie dupa data
-                                        //de inceput.a
-                                        var dateString: String = dateMutable1.value
-                                        val formatter: DateTimeFormatter =
-                                            DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                                        val localDate: LocalDate = LocalDate.parse(dateString, formatter)
-                                        dateString = dateMutable2.value
-                                        if (isDateAfterOrEqualToCurrent(dateString, localDate)) {
-                                            onNavigateToFixedBudgetsScreen()
-                                        } else {
-                                            openWarningDialog.value = true
-                                        }
-                    }) { Text(stringResource(R.string.confirmare)) }
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.Bottom) {
+                Button(onClick = {
+                                    //La confirmare trebuie ca data de final sa fie dupa data
+                                    //de inceput.a
+                                    var dateString: String = dateMutable1.value
+                                    val formatter: DateTimeFormatter =
+                                        DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                                    val localDate: LocalDate = LocalDate.parse(dateString, formatter)
+                                    dateString = dateMutable2.value
+                                    if (isDateAfterOrEqualToCurrent(dateString, localDate)) {
+                                        onNavigateToFixedBudgetsScreen()
+                                    } else {
+                                        openWarningDialog.value = true
+                                    }
+                        },
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = dimensionResource(id = R.dimen.margin))
+                    ) { Text(stringResource(R.string.confirmare)) }
 
-                    Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.gap)))
+                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.gap)))
 
-                    Button(onClick = { onNavigateToFixedBudgetsScreen() }) { Text(stringResource(R.string.renuntare)) }
-                }
-
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
+                Button( onClick = { onNavigateToFixedBudgetsScreen() },
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = dimensionResource(id = R.dimen.margin))
+                    ) { Text(stringResource(R.string.renuntare)) }
             }
+
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
         }
     }
 

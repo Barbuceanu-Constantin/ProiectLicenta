@@ -46,6 +46,8 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -69,7 +71,12 @@ import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MoreScreensMen
 import java.util.Locale
 
 @Composable
-fun MainScreenToAppBar(id: Int) {
+fun MainScreenToAppBar(id: Int, scrollBehavior: TopAppBarScrollBehavior? = null) {
+    var actualScrollBehavior = scrollBehavior
+    if (actualScrollBehavior == null) {
+        actualScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+    }
+
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -80,7 +87,8 @@ fun MainScreenToAppBar(id: Int) {
         },
         actions = {
             MoreScreensMenu()
-        }
+        },
+        scrollBehavior = actualScrollBehavior
     )
 }
 

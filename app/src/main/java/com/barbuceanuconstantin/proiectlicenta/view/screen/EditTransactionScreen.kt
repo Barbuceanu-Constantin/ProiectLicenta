@@ -96,7 +96,6 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
         else if (listaSubcategorysDatorii.contains(transaction.subcategory))
             showD.value = true
     } else {
-        println("dadada" + index.toString())
         when (index) {
             0 -> showA.value = true
             1 -> showP.value = true
@@ -120,9 +119,7 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
             EditTopAppBar(id = R.string.editare_tranzactii)
         }
     ) { innerPadding ->
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(innerPadding)) {
+        Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)) {
             if (transaction == null)
                 //Add
                 HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA, showP, showD,
@@ -131,7 +128,7 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
                 //Update
                 HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA, showP, showD)
 
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             if (showA.value && !showP.value && !showD.value) {
                 CategoriesMenu(
@@ -156,143 +153,135 @@ fun EditTransactionScreen(onNavigateToHomeScreen : () -> Unit,
                 }
             }
 
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                OutlinedTextField(
-                    value = valueSum,
-                    onValueChange = { valueSum = it },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Decimal,
-                        imeAction = ImeAction.Next
-                    ),
-                    label = { Text(stringResource(id = R.string.introduceti_suma)) },
-                    maxLines = 1,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = dimensionResource(id = R.dimen.margin),
-                            end = dimensionResource(id = R.dimen.margin)
-                        )
-                        .weight(0.2f),
-                    suffix = { Text ("RON") },
-                )
-
-                Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
-
-                OutlinedTextField(
-                    value = payee,
-                    onValueChange = { payee = it },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next,
-                        capitalization = KeyboardCapitalization.Words
-                    ),
-                    label = { Text(text = stringResource(id = R.string.furnizor_sau_beneficiar)) },
-                    maxLines = 1,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = dimensionResource(id = R.dimen.margin),
-                            end = dimensionResource(id = R.dimen.margin)
-                        )
-                        .weight(0.2f)
-                )
-
-                Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
-
-                OutlinedTextField(
-                    value = description,
-                    onValueChange = { description = it },
-                    keyboardOptions = KeyboardOptions(
-                                            keyboardType = KeyboardType.Text,
-                                            imeAction = ImeAction.Done,
-                                            capitalization = KeyboardCapitalization.Sentences
-                                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = { keyboardController?.hide() }
-                    ),
-                    label = { Text(text = stringResource(id = R.string.descriere)) },
-                    maxLines = 1,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = dimensionResource(id = R.dimen.margin),
-                            end = dimensionResource(id = R.dimen.margin)
-                        )
-                        .weight(0.2f)
-                )
-
-                Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
-
-                OutlinedTextField(
-                    value = dateMutable.value,
-                    enabled = false,
-                    onValueChange = {
-                        dateMutable.value = it
-                    },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                    label = { Text(text = stringResource(id = R.string.data)) },
-                    maxLines = 1,
-                    modifier = Modifier
-                        .clickable {
-                            val datePickerDialog =
-                                DatePickerDialog(context, { _, year1, month1, dayOfMonth1 ->
-                                    // Handle the selected date
-                                    val selectedDate: Calendar = Calendar.getInstance()
-                                    selectedDate.set(year1, month1, dayOfMonth1)
-
-                                    // Perform any necessary operations with the selected date here
-                                    // For example, update a TextView with the selected date
-                                    dateMutable.value =
-                                        SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(
-                                            selectedDate.time
-                                        )
-                                }, year, month, dayOfMonth)
-
-                            datePickerDialog.show()
-                        }
-                        .fillMaxWidth()
-                        .padding(
-                            start = dimensionResource(id = R.dimen.margin),
-                            end = dimensionResource(id = R.dimen.margin)
-                        )
-                        .weight(0.2f),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        disabledTextColor = MaterialTheme.colorScheme.onSurface,
-                        disabledBorderColor = MaterialTheme.colorScheme.outline,
-                        disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                )
-
-                Row(modifier = Modifier
+            OutlinedTextField(
+                value = valueSum,
+                onValueChange = { valueSum = it },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Decimal,
+                    imeAction = ImeAction.Next
+                ),
+                label = { Text(stringResource(id = R.string.introduceti_suma)) },
+                maxLines = 1,
+                modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.Bottom) {
+                    .padding(
+                        start = dimensionResource(id = R.dimen.margin),
+                        end = dimensionResource(id = R.dimen.margin)
+                    ),
+                suffix = { Text ("RON") },
+            )
 
-                    Button(onClick = {onNavigateToHomeScreen()}, modifier = Modifier
-                        .weight(1f)
-                        .padding(start = dimensionResource(id = R.dimen.margin)))
-                    { Text(stringResource(R.string.confirmare)) }
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
-                    Spacer(Modifier.width(dimensionResource(id = R.dimen.gap)))
+            OutlinedTextField(
+                value = payee,
+                onValueChange = { payee = it },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next,
+                    capitalization = KeyboardCapitalization.Words
+                ),
+                label = { Text(text = stringResource(id = R.string.furnizor_sau_beneficiar)) },
+                maxLines = 1,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = dimensionResource(id = R.dimen.margin),
+                        end = dimensionResource(id = R.dimen.margin)
+                    )
+            )
 
-                    Button(onClick = {onNavigateToHomeScreen()}, modifier = Modifier
-                        .weight(1f)
-                        .padding(
-                            end = dimensionResource(
-                                id = R.dimen.margin
-                            )
-                        ))
-                    { Text(stringResource(R.string.renuntare)) }
-                }
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
-                Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
+            OutlinedTextField(
+                value = description,
+                onValueChange = { description = it },
+                keyboardOptions = KeyboardOptions(
+                                        keyboardType = KeyboardType.Text,
+                                        imeAction = ImeAction.Done,
+                                        capitalization = KeyboardCapitalization.Sentences
+                                ),
+                keyboardActions = KeyboardActions(
+                    onDone = { keyboardController?.hide() }
+                ),
+                label = { Text(text = stringResource(id = R.string.descriere)) },
+                maxLines = 1,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = dimensionResource(id = R.dimen.margin),
+                        end = dimensionResource(id = R.dimen.margin)
+                    )
+            )
+
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
+
+            OutlinedTextField(
+                value = dateMutable.value,
+                enabled = false,
+                onValueChange = {
+                    dateMutable.value = it
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                label = { Text(text = stringResource(id = R.string.data)) },
+                maxLines = 1,
+                modifier = Modifier
+                    .clickable {
+                        val datePickerDialog =
+                            DatePickerDialog(context, { _, year1, month1, dayOfMonth1 ->
+                                // Handle the selected date
+                                val selectedDate: Calendar = Calendar.getInstance()
+                                selectedDate.set(year1, month1, dayOfMonth1)
+
+                                // Perform any necessary operations with the selected date here
+                                // For example, update a TextView with the selected date
+                                dateMutable.value =
+                                    SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(
+                                        selectedDate.time
+                                    )
+                            }, year, month, dayOfMonth)
+
+                        datePickerDialog.show()
+                    }
+                    .fillMaxWidth()
+                    .padding(
+                        start = dimensionResource(id = R.dimen.margin),
+                        end = dimensionResource(id = R.dimen.margin)
+                    ),
+                colors = OutlinedTextFieldDefaults.colors(
+                    disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                    disabledBorderColor = MaterialTheme.colorScheme.outline,
+                    disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            )
+
+            Row(modifier = Modifier.fillMaxWidth().weight(1f),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.Bottom) {
+
+                Button(onClick = {onNavigateToHomeScreen()}, modifier = Modifier
+                    .weight(1f)
+                    .padding(start = dimensionResource(id = R.dimen.margin)))
+                { Text(stringResource(R.string.confirmare)) }
+
+                Spacer(Modifier.width(dimensionResource(id = R.dimen.gap)))
+
+                Button(onClick = {onNavigateToHomeScreen()}, modifier = Modifier
+                    .weight(1f)
+                    .padding(
+                        end = dimensionResource(
+                            id = R.dimen.margin
+                        )
+                    ))
+                { Text(stringResource(R.string.renuntare)) }
             }
+
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.medium_line)))
         }
     }
 }
