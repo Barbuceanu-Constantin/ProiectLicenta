@@ -100,6 +100,7 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                   onNavigateToBudgetSummaryScreen: () -> Unit,
                                   onNavigateToCalendarScreen: () -> Unit,
                                   onNavigateToGraphsScreen: () -> Unit,
+                                  onNavigateToMementosScreen: () -> Unit,
                                   navController: NavController) {
     val daily: MutableState<Boolean> = remember { mutableStateOf(true) }
     val weekly: MutableState<Boolean> = remember { mutableStateOf(true) }
@@ -135,7 +136,8 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
             MainScreenToAppBar( id = R.string.sumar_buget,
                                 onNavigateToBudgetSummaryScreen = onNavigateToBudgetSummaryScreen,
                                 onNavigateToCalendarScreen = onNavigateToCalendarScreen,
-                                onNavigateToGraphsScreen = onNavigateToGraphsScreen
+                                onNavigateToGraphsScreen = onNavigateToGraphsScreen,
+                                onNavigateToMementosScreen = onNavigateToMementosScreen
             )
         }
     ) { innerPadding ->

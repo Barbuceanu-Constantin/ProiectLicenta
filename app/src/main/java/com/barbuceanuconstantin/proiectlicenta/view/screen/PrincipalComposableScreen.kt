@@ -113,7 +113,8 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
                               onNavigateToFixedBudgetsScreen: () -> Unit,
                               onNavigateToBudgetSummaryScreen: () -> Unit,
                               onNavigateToCalendarScreen: () -> Unit,
-                              onNavigateToGraphsScreen: () -> Unit) {
+                              onNavigateToGraphsScreen: () -> Unit,
+                              onNavigateToMementosScreen: () -> Unit) {
     var selectedIndex by remember { mutableStateOf(-1) }
     val options = listOf(
         stringResource(id = R.string.Venituri),
@@ -134,7 +135,9 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
                     MainScreenToAppBar( id = R.string.acasa,
                                         onNavigateToBudgetSummaryScreen = onNavigateToBudgetSummaryScreen,
                                         onNavigateToCalendarScreen = onNavigateToCalendarScreen,
-                                        onNavigateToGraphsScreen = onNavigateToGraphsScreen)
+                                        onNavigateToGraphsScreen = onNavigateToGraphsScreen,
+                                        onNavigateToMementosScreen = onNavigateToMementosScreen
+                    )
                 }
     ) { innerPadding ->
         Column(

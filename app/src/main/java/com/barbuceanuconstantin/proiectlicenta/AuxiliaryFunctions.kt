@@ -5,6 +5,7 @@ package com.barbuceanuconstantin.proiectlicenta
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.widget.CalendarView
+import android.widget.Toast
 import androidx.annotation.DimenRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -57,6 +58,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -75,7 +77,9 @@ import java.util.Locale
 fun MainScreenToAppBar(id: Int, scrollBehavior: TopAppBarScrollBehavior? = null,
                        onNavigateToBudgetSummaryScreen: () -> Unit,
                        onNavigateToCalendarScreen: () -> Unit,
-                       onNavigateToGraphsScreen: () -> Unit) {
+                       onNavigateToGraphsScreen: () -> Unit,
+                       onNavigateToMementosScreen: () -> Unit
+) {
     var actualScrollBehavior = scrollBehavior
     if (actualScrollBehavior == null) {
         actualScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -92,7 +96,9 @@ fun MainScreenToAppBar(id: Int, scrollBehavior: TopAppBarScrollBehavior? = null,
         actions = {
             MoreScreensMenu(onNavigateToBudgetSummaryScreen = onNavigateToBudgetSummaryScreen,
                             onNavigateToCalendarScreen = onNavigateToCalendarScreen,
-                            onNavigateToGraphsScreen = onNavigateToGraphsScreen)
+                            onNavigateToGraphsScreen = onNavigateToGraphsScreen,
+                            onNavigateToMementosScreen = onNavigateToMementosScreen
+            )
         },
         scrollBehavior = actualScrollBehavior
     )
@@ -533,8 +539,14 @@ fun BottomNavigationBar(
     onNavigateToScreen0: () -> Unit,
     onNavigateToScreen1: () -> Unit,
     onNavigateToScreen2: () -> Unit,
-    onNavigateToScreen4: () -> Unit,
+    onNavigateToScreen3: () -> Unit,
 ) {
+    val string1 = stringResource(id = R.string.acasa)
+    val string2 = stringResource(id = R.string.tranzactii)
+    val string3 = stringResource(id = R.string.categorii)
+    val string4 = stringResource(id = R.string.bugete)
+    val context = LocalContext.current
+
     BottomNavigation(
         backgroundColor = colorResource(id = R.color.white),
         modifier = Modifier.fillMaxWidth()
@@ -551,7 +563,10 @@ fun BottomNavigationBar(
             label = { Text(text = stringResource(id = R.string.acasa),
                             fontSize = fontDimensionResource(id = R.dimen.normal_text_size)) },
             selected = true,
-            onClick = { onNavigateToScreen0() },
+            onClick = {
+                Toast.makeText(context, string1, Toast.LENGTH_SHORT).show()
+                onNavigateToScreen0()
+            },
             alwaysShowLabel = true,
             selectedContentColor = colorResource(id = R.color.black),
             unselectedContentColor = colorResource(id = R.color.gray),
@@ -568,7 +583,10 @@ fun BottomNavigationBar(
             label = { Text(text = stringResource(id = R.string.tranzactii),
                             fontSize = fontDimensionResource(id = R.dimen.normal_text_size)) },
             selected = true,
-            onClick = { onNavigateToScreen1() },
+            onClick = {
+                Toast.makeText(context, string2, Toast.LENGTH_SHORT).show()
+                onNavigateToScreen1()
+            },
             alwaysShowLabel = true,
             selectedContentColor = colorResource(id = R.color.black),
             unselectedContentColor = colorResource(id = R.color.gray),
@@ -585,7 +603,10 @@ fun BottomNavigationBar(
             label = { Text(text = stringResource(id = R.string.categorii),
                             fontSize = fontDimensionResource(id = R.dimen.normal_text_size)) },
             selected = true,
-            onClick = { onNavigateToScreen2() },
+            onClick = {
+                Toast.makeText(context, string3, Toast.LENGTH_SHORT).show()
+                onNavigateToScreen2()
+            },
             alwaysShowLabel = true,
             selectedContentColor = colorResource(id = R.color.black),
             unselectedContentColor = colorResource(id = R.color.gray)
@@ -602,7 +623,10 @@ fun BottomNavigationBar(
             label = { Text(text = stringResource(id = R.string.bugete),
                             fontSize = fontDimensionResource(id = R.dimen.normal_text_size)) },
             selected = true,
-            onClick = { onNavigateToScreen4() },
+            onClick = {
+                Toast.makeText(context, string4, Toast.LENGTH_SHORT).show()
+                onNavigateToScreen3()
+            },
             alwaysShowLabel = true,
             selectedContentColor = colorResource(id = R.color.black),
             unselectedContentColor = colorResource(id = R.color.gray)

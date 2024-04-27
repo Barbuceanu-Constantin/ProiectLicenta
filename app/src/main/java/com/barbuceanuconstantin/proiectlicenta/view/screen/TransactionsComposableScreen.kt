@@ -44,7 +44,8 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                  onNavigateToFixedBudgetsScreen: () -> Unit,
                                  onNavigateToBudgetSummaryScreen: () -> Unit,
                                  onNavigateToCalendarScreen: () -> Unit,
-                                 onNavigateToGraphsScreen: () -> Unit) {
+                                 onNavigateToGraphsScreen: () -> Unit,
+                                 onNavigateToMementosScreen: () -> Unit) {
     val showA: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
@@ -66,7 +67,8 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
             MainScreenToAppBar( id = R.string.tranzactii,
                                 onNavigateToBudgetSummaryScreen = onNavigateToBudgetSummaryScreen,
                                 onNavigateToCalendarScreen = onNavigateToCalendarScreen,
-                                onNavigateToGraphsScreen = onNavigateToGraphsScreen
+                                onNavigateToGraphsScreen = onNavigateToGraphsScreen,
+                                onNavigateToMementosScreen = onNavigateToMementosScreen
             )
         }
     ) { innerPadding ->

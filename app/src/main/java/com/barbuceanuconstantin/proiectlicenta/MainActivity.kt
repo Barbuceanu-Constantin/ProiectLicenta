@@ -26,6 +26,7 @@ import com.barbuceanuconstantin.proiectlicenta.view.screen.EditCategoryScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.EditTransactionScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.FixedBudgetsComposableScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.GraphsComposableScreen
+import com.barbuceanuconstantin.proiectlicenta.view.screen.MementosComposableScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.PrincipalComposableScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.TransactionsComposableScreen
 import com.google.gson.Gson
@@ -143,6 +144,13 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             },
+                            onNavigateToMementosScreen = {
+                                navController.navigate("mementosScreen") {
+                                    popUpTo("mementosScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            }
                         )
                     }
                     composable("transactionScreen") {
@@ -195,6 +203,13 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             },
+                            onNavigateToMementosScreen = {
+                                navController.navigate("mementosScreen") {
+                                    popUpTo("mementosScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            }
                         )
                     }
                     composable("categoriesScreen") {
@@ -250,6 +265,13 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             },
+                            onNavigateToMementosScreen = {
+                                navController.navigate("mementosScreen") {
+                                    popUpTo("mementosScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            }
                         )
                     }
                     composable("fixedBudgetsScreen") {
@@ -302,6 +324,13 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             },
+                            onNavigateToMementosScreen = {
+                                navController.navigate("mementosScreen") {
+                                    popUpTo("mementosScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            }
                         )
                     }
                     composable("editTransactionScreen/{index}?transaction={transaction}",
@@ -463,6 +492,13 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             },
+                            onNavigateToMementosScreen = {
+                                navController.navigate("mementosScreen") {
+                                    popUpTo("mementosScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
                             navController = navController
                         )
                     }
@@ -509,6 +545,13 @@ class MainActivity : ComponentActivity() {
                             onNavigateToGraphsScreen = {
                                 navController.navigate("graphsScreen") {
                                     popUpTo("graphsScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            onNavigateToMementosScreen = {
+                                navController.navigate("mementosScreen") {
+                                    popUpTo("mementosScreen") {
                                         inclusive = true
                                     }
                                 }
@@ -560,7 +603,69 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             },
-                            onNavigateToGraphsScreen = { }
+                            onNavigateToGraphsScreen = { },
+                            onNavigateToMementosScreen = {
+                                navController.navigate("mementosScreen") {
+                                    popUpTo("mementosScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            }
+                        )
+                    }
+                    composable("mementosScreen") {
+                        //Bugete fixe
+                        MementosComposableScreen(
+                            onNavigateToHomeScreen = {
+                                navController.navigate("homeScreen") {
+                                    popUpTo("homeScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            onNavigateToTransactionScreen = {
+                                navController.navigate("transactionScreen") {
+                                    popUpTo("transactionScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            onNavigateToCategoriesScreen = {
+                                navController.navigate("categoriesScreen") {
+                                    popUpTo("categoriesScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            onNavigateToFixedBudgetsScreen = {
+                                navController.navigate("fixedBudgetsScreen") {
+                                    popUpTo("fixedBudgetsScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            onNavigateToBudgetSummaryScreen = {
+                                navController.navigate("budgetSummaryScreen") {
+                                    popUpTo("budgetSummaryScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            onNavigateToCalendarScreen = {
+                                navController.navigate("calendarScreen") {
+                                    popUpTo("calendarScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            onNavigateToMementosScreen = { },
+                            onNavigateToGraphsScreen = {
+                                navController.navigate("graphsScreen") {
+                                    popUpTo("graphsScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            }
                         )
                     }
                     // Add more destinations similarly.

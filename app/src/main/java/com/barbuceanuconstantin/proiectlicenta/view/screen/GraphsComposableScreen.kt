@@ -25,7 +25,8 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                            onNavigateToFixedBudgetsScreen: () -> Unit,
                            onNavigateToBudgetSummaryScreen: () -> Unit,
                            onNavigateToCalendarScreen: () -> Unit,
-                           onNavigateToGraphsScreen: () -> Unit) {
+                           onNavigateToGraphsScreen: () -> Unit,
+                           onNavigateToMementosScreen: () -> Unit) {
     Scaffold (
         bottomBar = {
             BottomNavigationBar(
@@ -39,7 +40,8 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
             MainScreenToAppBar( id = R.string.grafice,
                                 onNavigateToBudgetSummaryScreen = onNavigateToBudgetSummaryScreen,
                                 onNavigateToCalendarScreen = onNavigateToCalendarScreen,
-                                onNavigateToGraphsScreen = onNavigateToGraphsScreen
+                                onNavigateToGraphsScreen = onNavigateToGraphsScreen,
+                                onNavigateToMementosScreen = onNavigateToMementosScreen
             )
         }
     ) {innerPadding ->

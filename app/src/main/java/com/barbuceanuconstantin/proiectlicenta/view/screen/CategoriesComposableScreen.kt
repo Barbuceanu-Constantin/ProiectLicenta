@@ -47,7 +47,8 @@ fun CategoriesComposableScreen(lSA: MutableList<Category>,
                                onNavigateToFixedBudgetsScreen: () -> Unit,
                                onNavigateToBudgetSummaryScreen: () -> Unit,
                                onNavigateToCalendarScreen: () -> Unit,
-                               onNavigateToGraphsScreen: () -> Unit) {
+                               onNavigateToGraphsScreen: () -> Unit,
+                               onNavigateToMementosScreen: () -> Unit) {
     val showA: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
     val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
@@ -70,7 +71,8 @@ fun CategoriesComposableScreen(lSA: MutableList<Category>,
             MainScreenToAppBar( id = R.string.categorii,
                                 onNavigateToBudgetSummaryScreen = onNavigateToBudgetSummaryScreen,
                                 onNavigateToCalendarScreen = onNavigateToCalendarScreen,
-                                onNavigateToGraphsScreen = onNavigateToGraphsScreen
+                                onNavigateToGraphsScreen = onNavigateToGraphsScreen,
+                                onNavigateToMementosScreen = onNavigateToMementosScreen
             )
         }
     ) { innerPadding ->
