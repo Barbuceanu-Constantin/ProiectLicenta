@@ -25,6 +25,7 @@ import com.barbuceanuconstantin.proiectlicenta.view.screen.EditBudgetScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.EditCategoryScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.EditTransactionScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.FixedBudgetsComposableScreen
+import com.barbuceanuconstantin.proiectlicenta.view.screen.GraphsComposableScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.PrincipalComposableScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.TransactionsComposableScreen
 import com.google.gson.Gson
@@ -122,19 +123,26 @@ class MainActivity : ComponentActivity() {
                                                     }
                                                 },
                             onNavigateToBudgetSummaryScreen = {
-                                navController.navigate("budgetSummary") {
-                                    popUpTo("budgetSummary") {
+                                navController.navigate("budgetSummaryScreen") {
+                                    popUpTo("budgetSummaryScreen") {
                                         inclusive = true
                                     }
                                 }
                             },
                             onNavigateToCalendarScreen = {
-                                navController.navigate("calendar") {
-                                    popUpTo("calendar") {
+                                navController.navigate("calendarScreen") {
+                                    popUpTo("calendarScreen") {
                                         inclusive = true
                                     }
                                 }
-                            }
+                            },
+                            onNavigateToGraphsScreen = {
+                                navController.navigate("graphsScreen") {
+                                    popUpTo("graphsScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
                         )
                     }
                     composable("transactionScreen") {
@@ -167,19 +175,26 @@ class MainActivity : ComponentActivity() {
                                 }
                             },
                             onNavigateToBudgetSummaryScreen = {
-                                navController.navigate("budgetSummary") {
-                                    popUpTo("budgetSummary") {
+                                navController.navigate("budgetSummaryScreen") {
+                                    popUpTo("budgetSummaryScreen") {
                                         inclusive = true
                                     }
                                 }
                             },
                             onNavigateToCalendarScreen = {
-                                navController.navigate("calendar") {
-                                    popUpTo("calendar") {
+                                navController.navigate("calendarScreen") {
+                                    popUpTo("calendarScreen") {
                                         inclusive = true
                                     }
                                 }
-                            }
+                            },
+                            onNavigateToGraphsScreen = {
+                                navController.navigate("graphsScreen") {
+                                    popUpTo("graphsScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
                         )
                     }
                     composable("categoriesScreen") {
@@ -215,19 +230,26 @@ class MainActivity : ComponentActivity() {
                                 }
                             },
                             onNavigateToBudgetSummaryScreen = {
-                                navController.navigate("budgetSummary") {
-                                    popUpTo("budgetSummary") {
+                                navController.navigate("budgetSummaryScreen") {
+                                    popUpTo("budgetSummaryScreen") {
                                         inclusive = true
                                     }
                                 }
                             },
                             onNavigateToCalendarScreen = {
-                                navController.navigate("calendar") {
-                                    popUpTo("calendar") {
+                                navController.navigate("calendarScreen") {
+                                    popUpTo("calendarScreen") {
                                         inclusive = true
                                     }
                                 }
-                            }
+                            },
+                            onNavigateToGraphsScreen = {
+                                navController.navigate("graphsScreen") {
+                                    popUpTo("graphsScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
                         )
                     }
                     composable("fixedBudgetsScreen") {
@@ -260,19 +282,26 @@ class MainActivity : ComponentActivity() {
                             },
                             onNavigateToFixedBudgetsScreen = { },
                             onNavigateToBudgetSummaryScreen = {
-                                navController.navigate("budgetSummary") {
-                                    popUpTo("budgetSummary") {
+                                navController.navigate("budgetSummaryScreen") {
+                                    popUpTo("budgetSummaryScreen") {
                                         inclusive = true
                                     }
                                 }
                             },
                             onNavigateToCalendarScreen = {
-                                navController.navigate("calendar") {
-                                    popUpTo("calendar") {
+                                navController.navigate("calendarScreen") {
+                                    popUpTo("calendarScreen") {
                                         inclusive = true
                                     }
                                 }
-                            }
+                            },
+                            onNavigateToGraphsScreen = {
+                                navController.navigate("graphsScreen") {
+                                    popUpTo("graphsScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
                         )
                     }
                     composable("editTransactionScreen/{index}?transaction={transaction}",
@@ -312,8 +341,8 @@ class MainActivity : ComponentActivity() {
                             }
                         } else if (index == 4) {
                             lambda = {
-                                navController.navigate("budgetSummary") {
-                                    popUpTo("budgetSummary") {
+                                navController.navigate("budgetSummaryScreen") {
+                                    popUpTo("budgetSummaryScreen") {
                                         inclusive = true
                                     }
                                 }
@@ -387,7 +416,7 @@ class MainActivity : ComponentActivity() {
                             budget = budgetObject
                         )
                     }
-                    composable("budgetSummary") {
+                    composable("budgetSummaryScreen") {
                         //Bugete fixe
                         BudgetSummaryComposableScreen(
                             lTrA, lTrP,
@@ -421,8 +450,15 @@ class MainActivity : ComponentActivity() {
                             },
                             onNavigateToBudgetSummaryScreen = { },
                             onNavigateToCalendarScreen = {
-                                navController.navigate("calendar") {
-                                    popUpTo("calendar") {
+                                navController.navigate("calendarScreen") {
+                                    popUpTo("calendarScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            onNavigateToGraphsScreen = {
+                                navController.navigate("graphsScreen") {
+                                    popUpTo("graphsScreen") {
                                         inclusive = true
                                     }
                                 }
@@ -430,7 +466,7 @@ class MainActivity : ComponentActivity() {
                             navController = navController
                         )
                     }
-                    composable("calendar") {
+                    composable("calendarScreen") {
                         //Bugete fixe
                         CalendarComposableScreen(
                             lTrA, lTrP,
@@ -463,13 +499,68 @@ class MainActivity : ComponentActivity() {
                                 }
                             },
                             onNavigateToBudgetSummaryScreen = {
-                                navController.navigate("budgetSummary") {
-                                    popUpTo("budgetSummary") {
+                                navController.navigate("budgetSummaryScreen") {
+                                    popUpTo("budgetSummaryScreen") {
                                         inclusive = true
                                     }
                                 }
                             },
-                            onNavigateToCalendarScreen = { }
+                            onNavigateToCalendarScreen = { },
+                            onNavigateToGraphsScreen = {
+                                navController.navigate("graphsScreen") {
+                                    popUpTo("graphsScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            }
+                        )
+                    }
+                    composable("graphsScreen") {
+                        //Bugete fixe
+                        GraphsComposableScreen(
+                            onNavigateToHomeScreen = {
+                                navController.navigate("homeScreen") {
+                                    popUpTo("homeScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            onNavigateToTransactionScreen = {
+                                navController.navigate("transactionScreen") {
+                                    popUpTo("transactionScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            onNavigateToCategoriesScreen = {
+                                navController.navigate("categoriesScreen") {
+                                    popUpTo("categoriesScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            onNavigateToFixedBudgetsScreen = {
+                                navController.navigate("fixedBudgetsScreen") {
+                                    popUpTo("fixedBudgetsScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            onNavigateToBudgetSummaryScreen = {
+                                navController.navigate("budgetSummaryScreen") {
+                                    popUpTo("budgetSummaryScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            onNavigateToCalendarScreen = {
+                                navController.navigate("calendarScreen") {
+                                    popUpTo("calendarScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                            onNavigateToGraphsScreen = { }
                         )
                     }
                     // Add more destinations similarly.

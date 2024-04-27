@@ -27,7 +27,8 @@ import com.barbuceanuconstantin.proiectlicenta.R
 
 @Composable
 fun MoreScreensMenu(onNavigateToBudgetSummaryScreen: () -> Unit,
-                    onNavigateToCalendarScreen: () -> Unit) {
+                    onNavigateToCalendarScreen: () -> Unit,
+                    onNavigateToGraphsScreen: () -> Unit) {
     val context = LocalContext.current
     var expanded by remember {
         mutableStateOf(false)
@@ -73,7 +74,10 @@ fun MoreScreensMenu(onNavigateToBudgetSummaryScreen: () -> Unit,
                     )
                 },
                 text = { Text(text = stringResource(id = R.string.grafice)) },
-                onClick = { Toast.makeText(context, string2, Toast.LENGTH_SHORT).show() }
+                onClick = {
+                            Toast.makeText(context, string2, Toast.LENGTH_SHORT).show()
+                            onNavigateToGraphsScreen()
+                }
             )
             DropdownMenuItem(
                 leadingIcon = {

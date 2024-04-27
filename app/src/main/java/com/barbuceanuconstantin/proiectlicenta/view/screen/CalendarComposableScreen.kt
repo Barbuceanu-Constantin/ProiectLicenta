@@ -44,7 +44,8 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
                              onNavigateToCategoriesScreen: () -> Unit,
                              onNavigateToFixedBudgetsScreen: () -> Unit,
                              onNavigateToBudgetSummaryScreen: () -> Unit,
-                             onNavigateToCalendarScreen: () -> Unit
+                             onNavigateToCalendarScreen: () -> Unit,
+                             onNavigateToGraphsScreen: () -> Unit
 ) {
     val dateMutable: MutableState<String> = remember { mutableStateOf(LocalDate.now().toString()) }
     val incomes: MutableState<Boolean> = remember { mutableStateOf(false) }
@@ -74,7 +75,9 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
             topBar = {
                 MainScreenToAppBar( id = R.string.calendar,
                                     onNavigateToBudgetSummaryScreen = onNavigateToBudgetSummaryScreen,
-                                    onNavigateToCalendarScreen = onNavigateToCalendarScreen)
+                                    onNavigateToCalendarScreen = onNavigateToCalendarScreen,
+                                    onNavigateToGraphsScreen = onNavigateToGraphsScreen
+                )
             }
         ) {innerPadding ->
             Column(

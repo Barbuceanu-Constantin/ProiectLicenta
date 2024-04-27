@@ -74,7 +74,8 @@ import java.util.Locale
 @Composable
 fun MainScreenToAppBar(id: Int, scrollBehavior: TopAppBarScrollBehavior? = null,
                        onNavigateToBudgetSummaryScreen: () -> Unit,
-                       onNavigateToCalendarScreen: () -> Unit) {
+                       onNavigateToCalendarScreen: () -> Unit,
+                       onNavigateToGraphsScreen: () -> Unit) {
     var actualScrollBehavior = scrollBehavior
     if (actualScrollBehavior == null) {
         actualScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -90,7 +91,8 @@ fun MainScreenToAppBar(id: Int, scrollBehavior: TopAppBarScrollBehavior? = null,
         },
         actions = {
             MoreScreensMenu(onNavigateToBudgetSummaryScreen = onNavigateToBudgetSummaryScreen,
-                            onNavigateToCalendarScreen = onNavigateToCalendarScreen)
+                            onNavigateToCalendarScreen = onNavigateToCalendarScreen,
+                            onNavigateToGraphsScreen = onNavigateToGraphsScreen)
         },
         scrollBehavior = actualScrollBehavior
     )

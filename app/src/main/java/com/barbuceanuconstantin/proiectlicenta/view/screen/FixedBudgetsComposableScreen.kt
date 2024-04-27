@@ -37,7 +37,8 @@ fun FixedBudgetsComposableScreen(
     onNavigateToCategoriesScreen: () -> Unit,
     onNavigateToFixedBudgetsScreen: () -> Unit,
     onNavigateToBudgetSummaryScreen: () -> Unit,
-    onNavigateToCalendarScreen: () -> Unit
+    onNavigateToCalendarScreen: () -> Unit,
+    onNavigateToGraphsScreen: () -> Unit
 ) {
     val buttons: MutableState<Boolean> = remember { mutableStateOf(false)}
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
@@ -58,7 +59,9 @@ fun FixedBudgetsComposableScreen(
         topBar = {
             MainScreenToAppBar( id = R.string.bugete, scrollBehavior = scrollBehavior,
                                 onNavigateToBudgetSummaryScreen = onNavigateToBudgetSummaryScreen,
-                                onNavigateToCalendarScreen = onNavigateToCalendarScreen)
+                                onNavigateToCalendarScreen = onNavigateToCalendarScreen,
+                                onNavigateToGraphsScreen = onNavigateToGraphsScreen
+            )
         },
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { innerPadding ->
