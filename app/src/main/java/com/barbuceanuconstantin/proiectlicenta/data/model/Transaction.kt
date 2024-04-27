@@ -44,6 +44,8 @@ import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
+import com.barbuceanuconstantin.proiectlicenta.returnToBudgetSummaryIndex
+import com.barbuceanuconstantin.proiectlicenta.returnToTransactionIndex
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
@@ -166,12 +168,12 @@ fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>,
 
                         if (!summary) {
                             navController.navigate(
-                                "editTransactionScreen/3?transaction={transaction}"
+                                "editTransactionScreen/$returnToTransactionIndex?transaction={transaction}"
                                     .replace(oldValue = "{transaction}", newValue = transactionJson)
                             )
                         } else {
                             navController.navigate(
-                                "editTransactionScreen/4?transaction={transaction}"
+                                "editTransactionScreen/$returnToBudgetSummaryIndex?transaction={transaction}"
                                     .replace(oldValue = "{transaction}", newValue = transactionJson)
                             )
                         }

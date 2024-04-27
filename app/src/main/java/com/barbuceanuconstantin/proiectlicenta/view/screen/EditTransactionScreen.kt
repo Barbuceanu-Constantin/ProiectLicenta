@@ -50,6 +50,9 @@ import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindowSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
+import com.barbuceanuconstantin.proiectlicenta.showAIndex
+import com.barbuceanuconstantin.proiectlicenta.showDIndex
+import com.barbuceanuconstantin.proiectlicenta.showPIndex
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
@@ -98,9 +101,9 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
             showD.value = true
     } else {
         when (index) {
-            0 -> showA.value = true
-            1 -> showP.value = true
-            2 -> showD.value = true
+            showAIndex -> showA.value = true
+            showPIndex -> showP.value = true
+            showDIndex -> showD.value = true
         }
     }
 
