@@ -128,13 +128,19 @@ fun EditCategoryScreen(category: Category? = null,
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        Button(onClick = { onNavigateToCategoryScreen() }) {
+                        Button( onClick = { onNavigateToCategoryScreen() },
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(start = dimensionResource(id = R.dimen.margin))) {
                             Text(stringResource(R.string.confirmare))
                         }
 
                         Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.gap)))
 
-                        Button(onClick = { onNavigateToCategoryScreen() }) {
+                        Button( onClick = { onNavigateToCategoryScreen() },
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(end = dimensionResource(id = R.dimen.margin))) {
                             Text(stringResource(R.string.renuntare))
                         }
                     }
