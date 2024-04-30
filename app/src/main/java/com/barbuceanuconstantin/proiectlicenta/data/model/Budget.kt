@@ -1,6 +1,5 @@
 package com.barbuceanuconstantin.proiectlicenta.data.model
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -21,7 +20,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -41,8 +39,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
 data class Budget(
-    var start_date: String,
-    var end_date: String,
+    val id: Int,
+    var startDate: String,
+    var endDate: String,
     var name: String,
     var value: Double,
     var category: String
@@ -143,7 +142,7 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>,
                                                     )
             ) {
                 HeaderBudget(text = budget.name)
-                InfoBudget(budget.value, budget.start_date, budget.end_date, budget.category)
+                InfoBudget(budget.value, budget.startDate, budget.endDate, budget.category)
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
         }

@@ -15,21 +15,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -45,7 +37,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextOverflow
 import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindowSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.R
@@ -87,17 +78,17 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
     val dateMutable: MutableState<String> = remember { mutableStateOf(date) }
 
     if (transaction != null) {
-        subcategory = transaction.subcategory
+        subcategory = transaction.category
         payee = transaction.payee
         valueSum = transaction.suma.toString()
         description = transaction.descriere
         dateMutable.value = transaction.data
 
-        if (listaSubcategorysActive.contains(transaction.subcategory))
+        if (listaSubcategorysActive.contains(transaction.category))
             showA.value = true
-        else if (listaSubcategorysPasive.contains(transaction.subcategory))
+        else if (listaSubcategorysPasive.contains(transaction.category))
             showP.value = true
-        else if (listaSubcategorysDatorii.contains(transaction.subcategory))
+        else if (listaSubcategorysDatorii.contains(transaction.category))
             showD.value = true
     } else {
         when (index) {

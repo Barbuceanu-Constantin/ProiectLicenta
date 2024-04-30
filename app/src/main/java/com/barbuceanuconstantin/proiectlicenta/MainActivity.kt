@@ -3,10 +3,7 @@ package com.barbuceanuconstantin.proiectlicenta
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.navigation.NavType
@@ -31,54 +28,53 @@ import com.barbuceanuconstantin.proiectlicenta.view.screen.PrincipalComposableSc
 import com.barbuceanuconstantin.proiectlicenta.view.screen.TransactionsComposableScreen
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-
+import dagger.hilt.android.AndroidEntryPoint
 
 //Branch ecrane-individuale//
 private var listSubcategoriesRevenue = subcategorysPredefiniteActive.map {
-    Category(name = it)
+    Category(id = 0, name = it, mainCategory = "Active")
 }.toMutableStateList()
 private var listSubcategoriesExpenses = subcategorysPredefinitePasive.map {
-    Category(name = it)
+    Category(id = 0, name = it, mainCategory = "Pasive")
 }.toMutableStateList()
 private var listSubcategoriesDebts = subcategorysPredefiniteDatorii.map {
-    Category(name = it)
+    Category(id = 0, name = it, mainCategory = "Datorii")
 }.toMutableStateList()
 fun initHardcodedBudgets(lBudgets: SnapshotStateList<Budget>) {
-    lBudgets.add(Budget("2024-04-21", "2024-04-21", "ccc", 2f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget("2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget(1,"2024-04-21", "2024-04-21", "ccc", 2f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget(2,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget(3,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget(4,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget(5,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget(6,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget(7,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget(8,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget(9,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+    lBudgets.add(Budget(10,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
 }
 fun initHardcodedTransactions(lTrA: SnapshotStateList<Transaction>,
                               lTrP: SnapshotStateList<Transaction>,
                               lTrD: SnapshotStateList<Transaction>) {
-    lTrA.add(Transaction(suma = 2F.toDouble(), data = "", descriere = "fd", payee = "fd", subcategory = "Salariu"))
-    lTrA.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Salariu"))
-    lTrA.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Salariu"))
-    lTrA.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Salariu"))
-    lTrA.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Salariu"))
+    lTrA.add(Transaction(suma = 2F.toDouble(), data = "", descriere = "fd", payee = "fd", category = "Salariu", id = 1))
+    lTrA.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Salariu", id = 2))
+    lTrA.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Salariu", id = 3))
+    lTrA.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Salariu", id = 4))
+    lTrA.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Salariu", id = 5))
 
-    lTrP.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Mancare"))
-    lTrP.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Mancare"))
-    lTrP.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Mancare"))
-    lTrP.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Mancare"))
-    lTrP.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Mancare"))
+    lTrP.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Mancare", id = 1))
+    lTrP.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Mancare", id = 2))
+    lTrP.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Mancare", id = 3))
+    lTrP.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Mancare", id = 4))
+    lTrP.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Mancare", id = 5))
 
-    lTrD.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Credit1"))
-    lTrD.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Credit1"))
-    lTrD.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Credit1"))
-    lTrD.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Credit1"))
-    lTrD.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", subcategory = "Credit1"))
+    lTrD.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Credit1", id = 1))
+    lTrD.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Credit1", id = 2))
+    lTrD.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Credit1", id = 3))
+    lTrD.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Credit1", id = 4))
+    lTrD.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Credit1", id = 5))
 }
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -53,9 +52,10 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
 data class Transaction(
+    val id: Int,
     var suma: Double,
     var descriere: String,
-    var subcategory: String,
+    var category: String,
     var data: String,
     var payee: String
 )
@@ -67,11 +67,11 @@ private fun Tranzactie(transaction: Transaction,
                        index: Int,
                        id: MutableState<Int>) {
     val color: Color =
-        if (subcategorysPredefiniteActive.contains(transaction.subcategory))
+        if (subcategorysPredefiniteActive.contains(transaction.category))
             colorResource(id = R.color.light_cream_yellow)
-        else if (subcategorysPredefinitePasive.contains(transaction.subcategory))
+        else if (subcategorysPredefinitePasive.contains(transaction.category))
             colorResource(id = R.color.light_cream_red)
-        else if (subcategorysPredefiniteDatorii.contains(transaction.subcategory))
+        else if (subcategorysPredefiniteDatorii.contains(transaction.category))
             colorResource(id = R.color.light_cream_blue) else colorResource(id = R.color.light_cream_gray)
 
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -92,7 +92,7 @@ private fun Tranzactie(transaction: Transaction,
         ) {
             Column(modifier = Modifier.background(color)) {
                 Text(
-                    text = "${transaction.subcategory} ---> ${transaction.suma} RON", fontSize = 18.sp,
+                    text = "${transaction.category} ---> ${transaction.suma} RON", fontSize = 18.sp,
                     fontWeight = FontWeight.Bold, modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = dimensionResource(id = R.dimen.margin))

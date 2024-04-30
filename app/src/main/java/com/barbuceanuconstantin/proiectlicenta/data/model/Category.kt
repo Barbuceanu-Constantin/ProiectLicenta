@@ -39,7 +39,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
 data class Category(
-    val name: String
+    val id: Int,
+    var name: String,
+    var mainCategory: String,
 )
 
 private var listaSubcategorysActive = subcategorysPredefiniteActive.toMutableList()

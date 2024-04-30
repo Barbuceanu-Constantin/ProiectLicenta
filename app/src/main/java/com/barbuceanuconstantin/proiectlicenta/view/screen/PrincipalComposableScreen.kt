@@ -34,10 +34,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.barbuceanuconstantin.proiectlicenta.Balance
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.di.PrincipalScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MoreScreensMenu
 
@@ -114,8 +116,9 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
                               onNavigateToBudgetSummaryScreen: () -> Unit,
                               onNavigateToCalendarScreen: () -> Unit,
                               onNavigateToGraphsScreen: () -> Unit,
-                              onNavigateToMementosScreen: () -> Unit) {
-    var selectedIndex by remember { mutableStateOf(-1) }
+                              onNavigateToMementosScreen: () -> Unit,
+                              principalScreenViewModel: PrincipalScreenViewModel = hiltViewModel()) {
+    val selectedIndex = principalScreenViewModel.principalScreenUIState.selectedIndex
     val options = listOf(
         stringResource(id = R.string.Venituri),
         stringResource(id = R.string.Cheltuieli),
@@ -141,9 +144,7 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
                 }
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(innerPadding),
+            modifier = Modifier.fillMaxWidth().padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -173,10 +174,10 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
                             count = options.size
                         ),
                         onClick = {
-                            selectedIndex = index
-                            onNavigateToEditTransactionScreen(selectedIndex)
+                            selectedIndex.value = index
+                            onNavigateToEditTransactionScreen(selectedIndex.value)
                         },
-                        selected = index == selectedIndex,
+                        selected = index == selectedIndex.value,
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle))
                     ) {
                         Row {

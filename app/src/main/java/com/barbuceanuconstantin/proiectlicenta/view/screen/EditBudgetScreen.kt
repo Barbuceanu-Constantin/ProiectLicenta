@@ -24,8 +24,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -83,8 +81,8 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
     val keyboardController = LocalSoftwareKeyboardController.current
 
     if (budget != null) {
-        dateMutable1.value = budget.start_date
-        dateMutable2.value = budget.end_date
+        dateMutable1.value = budget.startDate
+        dateMutable2.value = budget.endDate
         filledText = budget.name
         category = budget.category
         valueSum = budget.value.toString()
