@@ -39,6 +39,7 @@ import com.barbuceanuconstantin.proiectlicenta.Balance
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.di.PrincipalScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.di.PrincipalScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MoreScreensMenu
@@ -117,8 +118,9 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
                               onNavigateToCalendarScreen: () -> Unit,
                               onNavigateToGraphsScreen: () -> Unit,
                               onNavigateToMementosScreen: () -> Unit,
-                              principalScreenViewModel: PrincipalScreenViewModel = hiltViewModel()) {
-    val selectedIndex = principalScreenViewModel.principalScreenUIState.selectedIndex
+                              principalScreenUIState: PrincipalScreenUIState
+) {
+    val selectedIndex = principalScreenUIState.selectedIndex
     val options = listOf(
         stringResource(id = R.string.Venituri),
         stringResource(id = R.string.Cheltuieli),

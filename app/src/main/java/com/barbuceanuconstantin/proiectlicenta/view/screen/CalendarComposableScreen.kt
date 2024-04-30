@@ -55,11 +55,13 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
 
     if (incomes.value || expenses.value) {
         if (incomes.value && !expenses.value) {
-            CalendarSummaryTranzactiiLazyColumn(tranzactii = lTrA, backButton = incomes,
+            CalendarSummaryTranzactiiLazyColumn(
+                tranzactii = lTrA, backButton = incomes,
                                                 incomesOrExpenses = true, date = dateMutable,
                                                 buttons = buttons)
         } else if (!incomes.value && expenses.value) {
-            CalendarSummaryTranzactiiLazyColumn(tranzactii = lTrP, backButton = expenses,
+            CalendarSummaryTranzactiiLazyColumn(
+                tranzactii = lTrP, backButton = expenses,
                                                 incomesOrExpenses = false, date = dateMutable,
                                                 buttons = buttons)
         }

@@ -6,21 +6,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
@@ -29,7 +22,8 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
-import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MoreScreensMenu
+import com.barbuceanuconstantin.proiectlicenta.di.TransactionsScreenUIState
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,11 +39,12 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                  onNavigateToBudgetSummaryScreen: () -> Unit,
                                  onNavigateToCalendarScreen: () -> Unit,
                                  onNavigateToGraphsScreen: () -> Unit,
-                                 onNavigateToMementosScreen: () -> Unit) {
-    val showA: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val buttons: MutableState<Boolean> = remember { mutableStateOf(false)}
+                                 onNavigateToMementosScreen: () -> Unit,
+                                 transactionsScreenUIState: TransactionsScreenUIState) {
+    val showA: MutableState<Boolean> = transactionsScreenUIState.showA
+    val showP: MutableState<Boolean> = transactionsScreenUIState.showP
+    val showD: MutableState<Boolean> = transactionsScreenUIState.showD
+    val buttons: MutableState<Boolean> = transactionsScreenUIState.buttons
 
     Scaffold(
         floatingActionButton = {

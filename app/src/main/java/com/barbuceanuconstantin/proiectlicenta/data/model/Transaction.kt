@@ -50,6 +50,7 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.flow.MutableStateFlow
 
 data class Transaction(
     val id: Int,
@@ -62,10 +63,11 @@ data class Transaction(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun Tranzactie(transaction: Transaction,
-                       buttons: MutableState<Boolean>,
-                       index: Int,
-                       id: MutableState<Int>) {
+private fun Tranzactie(
+    transaction: Transaction,
+    buttons: MutableState<Boolean>,
+    index: Int,
+    id: MutableState<Int>) {
     val color: Color =
         if (subcategorysPredefiniteActive.contains(transaction.category))
             colorResource(id = R.color.light_cream_yellow)
@@ -127,10 +129,11 @@ private fun Tranzactie(transaction: Transaction,
 }
 
 @Composable
-fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>,
-                         buttons: MutableState<Boolean>,
-                         navController: NavController,
-                         summary: Boolean = false,
+fun TranzactiiLazyColumn(
+    tranzactii: SnapshotStateList<Transaction>,
+    buttons: MutableState<Boolean>,
+    navController: NavController,
+    summary: Boolean = false,
 ) {
     val modifier =  if (summary)
                         Modifier.fillMaxHeight(0.9F)
@@ -208,11 +211,13 @@ fun TranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>,
 }
 
 @Composable
-fun CalendarSummaryTranzactiiLazyColumn(tranzactii: SnapshotStateList<Transaction>,
-                                        backButton: MutableState<Boolean>,
-                                        incomesOrExpenses: Boolean,
-                                        date: MutableState<String>,
-                                        buttons: MutableState<Boolean>) {
+fun CalendarSummaryTranzactiiLazyColumn(
+    tranzactii: SnapshotStateList<Transaction>,
+    backButton: MutableState<Boolean>,
+    incomesOrExpenses: Boolean,
+    date: MutableState<String>,
+    buttons: MutableState<Boolean>
+) {
 
     val modifier: Modifier = Modifier.fillMaxHeight(0.9F)
     val id: MutableState<Int> = remember { mutableIntStateOf(-1) }

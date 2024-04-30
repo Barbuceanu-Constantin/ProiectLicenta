@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,6 +15,8 @@ import androidx.navigation.navArgument
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.data.model.Category
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
+import com.barbuceanuconstantin.proiectlicenta.di.PrincipalScreenViewModel
+import com.barbuceanuconstantin.proiectlicenta.di.TransactionsScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.ui.theme.ProiectLicentaTheme
 import com.barbuceanuconstantin.proiectlicenta.view.screen.BudgetSummaryComposableScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.CalendarComposableScreen
@@ -92,6 +95,8 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = "homeScreen") {
                     composable("homeScreen")
                     {
+                        val viewModel = hiltViewModel<PrincipalScreenViewModel>()
+                        val state = viewModel.principalScreenUIState
                         //Ecran principal
                         PrincipalComposableScreen(
                             onNavigateToEditTransactionScreen = {index ->
@@ -146,10 +151,13 @@ class MainActivity : ComponentActivity() {
                                         inclusive = true
                                     }
                                 }
-                            }
+                            },
+                            principalScreenUIState = state,
                         )
                     }
                     composable("transactionScreen") {
+                        val viewModel = hiltViewModel<TransactionsScreenViewModel>()
+                        val state = viewModel.transactionsScreenUIState
                         //Tranzactii
                         TransactionsComposableScreen(
                             lTrA, lTrP, lTrD, navController,
@@ -205,7 +213,8 @@ class MainActivity : ComponentActivity() {
                                         inclusive = true
                                     }
                                 }
-                            }
+                            },
+                            transactionsScreenUIState = state,
                         )
                     }
                     composable("categoriesScreen") {
