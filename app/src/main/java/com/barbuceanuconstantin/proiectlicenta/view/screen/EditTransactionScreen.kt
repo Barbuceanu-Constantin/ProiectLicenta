@@ -150,6 +150,13 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
                 ) {
                     subcategory = it
                 }
+            } else {
+                CategoriesMenu(
+                    lSubcategorys = listaSubcategorysActive,
+                    subcategory = subcategory
+                ) {
+                    subcategory = it
+                }
             }
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
