@@ -17,8 +17,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +34,8 @@ import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.CalendarSummaryTranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
+import com.barbuceanuconstantin.proiectlicenta.di.CalendarScreenUIState
+import com.barbuceanuconstantin.proiectlicenta.di.CategoriesScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import java.time.LocalDate
 
@@ -46,12 +50,13 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
                              onNavigateToBudgetSummaryScreen: () -> Unit,
                              onNavigateToCalendarScreen: () -> Unit,
                              onNavigateToGraphsScreen: () -> Unit,
-                             onNavigateToMementosScreen: () -> Unit
+                             onNavigateToMementosScreen: () -> Unit,
+                             calendarScreenUIState: CalendarScreenUIState
 ) {
-    val dateMutable: MutableState<String> = remember { mutableStateOf(LocalDate.now().toString()) }
-    val incomes: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val expenses: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val buttons: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val dateMutable: MutableState<String> = calendarScreenUIState.dateMutable
+    val incomes: MutableState<Boolean> = calendarScreenUIState.incomes
+    val expenses: MutableState<Boolean> = calendarScreenUIState.expenses
+    val buttons: MutableState<Boolean> = calendarScreenUIState.buttons
 
     if (incomes.value || expenses.value) {
         if (incomes.value && !expenses.value) {

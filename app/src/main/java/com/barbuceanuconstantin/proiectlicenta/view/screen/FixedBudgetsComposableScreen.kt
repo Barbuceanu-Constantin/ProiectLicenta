@@ -25,6 +25,7 @@ import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.BudgetsLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.di.FixedBudgetsScreenUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,9 +40,10 @@ fun FixedBudgetsComposableScreen(
     onNavigateToBudgetSummaryScreen: () -> Unit,
     onNavigateToCalendarScreen: () -> Unit,
     onNavigateToGraphsScreen: () -> Unit,
-    onNavigateToMementosScreen: () -> Unit
+    onNavigateToMementosScreen: () -> Unit,
+    fixedBudgetsScreenUIState: FixedBudgetsScreenUIState
 ) {
-    val buttons: MutableState<Boolean> = remember { mutableStateOf(false)}
+    val buttons: MutableState<Boolean> = fixedBudgetsScreenUIState.buttons
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Scaffold(

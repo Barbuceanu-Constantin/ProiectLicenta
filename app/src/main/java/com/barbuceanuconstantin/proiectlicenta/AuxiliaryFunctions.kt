@@ -381,6 +381,7 @@ fun SegmentedButton3(
     first: MutableState<Boolean>,
     second: MutableState<Boolean>,
     third: MutableState<Boolean>,
+    updateState: (Boolean, Boolean, Boolean) -> Unit = { _, _, _ -> }
 ) {
     val checkedList = remember { mutableStateListOf<Int>() }
     val options = listOf(
@@ -407,14 +408,17 @@ fun SegmentedButton3(
                         when (index) {
                             0 -> {
                                 first.value = false
+                                updateState(false, second.value, third.value)
                             }
 
                             1 -> {
                                 second.value = false
+                                updateState(first.value, false, third.value)
                             }
 
                             2 -> {
                                 third.value = false
+                                updateState(first.value, second.value, false)
                             }
                         }
                     } else {
@@ -422,14 +426,17 @@ fun SegmentedButton3(
                         when (index) {
                             0 -> {
                                 first.value = true
+                                updateState(true, second.value, third.value)
                             }
 
                             1 -> {
                                 second.value = true
+                                updateState(first.value, true, third.value)
                             }
 
                             2 -> {
                                 third.value = true
+                                updateState(first.value, second.value, true)
                             }
                         }
                     }

@@ -696,3 +696,8 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //)
 
 //expanded1 || (selectedItem != "" && filteredOptions.size > 1)
+
+//val dateTime = LocalDateTime.now()
+//val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+//val formattedDate = dateTime.format(dateFormatter)
+//val date by remember { mutableStateOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))) }

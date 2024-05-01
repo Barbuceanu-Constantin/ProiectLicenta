@@ -9,8 +9,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -22,6 +20,7 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
 import com.barbuceanuconstantin.proiectlicenta.data.model.Category
 import com.barbuceanuconstantin.proiectlicenta.data.model.CategoriesLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.di.CategoriesScreenUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,10 +36,11 @@ fun CategoriesComposableScreen(lSA: MutableList<Category>,
                                onNavigateToBudgetSummaryScreen: () -> Unit,
                                onNavigateToCalendarScreen: () -> Unit,
                                onNavigateToGraphsScreen: () -> Unit,
-                               onNavigateToMementosScreen: () -> Unit) {
-    val showA: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
+                               onNavigateToMementosScreen: () -> Unit,
+                               categoriesScreenUIState: CategoriesScreenUIState) {
+    val showA: MutableState<Boolean> = categoriesScreenUIState.showA
+    val showP: MutableState<Boolean> = categoriesScreenUIState.showP
+    val showD: MutableState<Boolean> = categoriesScreenUIState.showD
 
     Scaffold(
         floatingActionButton = {

@@ -9,6 +9,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
@@ -23,7 +25,6 @@ import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.di.TransactionsScreenUIState
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,11 +41,21 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                  onNavigateToCalendarScreen: () -> Unit,
                                  onNavigateToGraphsScreen: () -> Unit,
                                  onNavigateToMementosScreen: () -> Unit,
-                                 transactionsScreenUIState: TransactionsScreenUIState) {
-    val showA: MutableState<Boolean> = transactionsScreenUIState.showA
-    val showP: MutableState<Boolean> = transactionsScreenUIState.showP
-    val showD: MutableState<Boolean> = transactionsScreenUIState.showD
-    val buttons: MutableState<Boolean> = transactionsScreenUIState.buttons
+                                 transactionsScreenUIState: TransactionsScreenUIState,
+                                 updateStateMainScreen: (Boolean, Boolean, Boolean) -> Unit,
+                                 updateStateButtons: (Boolean) -> Unit) {
+    val showA: MutableState<Boolean> = remember {
+        mutableStateOf(transactionsScreenUIState.showA)
+    }
+    val showP: MutableState<Boolean> = remember {
+        mutableStateOf(transactionsScreenUIState.showP)
+    }
+    val showD: MutableState<Boolean> = remember {
+        mutableStateOf(transactionsScreenUIState.showD)
+    }
+    val buttons: MutableState<Boolean> = remember {
+        mutableStateOf(transactionsScreenUIState.buttons)
+    }
 
     Scaffold(
         floatingActionButton = {
@@ -73,7 +84,7 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
                 horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.margin_extra)))
 
-            SegmentedButton3(first = showA, second = showP, third = showD)
+            SegmentedButton3(first = showA, second = showP, third = showD, updateStateMainScreen)
 
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.margin_extra)))
 
@@ -82,42 +93,49 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                         tranzactii = lTrA,
                                         buttons = buttons,
                                         navController = navController,
+                                        updateStateButtons = updateStateButtons
                 )
             } else if (showP.value && !showA.value && !showD.value) {
                 TranzactiiLazyColumn(
                                         tranzactii = lTrP,
                                         buttons = buttons,
                                         navController = navController,
+                                        updateStateButtons = updateStateButtons
                 )
             } else if (showD.value && !showA.value && !showP.value) {
                 TranzactiiLazyColumn(
                                         tranzactii = lTrD,
                                         buttons = buttons,
                                         navController = navController,
+                                        updateStateButtons = updateStateButtons
                 )
             } else if (showA.value && showP.value && showD.value) {
                 TranzactiiLazyColumn(
                                         tranzactii = (lTrA + lTrP + lTrD).toMutableStateList(),
                                         buttons = buttons,
                                         navController = navController,
+                                        updateStateButtons = updateStateButtons
                 )
             } else  if (showA.value && showP.value && !showD.value) {
                 TranzactiiLazyColumn(
                                         tranzactii = (lTrA + lTrP).toMutableStateList(),
                                         buttons = buttons,
-                                        navController = navController
+                                        navController = navController,
+                                        updateStateButtons = updateStateButtons
                 )
             } else if (showA.value && showD.value && !showP.value) {
                 TranzactiiLazyColumn(
                                         tranzactii = (lTrA + lTrD).toMutableStateList(),
                                         buttons = buttons,
                                         navController = navController,
+                                        updateStateButtons = updateStateButtons
                 )
             } else if (!showA.value && showP.value && showD.value ) {
                 TranzactiiLazyColumn(
                                         tranzactii = (lTrP + lTrD).toMutableStateList(),
                                         buttons = buttons,
                                         navController = navController,
+                                        updateStateButtons = updateStateButtons
                 )
             }
         }

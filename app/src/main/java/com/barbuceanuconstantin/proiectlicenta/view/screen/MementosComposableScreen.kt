@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.di.MementosScreenUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,7 +24,8 @@ fun MementosComposableScreen(modifier: Modifier = Modifier,
                              onNavigateToBudgetSummaryScreen: () -> Unit,
                              onNavigateToCalendarScreen: () -> Unit,
                              onNavigateToGraphsScreen: () -> Unit,
-                             onNavigateToMementosScreen: () -> Unit) {
+                             onNavigateToMementosScreen: () -> Unit,
+                             mementosScreenUIState: MementosScreenUIState) {
     Scaffold (
                 bottomBar = {
                     BottomNavigationBar(

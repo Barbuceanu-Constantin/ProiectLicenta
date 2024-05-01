@@ -15,9 +15,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
@@ -40,6 +37,7 @@ import com.barbuceanuconstantin.proiectlicenta.TimeIntervalSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.getStartAndEndDateOfWeek
 import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -99,18 +97,16 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                   onNavigateToCalendarScreen: () -> Unit,
                                   onNavigateToGraphsScreen: () -> Unit,
                                   onNavigateToMementosScreen: () -> Unit,
-                                  navController: NavController) {
-    val daily: MutableState<Boolean> = remember { mutableStateOf(true) }
-    val weekly: MutableState<Boolean> = remember { mutableStateOf(true) }
-    val monthly: MutableState<Boolean> = remember { mutableStateOf(true) }
-    val dateTime = LocalDateTime.now()
-    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    val formattedDate = dateTime.format(dateFormatter)
-    val date by remember { mutableStateOf(formattedDate) }
-    val dateMutable: MutableState<String> = remember { mutableStateOf(date) }
-    val monthMutable : MutableState<String> = remember { mutableStateOf("") }
-    val buttons: MutableState<Boolean> = remember { mutableStateOf(false)}
-    val dateButton = remember { mutableStateOf(false) }
+                                  navController: NavController,
+                                  budgetSummaryScreenUIState: BudgetSummaryScreenUIState) {
+    val daily: MutableState<Boolean> = budgetSummaryScreenUIState.daily
+    val weekly: MutableState<Boolean> = budgetSummaryScreenUIState.weekly
+    val monthly: MutableState<Boolean> = budgetSummaryScreenUIState.monthly
+
+    val dateMutable: MutableState<String> = budgetSummaryScreenUIState.dateMutable
+    val monthMutable : MutableState<String> = budgetSummaryScreenUIState.monthMutable
+    val buttons: MutableState<Boolean> = budgetSummaryScreenUIState.buttons
+    val dateButton = budgetSummaryScreenUIState.dateButton
 
     // Obtain the context from your activity or fragment
     val context: Context = LocalContext.current

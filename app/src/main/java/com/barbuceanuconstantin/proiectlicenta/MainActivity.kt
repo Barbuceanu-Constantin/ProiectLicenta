@@ -15,6 +15,12 @@ import androidx.navigation.navArgument
 import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.data.model.Category
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
+import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenViewModel
+import com.barbuceanuconstantin.proiectlicenta.di.CalendarScreenViewModel
+import com.barbuceanuconstantin.proiectlicenta.di.CategoriesScreenViewModel
+import com.barbuceanuconstantin.proiectlicenta.di.FixedBudgetsScreenViewModel
+import com.barbuceanuconstantin.proiectlicenta.di.GraphsScreenViewModel
+import com.barbuceanuconstantin.proiectlicenta.di.MementosScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.PrincipalScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.TransactionsScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.ui.theme.ProiectLicentaTheme
@@ -157,7 +163,16 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("transactionScreen") {
                         val viewModel = hiltViewModel<TransactionsScreenViewModel>()
-                        val state = viewModel.transactionsScreenUIState
+                        val state = viewModel.stateFlow.value
+
+                        // Define a function that can be called to update the state
+                        val updateStateMainScreen: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
+                            viewModel.onStateChangedMainScreen(showA, showP, showD)
+                        }
+                        val updateStateButtons: (Boolean) -> Unit = { buttons ->
+                            viewModel.onStateChangedButtons(buttons)
+                        }
+
                         //Tranzactii
                         TransactionsComposableScreen(
                             lTrA, lTrP, lTrD, navController,
@@ -215,9 +230,14 @@ class MainActivity : ComponentActivity() {
                                 }
                             },
                             transactionsScreenUIState = state,
+                            updateStateMainScreen = updateStateMainScreen,
+                            updateStateButtons = updateStateButtons
                         )
                     }
                     composable("categoriesScreen") {
+                        val viewModel = hiltViewModel<CategoriesScreenViewModel>()
+                        val state = viewModel.categoriesScreenUIState
+
                         //Categorii
                         CategoriesComposableScreen(
                             listSubcategoriesRevenue,
@@ -276,10 +296,14 @@ class MainActivity : ComponentActivity() {
                                         inclusive = true
                                     }
                                 }
-                            }
+                            },
+                            categoriesScreenUIState = state
                         )
                     }
                     composable("fixedBudgetsScreen") {
+                        val viewModel = hiltViewModel<FixedBudgetsScreenViewModel>()
+                        val state = viewModel.fixedBudgetsScreenUIState
+
                         //Bugete fixe
                         FixedBudgetsComposableScreen(
                             lBudgets, navController,
@@ -335,7 +359,8 @@ class MainActivity : ComponentActivity() {
                                         inclusive = true
                                     }
                                 }
-                            }
+                            },
+                            fixedBudgetsScreenUIState = state
                         )
                     }
                     composable("editTransactionScreen/{index}?transaction={transaction}",
@@ -451,6 +476,9 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable("budgetSummaryScreen") {
+                        val viewModel = hiltViewModel<BudgetSummaryScreenViewModel>()
+                        val state = viewModel.budgetsSummaryScreenUIState
+
                         //Bugete fixe
                         BudgetSummaryComposableScreen(
                             lTrA, lTrP,
@@ -504,10 +532,14 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             },
-                            navController = navController
+                            navController = navController,
+                            budgetSummaryScreenUIState = state
                         )
                     }
                     composable("calendarScreen") {
+                        val viewModel = hiltViewModel<CalendarScreenViewModel>()
+                        val state = viewModel.calendarScreenUIState
+
                         //Bugete fixe
                         CalendarComposableScreen(
                             lTrA, lTrP,
@@ -560,10 +592,14 @@ class MainActivity : ComponentActivity() {
                                         inclusive = true
                                     }
                                 }
-                            }
+                            },
+                            calendarScreenUIState = state
                         )
                     }
                     composable("graphsScreen") {
+                        val viewModel = hiltViewModel<GraphsScreenViewModel>()
+                        val state = viewModel.graphsScreenUIState
+
                         //Bugete fixe
                         GraphsComposableScreen(
                             onNavigateToHomeScreen = {
@@ -615,10 +651,14 @@ class MainActivity : ComponentActivity() {
                                         inclusive = true
                                     }
                                 }
-                            }
+                            },
+                            graphsScreenUIState = state
                         )
                     }
                     composable("mementosScreen") {
+                        val viewModel = hiltViewModel<MementosScreenViewModel>()
+                        val state = viewModel.mementosScreenUIState
+
                         //Bugete fixe
                         MementosComposableScreen(
                             onNavigateToHomeScreen = {
@@ -670,7 +710,8 @@ class MainActivity : ComponentActivity() {
                                         inclusive = true
                                     }
                                 }
-                            }
+                            },
+                            mementosScreenUIState = state
                         )
                     }
                     // Add more destinations similarly.

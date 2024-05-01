@@ -134,6 +134,7 @@ fun TranzactiiLazyColumn(
     buttons: MutableState<Boolean>,
     navController: NavController,
     summary: Boolean = false,
+    updateStateButtons: (Boolean) -> Unit = { _ -> }
 ) {
     val modifier =  if (summary)
                         Modifier.fillMaxHeight(0.9F)
@@ -153,6 +154,7 @@ fun TranzactiiLazyColumn(
         AlertDialog(
             onDismissRequest = {
                 buttons.value = !buttons.value
+                updateStateButtons(!buttons.value)
             },
             title = {
                 Text(text = stringResource(id = R.string.selectare_actiune))
@@ -166,6 +168,7 @@ fun TranzactiiLazyColumn(
                 Button(
                     onClick = {
                         buttons.value = !buttons.value
+                        updateStateButtons(!buttons.value)
                         val gson: Gson = GsonBuilder().create()
                         val transactionJson = gson.toJson(transactionObj)
 
@@ -195,6 +198,7 @@ fun TranzactiiLazyColumn(
                 Button(
                     onClick = {
                         buttons.value = !buttons.value
+                        updateStateButtons(!buttons.value)
                     }
                 ) {
                    Row {
