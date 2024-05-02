@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import com.barbuceanuconstantin.proiectlicenta.Balance
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.Calendar
+import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.CalendarSummaryTranzactiiLazyColumn
@@ -51,24 +52,60 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
                              onNavigateToCalendarScreen: () -> Unit,
                              onNavigateToGraphsScreen: () -> Unit,
                              onNavigateToMementosScreen: () -> Unit,
-                             calendarScreenUIState: CalendarScreenUIState
+                             calendarScreenUIState: CalendarScreenUIState,
+                             updateDate: (String) -> Unit,
+                             updateIncomesExpenses: (Boolean, Boolean) -> Unit,
+                             updateButtons: (Boolean) -> Unit,
 ) {
-    val dateMutable: MutableState<String> = calendarScreenUIState.dateMutable
-    val incomes: MutableState<Boolean> = calendarScreenUIState.incomes
-    val expenses: MutableState<Boolean> = calendarScreenUIState.expenses
-    val buttons: MutableState<Boolean> = calendarScreenUIState.buttons
+    val dateMutable: MutableState<String> = remember {
+        mutableStateOf(calendarScreenUIState.date)
+    }
+    val incomes: MutableState<Boolean> = remember {
+        mutableStateOf(calendarScreenUIState.incomes)
+    }
+    val expenses: MutableState<Boolean> = remember {
+        mutableStateOf(calendarScreenUIState.expenses)
+    }
+    val buttons: MutableState<Boolean> = remember {
+        mutableStateOf(calendarScreenUIState.buttons)
+    }
 
     if (incomes.value || expenses.value) {
-        if (incomes.value && !expenses.value) {
-            CalendarSummaryTranzactiiLazyColumn(
-                tranzactii = lTrA, backButton = incomes,
-                                                incomesOrExpenses = true, date = dateMutable,
-                                                buttons = buttons)
-        } else if (!incomes.value && expenses.value) {
-            CalendarSummaryTranzactiiLazyColumn(
-                tranzactii = lTrP, backButton = expenses,
-                                                incomesOrExpenses = false, date = dateMutable,
-                                                buttons = buttons)
+        Scaffold (
+            topBar = {
+                EditTopAppBar(
+                    id = R.string.situatie_zilnica,
+                    onNavigateToBackScreen = onNavigateToCalendarScreen,
+                    onNavigateToHomeScreen = onNavigateToHomeScreen
+                )
+            }
+        ) { innerPadding ->
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize().padding(innerPadding)
+            ) {
+                if (incomes.value && !expenses.value) {
+                    CalendarSummaryTranzactiiLazyColumn(
+                        tranzactii = lTrA,
+                        backButton = incomes,
+                        incomesOrExpenses = true,
+                        date = dateMutable,
+                        buttons = buttons,
+                        updateButtons = updateButtons,
+                        updateIncomesExpenses = updateIncomesExpenses
+                    )
+                } else if (!incomes.value && expenses.value) {
+                    CalendarSummaryTranzactiiLazyColumn(
+                        tranzactii = lTrP,
+                        backButton = expenses,
+                        incomesOrExpenses = false,
+                        date = dateMutable,
+                        buttons = buttons,
+                        updateButtons = updateButtons,
+                        updateIncomesExpenses = updateIncomesExpenses
+                    )
+                }
+            }
         }
     } else {
         Scaffold(
@@ -88,7 +125,7 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                     onNavigateToMementosScreen = onNavigateToMementosScreen
                 )
             }
-        ) {innerPadding ->
+        ) { innerPadding ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxSize().padding(innerPadding)
@@ -101,6 +138,7 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
                     Calendar(
                         onDateSelected = { selectedDate ->
                             dateMutable.value = selectedDate
+                            updateDate(selectedDate)
                         }
                     )
                 }
@@ -125,6 +163,7 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
                             .background(color = colorResource(R.color.light_cream_yellow))
                             .clickable {
                                 incomes.value = true
+                                updateIncomesExpenses(true, false)
                             }
                     ) {
                         Text(
@@ -143,6 +182,7 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
                             .background(color = colorResource(R.color.light_cream_red))
                             .clickable {
                                 expenses.value = true
+                                updateIncomesExpenses(false, true)
                             }
                     ) {
                         Text(

@@ -67,7 +67,30 @@ private fun Tranzactie(
     transaction: Transaction,
     buttons: MutableState<Boolean>,
     index: Int,
-    id: MutableState<Int>) {
+    id: MutableState<Int>,
+    updateStateButtons: (Boolean) -> Unit = { _ -> },
+    modifyOption: Boolean = true) {
+
+    val modifier = if (modifyOption) {
+        Modifier.combinedClickable(
+                                    onClick = { },
+                                    onLongClick = {
+                                        updateStateButtons(!buttons.value)
+                                        buttons.value = !buttons.value
+                                        id.value = index
+                                    },
+                )
+                .padding(
+                    start = dimensionResource(id = R.dimen.margin),
+                    end = dimensionResource(id = R.dimen.margin)
+                )
+    } else {
+       Modifier.padding(
+                        start = dimensionResource(id = R.dimen.margin),
+                        end = dimensionResource(id = R.dimen.margin)
+                        )
+    }
+
     val color: Color =
         if (subcategorysPredefiniteActive.contains(transaction.category))
             colorResource(id = R.color.light_cream_yellow)
@@ -79,18 +102,7 @@ private fun Tranzactie(
     Column(modifier = Modifier.fillMaxWidth()) {
         Card(
             shape = RoundedCornerShape(dimensionResource(id = R.dimen.medium_line)),
-            modifier = Modifier
-                .combinedClickable(
-                    onClick = { },
-                    onLongClick = {
-                                    buttons.value = !buttons.value
-                                    id.value = index
-                                  },
-                )
-                .padding(
-                    start = dimensionResource(id = R.dimen.margin),
-                    end = dimensionResource(id = R.dimen.margin)
-                )
+            modifier = modifier
         ) {
             Column(modifier = Modifier.background(color)) {
                 Text(
@@ -145,7 +157,7 @@ fun TranzactiiLazyColumn(
 
     LazyColumn(modifier = modifier) {
         itemsIndexed(tranzactii) {
-            index, tranzactie -> Tranzactie(tranzactie, buttons, index, id)
+            index, tranzactie -> Tranzactie(tranzactie, buttons, index, id, updateStateButtons)
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
         }
     }
@@ -220,7 +232,9 @@ fun CalendarSummaryTranzactiiLazyColumn(
     backButton: MutableState<Boolean>,
     incomesOrExpenses: Boolean,
     date: MutableState<String>,
-    buttons: MutableState<Boolean>
+    buttons: MutableState<Boolean>,
+    updateButtons: (Boolean) -> Unit,
+    updateIncomesExpenses: (Boolean, Boolean) -> Unit
 ) {
 
     val modifier: Modifier = Modifier.fillMaxHeight(0.9F)
@@ -249,19 +263,22 @@ fun CalendarSummaryTranzactiiLazyColumn(
 
         LazyColumn(modifier = modifier) {
             itemsIndexed(tranzactii) { index, tranzactie ->
-                Tranzactie(tranzactie, buttons, index, id)
+                Tranzactie( tranzactie, buttons, index, id, updateStateButtons = updateButtons,
+                            modifyOption = false
+                )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
             }
         }
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
-        OkButton(ok = backButton)
+        OkButton(ok = backButton, updateIncomesExpenses = updateIncomesExpenses)
     }
 
     if (buttons.value) {
         AlertDialog(
             onDismissRequest = {
+                updateButtons(!buttons.value)
                 buttons.value = !buttons.value
             },
             title = {
@@ -274,6 +291,7 @@ fun CalendarSummaryTranzactiiLazyColumn(
             confirmButton = {
                 Button(
                     onClick = {
+                        updateButtons(!buttons.value)
                         buttons.value = !buttons.value
                     }
                 ) {
@@ -289,6 +307,7 @@ fun CalendarSummaryTranzactiiLazyColumn(
             dismissButton = {
                 Button(
                     onClick = {
+                        updateButtons(!buttons.value)
                         buttons.value = !buttons.value
                     }
                 ) {

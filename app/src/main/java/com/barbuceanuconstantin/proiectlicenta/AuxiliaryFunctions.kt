@@ -237,10 +237,14 @@ fun resetButtons(showA: MutableState<Boolean>, showP: MutableState<Boolean>, sho
     showD.value = true
 }
 @Composable
-fun OkButton(ok: MutableState<Boolean>, id: Int = R.string.ok) {
+fun OkButton(ok: MutableState<Boolean>, id: Int = R.string.ok,
+             updateIncomesExpenses: (Boolean, Boolean) -> Unit) {
     val buttonWidthFraction = if (id == R.string.ok) 0.3f else 0.5f
 
-    Button( onClick = { ok.value = !ok.value },
+    Button( onClick = {
+                        updateIncomesExpenses(false, false)
+                        ok.value = !ok.value
+                      },
             modifier = Modifier
                 .height(dimensionResource(id = R.dimen.ok_button_height))
                 .fillMaxWidth(buttonWidthFraction)) {

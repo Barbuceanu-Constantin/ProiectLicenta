@@ -155,4 +155,5 @@
     <string name="editare_tranzactii">Editare tranzactii</string>
     <string name="editare_categorii">Editare categorii</string>
     <string name="editare_bugete">Editare bugete</string>
+    <string name="situatie_zilnica">Situatie curenta</string>
 </resources>

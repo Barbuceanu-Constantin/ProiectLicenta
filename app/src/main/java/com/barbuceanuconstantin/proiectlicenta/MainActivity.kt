@@ -551,7 +551,16 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("calendarScreen") {
                         val viewModel = hiltViewModel<CalendarScreenViewModel>()
-                        val state = viewModel.calendarScreenUIState
+                        val state = viewModel.stateFlow.value
+                        val updateDate: (String) -> Unit = { date ->
+                            viewModel.onStateChangedDate(date)
+                        }
+                        val updateIncomesExpenses: (Boolean, Boolean) -> Unit = { incomes, expenses ->
+                            viewModel.onStateChangedIncomesExpenses(incomes, expenses)
+                        }
+                        val updateButtons: (Boolean) -> Unit = { buttons ->
+                            viewModel.onStateChangedButtons(buttons)
+                        }
 
                         //Bugete fixe
                         CalendarComposableScreen(
@@ -591,7 +600,13 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             },
-                            onNavigateToCalendarScreen = { },
+                            onNavigateToCalendarScreen = {
+                                navController.navigate("calendarScreen") {
+                                    popUpTo("calendarScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            },
                             onNavigateToGraphsScreen = {
                                 navController.navigate("graphsScreen") {
                                     popUpTo("graphsScreen") {
@@ -606,7 +621,10 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             },
-                            calendarScreenUIState = state
+                            calendarScreenUIState = state,
+                            updateDate = updateDate,
+                            updateIncomesExpenses = updateIncomesExpenses,
+                            updateButtons = updateButtons
                         )
                     }
                     composable("graphsScreen") {
