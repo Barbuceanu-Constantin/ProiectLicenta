@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CalendarScreenViewModel @Inject constructor(val budgetTrackerRepository: BudgetTrackerRepository): ViewModel() {
-    private val _stateFlow = MutableStateFlow(CalendarScreenUIState(date = LocalDate.now().toString(), incomes = false, expenses = false, buttons = false))
+    private val _stateFlow = MutableStateFlow(CalendarScreenUIState())
     val stateFlow: StateFlow<CalendarScreenUIState>
         get() = _stateFlow.asStateFlow()
     fun onStateChangedDate(date: String) {

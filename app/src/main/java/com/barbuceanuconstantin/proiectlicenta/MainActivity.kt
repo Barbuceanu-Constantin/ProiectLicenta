@@ -490,7 +490,8 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("budgetSummaryScreen") {
                         val viewModel = hiltViewModel<BudgetSummaryScreenViewModel>()
-                        val state = viewModel.budgetsSummaryScreenUIState
+                        val state = viewModel.stateFlow.value
+                        //Aici ar veni functiile pe care trebuie sa le extrag, dar mai astept.
 
                         //Bugete fixe
                         BudgetSummaryComposableScreen(

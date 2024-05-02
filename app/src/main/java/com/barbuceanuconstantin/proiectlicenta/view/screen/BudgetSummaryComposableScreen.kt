@@ -15,6 +15,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
@@ -99,14 +101,27 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                   onNavigateToMementosScreen: () -> Unit,
                                   navController: NavController,
                                   budgetSummaryScreenUIState: BudgetSummaryScreenUIState) {
-    val daily: MutableState<Boolean> = budgetSummaryScreenUIState.daily
-    val weekly: MutableState<Boolean> = budgetSummaryScreenUIState.weekly
-    val monthly: MutableState<Boolean> = budgetSummaryScreenUIState.monthly
-
-    val dateMutable: MutableState<String> = budgetSummaryScreenUIState.dateMutable
-    val monthMutable : MutableState<String> = budgetSummaryScreenUIState.monthMutable
-    val buttons: MutableState<Boolean> = budgetSummaryScreenUIState.buttons
-    val dateButton = budgetSummaryScreenUIState.dateButton
+    val daily: MutableState<Boolean> = remember {
+        mutableStateOf(budgetSummaryScreenUIState.daily)
+    }
+    val weekly: MutableState<Boolean> = remember {
+        mutableStateOf(budgetSummaryScreenUIState.weekly)
+    }
+    val monthly: MutableState<Boolean> = remember {
+        mutableStateOf(budgetSummaryScreenUIState.monthly)
+    }
+    val dateMutable: MutableState<String> = remember {
+        mutableStateOf(budgetSummaryScreenUIState.date)
+    }
+    val monthMutable : MutableState<String> = remember {
+        mutableStateOf(budgetSummaryScreenUIState.month)
+    }
+    val buttons: MutableState<Boolean> = remember {
+        mutableStateOf(budgetSummaryScreenUIState.buttons)
+    }
+    val dateButton = remember {
+        mutableStateOf(budgetSummaryScreenUIState.dateButton)
+    }
 
     // Obtain the context from your activity or fragment
     val context: Context = LocalContext.current

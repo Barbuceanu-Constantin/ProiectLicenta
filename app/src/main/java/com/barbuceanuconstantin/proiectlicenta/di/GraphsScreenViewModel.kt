@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: BudgetTrackerRepository): ViewModel() {
-    private val _stateFlow = MutableStateFlow(GraphsScreenUIState(true))
+    private val _stateFlow = MutableStateFlow(GraphsScreenUIState())
 
     val stateFlow: StateFlow<GraphsScreenUIState>
         get() = _stateFlow.asStateFlow()
