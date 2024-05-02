@@ -241,7 +241,10 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("categoriesScreen") {
                         val viewModel = hiltViewModel<CategoriesScreenViewModel>()
-                        val state = viewModel.categoriesScreenUIState
+                        val state = viewModel.stateFlow.value
+                        val updateStateMainScreen: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
+                            viewModel.onStateChangedMainScreen(showA, showP, showD)
+                        }
 
                         //Categorii
                         CategoriesComposableScreen(
@@ -302,7 +305,8 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             },
-                            categoriesScreenUIState = state
+                            categoriesScreenUIState = state,
+                            updateState = updateStateMainScreen
                         )
                     }
                     composable("fixedBudgetsScreen") {

@@ -9,6 +9,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -37,10 +39,17 @@ fun CategoriesComposableScreen(lSA: MutableList<Category>,
                                onNavigateToCalendarScreen: () -> Unit,
                                onNavigateToGraphsScreen: () -> Unit,
                                onNavigateToMementosScreen: () -> Unit,
-                               categoriesScreenUIState: CategoriesScreenUIState) {
-    val showA: MutableState<Boolean> = categoriesScreenUIState.showA
-    val showP: MutableState<Boolean> = categoriesScreenUIState.showP
-    val showD: MutableState<Boolean> = categoriesScreenUIState.showD
+                               categoriesScreenUIState: CategoriesScreenUIState,
+                               updateState: (Boolean, Boolean, Boolean) -> Unit,) {
+    val showA: MutableState<Boolean> = remember {
+        mutableStateOf(categoriesScreenUIState.showA)
+    }
+    val showP: MutableState<Boolean> = remember {
+        mutableStateOf(categoriesScreenUIState.showP)
+    }
+    val showD: MutableState<Boolean> = remember {
+        mutableStateOf(categoriesScreenUIState.showD)
+    }
 
     Scaffold(
         floatingActionButton = {
@@ -69,7 +78,7 @@ fun CategoriesComposableScreen(lSA: MutableList<Category>,
                 horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer (Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
-            SegmentedButton3(first = showA, second = showP, third = showD)
+            SegmentedButton3(first = showA, second = showP, third = showD, updateState = updateState)
 
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.margin_extra)))
 
