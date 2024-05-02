@@ -307,7 +307,10 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("fixedBudgetsScreen") {
                         val viewModel = hiltViewModel<FixedBudgetsScreenViewModel>()
-                        val state = viewModel.fixedBudgetsScreenUIState
+                        val state = viewModel.stateFlow.value
+                        val updateState: (Boolean) -> Unit = { buttons ->
+                            viewModel.onStateChangedButtons(buttons)
+                        }
 
                         //Bugete fixe
                         FixedBudgetsComposableScreen(
@@ -365,7 +368,8 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             },
-                            fixedBudgetsScreenUIState = state
+                            fixedBudgetsScreenUIState = state,
+                            updateStateButtons = updateState
                         )
                     }
                     composable("editTransactionScreen/{index}?transaction={transaction}",

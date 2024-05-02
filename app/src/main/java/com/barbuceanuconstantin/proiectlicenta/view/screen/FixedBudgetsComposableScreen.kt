@@ -41,9 +41,12 @@ fun FixedBudgetsComposableScreen(
     onNavigateToCalendarScreen: () -> Unit,
     onNavigateToGraphsScreen: () -> Unit,
     onNavigateToMementosScreen: () -> Unit,
-    fixedBudgetsScreenUIState: FixedBudgetsScreenUIState
+    fixedBudgetsScreenUIState: FixedBudgetsScreenUIState,
+    updateStateButtons: (Boolean) -> Unit
 ) {
-    val buttons: MutableState<Boolean> = fixedBudgetsScreenUIState.buttons
+    val buttons: MutableState<Boolean> = remember {
+        mutableStateOf(fixedBudgetsScreenUIState.buttons)
+    }
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
@@ -73,7 +76,7 @@ fun FixedBudgetsComposableScreen(
                 horizontalAlignment = Alignment.CenterHorizontally ) {
             Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
-            BudgetsLazyColumn(lFixedBudgets, buttons, navController)
+            BudgetsLazyColumn(lFixedBudgets, buttons, navController, updateStateButtons)
         }
     }
 }

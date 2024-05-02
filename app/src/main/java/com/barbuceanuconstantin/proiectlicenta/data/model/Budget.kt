@@ -123,7 +123,8 @@ fun InfoBudget(value: Double, startDate: String, endDate: String, category: Stri
 @Composable
 fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>,
                       buttons: MutableState<Boolean>,
-                      navController: NavController
+                      navController: NavController,
+                      updateStateButtons: (Boolean) -> Unit
 ) {
     val id: MutableState<Int> = remember { mutableIntStateOf(-1) }
 
@@ -137,6 +138,7 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>,
                                                         onClick = { },
                                                         onLongClick = {
                                                                         buttons.value = !buttons.value
+                                                                        updateStateButtons(buttons.value)
                                                                         id.value = index
                                                                       },
                                                     )
@@ -152,6 +154,7 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>,
         AlertDialog(
             onDismissRequest = {
                 buttons.value = !buttons.value
+                updateStateButtons(buttons.value)
             },
             title = {
                 Text(text = stringResource(id = R.string.selectare_actiune))
@@ -165,6 +168,7 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>,
                 Button(
                     onClick = {
                         buttons.value = !buttons.value
+                        updateStateButtons(buttons.value)
                         val gson: Gson = GsonBuilder().create()
                         val budgetJson = gson.toJson(budgetObj)
                         navController.navigate("editBudgetScreen?budget={budget}"
@@ -185,6 +189,7 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>,
                 Button(
                     onClick = {
                         buttons.value = !buttons.value
+                        updateStateButtons(buttons.value)
                     }
                 ) {
                     Row {

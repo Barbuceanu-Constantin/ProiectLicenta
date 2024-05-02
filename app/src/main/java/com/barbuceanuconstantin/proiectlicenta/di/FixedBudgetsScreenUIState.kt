@@ -4,5 +4,5 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 
 data class FixedBudgetsScreenUIState(
-    val buttons: MutableState<Boolean> = mutableStateOf(false)
+    val buttons: Boolean = false
 )
