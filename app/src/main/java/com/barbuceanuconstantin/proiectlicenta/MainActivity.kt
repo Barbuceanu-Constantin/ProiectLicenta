@@ -603,7 +603,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("graphsScreen") {
                         val viewModel = hiltViewModel<GraphsScreenViewModel>()
-                        val state = viewModel.graphsScreenUIState
+                        val state = viewModel.stateFlow.value
 
                         //Bugete fixe
                         GraphsComposableScreen(
@@ -662,7 +662,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("mementosScreen") {
                         val viewModel = hiltViewModel<MementosScreenViewModel>()
-                        val state = viewModel.mementosScreenUIState
+                        val state = viewModel.stateFlow.value
 
                         //Bugete fixe
                         MementosComposableScreen(

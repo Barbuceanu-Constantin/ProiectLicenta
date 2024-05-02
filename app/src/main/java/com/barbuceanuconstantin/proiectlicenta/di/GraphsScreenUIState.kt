@@ -4,5 +4,5 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 
 data class GraphsScreenUIState(
-    val nothing: MutableState<Boolean> = mutableStateOf(true)
+    val nothing: Boolean = true
 )
