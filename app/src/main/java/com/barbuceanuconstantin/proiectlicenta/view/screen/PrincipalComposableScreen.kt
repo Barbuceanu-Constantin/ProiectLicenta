@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -118,9 +119,13 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
                               onNavigateToCalendarScreen: () -> Unit,
                               onNavigateToGraphsScreen: () -> Unit,
                               onNavigateToMementosScreen: () -> Unit,
-                              principalScreenUIState: PrincipalScreenUIState
+                              principalScreenUIState: PrincipalScreenUIState,
+                              updateState: (Int) -> Unit
 ) {
-    val selectedIndex = principalScreenUIState.selectedIndex
+    val selectedIndex: MutableState<Int> = remember {
+        mutableStateOf(principalScreenUIState.selectedIndex)
+    }
+
     val options = listOf(
         stringResource(id = R.string.Venituri),
         stringResource(id = R.string.Cheltuieli),
@@ -177,6 +182,7 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
                         ),
                         onClick = {
                             selectedIndex.value = index
+                            updateState(index)
                             onNavigateToEditTransactionScreen(selectedIndex.value)
                         },
                         selected = index == selectedIndex.value,
