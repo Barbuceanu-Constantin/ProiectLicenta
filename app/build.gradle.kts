@@ -145,4 +145,7 @@ dependencies {
 
     //DatePicker
     implementation ("androidx.compose.material3:material3:1.2.1")
+
+    //CollectAsStateWithLifeCycle
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
 }
