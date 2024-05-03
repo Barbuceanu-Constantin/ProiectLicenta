@@ -632,9 +632,8 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("graphsScreen") {
                         val viewModel = hiltViewModel<GraphsScreenViewModel>()
-                        val state = viewModel.stateFlow.value
+                        val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
 
-                        //Bugete fixe
                         GraphsComposableScreen(
                             onNavigateToHomeScreen = {
                                 navController.navigate("homeScreen") {
@@ -691,9 +690,8 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("mementosScreen") {
                         val viewModel = hiltViewModel<MementosScreenViewModel>()
-                        val state = viewModel.stateFlow.value
-
-                        //Bugete fixe
+                        val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
+                        
                         MementosComposableScreen(
                             onNavigateToHomeScreen = {
                                 navController.navigate("homeScreen") {

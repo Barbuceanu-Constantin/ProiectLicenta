@@ -17,8 +17,6 @@ class MementosScreenViewModel @Inject constructor(val budgetTrackerRepository: B
         get() = _stateFlow.asStateFlow()
 
     fun onStateChanged(nothing: Boolean) {
-        _stateFlow.update { currentState ->
-            currentState.copy(nothing = nothing)
-        }
+        _stateFlow.value = MementosScreenUIState(nothing)
     }
 }

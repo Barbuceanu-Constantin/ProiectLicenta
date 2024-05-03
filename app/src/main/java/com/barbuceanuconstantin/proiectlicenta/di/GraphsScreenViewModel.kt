@@ -17,8 +17,6 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
         get() = _stateFlow.asStateFlow()
 
     fun onStateChanged(nothing: Boolean) {
-        _stateFlow.update { currentState ->
-            currentState.copy(nothing = nothing)
-        }
+        _stateFlow.value = GraphsScreenUIState(nothing)
     }
 }
