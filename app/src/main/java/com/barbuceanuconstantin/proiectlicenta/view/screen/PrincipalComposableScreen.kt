@@ -13,20 +13,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -35,15 +27,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.barbuceanuconstantin.proiectlicenta.Balance
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.di.PrincipalScreenUIState
-import com.barbuceanuconstantin.proiectlicenta.di.PrincipalScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
-import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MoreScreensMenu
 
 @Composable
 private fun TotalBalance() {
@@ -122,10 +111,6 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
                               principalScreenUIState: PrincipalScreenUIState,
                               updateState: (Int) -> Unit
 ) {
-    val selectedIndex: MutableState<Int> = remember {
-        mutableStateOf(principalScreenUIState.selectedIndex)
-    }
-
     val options = listOf(
         stringResource(id = R.string.Venituri),
         stringResource(id = R.string.Cheltuieli),
@@ -155,7 +140,19 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.middle)))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.gap)))
+
+            Text(
+                text = stringResource(id = R.string.total),
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                fontSize = fontDimensionResource(id = R.dimen.big_text_size),
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    textDecoration = TextDecoration.Underline
+                )
+            )
+
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.gap)))
 
             TotalBalance()
 
@@ -181,11 +178,9 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
                             count = options.size
                         ),
                         onClick = {
-                            selectedIndex.value = index
-                            updateState(index)
-                            onNavigateToEditTransactionScreen(selectedIndex.value)
+                            onNavigateToEditTransactionScreen(index)
                         },
-                        selected = index == selectedIndex.value,
+                        selected = false,
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle))
                     ) {
                         Row {

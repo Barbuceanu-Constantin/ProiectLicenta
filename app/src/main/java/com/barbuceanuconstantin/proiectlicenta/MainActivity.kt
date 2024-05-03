@@ -104,11 +104,11 @@ class MainActivity : ComponentActivity() {
                     composable("homeScreen")
                     {
                         val viewModel = hiltViewModel<PrincipalScreenViewModel>()
-                        val state = viewModel.stateFlow.value
-
+                        val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
                         val updateState: (Int) -> Unit = { selectedIndex ->
                             viewModel.onStateChanged(selectedIndex)
                         }
+
                         //Ecran principal
                         PrincipalComposableScreen(
                             onNavigateToEditTransactionScreen = {index ->
