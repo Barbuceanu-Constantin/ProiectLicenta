@@ -382,9 +382,9 @@ fun TimeIntervalSegmentedButton(daily: MutableState<Boolean>,
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SegmentedButton3(
-    first: MutableState<Boolean>,
-    second: MutableState<Boolean>,
-    third: MutableState<Boolean>,
+    showA: Boolean,
+    showP: Boolean,
+    showD: Boolean,
     updateState: (Boolean, Boolean, Boolean) -> Unit = { _, _, _ -> }
 ) {
     val checkedList = remember { mutableStateListOf<Int>() }
@@ -411,36 +411,30 @@ fun SegmentedButton3(
                         checkedList.remove(index)
                         when (index) {
                             0 -> {
-                                first.value = false
-                                updateState(false, second.value, third.value)
+                                updateState(false, showP, showD)
                             }
 
                             1 -> {
-                                second.value = false
-                                updateState(first.value, false, third.value)
+                                updateState(showA, false, showD)
                             }
 
                             2 -> {
-                                third.value = false
-                                updateState(first.value, second.value, false)
+                                updateState(showA, showP, false)
                             }
                         }
                     } else {
                         checkedList.add(index)
                         when (index) {
                             0 -> {
-                                first.value = true
-                                updateState(true, second.value, third.value)
+                                updateState(true, showP, showD)
                             }
 
                             1 -> {
-                                second.value = true
-                                updateState(first.value, true, third.value)
+                                updateState(showA, true, showD)
                             }
 
                             2 -> {
-                                third.value = true
-                                updateState(first.value, second.value, true)
+                                updateState(showA, showP, true)
                             }
                         }
                     }

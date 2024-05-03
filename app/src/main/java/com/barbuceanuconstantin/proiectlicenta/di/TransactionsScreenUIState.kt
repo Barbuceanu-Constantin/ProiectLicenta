@@ -7,5 +7,5 @@ data class TransactionsScreenUIState(
     val showA: Boolean = false,
     val showP: Boolean = false,
     val showD: Boolean = false,
-    val buttons: Boolean = false,
+    val buttons: Boolean = false
 )

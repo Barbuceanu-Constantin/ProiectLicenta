@@ -3,6 +3,7 @@ package com.barbuceanuconstantin.proiectlicenta
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
@@ -168,7 +169,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("transactionScreen") {
                         val viewModel = hiltViewModel<TransactionsScreenViewModel>()
-                        val state = viewModel.stateFlow.value
+                        val state = viewModel.stateFlow.collectAsState().value
 
                         // Define a function that can be called to update the state
                         val updateStateMainScreen: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
@@ -241,7 +242,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("categoriesScreen") {
                         val viewModel = hiltViewModel<CategoriesScreenViewModel>()
-                        val state = viewModel.stateFlow.value
+                        val state = viewModel.stateFlow.collectAsState().value
                         val updateStateMainScreen: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
                             viewModel.onStateChangedMainScreen(showA, showP, showD)
                         }

@@ -18,8 +18,6 @@ class CategoriesScreenViewModel @Inject constructor(val budgetTrackerRepository:
     val stateFlow: StateFlow<CategoriesScreenUIState>
         get() = _stateFlow.asStateFlow()
     fun onStateChangedMainScreen(showA: Boolean, showP: Boolean, showD:Boolean) {
-        _stateFlow.update { currentState ->
-            currentState.copy(showA = showA, showP = showP, showD = showD)
-        }
+        _stateFlow.value = CategoriesScreenUIState(showA, showP, showD)
     }
 }

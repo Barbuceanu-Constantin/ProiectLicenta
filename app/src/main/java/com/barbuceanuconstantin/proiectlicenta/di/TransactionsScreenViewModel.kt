@@ -16,17 +16,10 @@ class TransactionsScreenViewModel @Inject constructor(val budgetTrackerRepositor
         get() = _stateFlow.asStateFlow()
 
     fun onStateChangedMainScreen(showA: Boolean, showP: Boolean, showD:Boolean) {
-        _stateFlow.update { currentState ->
-            currentState.copy(showA = showA, showP = showP, showD = showD, buttons = false)
-        }
+        _stateFlow.value = TransactionsScreenUIState(showA, showP, showD)
     }
 
     fun onStateChangedButtons(buttons: Boolean) {
-        _stateFlow.update { currentState ->
-            currentState.copy(  showA = stateFlow.value.showA,
-                                showP = stateFlow.value.showP,
-                                showD = stateFlow.value.showD,
-                                buttons = buttons)
-        }
+        _stateFlow.value = TransactionsScreenUIState(stateFlow.value.showA, stateFlow.value.showP, stateFlow.value.showD, buttons)
     }
 }

@@ -701,3 +701,16 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 //val formattedDate = dateTime.format(dateFormatter)
 //val date by remember { mutableStateOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))) }
+
+//    val showA: MutableState<Boolean> = remember {
+//        mutableStateOf(transactionsScreenUIState.showA)
+//    }
+//    val showP: MutableState<Boolean> = remember {
+//        mutableStateOf(transactionsScreenUIState.showP)
+//    }
+//    val showD: MutableState<Boolean> = remember {
+//        mutableStateOf(transactionsScreenUIState.showD)
+//    }
+//val buttons: MutableState<Boolean> = remember {
+//    mutableStateOf(transactionsScreenUIState.buttons)
+//}

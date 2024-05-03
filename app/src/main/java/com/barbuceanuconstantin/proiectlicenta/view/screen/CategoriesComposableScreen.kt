@@ -41,15 +41,9 @@ fun CategoriesComposableScreen(lSA: MutableList<Category>,
                                onNavigateToMementosScreen: () -> Unit,
                                categoriesScreenUIState: CategoriesScreenUIState,
                                updateState: (Boolean, Boolean, Boolean) -> Unit,) {
-    val showA: MutableState<Boolean> = remember {
-        mutableStateOf(categoriesScreenUIState.showA)
-    }
-    val showP: MutableState<Boolean> = remember {
-        mutableStateOf(categoriesScreenUIState.showP)
-    }
-    val showD: MutableState<Boolean> = remember {
-        mutableStateOf(categoriesScreenUIState.showD)
-    }
+    val showA = categoriesScreenUIState.showA
+    val showP = categoriesScreenUIState.showP
+    val showD = categoriesScreenUIState.showD
 
     Scaffold(
         floatingActionButton = {
@@ -78,23 +72,23 @@ fun CategoriesComposableScreen(lSA: MutableList<Category>,
                 horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer (Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
-            SegmentedButton3(first = showA, second = showP, third = showD, updateState = updateState)
+            SegmentedButton3(showA = showA, showP = showP, showD = showD, updateState = updateState)
 
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.margin_extra)))
 
-            if (showA.value && !showP.value && !showD.value) {
+            if (showA && !showP && !showD) {
                 CategoriesLazyColumn(categorii = lSA, navController = navController)
-            } else if (showP.value && !showA.value && !showD.value) {
+            } else if (showP && !showA && !showD) {
                 CategoriesLazyColumn(categorii = lSP, navController = navController)
-            } else if (showD.value && !showA.value && !showP.value) {
+            } else if (showD && !showA && !showP) {
                 CategoriesLazyColumn(categorii = lSD, navController = navController)
-            } else if (showA.value && showP.value && showD.value) {
+            } else if (showA && showP && showD) {
                 CategoriesLazyColumn(categorii = (lSA + lSP + lSD).toMutableList(), navController = navController)
-            } else if (showA.value && showP.value && !showD.value) {
+            } else if (showA && showP && !showD) {
                 CategoriesLazyColumn(categorii = (lSA + lSP).toMutableList(), navController = navController)
-            } else if (showA.value && !showP.value && showD.value) {
+            } else if (showA && !showP && showD) {
                 CategoriesLazyColumn(categorii = (lSA + lSD).toMutableList(), navController = navController)
-            } else if (!showA.value && showP.value && showD.value) {
+            } else if (!showA && showP && showD) {
                 CategoriesLazyColumn(categorii = (lSP + lSD).toMutableList(), navController = navController)
             }
         }

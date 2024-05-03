@@ -65,7 +65,7 @@ data class Transaction(
 @Composable
 private fun Tranzactie(
     transaction: Transaction,
-    buttons: MutableState<Boolean>,
+    buttons: Boolean,
     index: Int,
     id: MutableState<Int>,
     updateStateButtons: (Boolean) -> Unit = { _ -> },
@@ -75,8 +75,7 @@ private fun Tranzactie(
         Modifier.combinedClickable(
                                     onClick = { },
                                     onLongClick = {
-                                        updateStateButtons(!buttons.value)
-                                        buttons.value = !buttons.value
+                                        updateStateButtons(!buttons)
                                         id.value = index
                                     },
                 )
@@ -143,7 +142,7 @@ private fun Tranzactie(
 @Composable
 fun TranzactiiLazyColumn(
     tranzactii: SnapshotStateList<Transaction>,
-    buttons: MutableState<Boolean>,
+    buttons: Boolean,
     navController: NavController,
     summary: Boolean = false,
     updateStateButtons: (Boolean) -> Unit = { _ -> }
@@ -162,11 +161,10 @@ fun TranzactiiLazyColumn(
         }
     }
 
-    if (buttons.value) {
+    if (buttons) {
         AlertDialog(
             onDismissRequest = {
-                buttons.value = !buttons.value
-                updateStateButtons(!buttons.value)
+                updateStateButtons(false)
             },
             title = {
                 Text(text = stringResource(id = R.string.selectare_actiune))
@@ -179,8 +177,7 @@ fun TranzactiiLazyColumn(
                 val transactionObj = tranzactii[id.value]
                 Button(
                     onClick = {
-                        buttons.value = !buttons.value
-                        updateStateButtons(!buttons.value)
+                        updateStateButtons(false)
                         val gson: Gson = GsonBuilder().create()
                         val transactionJson = gson.toJson(transactionObj)
 
@@ -209,8 +206,7 @@ fun TranzactiiLazyColumn(
             dismissButton = {
                 Button(
                     onClick = {
-                        buttons.value = !buttons.value
-                        updateStateButtons(!buttons.value)
+                        updateStateButtons(false)
                     }
                 ) {
                    Row {
@@ -263,7 +259,7 @@ fun CalendarSummaryTranzactiiLazyColumn(
 
         LazyColumn(modifier = modifier) {
             itemsIndexed(tranzactii) { index, tranzactie ->
-                Tranzactie( tranzactie, buttons, index, id, updateStateButtons = updateButtons,
+                Tranzactie( tranzactie, buttons.value, index, id, updateStateButtons = updateButtons,
                             modifyOption = false
                 )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))

@@ -44,18 +44,10 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                  transactionsScreenUIState: TransactionsScreenUIState,
                                  updateStateMainScreen: (Boolean, Boolean, Boolean) -> Unit,
                                  updateStateButtons: (Boolean) -> Unit) {
-    val showA: MutableState<Boolean> = remember {
-        mutableStateOf(transactionsScreenUIState.showA)
-    }
-    val showP: MutableState<Boolean> = remember {
-        mutableStateOf(transactionsScreenUIState.showP)
-    }
-    val showD: MutableState<Boolean> = remember {
-        mutableStateOf(transactionsScreenUIState.showD)
-    }
-    val buttons: MutableState<Boolean> = remember {
-        mutableStateOf(transactionsScreenUIState.buttons)
-    }
+    val showA = transactionsScreenUIState.showA
+    val showP = transactionsScreenUIState.showP
+    val showD = transactionsScreenUIState.showD
+    val buttons = transactionsScreenUIState.buttons
 
     Scaffold(
         floatingActionButton = {
@@ -84,53 +76,53 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
                 horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.margin_extra)))
 
-            SegmentedButton3(first = showA, second = showP, third = showD, updateStateMainScreen)
+            SegmentedButton3(showA, showP, showD, updateStateMainScreen)
 
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.margin_extra)))
 
-            if (showA.value && !showP.value && !showD.value) {
+            if (showA && !showP && !showD) {
                 TranzactiiLazyColumn(
                                         tranzactii = lTrA,
                                         buttons = buttons,
                                         navController = navController,
                                         updateStateButtons = updateStateButtons
                 )
-            } else if (showP.value && !showA.value && !showD.value) {
+            } else if (showP && !showA && !showD) {
                 TranzactiiLazyColumn(
                                         tranzactii = lTrP,
                                         buttons = buttons,
                                         navController = navController,
                                         updateStateButtons = updateStateButtons
                 )
-            } else if (showD.value && !showA.value && !showP.value) {
+            } else if (showD && !showA && !showP) {
                 TranzactiiLazyColumn(
                                         tranzactii = lTrD,
                                         buttons = buttons,
                                         navController = navController,
                                         updateStateButtons = updateStateButtons
                 )
-            } else if (showA.value && showP.value && showD.value) {
+            } else if (showA && showP && showD) {
                 TranzactiiLazyColumn(
                                         tranzactii = (lTrA + lTrP + lTrD).toMutableStateList(),
                                         buttons = buttons,
                                         navController = navController,
                                         updateStateButtons = updateStateButtons
                 )
-            } else  if (showA.value && showP.value && !showD.value) {
+            } else  if (showA && showP && !showD) {
                 TranzactiiLazyColumn(
                                         tranzactii = (lTrA + lTrP).toMutableStateList(),
                                         buttons = buttons,
                                         navController = navController,
                                         updateStateButtons = updateStateButtons
                 )
-            } else if (showA.value && showD.value && !showP.value) {
+            } else if (showA && showD && !showP) {
                 TranzactiiLazyColumn(
                                         tranzactii = (lTrA + lTrD).toMutableStateList(),
                                         buttons = buttons,
                                         navController = navController,
                                         updateStateButtons = updateStateButtons
                 )
-            } else if (!showA.value && showP.value && showD.value ) {
+            } else if (!showA && showP && showD) {
                 TranzactiiLazyColumn(
                                         tranzactii = (lTrP + lTrD).toMutableStateList(),
                                         buttons = buttons,
