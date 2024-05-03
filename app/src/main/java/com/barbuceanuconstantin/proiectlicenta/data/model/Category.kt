@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -22,9 +21,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -100,8 +96,6 @@ private fun Subcategory(text: String,
 fun CategoriesLazyColumn(categorii: MutableList<Category>,
                          navController: NavController
 ) {
-    val id: MutableState<Int> = remember { mutableIntStateOf(-1) }
-
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         itemsIndexed(categorii) { index, subcateg ->
             Subcategory(text = subcateg.name,

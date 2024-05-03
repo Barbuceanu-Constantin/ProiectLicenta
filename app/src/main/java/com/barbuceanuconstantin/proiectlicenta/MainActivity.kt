@@ -313,7 +313,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("fixedBudgetsScreen") {
                         val viewModel = hiltViewModel<FixedBudgetsScreenViewModel>()
-                        val state = viewModel.stateFlow.value
+                        val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
                         val updateState: (Boolean) -> Unit = { buttons ->
                             viewModel.onStateChangedButtons(buttons)
                         }
@@ -691,7 +691,7 @@ class MainActivity : ComponentActivity() {
                     composable("mementosScreen") {
                         val viewModel = hiltViewModel<MementosScreenViewModel>()
                         val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
-                        
+
                         MementosComposableScreen(
                             onNavigateToHomeScreen = {
                                 navController.navigate("homeScreen") {

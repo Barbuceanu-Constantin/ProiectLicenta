@@ -20,8 +20,6 @@ class FixedBudgetsScreenViewModel @Inject constructor(val budgetTrackerRepositor
         get() = _stateFlow.asStateFlow()
 
     fun onStateChangedButtons(buttons: Boolean) {
-        _stateFlow.update { currentState ->
-            currentState.copy(buttons = buttons)
-        }
+        _stateFlow.value = FixedBudgetsScreenUIState(buttons)
     }
 }

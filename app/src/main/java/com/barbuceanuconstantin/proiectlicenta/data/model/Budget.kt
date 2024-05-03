@@ -121,7 +121,7 @@ fun InfoBudget(value: Double, startDate: String, endDate: String, category: Stri
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>,
-                      buttons: MutableState<Boolean>,
+                      buttons: Boolean,
                       navController: NavController,
                       updateStateButtons: (Boolean) -> Unit
 ) {
@@ -136,8 +136,7 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>,
                                     .combinedClickable(
                                                         onClick = { },
                                                         onLongClick = {
-                                                                        buttons.value = !buttons.value
-                                                                        updateStateButtons(buttons.value)
+                                                                        updateStateButtons(!buttons)
                                                                         id.value = index
                                                                       },
                                                     )
@@ -149,11 +148,10 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>,
         }
     }
 
-    if (buttons.value) {
+    if (buttons) {
         AlertDialog(
             onDismissRequest = {
-                buttons.value = !buttons.value
-                updateStateButtons(buttons.value)
+                updateStateButtons(false)
             },
             title = {
                 Text(text = stringResource(id = R.string.selectare_actiune))
@@ -166,8 +164,7 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>,
                 val budgetObj = lFixedBudgets[id.value]
                 Button(
                     onClick = {
-                        buttons.value = !buttons.value
-                        updateStateButtons(buttons.value)
+                        updateStateButtons(false)
                         val gson: Gson = GsonBuilder().create()
                         val budgetJson = gson.toJson(budgetObj)
                         navController.navigate("editBudgetScreen?budget={budget}"
@@ -187,8 +184,7 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>,
             dismissButton = {
                 Button(
                     onClick = {
-                        buttons.value = !buttons.value
-                        updateStateButtons(buttons.value)
+                        updateStateButtons(false)
                     }
                 ) {
                     Row {

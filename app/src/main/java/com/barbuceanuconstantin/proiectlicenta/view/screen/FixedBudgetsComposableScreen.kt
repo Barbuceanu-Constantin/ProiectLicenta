@@ -44,10 +44,8 @@ fun FixedBudgetsComposableScreen(
     fixedBudgetsScreenUIState: FixedBudgetsScreenUIState,
     updateStateButtons: (Boolean) -> Unit
 ) {
-    val buttons: MutableState<Boolean> = remember {
-        mutableStateOf(fixedBudgetsScreenUIState.buttons)
-    }
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val buttons: Boolean = fixedBudgetsScreenUIState.buttons
 
     Scaffold(
         floatingActionButton = { FloatingActionButtonCustom(
