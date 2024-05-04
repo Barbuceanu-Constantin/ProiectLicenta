@@ -16,11 +16,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,9 +31,7 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.CalendarSummaryTranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.di.CalendarScreenUIState
-import com.barbuceanuconstantin.proiectlicenta.di.CategoriesScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
-import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,20 +50,12 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
                              updateIncomesExpenses: (Boolean, Boolean) -> Unit,
                              updateButtons: (Boolean) -> Unit,
 ) {
-    val dateMutable: MutableState<String> = remember {
-        mutableStateOf(calendarScreenUIState.date)
-    }
-    val incomes: MutableState<Boolean> = remember {
-        mutableStateOf(calendarScreenUIState.incomes)
-    }
-    val expenses: MutableState<Boolean> = remember {
-        mutableStateOf(calendarScreenUIState.expenses)
-    }
-    val buttons: MutableState<Boolean> = remember {
-        mutableStateOf(calendarScreenUIState.buttons)
-    }
+    var date: String = calendarScreenUIState.date
+    var incomes: Boolean = calendarScreenUIState.incomes
+    var expenses: Boolean = calendarScreenUIState.expenses
+    val buttons: Boolean = calendarScreenUIState.buttons
 
-    if (incomes.value || expenses.value) {
+    if (incomes || expenses) {
         Scaffold (
             topBar = {
                 EditTopAppBar(
@@ -84,22 +69,20 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxSize().padding(innerPadding)
             ) {
-                if (incomes.value && !expenses.value) {
+                if (incomes && !expenses) {
                     CalendarSummaryTranzactiiLazyColumn(
                         tranzactii = lTrA,
-                        backButton = incomes,
                         incomesOrExpenses = true,
-                        date = dateMutable,
+                        date = date,
                         buttons = buttons,
                         updateButtons = updateButtons,
                         updateIncomesExpenses = updateIncomesExpenses
                     )
-                } else if (!incomes.value && expenses.value) {
+                } else if (!incomes && expenses) {
                     CalendarSummaryTranzactiiLazyColumn(
                         tranzactii = lTrP,
-                        backButton = expenses,
                         incomesOrExpenses = false,
-                        date = dateMutable,
+                        date = date,
                         buttons = buttons,
                         updateButtons = updateButtons,
                         updateIncomesExpenses = updateIncomesExpenses
@@ -137,7 +120,7 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
                 ) {
                     Calendar(
                         onDateSelected = { selectedDate ->
-                            dateMutable.value = selectedDate
+                            date = selectedDate
                             updateDate(selectedDate)
                         }
                     )
@@ -162,7 +145,7 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
                             .height(dimensionResource(id = R.dimen.upper_middle))
                             .background(color = colorResource(R.color.light_cream_yellow))
                             .clickable {
-                                incomes.value = true
+                                incomes = true
                                 updateIncomesExpenses(true, false)
                             }
                     ) {
@@ -181,7 +164,7 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
                             .height(dimensionResource(id = R.dimen.upper_middle))
                             .background(color = colorResource(R.color.light_cream_red))
                             .clickable {
-                                expenses.value = true
+                                expenses = true
                                 updateIncomesExpenses(false, true)
                             }
                     ) {

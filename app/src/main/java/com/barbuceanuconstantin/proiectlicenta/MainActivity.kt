@@ -554,7 +554,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("calendarScreen") {
                         val viewModel = hiltViewModel<CalendarScreenViewModel>()
-                        val state = viewModel.stateFlow.value
+                        val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
                         val updateDate: (String) -> Unit = { date ->
                             viewModel.onStateChangedDate(date)
                         }

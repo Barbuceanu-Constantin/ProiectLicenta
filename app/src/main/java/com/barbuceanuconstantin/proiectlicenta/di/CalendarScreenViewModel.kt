@@ -19,33 +19,27 @@ class CalendarScreenViewModel @Inject constructor(val budgetTrackerRepository: B
     val stateFlow: StateFlow<CalendarScreenUIState>
         get() = _stateFlow.asStateFlow()
     fun onStateChangedDate(date: String) {
-        _stateFlow.update { currentState ->
-            currentState.copy(
-                                date = date,
-                                incomes = stateFlow.value.incomes,
-                                expenses = stateFlow.value.expenses,
-                                buttons = stateFlow.value.buttons
-            )
-        }
+        _stateFlow.value = CalendarScreenUIState(
+                                                    date = date,
+                                                    incomes = stateFlow.value.incomes,
+                                                    expenses = stateFlow.value.expenses,
+                                                    buttons = stateFlow.value.buttons
+        )
     }
     fun onStateChangedIncomesExpenses(incomes: Boolean, expenses: Boolean) {
-        _stateFlow.update { currentState ->
-            currentState.copy(
-                                date = stateFlow.value.date,
-                                incomes = incomes,
-                                expenses = expenses,
-                                buttons = stateFlow.value.buttons
-            )
-        }
+        _stateFlow.value = CalendarScreenUIState(
+                                                    date = stateFlow.value.date,
+                                                    incomes = incomes,
+                                                    expenses = expenses,
+                                                    buttons = stateFlow.value.buttons
+        )
     }
     fun onStateChangedButtons(buttons: Boolean) {
-        _stateFlow.update { currentState ->
-            currentState.copy(
-                                date = stateFlow.value.date,
-                                incomes = stateFlow.value.incomes,
-                                expenses = stateFlow.value.expenses,
-                                buttons = buttons
-            )
-        }
+        _stateFlow.value = CalendarScreenUIState(
+                                                    date = stateFlow.value.date,
+                                                    incomes = stateFlow.value.incomes,
+                                                    expenses = stateFlow.value.expenses,
+                                                    buttons = buttons
+        )
     }
 }

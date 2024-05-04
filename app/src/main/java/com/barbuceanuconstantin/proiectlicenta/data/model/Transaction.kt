@@ -50,7 +50,6 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import kotlinx.coroutines.flow.MutableStateFlow
 
 data class Transaction(
     val id: Int,
@@ -66,12 +65,13 @@ data class Transaction(
 private fun Tranzactie(
     transaction: Transaction,
     buttons: Boolean,
-    index: Int,
-    id: MutableState<Int>,
+    index: Int = 0,
+    id: MutableState<Int>? = null,
     updateStateButtons: (Boolean) -> Unit = { _ -> },
-    modifyOption: Boolean = true) {
+    modifyOption: Boolean = true
+) {
 
-    val modifier = if (modifyOption) {
+    val modifier = if (modifyOption && id != null) {
         Modifier.combinedClickable(
                                     onClick = { },
                                     onLongClick = {
@@ -225,30 +225,27 @@ fun TranzactiiLazyColumn(
 @Composable
 fun CalendarSummaryTranzactiiLazyColumn(
     tranzactii: SnapshotStateList<Transaction>,
-    backButton: MutableState<Boolean>,
     incomesOrExpenses: Boolean,
-    date: MutableState<String>,
-    buttons: MutableState<Boolean>,
+    date: String,
+    buttons: Boolean,
     updateButtons: (Boolean) -> Unit,
     updateIncomesExpenses: (Boolean, Boolean) -> Unit
 ) {
-
     val modifier: Modifier = Modifier.fillMaxHeight(0.9F)
-    val id: MutableState<Int> = remember { mutableIntStateOf(-1) }
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
         if (incomesOrExpenses) {
             //Coloana venituri
-            Text(text = stringResource(id = R.string.Venituri) + " " + date.value,
+            Text(text = stringResource(id = R.string.Venituri) + " " + date,
                 fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
                 style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
                 modifier = Modifier.background(colorResource(R.color.light_cream))
             )
         } else {
             //Coloana cheltuieli
-            Text(text = stringResource(id = R.string.Cheltuieli) + " " + date.value,
+            Text(text = stringResource(id = R.string.Cheltuieli) + " " + date,
                 fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
                 style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
                 modifier = Modifier.background(colorResource(R.color.light_cream))
@@ -259,23 +256,20 @@ fun CalendarSummaryTranzactiiLazyColumn(
 
         LazyColumn(modifier = modifier) {
             itemsIndexed(tranzactii) { index, tranzactie ->
-                Tranzactie( tranzactie, buttons.value, index, id, updateStateButtons = updateButtons,
-                            modifyOption = false
-                )
+                Tranzactie(tranzactie, buttons, updateStateButtons = updateButtons, modifyOption = false)
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
             }
         }
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
-        OkButton(ok = backButton, updateIncomesExpenses = updateIncomesExpenses)
+        OkButton(updateIncomesExpenses = updateIncomesExpenses)
     }
 
-    if (buttons.value) {
+    if (buttons) {
         AlertDialog(
             onDismissRequest = {
-                updateButtons(!buttons.value)
-                buttons.value = !buttons.value
+                updateButtons(false)
             },
             title = {
                 Text(text = stringResource(id = R.string.selectare_actiune))
@@ -287,8 +281,7 @@ fun CalendarSummaryTranzactiiLazyColumn(
             confirmButton = {
                 Button(
                     onClick = {
-                        updateButtons(!buttons.value)
-                        buttons.value = !buttons.value
+                        updateButtons(false)
                     }
                 ) {
                     Row {
@@ -303,8 +296,7 @@ fun CalendarSummaryTranzactiiLazyColumn(
             dismissButton = {
                 Button(
                     onClick = {
-                        updateButtons(!buttons.value)
-                        buttons.value = !buttons.value
+                        updateButtons(false)
                     }
                 ) {
                     Row {
