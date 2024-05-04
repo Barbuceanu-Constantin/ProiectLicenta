@@ -492,8 +492,23 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("budgetSummaryScreen") {
                         val viewModel = hiltViewModel<BudgetSummaryScreenViewModel>()
-                        val state = viewModel.stateFlow.value
-                        //Aici ar veni functiile pe care trebuie sa le extrag, dar mai astept.
+                        val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
+                        //Aici vin functiile pe care trebuie sa le extrag.
+                        val updateStateDateButton: (Boolean) -> Unit = { dateButton ->
+                            viewModel.onStateChangedDateButton(dateButton)
+                        }
+                        val updateStateMonth: (String) -> Unit = { month ->
+                            viewModel.onStateChangedMonth(month)
+                        }
+                        val updateStateTimeInterval: (Boolean, Boolean, Boolean) -> Unit = { daily, weekly, monthly ->
+                                viewModel.onStateChangedTimeInterval(daily, weekly, monthly)
+                        }
+                        val updateStateDate: (String) -> Unit = { date ->
+                            viewModel.onStateChangedDate(date)
+                        }
+                        val updateStateButtons: (Boolean) -> Unit = { buttons ->
+                            viewModel.onStateChangedButtons(buttons)
+                        }
 
                         //Bugete fixe
                         BudgetSummaryComposableScreen(
@@ -549,7 +564,12 @@ class MainActivity : ComponentActivity() {
                                 }
                             },
                             navController = navController,
-                            budgetSummaryScreenUIState = state
+                            budgetSummaryScreenUIState = state,
+                            updateStateDateButton = updateStateDateButton,
+                            updateStateMonth = updateStateMonth,
+                            updateStateTimeInterval = updateStateTimeInterval,
+                            updateStateDate = updateStateDate,
+                            updateStateButtons = updateStateButtons,
                         )
                     }
                     composable("calendarScreen") {

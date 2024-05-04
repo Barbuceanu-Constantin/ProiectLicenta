@@ -14,9 +14,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
@@ -42,26 +39,26 @@ import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 
 @Composable
-fun SelectDay(dateMutable: MutableState<String>, dateButton: MutableState<Boolean>) {
-    Button(onClick = { dateButton.value = !dateButton.value }) {
+fun SelectDay(date: String,
+              updateStateDateButton: (Boolean) -> Unit) {
+    Button(onClick = { updateStateDateButton(true) }) {
         Text(text = stringResource(id = R.string.selectare_zi), fontSize = fontDimensionResource(id = R.dimen.medium_text_size))
     }
 
-    Text(text = "${stringResource(id = R.string.ziua)} ${dateMutable.value}", fontWeight = FontWeight.SemiBold,
+    Text(text = "${stringResource(id = R.string.ziua)} $date", fontWeight = FontWeight.SemiBold,
         modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, fontSize = fontDimensionResource(R.dimen.medium_text_size))
 }
 
 @Composable
-fun SelectWeek(dateMutable: MutableState<String>, dateButton: MutableState<Boolean>) {
-    val limits = getStartAndEndDateOfWeek(dateMutable.value)
+fun SelectWeek(date: String,
+               updateStateDateButton: (Boolean) -> Unit) {
+    val limits = getStartAndEndDateOfWeek(date)
 
-    Button(onClick = { dateButton.value = !dateButton.value }) {
+    Button(onClick = { updateStateDateButton(true) }) {
         Text(text = stringResource(id = R.string.selectare_saptamana),
              fontSize = fontDimensionResource(id = R.dimen.medium_text_size))
     }
@@ -72,16 +69,18 @@ fun SelectWeek(dateMutable: MutableState<String>, dateButton: MutableState<Boole
     )
 }
 @Composable
-fun SelectMonth(dateMutable: MutableState<String>, monthMutable: MutableState<String>, dateButton: MutableState<Boolean>) {
-    val month : Int = (dateMutable.value[5].code - 48) * 10 + (dateMutable.value[6].code - 48)
-    IntToMonth(month, monthMutable)
+fun SelectMonth(date: String, monthMutable: String,
+                updateStateDateButton: (Boolean) -> Unit,
+                updateStateMonth: (String) -> Unit) {
+    val month : Int = (date[5].code - 48) * 10 + (date[6].code - 48)
+    IntToMonth(month, monthMutable, updateStateMonth)
 
-    Button(onClick = { dateButton.value = !dateButton.value }) {
+    Button(onClick = { updateStateDateButton(true) }) {
         Text(text = stringResource(id = R.string.selectare_luna),
              fontSize = fontDimensionResource(id = R.dimen.medium_text_size))
     }
 
-    Text(text = "${stringResource(id = R.string.luna)} ${monthMutable.value}",
+    Text(text = "${stringResource(id = R.string.luna)} $monthMutable",
          fontWeight = FontWeight.SemiBold, modifier = Modifier.fillMaxWidth(),
          textAlign = TextAlign.Center, fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
     )
@@ -100,28 +99,19 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
                                   onNavigateToGraphsScreen: () -> Unit,
                                   onNavigateToMementosScreen: () -> Unit,
                                   navController: NavController,
-                                  budgetSummaryScreenUIState: BudgetSummaryScreenUIState) {
-    val daily: MutableState<Boolean> = remember {
-        mutableStateOf(budgetSummaryScreenUIState.daily)
-    }
-    val weekly: MutableState<Boolean> = remember {
-        mutableStateOf(budgetSummaryScreenUIState.weekly)
-    }
-    val monthly: MutableState<Boolean> = remember {
-        mutableStateOf(budgetSummaryScreenUIState.monthly)
-    }
-    val dateMutable: MutableState<String> = remember {
-        mutableStateOf(budgetSummaryScreenUIState.date)
-    }
-    val monthMutable : MutableState<String> = remember {
-        mutableStateOf(budgetSummaryScreenUIState.month)
-    }
-    val buttons: MutableState<Boolean> = remember {
-        mutableStateOf(budgetSummaryScreenUIState.buttons)
-    }
-    val dateButton = remember {
-        mutableStateOf(budgetSummaryScreenUIState.dateButton)
-    }
+                                  budgetSummaryScreenUIState: BudgetSummaryScreenUIState,
+                                  updateStateDateButton: (Boolean) -> Unit,
+                                  updateStateMonth: (String) -> Unit,
+                                  updateStateTimeInterval: (Boolean, Boolean, Boolean) -> Unit,
+                                  updateStateDate: (String) -> Unit,
+                                  updateStateButtons: (Boolean) -> Unit) {
+    val daily: Boolean = budgetSummaryScreenUIState.daily
+    val weekly: Boolean = budgetSummaryScreenUIState.weekly
+    val monthly: Boolean = budgetSummaryScreenUIState.monthly
+    var date: String = budgetSummaryScreenUIState.date
+    val monthMutable : String = budgetSummaryScreenUIState.month
+    val buttons: Boolean = budgetSummaryScreenUIState.buttons
+    val dateButton: Boolean = budgetSummaryScreenUIState.dateButton
 
     // Obtain the context from your activity or fragment
     val context: Context = LocalContext.current
@@ -164,31 +154,38 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 
-            TimeIntervalSegmentedButton(daily = daily, weekly = weekly, monthly = monthly)
+            TimeIntervalSegmentedButton(daily = daily, weekly = weekly, monthly = monthly,
+                                        updateStateTimeInterval = updateStateTimeInterval)
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 
             //Aici voi face bilantul total al cheltuielilor si veniturilor.
             //Dar pentru inceput le voi lista pe toate fara sa filtrez, asta si pentru ca
             //o sa fie mai relevant probabil cand conectez cu baza de date.
-            if (daily.value && !weekly.value && !monthly.value) {
+            if (daily && !weekly && !monthly) {
                 //Se selecteaza ziua pentru care se vrea bilantul cheltuielilor si veniturilor
 
-                SelectDay(dateMutable, dateButton)
-            } else if (weekly.value && !daily.value && !monthly.value) {
+                SelectDay(date, updateStateDateButton)
+            } else if (weekly && !daily && !monthly) {
                 //Se selecteaza saptamana pentru care se vrea bilantul cheltuielilor si veniturilor,
                 //prin selectarea unei zile si extragerea saptamanii din care face parte
 
-                SelectWeek(dateMutable, dateButton)
-            } else if (monthly.value && !daily.value && !weekly.value) {
+                SelectWeek(date, updateStateDateButton)
+            } else if (monthly && !daily && !weekly) {
                 //Se selecteaza luna pentru care se vrea bilantul cheltuielilor si veniturilor
                 //prin selectarea unei zile si extragerea lunii din care face parte
 
-                SelectMonth(dateMutable, monthMutable, dateButton)
-            } else if (daily.value && weekly.value && monthly.value) {
+                SelectMonth(date, monthMutable, updateStateDateButton, updateStateMonth)
+            } else if (daily && weekly && monthly) {
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
-                TranzactiiLazyColumn(tranzactii = (lTrP + lTrA).toMutableStateList(), buttons.value, summary = true, navController = navController)
+                TranzactiiLazyColumn(
+                                        tranzactii = (lTrP + lTrA).toMutableStateList(),
+                                        buttons,
+                                        summary = true,
+                                        navController = navController,
+                                        updateStateButtons = updateStateButtons
+                )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
             }
@@ -206,7 +203,7 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
         }
     }
 
-    if (dateButton.value) {
+    if (dateButton) {
         val datePickerDialog =
             android.app.DatePickerDialog(context, { _, year1, month1, dayOfMonth1 ->
                 // Handle the selected date
@@ -215,15 +212,16 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
 
                 // Perform any necessary operations with the selected date here
                 // For example, update a TextView with the selected date
-                dateMutable.value =
-                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time)
+                date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time)
+                updateStateDate(date)
             }, year, month, dayOfMonth)
 
         datePickerDialog.setOnDismissListener {
-            dateButton.value = !dateButton.value
+            updateStateDateButton(false)
         }
 
         datePickerDialog.show()
+        updateStateDateButton(false)
     }
 }
 

@@ -215,20 +215,20 @@ fun getStartAndEndDateOfWeek(dateString: String): Pair<String, String> {
     return Pair(startDate, endDate)
 }
 @Composable
-fun IntToMonth(month : Int, monthMutable : MutableState<String>) {
+fun IntToMonth(month: Int, monthMutable: String, updateStateMonth: (String) -> Unit) {
     when (month) {
-        1 -> monthMutable.value = stringResource(id = R.string.ianuarie)
-        2 -> monthMutable.value = stringResource(id = R.string.februarie)
-        3 -> monthMutable.value = stringResource(id = R.string.martie)
-        4 -> monthMutable.value = stringResource(id = R.string.aprilie)
-        5 -> monthMutable.value = stringResource(id = R.string.mai)
-        6 -> monthMutable.value = stringResource(id = R.string.iunie)
-        7 -> monthMutable.value = stringResource(id = R.string.iulie)
-        8 -> monthMutable.value = stringResource(id = R.string.august)
-        9 -> monthMutable.value = stringResource(id = R.string.septembrie)
-        10 -> monthMutable.value = stringResource(id = R.string.octombrie)
-        11 -> monthMutable.value = stringResource(id = R.string.noiembrie)
-        12 -> monthMutable.value = stringResource(id = R.string.decembrie)
+        1 -> updateStateMonth(stringResource(id = R.string.ianuarie))
+        2 -> updateStateMonth(stringResource(id = R.string.februarie))
+        3 -> updateStateMonth(stringResource(id = R.string.martie))
+        4 -> updateStateMonth(stringResource(id = R.string.aprilie))
+        5 -> updateStateMonth(stringResource(id = R.string.mai))
+        6 -> updateStateMonth(stringResource(id = R.string.iunie))
+        7 -> updateStateMonth(stringResource(id = R.string.iulie))
+        8 -> updateStateMonth(stringResource(id = R.string.august))
+        9 -> updateStateMonth(stringResource(id = R.string.septembrie))
+        10 -> updateStateMonth(stringResource(id = R.string.octombrie))
+        11 -> updateStateMonth(stringResource(id = R.string.noiembrie))
+        12 -> updateStateMonth(stringResource(id = R.string.decembrie))
     }
 }
 fun resetButtons(showA: MutableState<Boolean>, showP: MutableState<Boolean>, showD: MutableState<Boolean>) {
@@ -268,9 +268,12 @@ fun Calendar(onDateSelected: (String) -> Unit) {
 }
 
 @Composable
-fun TimeIntervalSegmentedButton(daily: MutableState<Boolean>,
-                                weekly: MutableState<Boolean>,
-                                monthly: MutableState<Boolean>) {
+fun TimeIntervalSegmentedButton(
+    daily: Boolean,
+    weekly: Boolean,
+    monthly: Boolean,
+    updateStateTimeInterval: (Boolean, Boolean, Boolean) -> Unit
+) {
     var selectedIndex1 by remember { mutableStateOf(-1) }
     var selectedIndex2 by remember { mutableStateOf(0) }
 
@@ -305,23 +308,17 @@ fun TimeIntervalSegmentedButton(daily: MutableState<Boolean>,
                             selectedIndex1 = index
                             when (selectedIndex1) {
                                 0 -> {
-                                    daily.value = true
-                                    weekly.value = false
-                                    monthly.value = false
+                                    updateStateTimeInterval(true, false, false)
                                     selectedIndex2 = -1
                                 }
 
                                 1 -> {
-                                    weekly.value = true
-                                    daily.value = false
-                                    monthly.value = false
+                                    updateStateTimeInterval(false, true, false)
                                     selectedIndex2 = -1
                                 }
 
                                 2 -> {
-                                    monthly.value = true
-                                    daily.value = false
-                                    weekly.value = false
+                                    updateStateTimeInterval(false, false, true)
                                     selectedIndex2 = -1
                                 }
                             }
@@ -358,9 +355,7 @@ fun TimeIntervalSegmentedButton(daily: MutableState<Boolean>,
                             selectedIndex2 = index
                             when (selectedIndex2) {
                                 0 -> {
-                                    daily.value = true
-                                    weekly.value = true
-                                    monthly.value = true
+                                    updateStateTimeInterval(true, true, true)
                                     selectedIndex1 = -1
                                 }
                             }
