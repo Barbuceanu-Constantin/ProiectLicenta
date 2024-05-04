@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.Balance
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.Calendar
@@ -49,6 +50,7 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transactions>,
                              updateDate: (String) -> Unit,
                              updateIncomesExpenses: (Boolean, Boolean) -> Unit,
                              updateButtons: (Boolean) -> Unit,
+                             navController: NavController
 ) {
     var date: String = calendarScreenUIState.date
     var incomes: Boolean = calendarScreenUIState.incomes
@@ -56,40 +58,22 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transactions>,
     val buttons: Boolean = calendarScreenUIState.buttons
 
     if (incomes || expenses) {
-        Scaffold (
-            topBar = {
-                EditTopAppBar(
-                    id = R.string.situatie_zilnica,
-                    onNavigateToBackScreen = onNavigateToCalendarScreen,
-                    onNavigateToHomeScreen = onNavigateToHomeScreen
-                )
-            }
-        ) { innerPadding ->
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxSize().padding(innerPadding)
-            ) {
-                if (incomes && !expenses) {
-                    CalendarSummaryTranzactiiLazyColumn(
-                        tranzactii = lTrA,
-                        incomesOrExpenses = true,
-                        date = date,
-                        buttons = buttons,
-                        updateButtons = updateButtons,
-                        updateIncomesExpenses = updateIncomesExpenses
-                    )
-                } else if (!incomes && expenses) {
-                    CalendarSummaryTranzactiiLazyColumn(
-                        tranzactii = lTrP,
-                        incomesOrExpenses = false,
-                        date = date,
-                        buttons = buttons,
-                        updateButtons = updateButtons,
-                        updateIncomesExpenses = updateIncomesExpenses
-                    )
-                }
-            }
-        }
+        //Nu e un ecran full-featured.
+        //E doar un fel de ecran intermediar.
+        //Nu l-am adaugat in navcontroller.
+        CurrentSituationComposableScreen(
+                                         onNavigateToCalendarScreen = onNavigateToCalendarScreen,
+                                         onNavigateToHomeScreen = onNavigateToHomeScreen,
+                                         incomes = incomes,
+                                         expenses = expenses,
+                                         lTrA = lTrA,
+                                         lTrP = lTrP,
+                                         date = date,
+                                         buttons = buttons,
+                                         updateButtons = updateButtons,
+                                         updateIncomesExpenses = updateIncomesExpenses,
+                                         navController = navController
+        )
     } else {
         Scaffold(
             bottomBar = {
@@ -111,7 +95,9 @@ fun CalendarComposableScreen(lTrA: SnapshotStateList<Transactions>,
         ) { innerPadding ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxSize().padding(innerPadding)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
             ) {
                 Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 

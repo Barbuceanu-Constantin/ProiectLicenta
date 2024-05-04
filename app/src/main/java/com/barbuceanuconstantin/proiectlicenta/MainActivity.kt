@@ -405,7 +405,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-                        if (index == 3) {
+                        if (index == returnToTransactionIndex) {
                             lambda = {
                                 navController.navigate("transactionScreen") {
                                     popUpTo("transactionScreen") {
@@ -413,10 +413,18 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             }
-                        } else if (index == 4) {
+                        } else if (index == returnToBudgetSummaryIndex) {
                             lambda = {
                                 navController.navigate("budgetSummaryScreen") {
                                     popUpTo("budgetSummaryScreen") {
+                                        inclusive = true
+                                    }
+                                }
+                            }
+                        } else if (index == returnToCalendarIndex) {
+                            lambda = {
+                                navController.navigate("calendarScreen") {
+                                    popUpTo("calendarScreen") {
                                         inclusive = true
                                     }
                                 }
@@ -647,7 +655,8 @@ class MainActivity : ComponentActivity() {
                             calendarScreenUIState = state,
                             updateDate = updateDate,
                             updateIncomesExpenses = updateIncomesExpenses,
-                            updateButtons = updateButtons
+                            updateButtons = updateButtons,
+                            navController = navController
                         )
                     }
                     composable("graphsScreen") {

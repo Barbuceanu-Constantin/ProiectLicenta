@@ -45,6 +45,7 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.returnToBudgetSummaryIndex
+import com.barbuceanuconstantin.proiectlicenta.returnToCalendarIndex
 import com.barbuceanuconstantin.proiectlicenta.returnToTransactionIndex
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
@@ -57,30 +58,22 @@ import com.google.gson.GsonBuilder
 private fun Tranzactie(
     transaction: Transactions,
     buttons: Boolean,
-    index: Int = 0,
-    id: MutableState<Int>? = null,
+    index: Int,
+    id: MutableState<Int>,
     updateStateButtons: (Boolean) -> Unit = { _ -> },
-    modifyOption: Boolean = true
 ) {
 
-    val modifier = if (modifyOption && id != null) {
-        Modifier.combinedClickable(
-                                    onClick = { },
-                                    onLongClick = {
-                                        updateStateButtons(!buttons)
-                                        id.value = index
-                                    },
-                )
-                .padding(
-                    start = dimensionResource(id = R.dimen.margin),
-                    end = dimensionResource(id = R.dimen.margin)
-                )
-    } else {
-       Modifier.padding(
-                        start = dimensionResource(id = R.dimen.margin),
-                        end = dimensionResource(id = R.dimen.margin)
-                        )
-    }
+    val modifier = Modifier.combinedClickable(
+                                                onClick = { },
+                                                onLongClick = {
+                                                    updateStateButtons(!buttons)
+                                                    id.value = index
+                                                },
+                            )
+                            .padding(
+                                start = dimensionResource(id = R.dimen.margin),
+                                end = dimensionResource(id = R.dimen.margin)
+                            )
 
     val color: Color =
         if (subcategorysPredefiniteActive.contains(transaction.category))
@@ -221,9 +214,12 @@ fun CalendarSummaryTranzactiiLazyColumn(
     date: String,
     buttons: Boolean,
     updateButtons: (Boolean) -> Unit,
-    updateIncomesExpenses: (Boolean, Boolean) -> Unit
+    updateIncomesExpenses: (Boolean, Boolean) -> Unit,
+    navController: NavController
 ) {
     val modifier: Modifier = Modifier.fillMaxHeight(0.9F)
+
+    val id: MutableState<Int> = remember { mutableIntStateOf(-1) }
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
@@ -248,7 +244,7 @@ fun CalendarSummaryTranzactiiLazyColumn(
 
         LazyColumn(modifier = modifier) {
             itemsIndexed(tranzactii) { index, tranzactie ->
-                Tranzactie(tranzactie, buttons, updateStateButtons = updateButtons, modifyOption = false)
+                Tranzactie(tranzactie, buttons, updateStateButtons = updateButtons, id = id, index = index)
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
             }
         }
@@ -271,9 +267,17 @@ fun CalendarSummaryTranzactiiLazyColumn(
                     fontSize = fontDimensionResource(id = R.dimen.normal_text_size))
             },
             confirmButton = {
+                val transactionObj = tranzactii[id.value]
                 Button(
                     onClick = {
                         updateButtons(false)
+                        val gson: Gson = GsonBuilder().create()
+                        val transactionJson = gson.toJson(transactionObj)
+
+                        navController.navigate(
+                            "editTransactionScreen/$returnToCalendarIndex?transaction={transaction}"
+                                .replace(oldValue = "{transaction}", newValue = transactionJson)
+                        )
                     }
                 ) {
                     Row {
