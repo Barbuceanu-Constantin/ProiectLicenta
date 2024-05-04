@@ -10,9 +10,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,15 +19,15 @@ import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
-import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.model.BudgetsLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.di.FixedBudgetsScreenUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FixedBudgetsComposableScreen(
-    lFixedBudgets: SnapshotStateList<Budget>,
+    lFixedBudgets: SnapshotStateList<Budgets>,
     navController: NavController,
     onNavigateToEditBudgetScreen: () -> Unit,
     onNavigateToHomeScreen: () -> Unit,

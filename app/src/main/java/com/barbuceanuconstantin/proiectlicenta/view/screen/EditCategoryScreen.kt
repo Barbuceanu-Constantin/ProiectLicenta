@@ -39,15 +39,11 @@ import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindowSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.WarningNotSelectedCategory
-import com.barbuceanuconstantin.proiectlicenta.data.model.Category
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
-import com.barbuceanuconstantin.proiectlicenta.resetButtons
-import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
-import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
-import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 
 @Composable
-fun EditCategoryScreen(category: Category? = null,
+fun EditCategoryScreen(category: Categories? = null,
                        onNavigateToCategoryScreen : () -> Unit,
                        onNavigateToHomeScreen: () -> Unit) {
     val showA: MutableState<Boolean> = remember { mutableStateOf(false) }

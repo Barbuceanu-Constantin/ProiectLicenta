@@ -45,7 +45,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
+import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoriesMenu
 import java.text.SimpleDateFormat
@@ -63,11 +63,10 @@ fun isDateAfterOrEqualToCurrent(dateString: String, current: LocalDate): Boolean
         false
     }
 }
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                      onNavigateToHomeScreen: () -> Unit,
-                     budget: Budget? = null) {
+                     budget: Budgets? = null) {
     val dateTime = LocalDateTime.now()
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val formattedDate = dateTime.format(dateFormatter)
@@ -85,7 +84,7 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
         dateMutable2.value = budget.endDate
         filledText = budget.name
         category = budget.category
-        valueSum = budget.value.toString()
+        valueSum = budget.upperTreshold.toString()
     }
 
     // Obtain the context from your activity or fragment

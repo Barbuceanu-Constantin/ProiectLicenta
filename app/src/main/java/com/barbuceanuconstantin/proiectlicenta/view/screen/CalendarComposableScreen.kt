@@ -28,15 +28,15 @@ import com.barbuceanuconstantin.proiectlicenta.Calendar
 import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.data.model.CalendarSummaryTranzactiiLazyColumn
-import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import com.barbuceanuconstantin.proiectlicenta.di.CalendarScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CalendarComposableScreen(lTrA: SnapshotStateList<Transaction>,
-                             lTrP: SnapshotStateList<Transaction>,
+fun CalendarComposableScreen(lTrA: SnapshotStateList<Transactions>,
+                             lTrP: SnapshotStateList<Transactions>,
                              onNavigateToHomeScreen: () -> Unit,
                              onNavigateToTransactionScreen: () -> Unit,
                              onNavigateToCategoriesScreen: () -> Unit,

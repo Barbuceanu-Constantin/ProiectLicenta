@@ -4,7 +4,6 @@ import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.MainCategories
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
-import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
 import kotlinx.coroutines.flow.Flow
 
 interface BudgetTrackerRepository {

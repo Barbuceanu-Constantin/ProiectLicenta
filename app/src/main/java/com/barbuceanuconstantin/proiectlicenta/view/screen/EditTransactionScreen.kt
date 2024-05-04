@@ -40,7 +40,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindowSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
+import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.showAIndex
 import com.barbuceanuconstantin.proiectlicenta.showDIndex
 import com.barbuceanuconstantin.proiectlicenta.showPIndex
@@ -60,7 +60,7 @@ var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.toMutableList()
 @Composable
 fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
                           onNavigateToHomeScreen: () -> Unit,
-                          transaction: Transaction? = null,
+                          transaction: Transactions? = null,
                           index: Int = 0) {
     var subcategory by remember { mutableStateOf("") }
     var payee by remember { mutableStateOf("") }
@@ -80,9 +80,9 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
     if (transaction != null) {
         subcategory = transaction.category
         payee = transaction.payee
-        valueSum = transaction.suma.toString()
-        description = transaction.descriere
-        dateMutable.value = transaction.data
+        valueSum = transaction.value.toString()
+        description = transaction.description
+        dateMutable.value = transaction.date
 
         if (listaSubcategorysActive.contains(transaction.category))
             showA.value = true

@@ -33,7 +33,7 @@ import com.barbuceanuconstantin.proiectlicenta.IntToMonth
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.TimeIntervalSegmentedButton
-import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
+import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.getStartAndEndDateOfWeek
 import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenUIState
@@ -88,8 +88,8 @@ fun SelectMonth(date: String, monthMutable: String,
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transaction>,
-                                  lTrP: SnapshotStateList<Transaction>,
+fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transactions>,
+                                  lTrP: SnapshotStateList<Transactions>,
                                   onNavigateToHomeScreen: () -> Unit,
                                   onNavigateToTransactionScreen: () -> Unit,
                                   onNavigateToCategoriesScreen: () -> Unit,

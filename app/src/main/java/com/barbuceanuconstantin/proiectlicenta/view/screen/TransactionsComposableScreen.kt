@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
@@ -22,15 +19,15 @@ import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
-import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
+import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.di.TransactionsScreenUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transaction>,
-                                 lTrP: SnapshotStateList<Transaction>,
-                                 lTrD: SnapshotStateList<Transaction>,
+fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transactions>,
+                                 lTrP: SnapshotStateList<Transactions>,
+                                 lTrD: SnapshotStateList<Transactions>,
                                  navController: NavController,
                                  onNavigateToEditTransactionScreen: (index: Int) -> Unit,
                                  onNavigateToHomeScreen: () -> Unit,

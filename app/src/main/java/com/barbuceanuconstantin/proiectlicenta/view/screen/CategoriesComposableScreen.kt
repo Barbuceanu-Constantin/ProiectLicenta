@@ -20,15 +20,15 @@ import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
-import com.barbuceanuconstantin.proiectlicenta.data.model.Category
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.model.CategoriesLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.di.CategoriesScreenUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoriesComposableScreen(lSA: MutableList<Category>,
-                               lSP: MutableList<Category>,
-                               lSD: MutableList<Category>,
+fun CategoriesComposableScreen(lSA: MutableList<Categories>,
+                               lSP: MutableList<Categories>,
+                               lSD: MutableList<Categories>,
                                navController: NavController,
                                onNavigateToEditCategoriesScreen: () -> Unit,
                                onNavigateToHomeScreen: () -> Unit,

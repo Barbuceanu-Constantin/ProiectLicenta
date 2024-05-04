@@ -3,8 +3,10 @@ package com.barbuceanuconstantin.proiectlicenta.di
 import android.content.Context
 import androidx.room.Room
 import com.barbuceanuconstantin.proiectlicenta.data.BudgetTrackerDatabase
+import com.barbuceanuconstantin.proiectlicenta.data.BudgetsDAO
 import com.barbuceanuconstantin.proiectlicenta.data.CategoryDAO
 import com.barbuceanuconstantin.proiectlicenta.data.MainCategoryDAO
+import com.barbuceanuconstantin.proiectlicenta.data.TransactionsDAO
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,14 +18,21 @@ import javax.inject.Singleton
 @Module
 object DatabaseModule {
     @Provides
+    fun provideMainCategoryDao(budgetTrackerDatabase: BudgetTrackerDatabase): MainCategoryDAO {
+        return  budgetTrackerDatabase.mainCategoryDao()
+    }
+    @Provides
     fun provideCategoryDao(budgetTrackerDatabase: BudgetTrackerDatabase): CategoryDAO {
         return  budgetTrackerDatabase.categoryDao()
     }
     @Provides
-    fun provideMainCategoryDao(budgetTrackerDatabase: BudgetTrackerDatabase): MainCategoryDAO {
-        return  budgetTrackerDatabase.mainCategoryDao()
+    fun provideTransactionDao(budgetTrackerDatabase: BudgetTrackerDatabase): TransactionsDAO {
+        return  budgetTrackerDatabase.transactionDao()
     }
-
+    @Provides
+    fun provideBudgetDao(budgetTrackerDatabase: BudgetTrackerDatabase): BudgetsDAO {
+        return budgetTrackerDatabase.budgetDao()
+    }
     @Provides
     @Singleton
     fun provideBudgetTrackerDatabase(@ApplicationContext context: Context): BudgetTrackerDatabase {
