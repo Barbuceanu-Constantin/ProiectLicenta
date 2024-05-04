@@ -121,11 +121,13 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
         Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)) {
             if (transaction == null)
                 //Add
-                HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA, showP, showD,
+                HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA.value, showP.value, showD.value,
+                                                                        updateState = { _, _, _ -> /* Do nothing */ },
                                                                         defaultValueSelected = true)
             else
                 //Update
-                HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA, showP, showD)
+                HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA.value, showP.value, showD.value,
+                                                                        updateState = { _, _, _ -> /* Do nothing */ })
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 

@@ -444,21 +444,22 @@ fun SegmentedButton3(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<Boolean>,
-                                                           showP: MutableState<Boolean>,
-                                                           showD: MutableState<Boolean>,
-    
-                                                           defaultValueSelected: Boolean = false) {
+fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(
+    showA: Boolean,
+    showP: Boolean,
+    showD: Boolean,
+    updateState: (Boolean, Boolean, Boolean) -> Unit,
+    defaultValueSelected: Boolean = false) {
 
     var selectedIndex by remember { mutableStateOf(-1) }
 
     if(defaultValueSelected) selectedIndex = 0
 
-    if (showA.value && !showP.value && !showD.value)
+    if (showA && !showP && !showD)
         selectedIndex = 0
-    else if (showP.value && !showA.value && !showD.value)
+    else if (showP && !showA && !showD)
         selectedIndex = 1
-    else if (showD.value && !showA.value && !showP.value)
+    else if (showD && !showA && !showP)
         selectedIndex = 2
 
     val options = listOf(
@@ -489,21 +490,15 @@ fun HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA: MutableState<B
                             selectedIndex = index
                             when (selectedIndex) {
                                 0 -> {
-                                    showA.value = true
-                                    showP.value = false
-                                    showD.value = false
+                                    updateState(true, false, false)
                                 }
 
                                 1 -> {
-                                    showP.value = true
-                                    showA.value = false
-                                    showD.value = false
+                                    updateState(false, true, false)
                                 }
 
                                 2 -> {
-                                    showD.value = true
-                                    showA.value = false
-                                    showP.value = false
+                                    updateState(false, false, true)
                                 }
                             }
                         },

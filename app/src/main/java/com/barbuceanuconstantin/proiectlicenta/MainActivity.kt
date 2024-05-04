@@ -20,6 +20,7 @@ import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.CalendarScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.CategoriesScreenViewModel
+import com.barbuceanuconstantin.proiectlicenta.di.EditCategoryScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.FixedBudgetsScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.GraphsScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.MementosScreenViewModel
@@ -453,8 +454,17 @@ class MainActivity : ComponentActivity() {
                         // Convert json string to the Category data class object
                         val categoryObject = gson.fromJson(categoryJson, Categories::class.java)
 
+                        val viewModel = hiltViewModel<EditCategoryScreenViewModel>()
+                        val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
+                        val updateState: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
+                            viewModel.onStateChanged(showA, showP, showD)
+                        }
+
+                        //Add the category in state.
+                        if(categoryObject != null)
+                            viewModel.onAddCategory(categoryObject)
+
                         EditCategoryScreen(
-                            category = categoryObject,
                             onNavigateToCategoryScreen = {
                                 navController.navigate("categoriesScreen") {
                                     popUpTo("categoriesScreen") {
@@ -468,7 +478,9 @@ class MainActivity : ComponentActivity() {
                                         inclusive = true
                                     }
                                 }
-                            }
+                            },
+                            editCategoryScreenUIState = state,
+                            updateState = updateState
                         )
                     }
                     composable("editBudgetScreen?budget={budget}")
