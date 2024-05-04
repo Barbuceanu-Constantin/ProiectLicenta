@@ -33,18 +33,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-
-data class Budget(
-    val id: Int,
-    var startDate: String,
-    var endDate: String,
-    var name: String,
-    var value: Double,
-    var category: String
-)
 
 @Composable
 private fun HeaderBudget(text: String) {
@@ -120,7 +112,7 @@ fun InfoBudget(value: Double, startDate: String, endDate: String, category: Stri
 }
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>,
+fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budgets>,
                       buttons: Boolean,
                       navController: NavController,
                       updateStateButtons: (Boolean) -> Unit
@@ -142,7 +134,7 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budget>,
                                                     )
             ) {
                 HeaderBudget(text = budget.name)
-                InfoBudget(budget.value, budget.startDate, budget.endDate, budget.category)
+                InfoBudget(budget.upperTreshold, budget.startDate, budget.endDate, budget.category)
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
         }

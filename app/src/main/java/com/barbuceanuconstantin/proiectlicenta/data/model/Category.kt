@@ -28,17 +28,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-
-data class Category(
-    val id: Int,
-    var name: String,
-    var mainCategory: String,
-)
 
 private var listaSubcategorysActive = subcategorysPredefiniteActive.toMutableList()
 private var listaSubcategorysPasive = subcategorysPredefinitePasive.toMutableList()
@@ -48,7 +43,7 @@ private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.toMutableL
 private fun Subcategory(text: String,
                         index: Int,
                         navController: NavController,
-                        categorii: MutableList<Category>) {
+                        categorii: MutableList<Categories>) {
     val colorA = colorResource(R.color.light_cream_yellow)
     val colorP = colorResource(R.color.light_cream_red)
     val colorD = colorResource(R.color.light_cream_blue)
@@ -93,7 +88,7 @@ private fun Subcategory(text: String,
 }
 
 @Composable
-fun CategoriesLazyColumn(categorii: MutableList<Category>,
+fun CategoriesLazyColumn(categorii: MutableList<Categories>,
                          navController: NavController
 ) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {

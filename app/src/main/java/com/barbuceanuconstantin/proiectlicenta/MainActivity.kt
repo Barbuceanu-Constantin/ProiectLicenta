@@ -14,9 +14,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
-import com.barbuceanuconstantin.proiectlicenta.data.model.Category
-import com.barbuceanuconstantin.proiectlicenta.data.model.Transaction
+import com.barbuceanuconstantin.proiectlicenta.data.Budgets
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
+import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.CalendarScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.CategoriesScreenViewModel
@@ -43,46 +43,46 @@ import dagger.hilt.android.AndroidEntryPoint
 
 //Branch ecrane-individuale//
 private var listSubcategoriesRevenue = subcategorysPredefiniteActive.map {
-    Category(id = 0, name = it, mainCategory = "Active")
+    Categories(id = 0, name = it, mainCategory = "Active")
 }.toMutableStateList()
 private var listSubcategoriesExpenses = subcategorysPredefinitePasive.map {
-    Category(id = 0, name = it, mainCategory = "Pasive")
+    Categories(id = 0, name = it, mainCategory = "Pasive")
 }.toMutableStateList()
 private var listSubcategoriesDebts = subcategorysPredefiniteDatorii.map {
-    Category(id = 0, name = it, mainCategory = "Datorii")
+    Categories(id = 0, name = it, mainCategory = "Datorii")
 }.toMutableStateList()
-fun initHardcodedBudgets(lBudgets: SnapshotStateList<Budget>) {
-    lBudgets.add(Budget(1,"2024-04-21", "2024-04-21", "ccc", 2f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget(2,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget(3,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget(4,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget(5,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget(6,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget(7,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget(8,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget(9,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
-    lBudgets.add(Budget(10,"2024-04-21", "2024-04-21", "---", 0f.toDouble(), "Divertisment"))
+fun initHardcodedBudgets(lBudgets: SnapshotStateList<Budgets>) {
+    lBudgets.add(Budgets(id = 1, startDate = "2024-04-21", endDate = "2024-04-21", name = "ccc", upperTreshold = 2f.toDouble(), category = "Divertisment"))
+    lBudgets.add(Budgets(id = 2, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+    lBudgets.add(Budgets(id = 3, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+    lBudgets.add(Budgets(id = 4, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+    lBudgets.add(Budgets(id = 5, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+    lBudgets.add(Budgets(id = 6, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+    lBudgets.add(Budgets(id = 7, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+    lBudgets.add(Budgets(id = 8, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+    lBudgets.add(Budgets(id = 9, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+    lBudgets.add(Budgets(id = 10, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
 }
-fun initHardcodedTransactions(lTrA: SnapshotStateList<Transaction>,
-                              lTrP: SnapshotStateList<Transaction>,
-                              lTrD: SnapshotStateList<Transaction>) {
-    lTrA.add(Transaction(suma = 2F.toDouble(), data = "", descriere = "fd", payee = "fd", category = "Salariu", id = 1))
-    lTrA.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Salariu", id = 2))
-    lTrA.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Salariu", id = 3))
-    lTrA.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Salariu", id = 4))
-    lTrA.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Salariu", id = 5))
+fun initHardcodedTransactions(lTrA: SnapshotStateList<Transactions>,
+                              lTrP: SnapshotStateList<Transactions>,
+                              lTrD: SnapshotStateList<Transactions>) {
+    lTrA.add(Transactions(value = 2F.toDouble(), date = "", description = "fd", payee = "fd", category = "Salariu", id = 1, budgetId = 1))
+    lTrA.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Salariu", id = 2, budgetId = 1))
+    lTrA.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Salariu", id = 3, budgetId = 1))
+    lTrA.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Salariu", id = 4, budgetId = 1))
+    lTrA.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Salariu", id = 5, budgetId = 1))
 
-    lTrP.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Mancare", id = 1))
-    lTrP.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Mancare", id = 2))
-    lTrP.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Mancare", id = 3))
-    lTrP.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Mancare", id = 4))
-    lTrP.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Mancare", id = 5))
+    lTrP.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Mancare", id = 1, budgetId = 1))
+    lTrP.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Mancare", id = 2, budgetId = 1))
+    lTrP.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Mancare", id = 3, budgetId = 1))
+    lTrP.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Mancare", id = 4, budgetId = 1))
+    lTrP.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Mancare", id = 5, budgetId = 1))
 
-    lTrD.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Credit1", id = 1))
-    lTrD.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Credit1", id = 2))
-    lTrD.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Credit1", id = 3))
-    lTrD.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Credit1", id = 4))
-    lTrD.add(Transaction(suma = 0F.toDouble(), data = "", descriere = "", payee = "", category = "Credit1", id = 5))
+    lTrD.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Credit1", id = 1, budgetId = 1))
+    lTrD.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Credit1", id = 2, budgetId = 1))
+    lTrD.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Credit1", id = 3, budgetId = 1))
+    lTrD.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Credit1", id = 4, budgetId = 1))
+    lTrD.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Credit1", id = 5, budgetId = 1))
 }
 
 @AndroidEntryPoint
@@ -91,10 +91,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ProiectLicentaTheme {
-                val lTrA = mutableStateListOf<Transaction>()
-                val lTrP = mutableStateListOf<Transaction>()
-                val lTrD = mutableStateListOf<Transaction>()
-                val lBudgets = mutableStateListOf<Budget>()
+                val lTrA = mutableStateListOf<Transactions>()
+                val lTrP = mutableStateListOf<Transactions>()
+                val lTrD = mutableStateListOf<Transactions>()
+                val lBudgets = mutableStateListOf<Budgets>()
 
                 initHardcodedTransactions(lTrA, lTrP, lTrD)
                 initHardcodedBudgets(lBudgets)
@@ -394,7 +394,7 @@ class MainActivity : ComponentActivity() {
                         /* Extracting the user object json from the route */
                         val transactionJson = backStackEntry.arguments?.getString("transaction")
                         // Convert json string to the User data class object
-                        val transactionObject = gson.fromJson(transactionJson, Transaction::class.java)
+                        val transactionObject = gson.fromJson(transactionJson, Transactions::class.java)
 
                         val index = requireNotNull(backStackEntry.arguments).getInt("index")
                         var lambda = {
@@ -443,7 +443,7 @@ class MainActivity : ComponentActivity() {
                         /* Extracting the user object json from the route */
                         val categoryJson = backStackEntry.arguments?.getString("category")
                         // Convert json string to the Category data class object
-                        val categoryObject = gson.fromJson(categoryJson, Category::class.java)
+                        val categoryObject = gson.fromJson(categoryJson, Categories::class.java)
 
                         EditCategoryScreen(
                             category = categoryObject,
@@ -470,7 +470,7 @@ class MainActivity : ComponentActivity() {
                         /* Extracting the budget object json from the route */
                         val budgetJson = backStackEntry.arguments?.getString("budget")
                         // Convert json string to the Budget data class object
-                        val budgetObject = gson.fromJson(budgetJson, Budget::class.java)
+                        val budgetObject = gson.fromJson(budgetJson, Budgets::class.java)
 
                         EditBudgetScreen(
                             onNavigateToFixedBudgetsScreen = {

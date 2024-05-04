@@ -8,7 +8,7 @@ data class Transactions(
     @PrimaryKey val id: Int,
     val category: String,
     val budgetId: Int,
-    var value: Float,
+    var value: Double,
     var description: String,
     var date: String,
     var payee: String,

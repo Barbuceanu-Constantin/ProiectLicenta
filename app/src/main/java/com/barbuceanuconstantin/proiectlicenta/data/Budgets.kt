@@ -8,7 +8,7 @@ data class Budgets(
     @PrimaryKey val id: Int,
     val category: String,
     val name: String,
-    var upperTreshold: Int,
+    var upperTreshold: Double,
     var startDate: String,
     var endDate: String,
 )

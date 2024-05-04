@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.returnToBudgetSummaryIndex
 import com.barbuceanuconstantin.proiectlicenta.returnToTransactionIndex
@@ -51,19 +52,10 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
-data class Transaction(
-    val id: Int,
-    var suma: Double,
-    var descriere: String,
-    var category: String,
-    var data: String,
-    var payee: String
-)
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Tranzactie(
-    transaction: Transaction,
+    transaction: Transactions,
     buttons: Boolean,
     index: Int = 0,
     id: MutableState<Int>? = null,
@@ -105,7 +97,7 @@ private fun Tranzactie(
         ) {
             Column(modifier = Modifier.background(color)) {
                 Text(
-                    text = "${transaction.category} ---> ${transaction.suma} RON", fontSize = 18.sp,
+                    text = "${transaction.category} ---> ${transaction.value} RON", fontSize = 18.sp,
                     fontWeight = FontWeight.Bold, modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = dimensionResource(id = R.dimen.margin))
@@ -119,7 +111,7 @@ private fun Tranzactie(
                     )
                 )
                 Text(
-                    text = "${stringResource(id = R.string.data)} : ${transaction.data}",
+                    text = "${stringResource(id = R.string.data)} : ${transaction.date}",
                     maxLines = 2,
                     modifier = Modifier.padding(
                         start = dimensionResource(id = R.dimen.margin),
@@ -127,7 +119,7 @@ private fun Tranzactie(
                     )
                 )
                 Text(
-                    text = "${stringResource(id = R.string.descriere)} : ${transaction.descriere}",
+                    text = "${stringResource(id = R.string.descriere)} : ${transaction.description}",
                     maxLines = 2,
                     modifier = Modifier.padding(
                         start = dimensionResource(id = R.dimen.margin),
@@ -141,7 +133,7 @@ private fun Tranzactie(
 
 @Composable
 fun TranzactiiLazyColumn(
-    tranzactii: SnapshotStateList<Transaction>,
+    tranzactii: SnapshotStateList<Transactions>,
     buttons: Boolean,
     navController: NavController,
     summary: Boolean = false,
@@ -224,7 +216,7 @@ fun TranzactiiLazyColumn(
 
 @Composable
 fun CalendarSummaryTranzactiiLazyColumn(
-    tranzactii: SnapshotStateList<Transaction>,
+    tranzactii: SnapshotStateList<Transactions>,
     incomesOrExpenses: Boolean,
     date: String,
     buttons: Boolean,

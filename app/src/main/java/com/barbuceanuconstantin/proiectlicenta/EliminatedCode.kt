@@ -45,8 +45,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.barbuceanuconstantin.proiectlicenta.data.model.Budget
-import com.barbuceanuconstantin.proiectlicenta.data.model.Category
 import com.barbuceanuconstantin.proiectlicenta.view.screen.isDateAfterOrEqualToCurrent
 import kotlinx.coroutines.delay
 import java.time.LocalDate
@@ -714,3 +712,27 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //val buttons: MutableState<Boolean> = remember {
 //    mutableStateOf(transactionsScreenUIState.buttons)
 //}
+
+//data class Budget(
+//    val id: Int,
+//    var startDate: String,
+//    var endDate: String,
+//    var name: String,
+//    var value: Double,
+//    var category: String
+//)
+
+//data class Category(
+//    val id: Int,
+//    var name: String,
+//    var mainCategory: String,
+//)
+
+//data class Transaction(
+//    val id: Int,
+//    var suma: Double,
+//    var descriere: String,
+//    var category: String,
+//    var data: String,
+//    var payee: String
+//)
