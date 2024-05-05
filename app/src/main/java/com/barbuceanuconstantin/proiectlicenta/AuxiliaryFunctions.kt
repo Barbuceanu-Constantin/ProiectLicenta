@@ -380,7 +380,7 @@ fun SegmentedButton3(
     showD: Boolean,
     updateState: (Boolean, Boolean, Boolean) -> Unit = { _, _, _ -> }
 ) {
-    val checkedList = remember { mutableStateListOf<Int>() }
+    val checkedList = remember { mutableStateListOf(0) }
     val options = listOf(
         stringResource(id = R.string.active),
         stringResource(id = R.string.pasive),
