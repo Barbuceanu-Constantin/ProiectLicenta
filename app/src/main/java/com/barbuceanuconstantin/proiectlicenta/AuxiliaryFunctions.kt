@@ -7,6 +7,14 @@ import android.icu.util.Calendar
 import android.widget.CalendarView
 import android.widget.Toast
 import androidx.annotation.DimenRes
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +35,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountBalanceWallet
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Home
@@ -50,6 +59,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -58,6 +68,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
@@ -70,6 +81,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MoreScreensMenu
+import kotlinx.coroutines.delay
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -267,11 +279,9 @@ fun Calendar(onDateSelected: (String) -> Unit) {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeIntervalSegmentedButton(
-    daily: Boolean,
-    weekly: Boolean,
-    monthly: Boolean,
     updateStateTimeInterval: (Boolean, Boolean, Boolean) -> Unit
 ) {
     var selectedIndex1 by remember { mutableStateOf(-1) }
@@ -627,5 +637,57 @@ fun BottomNavigationBar(
             selectedContentColor = colorResource(id = R.color.black),
             unselectedContentColor = colorResource(id = R.color.gray)
         )
+    }
+}
+
+@Composable
+fun FadingArrowIcon() {
+    var isVisible by remember { mutableStateOf(true) }
+
+    if (!isVisible) {
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.margin_extra)))
+    }
+
+    val fadeInOutAnimation = rememberInfiniteTransition(label = "")
+    val alpha by fadeInOutAnimation.animateFloat(
+        label = "",
+        initialValue = 1f,
+        targetValue = 0f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 1000),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    if (isVisible) {
+        LaunchedEffect(Unit) {
+            delay(5000) // Wait for 5 seconds before setting isVisible to false
+            isVisible = false
+        }
+
+        AnimatedVisibility(
+            visible = true, // Always set to true for the initial appearance
+            enter = fadeIn(
+                animationSpec = tween(
+                    durationMillis = 500
+                )
+            ),
+            exit = fadeOut(
+                animationSpec = tween(
+                    durationMillis = 500
+                )
+            )
+        ) {
+            Icon(
+                Icons.Default.ArrowDownward,
+                contentDescription = "Scroll Down",
+                modifier = Modifier
+                    .padding(dimensionResource(R.dimen.spacing))
+                    .size(
+                        dimensionResource(R.dimen.gap)
+                    )
+                    .alpha(alpha)
+            )
+        }
     }
 }

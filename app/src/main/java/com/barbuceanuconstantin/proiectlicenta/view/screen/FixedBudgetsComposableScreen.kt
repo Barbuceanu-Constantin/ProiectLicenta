@@ -17,6 +17,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
+import com.barbuceanuconstantin.proiectlicenta.FadingArrowIcon
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
@@ -69,7 +70,7 @@ fun FixedBudgetsComposableScreen(
     ) { innerPadding ->
         Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
                 horizontalAlignment = Alignment.CenterHorizontally ) {
-            Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
+            FadingArrowIcon()
 
             BudgetsLazyColumn(lFixedBudgets, buttons, navController, updateStateButtons)
         }

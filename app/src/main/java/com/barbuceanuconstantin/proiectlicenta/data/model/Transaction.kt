@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.barbuceanuconstantin.proiectlicenta.FadingArrowIcon
 import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
@@ -63,17 +64,18 @@ private fun Tranzactie(
     updateStateButtons: (Boolean) -> Unit = { _ -> },
 ) {
 
-    val modifier = Modifier.combinedClickable(
-                                                onClick = { },
-                                                onLongClick = {
-                                                    updateStateButtons(!buttons)
-                                                    id.value = index
-                                                },
-                            )
-                            .padding(
-                                start = dimensionResource(id = R.dimen.margin),
-                                end = dimensionResource(id = R.dimen.margin)
-                            )
+    val modifier = Modifier
+        .combinedClickable(
+            onClick = { },
+            onLongClick = {
+                updateStateButtons(!buttons)
+                id.value = index
+            },
+        )
+        .padding(
+            start = dimensionResource(id = R.dimen.margin),
+            end = dimensionResource(id = R.dimen.margin)
+        )
 
     val color: Color =
         if (subcategorysPredefiniteActive.contains(transaction.category))
@@ -231,6 +233,9 @@ fun CalendarSummaryTranzactiiLazyColumn(
                 style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
                 modifier = Modifier.background(colorResource(R.color.light_cream))
             )
+
+            FadingArrowIcon()
+
         } else {
             //Coloana cheltuieli
             Text(text = stringResource(id = R.string.Cheltuieli) + " " + date,
@@ -238,9 +243,9 @@ fun CalendarSummaryTranzactiiLazyColumn(
                 style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
                 modifier = Modifier.background(colorResource(R.color.light_cream))
             )
-        }
 
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
+            FadingArrowIcon()
+        }
 
         LazyColumn(modifier = modifier) {
             itemsIndexed(tranzactii) { index, tranzactie ->

@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
+import com.barbuceanuconstantin.proiectlicenta.FadingArrowIcon
 import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
@@ -75,7 +76,7 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transactions>,
 
             SegmentedButton3(showA, showP, showD, updateStateMainScreen)
 
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.margin_extra)))
+            FadingArrowIcon()
 
             if (showA && !showP && !showD) {
                 TranzactiiLazyColumn(

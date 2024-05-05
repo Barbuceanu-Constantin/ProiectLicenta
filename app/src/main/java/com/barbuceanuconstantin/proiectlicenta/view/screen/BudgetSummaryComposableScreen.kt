@@ -154,8 +154,7 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transactions>,
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 
-            TimeIntervalSegmentedButton(daily = daily, weekly = weekly, monthly = monthly,
-                                        updateStateTimeInterval = updateStateTimeInterval)
+            TimeIntervalSegmentedButton(updateStateTimeInterval = updateStateTimeInterval)
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 
