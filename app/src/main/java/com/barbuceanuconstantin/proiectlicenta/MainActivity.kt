@@ -20,6 +20,7 @@ import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.CalendarScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.CategoriesScreenViewModel
+import com.barbuceanuconstantin.proiectlicenta.di.EditBudgetScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.EditCategoryScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.FixedBudgetsScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.GraphsScreenViewModel
@@ -38,6 +39,9 @@ import com.barbuceanuconstantin.proiectlicenta.view.screen.GraphsComposableScree
 import com.barbuceanuconstantin.proiectlicenta.view.screen.MementosComposableScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.PrincipalComposableScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.TransactionsComposableScreen
+import com.barbuceanuconstantin.proiectlicenta.view.screen.listaSubcategorysActive
+import com.barbuceanuconstantin.proiectlicenta.view.screen.listaSubcategorysDatorii
+import com.barbuceanuconstantin.proiectlicenta.view.screen.listaSubcategorysPasive
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -459,10 +463,26 @@ class MainActivity : ComponentActivity() {
                         val updateState: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
                             viewModel.onStateChanged(showA, showP, showD)
                         }
+                        val updateFilledText: (String) -> Unit = { filledText ->
+                            viewModel.onStateChangedFilledText(filledText)
+                        }
+                        val updateCategory: (Categories) -> Unit = { category ->
+                            viewModel.onAddCategory(category)
+                        }
 
                         //Add the category in state.
-                        if(categoryObject != null)
+                        if(categoryObject != null) {
                             viewModel.onAddCategory(categoryObject)
+                            if (!state.showA && !state.showP && !state.showD) {
+                                if (listaSubcategorysActive.contains(categoryObject.name))
+                                    updateState(true, false, false)
+                                else if (listaSubcategorysPasive.contains(categoryObject.name))
+                                    updateState(false, true, false)
+                                else if (listaSubcategorysDatorii.contains(categoryObject.name))
+                                    updateState(false, false, true)
+                                updateFilledText(categoryObject.name)
+                            }
+                        }
 
                         EditCategoryScreen(
                             onNavigateToCategoryScreen = {
@@ -480,7 +500,9 @@ class MainActivity : ComponentActivity() {
                                 }
                             },
                             editCategoryScreenUIState = state,
-                            updateState = updateState
+                            updateState = updateState,
+                            onStateChangedFilledText = updateFilledText,
+                            onAddCategory = updateCategory
                         )
                     }
                     composable("editBudgetScreen?budget={budget}")
@@ -491,6 +513,48 @@ class MainActivity : ComponentActivity() {
                         val budgetJson = backStackEntry.arguments?.getString("budget")
                         // Convert json string to the Budget data class object
                         val budgetObject = gson.fromJson(budgetJson, Budgets::class.java)
+
+                        val viewModel = hiltViewModel<EditBudgetScreenViewModel>()
+                        val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
+                        val updateDate1: (String) -> Unit = { date1 ->
+                            viewModel.onUpdateDate1(date1)
+                        }
+                        val updateDate2: (String) -> Unit = { date2 ->
+                            viewModel.onUpdateDate2(date2)
+                        }
+                        val updateFilledText: (String) -> Unit = { filledText ->
+                            viewModel.onUpdateFilledText(filledText)
+                        }
+                        val updateCategory: (String) -> Unit = { category ->
+                            viewModel.onUpdateCategory(category)
+                        }
+                        val updateValueSum: (String) -> Unit = { valueSum ->
+                            viewModel.onUpdateValueSum(valueSum)
+                        }
+                        val updateOpenWarningDialog: (Boolean, Int) -> Unit = {
+                                                                                openWarningDialog,
+                                                                                idWarningString ->
+                            viewModel.onUpdateOpenWarningDialog(openWarningDialog, idWarningString)
+                        }
+                        val addBudget: (Budgets) -> Unit = { budget ->
+                            viewModel.onAddBudget(budget)
+                        }
+
+                        if(budgetObject != null) {
+                            if (state.budget == null) {
+                                viewModel.onAddBudget(budgetObject)
+                                if (state.date1 == state.formattedDate)
+                                    updateDate1(budgetObject.startDate)
+                                if (state.date2 == state.formattedDate)
+                                    updateDate2(budgetObject.endDate)
+                                if (state.filledText == "")
+                                    updateFilledText(budgetObject.name)
+                                if (state.category == "")
+                                    updateCategory(budgetObject.category)
+                                if (state.valueSum == "")
+                                    updateValueSum(budgetObject.upperTreshold.toString())
+                            }
+                        }
 
                         EditBudgetScreen(
                             onNavigateToFixedBudgetsScreen = {
@@ -507,7 +571,14 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             },
-                            budget = budgetObject
+                            onUpdateDate1 = updateDate1,
+                            onUpdateDate2 = updateDate2,
+                            onUpdateFilledText = updateFilledText,
+                            onUpdateCategory = updateCategory,
+                            onUpdateValueSum = updateValueSum,
+                            onUpdateOpenWarningDialog = updateOpenWarningDialog,
+                            addBudget = addBudget,
+                            editBudgetScreenUIState = state
                         )
                     }
                     composable("budgetSummaryScreen") {

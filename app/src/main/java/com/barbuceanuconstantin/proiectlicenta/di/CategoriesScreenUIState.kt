@@ -6,5 +6,5 @@ import androidx.compose.runtime.mutableStateOf
 data class CategoriesScreenUIState(
     val showA: Boolean = true,
     val showP: Boolean = false,
-    val showD: Boolean = false
+    val showD: Boolean = false,
 )

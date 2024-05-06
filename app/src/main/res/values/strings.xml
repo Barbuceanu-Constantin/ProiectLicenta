@@ -59,7 +59,8 @@
 
     <string name="mesaj_selectare_actiune">Alegeti actiunea dorita pe care doriti sa o executati, modificare sau stergere: </string>
     <string name="mesaj_eliminare_subcategory">Introduceti numele subcategoriei pe care vreti sa o eliminati: </string>
-    <string name="mesaj_adaugare_subcategory">Introduceti numele subcategoriei pe care vreti sa o adaugati/modificati: </string>
+    <string name="mesaj_adaugare_subcategory">Introduceti numele subcategoriei pe care vreti sa o adaugati: </string>
+    <string name="mesaj_modificare_subcategory">Introduceti numele subcategoriei pe care vreti sa o modificati: </string>
     <string name="mesaj_selectare_categorie_principala">Alegeti categoria principala (obligatoriu):</string>
     <string name="mesaj_selectare_subcategory">Alegeti subcategoria: </string>
     <string name="mesaj_selectare_valuta">Alegeti valuta: </string>
@@ -74,7 +75,8 @@
     <string name="ecran_modificare_tranzactie">Ecran modificare tranzactie</string>
 
     <string name="avertisment_data">Atentie !</string>
-    <string name="avertisment_data_continut">Data de final trebuie sa fie dupa data de inceput</string>
+    <string name="avertisment_data_continut_data_inceput">Data de final trebuie sa fie dupa data de inceput</string>
+    <string name="avertisment_data_continut_data_curenta">Data de final trebuie sa fie dupa data curenta</string>
 
     <string name="introduceti_detalii_buget">Introduceti detalii buget</string>
     <string name="furnizor_sau_beneficiar">Furnizor/Beneficiar</string>

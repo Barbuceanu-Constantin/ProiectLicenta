@@ -37,6 +37,7 @@ import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindowSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.WarningNotSelectedCategory
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.di.EditCategoryScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 
@@ -45,22 +46,16 @@ fun EditCategoryScreen(
                         onNavigateToCategoryScreen : () -> Unit,
                         onNavigateToHomeScreen: () -> Unit,
                         editCategoryScreenUIState: EditCategoryScreenUIState,
-                        updateState: (Boolean, Boolean, Boolean) -> Unit
+                        updateState: (Boolean, Boolean, Boolean) -> Unit,
+                        onStateChangedFilledText: (String) -> Unit,
+                        onAddCategory: (Categories) -> Unit
 ) {
+    val filledText: String = editCategoryScreenUIState.filledText
     val showA: Boolean = editCategoryScreenUIState.showA
     val showP: Boolean = editCategoryScreenUIState.showP
     val showD: Boolean = editCategoryScreenUIState.showD
     val category = editCategoryScreenUIState.category
     val keyboardController = LocalSoftwareKeyboardController.current
-
-    if (category != null) {
-        if (listaSubcategorysActive.contains(category.name))
-            updateState(true, false, false)
-        else if (listaSubcategorysPasive.contains(category.name))
-            updateState(false, true, false)
-        else if (listaSubcategorysDatorii.contains(category.name))
-            updateState(false, false, true)
-    }
 
     Scaffold (
         topBar = {
@@ -79,7 +74,10 @@ fun EditCategoryScreen(
 
             if (showA || showD || showP) {
                 Text(
-                    text = stringResource(id = R.string.mesaj_adaugare_subcategory),
+                    text =  if (category != null)
+                                stringResource(id = R.string.mesaj_modificare_subcategory)
+                            else
+                                stringResource(id = R.string.mesaj_adaugare_subcategory),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(
@@ -90,13 +88,10 @@ fun EditCategoryScreen(
                     fontWeight = FontWeight.Bold
                 )
 
-                var filledText by remember { mutableStateOf("") }
-                if (category != null) filledText = category.name
-
                 Spacer(Modifier.height(dimensionResource(id = R.dimen.middle)))
 
                 OutlinedTextField(
-                    value = filledText, onValueChange = { filledText = it },
+                    value = filledText, onValueChange = { onStateChangedFilledText(it) },
                     textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
                     label = { Text(text = stringResource(R.string.denumire)) },
                     leadingIcon = {
@@ -126,7 +121,10 @@ fun EditCategoryScreen(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        Button( onClick = { onNavigateToCategoryScreen() },
+                        Button( onClick = {
+                                            //Trebuie sa si adaug categoria in viewState
+                                            onNavigateToCategoryScreen()
+                                          },
                                 modifier = Modifier
                                     .weight(1f)
                                     .padding(start = dimensionResource(id = R.dimen.margin))) {

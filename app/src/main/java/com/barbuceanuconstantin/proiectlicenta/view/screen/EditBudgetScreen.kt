@@ -46,6 +46,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
+import com.barbuceanuconstantin.proiectlicenta.di.EditBudgetScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoriesMenu
 import java.text.SimpleDateFormat
@@ -63,29 +64,68 @@ fun isDateAfterOrEqualToCurrent(dateString: String, current: LocalDate): Boolean
         false
     }
 }
+
+fun verifyFinalDate(selectedDate: Calendar,
+                    localDate: LocalDate,
+                    onUpdateDate2: (String) -> Unit,
+                    onUpdateOpenWarningDialog: (Boolean, Int) -> Unit
+                    ) {
+    if (isDateAfterOrEqualToCurrent(
+            SimpleDateFormat(
+                "yyyy-MM-dd",
+                Locale.getDefault()
+            ).format(selectedDate.time), LocalDate.now()
+        )
+    ) {
+        if (isDateAfterOrEqualToCurrent(
+                SimpleDateFormat(
+                    "yyyy-MM-dd",
+                    Locale.getDefault()
+                ).format(selectedDate.time), localDate
+            )
+        ) {
+            onUpdateDate2(
+                SimpleDateFormat(
+                    "yyyy-MM-dd",
+                    Locale.getDefault()
+                ).format(selectedDate.time)
+            )
+        } else {
+            onUpdateOpenWarningDialog(
+                true,
+                R.string.avertisment_data_continut_data_inceput
+            )
+        }
+    } else {
+        onUpdateOpenWarningDialog(
+            true,
+            R.string.avertisment_data_continut_data_curenta
+        )
+    }
+}
 @Composable
 fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                      onNavigateToHomeScreen: () -> Unit,
-                     budget: Budgets? = null) {
-    val dateTime = LocalDateTime.now()
-    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    val formattedDate = dateTime.format(dateFormatter)
-    val dateMutable1: MutableState<String> = remember { mutableStateOf(formattedDate) }
-    val dateMutable2: MutableState<String> = remember { mutableStateOf(formattedDate) }
-    val openWarningDialog: MutableState<Boolean> = remember { mutableStateOf(false) }
+                     onUpdateDate1: (String) -> Unit,
+                     onUpdateDate2: (String) -> Unit,
+                     onUpdateCategory: (String) -> Unit,
+                     onUpdateFilledText: (String) -> Unit,
+                     onUpdateValueSum: (String) -> Unit,
+                     onUpdateOpenWarningDialog: (Boolean, Int) -> Unit,
+                     addBudget: (Budgets) -> Unit,
+                     editBudgetScreenUIState: EditBudgetScreenUIState) {
+    val date1: String = editBudgetScreenUIState.date1
+    val date2: String = editBudgetScreenUIState.date2
+    val openWarningDialog = editBudgetScreenUIState.openWarningDialog
 
-    var filledText by remember { mutableStateOf("") }
-    var valueSum by remember { mutableStateOf("") }
-    var category by remember { mutableStateOf("") }
-    val keyboardController = LocalSoftwareKeyboardController.current
+    val filledText: String = editBudgetScreenUIState.filledText
+    val valueSum: String = editBudgetScreenUIState.valueSum
+    val category: String = editBudgetScreenUIState.category
+    val idWarningString: Int = editBudgetScreenUIState.idWarningString
+    val budget: Budgets? = editBudgetScreenUIState.budget
 
-    if (budget != null) {
-        dateMutable1.value = budget.startDate
-        dateMutable2.value = budget.endDate
-        filledText = budget.name
-        category = budget.category
-        valueSum = budget.upperTreshold.toString()
-    }
+    println("dadada1 category: $category")
+    println("dadada1 filledText: $filledText")
 
     // Obtain the context from your activity or fragment
     val context: Context = LocalContext.current
@@ -95,6 +135,7 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
     val year: Int = calendar.get(Calendar.YEAR)
     val month: Int = calendar.get(Calendar.MONTH)
     val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Scaffold(
         topBar = {
@@ -124,7 +165,7 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.middle)))
 
             OutlinedTextField(
-                value = filledText, onValueChange = { filledText = it },
+                value = filledText, onValueChange = { onUpdateFilledText(it) },
                 textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
                 label = { Text(text = stringResource(R.string.denumire)) },
                 maxLines = 1,
@@ -147,13 +188,13 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                 lSubcategorys = listaSubcategorysPasive,
                 subcategory = category
             ) {
-                category = it
+                onUpdateCategory(it)
             }
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             OutlinedTextField(
-                value = valueSum, onValueChange = { valueSum = it },
+                value = valueSum, onValueChange = { onUpdateValueSum(it) },
                 keyboardOptions = KeyboardOptions(
                                                 keyboardType = KeyboardType.Number,
                                                 imeAction = ImeAction.Done,
@@ -176,15 +217,9 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             OutlinedTextField(
-                value = dateMutable1.value,
+                value = date1,
                 enabled = false,
-                onValueChange = {
-                    //Am facut in asa fel incat sa nu poti seta un buget
-                    //cu data mai mica decat data curenta.
-                    if (isDateAfterOrEqualToCurrent(it, LocalDate.now())) {
-                        dateMutable1.value = it
-                    }
-                },
+                onValueChange = { },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 label = { Text(text = stringResource(id = R.string.data_inceput)) },
                 maxLines = 1,
@@ -196,11 +231,12 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                                 // Handle the selected date
                                 val selectedDate: Calendar = Calendar.getInstance()
                                 selectedDate.set(year1, month1, dayOfMonth1)
-
-                                dateMutable1.value =
-                                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
-                                        selectedDate.time
-                                    )
+                                onUpdateDate1(
+                                    SimpleDateFormat(
+                                        "yyyy-MM-dd",
+                                        Locale.getDefault()
+                                    ).format(selectedDate.time)
+                                )
                             }, year, month, dayOfMonth)
 
                         datePickerDialog.show()
@@ -222,57 +258,29 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             OutlinedTextField(
-                value = dateMutable2.value,
+                value = date2,
                 enabled = false,
-                onValueChange = {
-                    //Am facut in asa fel incat sa nu poti seta un buget
-                    //cu data mai mica decat data curenta.
-                    if (isDateAfterOrEqualToCurrent(it, LocalDate.now())) {
-                        dateMutable2.value = it
-                    }
-                },
+                onValueChange = { },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 label = { Text(text = stringResource(id = R.string.data_final)) },
                 maxLines = 1,
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        val dateString: String = dateMutable1.value
+                        val dateString: String = date1
                         val formatter: DateTimeFormatter =
                             DateTimeFormatter.ofPattern("yyyy-MM-dd")
                         val localDate: LocalDate = LocalDate.parse(dateString, formatter)
                         val datePickerDialog =
-
                             android.app.DatePickerDialog(context, { _, year1, month1, dayOfMonth1 ->
                                 // Handle the selected date
                                 val selectedDate: Calendar = Calendar.getInstance()
                                 selectedDate.set(year1, month1, dayOfMonth1)
 
                                 // Perform any necessary operations with the selected date here
-                                if (isDateAfterOrEqualToCurrent(
-                                        SimpleDateFormat(
-                                            "yyyy-MM-dd",
-                                            Locale.getDefault()
-                                        ).format(selectedDate.time), LocalDate.now()
-                                    )
-                                ) {
-                                    if (isDateAfterOrEqualToCurrent(
-                                            SimpleDateFormat(
-                                                "yyyy-MM-dd",
-                                                Locale.getDefault()
-                                            ).format(selectedDate.time), localDate
-                                        )
-                                    ) {
-                                        dateMutable2.value = SimpleDateFormat(
-                                            "yyyy-MM-dd",
-                                            Locale.getDefault()
-                                        ).format(selectedDate.time)
-                                    } else {
-                                        openWarningDialog.value = true
-                                    }
-                                } else {
-                                    openWarningDialog.value = true
-                                }
+                                // Data de final trebuie sa fie dupa data curenta si dupa data de inceput.
+                                verifyFinalDate(selectedDate, localDate, onUpdateDate2 = onUpdateDate2,
+                                                onUpdateOpenWarningDialog = onUpdateOpenWarningDialog)
                             }, year, month, dayOfMonth)
 
                         datePickerDialog.show()
@@ -297,19 +305,25 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.Bottom) {
                 Button(onClick = {
-                                    //La confirmare trebuie ca data de final sa fie dupa data
-                                    //de inceput.a
-                                    var dateString: String = dateMutable1.value
+                                    //Trebuie sa si adaug bugetul in viewState
+                                    var dateString: String = date1
                                     val formatter: DateTimeFormatter =
                                         DateTimeFormatter.ofPattern("yyyy-MM-dd")
                                     val localDate: LocalDate = LocalDate.parse(dateString, formatter)
-                                    dateString = dateMutable2.value
-                                    if (isDateAfterOrEqualToCurrent(dateString, localDate)) {
+                                    dateString = date2
+                                    if (isDateAfterOrEqualToCurrent(
+                                            dateString = dateString,
+                                            current = localDate
+                                        )
+                                    )
                                         onNavigateToFixedBudgetsScreen()
-                                    } else {
-                                        openWarningDialog.value = true
+                                    else {
+                                        onUpdateOpenWarningDialog(
+                                            true,
+                                            R.string.avertisment_data_continut_data_inceput
+                                        )
                                     }
-                        },
+                                },
                         modifier = Modifier
                             .weight(1f)
                             .padding(start = dimensionResource(id = R.dimen.margin))
@@ -317,7 +331,9 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
 
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.gap)))
 
-                Button( onClick = { onNavigateToFixedBudgetsScreen() },
+                Button( onClick = {
+                                    onNavigateToFixedBudgetsScreen()
+                                  },
                         modifier = Modifier
                             .weight(1f)
                             .padding(end = dimensionResource(id = R.dimen.margin))
@@ -328,21 +344,21 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
         }
     }
 
-    if (openWarningDialog.value) {
+    if (openWarningDialog) {
         AlertDialog(
             onDismissRequest = {
-                openWarningDialog.value = false // Dismiss the dialog when the user clicks outside the dialog or on the back button
+                onUpdateOpenWarningDialog(false, -1) // Dismiss the dialog when the user clicks outside the dialog or on the back button
             },
             title = {
                 Text(text = stringResource(id = R.string.avertisment_data))
             },
             text = {
-                Text(text = stringResource(id = R.string.avertisment_data_continut))
+                Text(text = stringResource(id = idWarningString))
             },
             confirmButton = {
                 Button(
                     onClick = {
-                        openWarningDialog.value = false
+                        onUpdateOpenWarningDialog(false, -1)
                     }
                 ) {
                     Text(text = stringResource(id = R.string.ok))

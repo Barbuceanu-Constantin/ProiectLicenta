@@ -38,15 +38,16 @@ fun CategoriesMenu(lSubcategorys: MutableList<String>,
                    onSelect: (String) -> Unit) {
     var expanded1 by remember { mutableStateOf(false) }
     var expanded2 by remember { mutableStateOf(false) }
-    var selectedItem by remember { mutableStateOf(subcategory) }
     var textFilledSize by remember { mutableStateOf(Size.Zero) }
     val icon =  if (expanded1 || expanded2) { Icons.Filled.KeyboardArrowUp } else { Icons.Filled.KeyboardArrowDown }
 
     Box(modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin), end = dimensionResource(id = R.dimen.margin)),
         contentAlignment = Alignment.Center) {
+        val filteredOptions = lSubcategorys.filter { it.contains(subcategory, ignoreCase = true) }
+
         OutlinedTextField(
-            value = selectedItem,
-            onValueChange = { selectedItem = it },
+            value = subcategory,
+            onValueChange = { onSelect(it) },
             modifier = Modifier.fillMaxWidth().onGloballyPositioned { coordinates ->
                 textFilledSize = coordinates.size.toSize()
             },
@@ -65,8 +66,6 @@ fun CategoriesMenu(lSubcategorys: MutableList<String>,
             )
         )
 
-        val filteredOptions = lSubcategorys.filter { it.contains(selectedItem, ignoreCase = true) }
-
         if (filteredOptions.isNotEmpty()) {
             //Aici afiseaza doar rezultatele filtrate
             DropdownMenu(
@@ -76,7 +75,6 @@ fun CategoriesMenu(lSubcategorys: MutableList<String>,
                 filteredOptions.forEach { label ->
                     DropdownMenuItem(
                         onClick = {
-                            selectedItem = label
                             expanded1 = false
                             onSelect(label)
                         },
@@ -94,7 +92,6 @@ fun CategoriesMenu(lSubcategorys: MutableList<String>,
                 lSubcategorys.forEach { label ->
                     DropdownMenuItem(
                         onClick = {
-                            selectedItem = label
                             expanded2 = false
                             onSelect(label)
                         },

@@ -14,15 +14,31 @@ class EditCategoryScreenViewModel @Inject constructor(val budgetTrackerRepositor
     private val _stateFlow = MutableStateFlow(EditCategoryScreenUIState())
     val stateFlow: StateFlow<EditCategoryScreenUIState>
         get() = _stateFlow.asStateFlow()
-    fun onStateChanged(showA: Boolean, showP: Boolean, showD:Boolean) {
-        _stateFlow.value = EditCategoryScreenUIState(showA, showP, showD)
+    fun onStateChanged(showA: Boolean, showP: Boolean, showD: Boolean) {
+        _stateFlow.value = EditCategoryScreenUIState(
+                                                        showA = showA,
+                                                        showP = showP,
+                                                        showD = showD,
+                                                        category = _stateFlow.value.category,
+                                                        filledText = _stateFlow.value.filledText,
+        )
     }
     fun onAddCategory(category: Categories) {
         _stateFlow.value = EditCategoryScreenUIState(
-                                                        _stateFlow.value.showA,
-                                                        _stateFlow.value.showP,
-                                                        _stateFlow.value.showD,
-                                                        category
+                                                        showA = _stateFlow.value.showA,
+                                                        showP = _stateFlow.value.showP,
+                                                        showD = _stateFlow.value.showD,
+                                                        category = category,
+                                                        filledText = _stateFlow.value.filledText
+        )
+    }
+    fun onStateChangedFilledText(filledText: String) {
+        _stateFlow.value = EditCategoryScreenUIState(
+            showA = _stateFlow.value.showA,
+            showP = _stateFlow.value.showP,
+            showD = _stateFlow.value.showD,
+            filledText = filledText,
+            category = _stateFlow.value.category
         )
     }
 }

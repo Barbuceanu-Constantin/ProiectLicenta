@@ -35,6 +35,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountBalanceWallet
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.Category
@@ -679,12 +680,12 @@ fun FadingArrowIcon() {
             )
         ) {
             Icon(
-                Icons.Default.ArrowDownward,
+                Icons.Default.ArrowCircleUp,
                 contentDescription = "Scroll Down",
                 modifier = Modifier
                     .padding(dimensionResource(R.dimen.spacing))
                     .size(
-                        dimensionResource(R.dimen.gap)
+                        dimensionResource(R.dimen.middle)
                     )
                     .alpha(alpha)
             )
