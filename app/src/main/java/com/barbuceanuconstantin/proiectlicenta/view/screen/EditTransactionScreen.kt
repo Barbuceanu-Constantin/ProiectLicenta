@@ -23,11 +23,6 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -41,16 +36,12 @@ import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindowSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
-import com.barbuceanuconstantin.proiectlicenta.showAIndex
-import com.barbuceanuconstantin.proiectlicenta.showDIndex
-import com.barbuceanuconstantin.proiectlicenta.showPIndex
+import com.barbuceanuconstantin.proiectlicenta.di.EditTransactionScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoriesMenu
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 
@@ -60,43 +51,23 @@ var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.toMutableList()
 @Composable
 fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
                           onNavigateToHomeScreen: () -> Unit,
-                          transaction: Transactions? = null,
-                          index: Int = 0) {
-    var subcategory by remember { mutableStateOf("") }
-    var payee by remember { mutableStateOf("") }
-    var valueSum by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-
-    val showA: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val showP: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val showD: MutableState<Boolean> = remember { mutableStateOf(false) }
-
-    val dateTime = LocalDateTime.now()
-    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    val formattedDate = dateTime.format(dateFormatter)
-    val date by remember { mutableStateOf(formattedDate) }
-    val dateMutable: MutableState<String> = remember { mutableStateOf(date) }
-
-    if (transaction != null) {
-        subcategory = transaction.category
-        payee = transaction.payee
-        valueSum = transaction.value.toString()
-        description = transaction.description
-        dateMutable.value = transaction.date
-
-        if (listaSubcategorysActive.contains(transaction.category))
-            showA.value = true
-        else if (listaSubcategorysPasive.contains(transaction.category))
-            showP.value = true
-        else if (listaSubcategorysDatorii.contains(transaction.category))
-            showD.value = true
-    } else {
-        when (index) {
-            showAIndex -> showA.value = true
-            showPIndex -> showP.value = true
-            showDIndex -> showD.value = true
-        }
-    }
+                          editTransactionScreenUIState: EditTransactionScreenUIState,
+                          updateState: (Boolean, Boolean, Boolean) -> Unit,
+                          updateCategory: (String) -> Unit,
+                          updateValueSum: (String) -> Unit,
+                          updateDescription: (String) -> Unit,
+                          updatePayee: (String) -> Unit,
+                          updateDate: (String) -> Unit,
+                          updateTransaction: (Transactions) -> Unit) {
+    val transaction = editTransactionScreenUIState.transaction
+    val date = editTransactionScreenUIState.date
+    val category = editTransactionScreenUIState.category
+    val payee = editTransactionScreenUIState.payee
+    val description = editTransactionScreenUIState.description
+    val valueSum = editTransactionScreenUIState.valueSum
+    val showA = editTransactionScreenUIState.showA
+    val showP = editTransactionScreenUIState.showP
+    val showD = editTransactionScreenUIState.showD
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -121,43 +92,43 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
         Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)) {
             if (transaction == null)
                 //Add
-                HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA.value, showP.value, showD.value,
-                                                                        updateState = { _, _, _ -> /* Do nothing */ },
+                HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA, showP, showD,
+                                                                        updateState = updateState,
                                                                         defaultValueSelected = true)
             else
                 //Update
-                HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA.value, showP.value, showD.value,
-                                                                        updateState = { _, _, _ -> /* Do nothing */ })
+                HeaderSelectCategoryOrTransactionWindowSegmentedButton(showA, showP, showD,
+                                                                        updateState = updateState)
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
-            if (showA.value && !showP.value && !showD.value) {
+            if (showA && !showP && !showD) {
                 CategoriesMenu(
                     lSubcategorys = listaSubcategorysActive,
-                    subcategory = subcategory
+                    subcategory = category
                 ) {
-                    subcategory = it
+                    updateCategory(it)
                 }
-            } else if (showP.value && !showA.value && !showD.value) {
+            } else if (showP && !showA && !showD) {
                 CategoriesMenu(
                     lSubcategorys = listaSubcategorysPasive,
-                    subcategory = subcategory
+                    subcategory = category
                 ) {
-                    subcategory = it
+                    updateCategory(it)
                 }
-            } else if (showD.value && !showA.value && !showP.value) {
+            } else if (showD && !showA && !showP) {
                 CategoriesMenu(
                     lSubcategorys = listaSubcategorysDatorii,
-                    subcategory = subcategory
+                    subcategory = category
                 ) {
-                    subcategory = it
+                    updateCategory(it)
                 }
             } else {
                 CategoriesMenu(
                     lSubcategorys = listaSubcategorysActive,
-                    subcategory = subcategory
+                    subcategory = category
                 ) {
-                    subcategory = it
+                    updateCategory(it)
                 }
             }
 
@@ -165,7 +136,7 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
 
             OutlinedTextField(
                 value = valueSum,
-                onValueChange = { valueSum = it },
+                onValueChange = { updateValueSum(it) },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Decimal,
                     imeAction = ImeAction.Next
@@ -185,7 +156,7 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
 
             OutlinedTextField(
                 value = payee,
-                onValueChange = { payee = it },
+                onValueChange = { updatePayee(it) },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next,
@@ -205,7 +176,7 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
 
             OutlinedTextField(
                 value = description,
-                onValueChange = { description = it },
+                onValueChange = { updateDescription(it) },
                 keyboardOptions = KeyboardOptions(
                                         keyboardType = KeyboardType.Text,
                                         imeAction = ImeAction.Done,
@@ -227,10 +198,10 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             OutlinedTextField(
-                value = dateMutable.value,
+                value = date,
                 enabled = false,
                 onValueChange = {
-                    dateMutable.value = it
+                    updateDate(it)
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 label = { Text(text = stringResource(id = R.string.data)) },
@@ -245,10 +216,11 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
 
                                 // Perform any necessary operations with the selected date here
                                 // For example, update a TextView with the selected date
-                                dateMutable.value =
+                                updateDate(
                                     SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(
                                         selectedDate.time
                                     )
+                                )
                             }, year, month, dayOfMonth)
 
                         datePickerDialog.show()
@@ -272,9 +244,12 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.Bottom) {
 
-                Button(onClick = {onNavigateToBackScreen()}, modifier = Modifier
-                    .weight(1f)
-                    .padding(start = dimensionResource(id = R.dimen.margin)))
+                Button( onClick = {
+                                    //Trebuie sa adaug transactia in viewState. Plus sa fac update
+                                    //pe baza de date.
+                                    onNavigateToBackScreen()
+                                 },
+                        modifier = Modifier.weight(1f).padding(start = dimensionResource(id = R.dimen.margin)))
                 { Text(stringResource(R.string.confirmare)) }
 
                 Spacer(Modifier.width(dimensionResource(id = R.dimen.gap)))

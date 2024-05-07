@@ -22,6 +22,7 @@ import com.barbuceanuconstantin.proiectlicenta.di.CalendarScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.CategoriesScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.EditBudgetScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.EditCategoryScreenViewModel
+import com.barbuceanuconstantin.proiectlicenta.di.EditTransactionScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.FixedBudgetsScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.GraphsScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.MementosScreenViewModel
@@ -401,7 +402,56 @@ class MainActivity : ComponentActivity() {
                         // Convert json string to the User data class object
                         val transactionObject = gson.fromJson(transactionJson, Transactions::class.java)
 
+                        val viewModel = hiltViewModel<EditTransactionScreenViewModel>()
+                        val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
+                        val updateState: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
+                            viewModel.onStateChanged(showA, showP, showD)
+                        }
+                        val updateDate: (String) -> Unit = { date ->
+                            viewModel.onUpdateDate(date)
+                        }
+                        val updatePayee: (String) -> Unit = { payee ->
+                            viewModel.onUpdatePayee(payee)
+                        }
+                        val updateDescription: (String) -> Unit = { description ->
+                            viewModel.onUpdateDescription(description)
+                        }
+                        val updateCategory: (String) -> Unit = { category ->
+                            viewModel.onUpdateCategory(category)
+                        }
+                        val updateValueSum: (String) -> Unit = { valueSum ->
+                            viewModel.onUpdateValueSum(valueSum)
+                        }
+                        val updateTransaction: (Transactions) -> Unit = { transaction ->
+                            viewModel.onAddTransaction(transaction)
+                        }
+
                         val index = requireNotNull(backStackEntry.arguments).getInt("index")
+
+                        if (transactionObject != null) {
+                            viewModel.onAddTransaction(transactionObject)
+                            if (!state.showA && !state.showP && !state.showD) {
+                                updateCategory(transactionObject.category)
+                                updatePayee(transactionObject.payee)
+                                updateValueSum(transactionObject.value.toString())
+                                updateDescription(transactionObject.description)
+                                updateDate(transactionObject.date)
+
+                                if (listaSubcategorysActive.contains(transactionObject.category))
+                                    updateState(true, false, false)
+                                else if (listaSubcategorysPasive.contains(transactionObject.category))
+                                    updateState(false, true, false)
+                                else if (listaSubcategorysDatorii.contains(transactionObject.category))
+                                    updateState(false, false, true)
+                            }
+                        } else {
+                            when (index) {
+                                showAIndex -> updateState(true, false, false)
+                                showPIndex -> updateState(false, true, false)
+                                showDIndex -> updateState(false, false, true)
+                            }
+                        }
+
                         var lambda = {
                             navController.navigate("homeScreen") {
                                 popUpTo("homeScreen") {
@@ -445,8 +495,14 @@ class MainActivity : ComponentActivity() {
                                                         }
                                                     }
                                                 },
-                                                index = index,
-                                                transaction = transactionObject
+                                                editTransactionScreenUIState = state,
+                                                updateState = updateState,
+                                                updateCategory = updateCategory,
+                                                updateValueSum = updateValueSum,
+                                                updateDescription = updateDescription,
+                                                updatePayee = updatePayee,
+                                                updateDate = updateDate,
+                                                updateTransaction = updateTransaction
                         )
                     }
                     composable("editCategoryScreen?category={category}")
