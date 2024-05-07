@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
+import com.barbuceanuconstantin.proiectlicenta.FadingArrowIcon
 import com.barbuceanuconstantin.proiectlicenta.IntToMonth
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
@@ -140,7 +141,9 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transactions>,
             )
         }
     ) { innerPadding ->
-        Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
+        Column( modifier = Modifier
+            .fillMaxWidth()
+            .padding(innerPadding),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -177,7 +180,7 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transactions>,
                 SelectMonth(date, monthMutable, updateStateDateButton, updateStateMonth)
             } else if (daily && weekly && monthly) {
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
+                FadingArrowIcon(budgetSummary = true)
                 TranzactiiLazyColumn(
                                         tranzactii = (lTrP + lTrA).toMutableStateList(),
                                         buttons,
@@ -192,9 +195,13 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transactions>,
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
 
             Text(text = stringResource(id = R.string.bilant),
-                 modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin),
-                                                            end = dimensionResource(id = R.dimen.margin))
-                                    .weight(1f),
+                 modifier = Modifier
+                     .fillMaxWidth()
+                     .padding(
+                         start = dimensionResource(id = R.dimen.margin),
+                         end = dimensionResource(id = R.dimen.margin)
+                     )
+                     .weight(1f),
                  fontSize = fontDimensionResource(id = R.dimen.big_text_size),
                  fontWeight = FontWeight.Bold,
                  color = colorResource(id = R.color.medium_green)

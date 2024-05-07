@@ -642,11 +642,14 @@ fun BottomNavigationBar(
 }
 
 @Composable
-fun FadingArrowIcon() {
+fun FadingArrowIcon(budgetSummary: Boolean = false) {
     var isVisible by remember { mutableStateOf(true) }
 
-    if (!isVisible) {
+    if (!isVisible && !budgetSummary) {
         Spacer(modifier = Modifier.height(dimensionResource(R.dimen.margin_extra)))
+    } else if (!isVisible) {
+        //budgetSummary == true
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
     }
 
     val fadeInOutAnimation = rememberInfiniteTransition(label = "")
