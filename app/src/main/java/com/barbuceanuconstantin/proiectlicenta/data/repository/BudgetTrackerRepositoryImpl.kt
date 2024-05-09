@@ -1,21 +1,21 @@
 package com.barbuceanuconstantin.proiectlicenta.data.repository
 
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
-import com.barbuceanuconstantin.proiectlicenta.data.BudgetsDAO
+import com.barbuceanuconstantin.proiectlicenta.data.dao.BudgetsDAO
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
-import com.barbuceanuconstantin.proiectlicenta.data.CategoryDAO
+import com.barbuceanuconstantin.proiectlicenta.data.dao.CategoryDAO
 import com.barbuceanuconstantin.proiectlicenta.data.MainCategories
-import com.barbuceanuconstantin.proiectlicenta.data.MainCategoryDAO
+import com.barbuceanuconstantin.proiectlicenta.data.dao.MainCategoryDAO
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
-import com.barbuceanuconstantin.proiectlicenta.data.TransactionsDAO
+import com.barbuceanuconstantin.proiectlicenta.data.dao.TransactionsDAO
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class BudgetTrackerRepositoryImpl @Inject constructor(
-                                                        private val categoryDAO: CategoryDAO,
-                                                        private val mainCategoryDAO: MainCategoryDAO,
-                                                        private val transactionsDAO: TransactionsDAO,
-                                                        private val budgetsDAO: BudgetsDAO
+    private val categoryDAO: CategoryDAO,
+    private val mainCategoryDAO: MainCategoryDAO,
+    private val transactionsDAO: TransactionsDAO,
+    private val budgetsDAO: BudgetsDAO
     ) : BudgetTrackerRepository {
     /////////////////////////////////////////////////////////
     override suspend fun insertMainCategory(mainCategory: MainCategories) = mainCategoryDAO.insertMainCategory(mainCategory)

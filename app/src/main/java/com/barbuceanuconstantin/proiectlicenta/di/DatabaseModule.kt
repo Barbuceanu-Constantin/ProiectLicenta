@@ -3,10 +3,10 @@ package com.barbuceanuconstantin.proiectlicenta.di
 import android.content.Context
 import androidx.room.Room
 import com.barbuceanuconstantin.proiectlicenta.data.BudgetTrackerDatabase
-import com.barbuceanuconstantin.proiectlicenta.data.BudgetsDAO
-import com.barbuceanuconstantin.proiectlicenta.data.CategoryDAO
-import com.barbuceanuconstantin.proiectlicenta.data.MainCategoryDAO
-import com.barbuceanuconstantin.proiectlicenta.data.TransactionsDAO
+import com.barbuceanuconstantin.proiectlicenta.data.dao.BudgetsDAO
+import com.barbuceanuconstantin.proiectlicenta.data.dao.CategoryDAO
+import com.barbuceanuconstantin.proiectlicenta.data.dao.MainCategoryDAO
+import com.barbuceanuconstantin.proiectlicenta.data.dao.TransactionsDAO
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

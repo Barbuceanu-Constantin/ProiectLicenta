@@ -1,11 +1,10 @@
 package com.barbuceanuconstantin.proiectlicenta
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -21,6 +20,7 @@ import com.barbuceanuconstantin.proiectlicenta.data.BudgetTrackerDatabase
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
+import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
 import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.CalendarScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.CategoriesScreenViewModel
@@ -50,7 +50,11 @@ import com.barbuceanuconstantin.proiectlicenta.view.screen.listaSubcategorysPasi
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 //Branch ecrane-individuale//
 private var listSubcategoriesRevenue = subcategorysPredefiniteActive.map {
@@ -96,10 +100,24 @@ fun initHardcodedTransactions(lTrA: SnapshotStateList<Transactions>,
     lTrD.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Credit1", id = 5, budgetId = 1))
 }
 
+private suspend fun getAllCategoriesA(budgetTrackerRepository: BudgetTrackerRepository): List<Categories> {
+    return withContext(Dispatchers.IO) {
+        val categories = budgetTrackerRepository.getRevenueCategories()
+        Log.d("MainActivity", "Retrieved categories revenue: $categories")
+        categories.stateIn(
+            scope = lifecycleScope,
+            started = SharingStarted.WhileSubscribed(CategoriesScreenViewModel.MILLIS),
+            initialValue = listOf()
+        ).value
+    }
+}
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val database = BudgetTrackerDatabase.getInstance(applicationContext)
+
         setContent {
             ProiectLicentaTheme {
                 val lTrA = mutableStateListOf<Transactions>()
@@ -262,7 +280,10 @@ class MainActivity : ComponentActivity() {
                         for(category in state.categoriesA)
                             print(category.name)
                         println("END1")
-                        viewModel.onStateChangedLists()
+                        var categoriesA: List<Categories> = listOf()
+                        lifecycleScope.launch {
+                            categoriesA = getAllCategoriesA(viewModel.budgetTrackerRepository)
+                        }
                         println("START2")
                         for(category in state.categoriesA)
                             print(category.name)
@@ -270,7 +291,7 @@ class MainActivity : ComponentActivity() {
 
                         //Categorii
                         CategoriesComposableScreen(
-                            state.categoriesA,
+                            categoriesA,
                             state.categoriesP,
                             state.categoriesD,
                             navController,
