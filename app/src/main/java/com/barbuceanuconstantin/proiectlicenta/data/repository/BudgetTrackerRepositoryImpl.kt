@@ -1,5 +1,6 @@
 package com.barbuceanuconstantin.proiectlicenta.data.repository
 
+import androidx.lifecycle.LiveData
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.BudgetsDAO
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
@@ -25,7 +26,7 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     /////////////////////////////////////////////////////////
     override suspend fun insertCategory(category: Categories):Long = categoryDAO.insertCategory(category)
     override fun getAllCategories(): Flow<List<Categories>> = categoryDAO.getAllCategories()
-    override fun getRevenueCategories() : Flow<List<Categories>> = categoryDAO.getRevenueCategories()
+    override fun getRevenueCategories() : LiveData<MutableList<Categories>> = categoryDAO.getRevenueCategories()
     override fun getSpendingCategories() : Flow<List<Categories>> = categoryDAO.getSpendingCategories()
     override fun getDebtCategories() : Flow<List<Categories>> = categoryDAO.getDebtCategories()
     /////////////////////////////////////////////////////////

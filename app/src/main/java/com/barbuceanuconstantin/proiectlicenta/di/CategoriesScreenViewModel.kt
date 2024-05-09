@@ -1,5 +1,6 @@
 package com.barbuceanuconstantin.proiectlicenta.di
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -34,11 +35,7 @@ class CategoriesScreenViewModel @Inject constructor(val budgetTrackerRepository:
                                                     showA = _stateFlow.value.showA,
                                                     showP = _stateFlow.value.showP,
                                                     showD = _stateFlow.value.showD,
-                                                    categoriesA = budgetTrackerRepository.getRevenueCategories().stateIn(
-                                                        scope = viewModelScope,
-                                                        started = SharingStarted.WhileSubscribed(MILLIS),
-                                                        initialValue = listOf()
-                                                    ).value,
+                                                    categoriesA = _stateFlow.value.categoriesA,
                                                     categoriesP = _stateFlow.value.categoriesP,
                                                     categoriesD = _stateFlow.value.categoriesD,
                                                 )

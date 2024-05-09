@@ -1,5 +1,6 @@
 package com.barbuceanuconstantin.proiectlicenta.data.repository
 
+import androidx.lifecycle.LiveData
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.MainCategories
@@ -15,7 +16,7 @@ interface BudgetTrackerRepository {
     ///////////////////////////////////////////////
     suspend fun insertCategory(category: Categories): Long
     fun getAllCategories(): Flow<List<Categories>>
-    fun getRevenueCategories() : Flow<List<Categories>>
+    fun getRevenueCategories() : LiveData<MutableList<Categories>>
     fun getSpendingCategories() : Flow<List<Categories>>
     fun getDebtCategories() : Flow<List<Categories>>
     ///////////////////////////////////////////////
