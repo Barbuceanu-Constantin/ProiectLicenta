@@ -1,9 +1,10 @@
-package com.barbuceanuconstantin.proiectlicenta.data
+package com.barbuceanuconstantin.proiectlicenta.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import kotlinx.coroutines.flow.Flow
 
 @Dao
