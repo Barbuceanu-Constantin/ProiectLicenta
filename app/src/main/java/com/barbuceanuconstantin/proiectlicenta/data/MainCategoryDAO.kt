@@ -1,9 +1,8 @@
-package com.barbuceanuconstantin.proiectlicenta.data.dao
+package com.barbuceanuconstantin.proiectlicenta.data
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.barbuceanuconstantin.proiectlicenta.data.MainCategories
 import kotlinx.coroutines.flow.Flow
 
 @Dao
