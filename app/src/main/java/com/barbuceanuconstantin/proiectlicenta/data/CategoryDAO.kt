@@ -1,6 +1,5 @@
 package com.barbuceanuconstantin.proiectlicenta.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -16,7 +15,7 @@ interface CategoryDAO {
     fun getAllCategories() : Flow<List<Categories>>
 
     @Query("SELECT * FROM categories where name == 'Active'")
-    fun getRevenueCategories() : LiveData<MutableList<Categories>>
+    fun getRevenueCategories() : Flow<List<Categories>>
 
     @Query("SELECT * FROM categories where name == 'Pasive'")
     fun getSpendingCategories() : Flow<List<Categories>>
