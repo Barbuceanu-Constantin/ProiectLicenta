@@ -26,12 +26,19 @@ class CategoriesScreenViewModel @Inject constructor(val budgetTrackerRepository:
         _stateFlow.value = CategoriesScreenUIState(showA, showP, showD)
     }
 
+    companion object {
+        private const val MILLIS = 5_000L
+    }
     fun onStateChangedLists() {
         _stateFlow.value = CategoriesScreenUIState(
                                                     showA = _stateFlow.value.showA,
                                                     showP = _stateFlow.value.showP,
                                                     showD = _stateFlow.value.showD,
-                                                    categoriesA = _stateFlow.value.categoriesA,
+                                                    categoriesA = budgetTrackerRepository.getRevenueCategories().stateIn(
+                                                        scope = viewModelScope,
+                                                        started = SharingStarted.WhileSubscribed(MILLIS),
+                                                        initialValue = listOf()
+                                                    ).value,
                                                     categoriesP = _stateFlow.value.categoriesP,
                                                     categoriesD = _stateFlow.value.categoriesD,
                                                 )

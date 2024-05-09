@@ -75,7 +75,7 @@ fun CategoriesComposableScreen(lSA: List<Categories>,
             FadingArrowIcon()
 
             if (showA && !showP && !showD) {
-                CategoriesLazyColumn(categorii = lSA, navController = navController)
+                CategoriesLazyColumn(categorii = categoriesScreenUIState.categoriesA, navController = navController)
             } else if (showP && !showA && !showD) {
                 CategoriesLazyColumn(categorii = lSP, navController = navController)
             } else if (showD && !showA && !showP) {
