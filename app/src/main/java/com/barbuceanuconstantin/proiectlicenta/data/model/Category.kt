@@ -40,10 +40,12 @@ private var listaSubcategorysPasive = subcategorysPredefinitePasive.toMutableLis
 private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.toMutableList()
 
 @Composable
-private fun Subcategory(text: String,
-                        index: Int,
-                        navController: NavController,
-                        categorii: MutableList<Categories>) {
+private fun Subcategory(
+    text: String,
+    index: Int,
+    navController: NavController,
+    categorii: List<Categories>
+) {
     val colorA = colorResource(R.color.light_cream_yellow)
     val colorP = colorResource(R.color.light_cream_red)
     val colorD = colorResource(R.color.light_cream_blue)
@@ -88,12 +90,14 @@ private fun Subcategory(text: String,
 }
 
 @Composable
-fun CategoriesLazyColumn(categorii: MutableList<Categories>,
-                         navController: NavController
+fun CategoriesLazyColumn(
+    categorii: List<Categories>,
+    navController: NavController
 ) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         itemsIndexed(categorii) { index, subcateg ->
-            Subcategory(text = subcateg.name,
+            Subcategory(
+                text = subcateg.name,
                         index = index,
                         navController = navController,
                         categorii = categorii)

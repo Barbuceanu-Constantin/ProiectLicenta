@@ -5,15 +5,19 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.barbuceanuconstantin.proiectlicenta.data.BudgetTrackerDatabase
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
@@ -46,6 +50,7 @@ import com.barbuceanuconstantin.proiectlicenta.view.screen.listaSubcategorysPasi
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 //Branch ecrane-individuale//
 private var listSubcategoriesRevenue = subcategorysPredefiniteActive.map {
@@ -253,12 +258,21 @@ class MainActivity : ComponentActivity() {
                         val updateStateMainScreen: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
                             viewModel.onStateChangedMainScreen(showA, showP, showD)
                         }
+                        println("START1")
+                        for(category in state.categoriesA)
+                            print(category.name)
+                        println("END1")
+                        viewModel.onStateChangedLists()
+                        println("START2")
+                        for(category in state.categoriesA)
+                            print(category.name)
+                        println("END2")
 
                         //Categorii
                         CategoriesComposableScreen(
-                            listSubcategoriesRevenue,
-                            listSubcategoriesExpenses,
-                            listSubcategoriesDebts,
+                            state.categoriesA,
+                            state.categoriesP,
+                            state.categoriesD,
                             navController,
                             onNavigateToEditCategoriesScreen = {
                                 navController.navigate("editCategoryScreen")
@@ -525,6 +539,12 @@ class MainActivity : ComponentActivity() {
                         val updateCategory: (Categories) -> Unit = { category ->
                             viewModel.onAddCategory(category)
                         }
+                        val updateReadyToInsert: (Boolean) -> Unit = { readyToInsert ->
+                            viewModel.onUpdateReadyToInsert(readyToInsert)
+                        }
+                        val insertCategory: suspend (Categories) -> Unit = { category ->
+                            viewModel.insertCategory(category)
+                        }
 
                         //Add the category in state.
                         if(categoryObject != null) {
@@ -558,7 +578,9 @@ class MainActivity : ComponentActivity() {
                             editCategoryScreenUIState = state,
                             updateState = updateState,
                             onStateChangedFilledText = updateFilledText,
-                            onAddCategory = updateCategory
+                            onAddCategory = updateCategory,
+                            insertCoroutine = insertCategory,
+                            updateReadyToInsert = updateReadyToInsert
                         )
                     }
                     composable("editBudgetScreen?budget={budget}")

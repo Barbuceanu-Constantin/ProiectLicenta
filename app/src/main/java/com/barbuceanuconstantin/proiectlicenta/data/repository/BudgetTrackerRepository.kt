@@ -13,9 +13,11 @@ interface BudgetTrackerRepository {
     ///////////////////////////////////////////////
 
     ///////////////////////////////////////////////
-    suspend fun insertCategory(category: Categories)
+    suspend fun insertCategory(category: Categories): Long
     fun getAllCategories(): Flow<List<Categories>>
-
+    fun getRevenueCategories() : Flow<List<Categories>>
+    fun getSpendingCategories() : Flow<List<Categories>>
+    fun getDebtCategories() : Flow<List<Categories>>
     ///////////////////////////////////////////////
     suspend fun insertTransaction(transaction: Transactions)
     fun getAllTransactions(): Flow<List<Transactions>>

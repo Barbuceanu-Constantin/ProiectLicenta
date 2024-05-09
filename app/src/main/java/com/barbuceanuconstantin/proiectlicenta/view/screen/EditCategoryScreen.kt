@@ -19,6 +19,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,14 +49,48 @@ fun EditCategoryScreen(
                         editCategoryScreenUIState: EditCategoryScreenUIState,
                         updateState: (Boolean, Boolean, Boolean) -> Unit,
                         onStateChangedFilledText: (String) -> Unit,
-                        onAddCategory: (Categories) -> Unit
+                        onAddCategory: (Categories) -> Unit,
+                        insertCoroutine: suspend (Categories) -> Unit,
+                        updateReadyToInsert: (Boolean) -> Unit
 ) {
     val filledText: String = editCategoryScreenUIState.filledText
     val showA: Boolean = editCategoryScreenUIState.showA
     val showP: Boolean = editCategoryScreenUIState.showP
     val showD: Boolean = editCategoryScreenUIState.showD
+    val readyToInsert: Boolean = editCategoryScreenUIState.readyToInsert
     val category = editCategoryScreenUIState.category
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    //Trebuie sa si adaug categoria in viewState
+    if (category == null) {
+        if (readyToInsert) {
+            if (showA)
+                LaunchedEffect(Unit) {
+                   insertCoroutine(
+                        Categories(
+                            name = filledText,
+                            mainCategory = "Active"
+                        )
+                    )
+                }
+            else if (showP)
+                LaunchedEffect(Unit) {
+                    Categories(
+                        name = filledText,
+                        mainCategory = "Pasive"
+                    )
+                }
+            else
+                //showD == true
+                LaunchedEffect(Unit) {
+                    Categories(
+                        name = filledText,
+                        mainCategory = "Datorii"
+                    )
+                }
+            onNavigateToCategoryScreen()
+        }
+    }
 
     Scaffold (
         topBar = {
@@ -66,7 +101,9 @@ fun EditCategoryScreen(
             )
         }
     ) { innerPadding ->
-        Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
+        Column( modifier = Modifier
+            .fillMaxWidth()
+            .padding(innerPadding),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -100,10 +137,12 @@ fun EditCategoryScreen(
                             contentDescription = stringResource(id = R.string.add)
                         )
                     },
-                    modifier = Modifier.fillMaxWidth().padding(
-                        start = dimensionResource(id = R.dimen.margin),
-                        end = dimensionResource(id = R.dimen.margin)
-                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = dimensionResource(id = R.dimen.margin),
+                            end = dimensionResource(id = R.dimen.margin)
+                        ),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Done,
@@ -122,8 +161,8 @@ fun EditCategoryScreen(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Button( onClick = {
-                                            //Trebuie sa si adaug categoria in viewState
-                                            onNavigateToCategoryScreen()
+                                            if (!readyToInsert)
+                                                updateReadyToInsert(true)
                                           },
                                 modifier = Modifier
                                     .weight(1f)

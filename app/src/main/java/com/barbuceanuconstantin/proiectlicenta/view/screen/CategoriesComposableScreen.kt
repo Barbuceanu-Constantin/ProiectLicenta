@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -27,9 +24,9 @@ import com.barbuceanuconstantin.proiectlicenta.di.CategoriesScreenUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoriesComposableScreen(lSA: MutableList<Categories>,
-                               lSP: MutableList<Categories>,
-                               lSD: MutableList<Categories>,
+fun CategoriesComposableScreen(lSA: List<Categories>,
+                               lSP: List<Categories>,
+                               lSD: List<Categories>,
                                navController: NavController,
                                onNavigateToEditCategoriesScreen: () -> Unit,
                                onNavigateToHomeScreen: () -> Unit,
