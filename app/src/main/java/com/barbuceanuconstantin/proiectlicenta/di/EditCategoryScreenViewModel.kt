@@ -24,6 +24,8 @@ class EditCategoryScreenViewModel @Inject constructor(val budgetTrackerRepositor
                                                         showD = showD,
                                                         category = _stateFlow.value.category,
                                                         filledText = _stateFlow.value.filledText,
+                                                        readyToUpdate = _stateFlow.value.readyToUpdate,
+                                                        readyToGo = _stateFlow.value.readyToGo
         )
     }
     fun onAddCategory(category: Categories) {
@@ -32,7 +34,9 @@ class EditCategoryScreenViewModel @Inject constructor(val budgetTrackerRepositor
                                                         showP = _stateFlow.value.showP,
                                                         showD = _stateFlow.value.showD,
                                                         category = category,
-                                                        filledText = _stateFlow.value.filledText
+                                                        filledText = _stateFlow.value.filledText,
+                                                        readyToUpdate = _stateFlow.value.readyToUpdate,
+                                                        readyToGo = _stateFlow.value.readyToGo
         )
     }
     fun onStateChangedFilledText(filledText: String) {
@@ -41,22 +45,41 @@ class EditCategoryScreenViewModel @Inject constructor(val budgetTrackerRepositor
             showP = _stateFlow.value.showP,
             showD = _stateFlow.value.showD,
             filledText = filledText,
-            category = _stateFlow.value.category
+            category = _stateFlow.value.category,
+            readyToUpdate = _stateFlow.value.readyToUpdate,
+            readyToGo = _stateFlow.value.readyToGo
         )
     }
-    fun onUpdateReadyToInsert(readyToInsert: Boolean) {
+    fun onUpdateReadyToGo(readyToGo: Boolean) {
         _stateFlow.value = EditCategoryScreenUIState(
             showA = _stateFlow.value.showA,
             showP = _stateFlow.value.showP,
             showD = _stateFlow.value.showD,
             filledText = _stateFlow.value.filledText,
             category = _stateFlow.value.category,
-            readyToInsert = readyToInsert
+            readyToGo = readyToGo ,
+            readyToUpdate = _stateFlow.value.readyToUpdate
+        )
+    }
+    fun onUpdateReadyToUpdate(readyToUpdate: Boolean) {
+        _stateFlow.value = EditCategoryScreenUIState(
+            showA = _stateFlow.value.showA,
+            showP = _stateFlow.value.showP,
+            showD = _stateFlow.value.showD,
+            filledText = _stateFlow.value.filledText,
+            category = _stateFlow.value.category,
+            readyToGo = _stateFlow.value.readyToGo,
+            readyToUpdate = readyToUpdate
         )
     }
     suspend fun insertCategory(category: Categories) {
         viewModelScope.launch(IO) {
             budgetTrackerRepository.insertCategory(category)
+        }
+    }
+    suspend fun updateCategoryInDb(category: Categories) {
+        viewModelScope.launch(IO) {
+            budgetTrackerRepository.updateCategory(category = category)
         }
     }
 }

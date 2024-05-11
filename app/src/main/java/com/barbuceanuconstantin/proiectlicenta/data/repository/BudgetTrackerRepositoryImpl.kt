@@ -16,7 +16,7 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     private val mainCategoryDAO: MainCategoryDAO,
     private val transactionsDAO: TransactionsDAO,
     private val budgetsDAO: BudgetsDAO
-    ) : BudgetTrackerRepository {
+) : BudgetTrackerRepository {
     /////////////////////////////////////////////////////////
     override suspend fun insertMainCategory(mainCategory: MainCategories) = mainCategoryDAO.insertMainCategory(mainCategory)
     override fun getAllMainCategories(): Flow<List<MainCategories>> = mainCategoryDAO.getAllMainCategories()
@@ -28,7 +28,8 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     override fun getRevenueCategories() : List<Categories> = categoryDAO.getRevenueCategories()
     override fun getSpendingCategories() : List<Categories> = categoryDAO.getSpendingCategories()
     override fun getDebtCategories() : List<Categories> = categoryDAO.getDebtCategories()
-    override fun deleteCategoryByName(name: String) {categoryDAO.deleteCategoryByName(name)}
+    override fun deleteCategoryByName(name: String) { categoryDAO.deleteCategoryByName(name) }
+    override fun updateCategory(category: Categories) { categoryDAO.updateCategory(category) }
     /////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////

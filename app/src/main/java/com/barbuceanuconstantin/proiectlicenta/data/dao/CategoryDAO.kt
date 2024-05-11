@@ -4,7 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
+
 
 @Dao
 interface CategoryDAO {
@@ -25,4 +27,7 @@ interface CategoryDAO {
 
     @Query("DELETE FROM categories WHERE name = :name")
     fun deleteCategoryByName(name: String)
+
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    fun updateCategory(category: Categories)
 }

@@ -550,24 +550,28 @@ class MainActivity : ComponentActivity() {
                         val updateCategory: (Categories) -> Unit = { category ->
                             viewModel.onAddCategory(category)
                         }
-                        val updateReadyToInsert: (Boolean) -> Unit = { readyToInsert ->
-                            viewModel.onUpdateReadyToInsert(readyToInsert)
+                        val updateReadyToGo: (Boolean) -> Unit = { readyToGo ->
+                            viewModel.onUpdateReadyToGo(readyToGo)
                         }
                         val insertCategory: suspend (Categories) -> Unit = { category ->
                             viewModel.insertCategory(category)
+                        }
+                        val updateCategoryInDb: suspend (category : Categories) -> Unit = {
+                            category -> viewModel.updateCategoryInDb(category)
                         }
 
                         //Add the category in state.
                         if(categoryObject != null) {
                             viewModel.onAddCategory(categoryObject)
-                            if (!state.showA && !state.showP && !state.showD) {
-                                if (listaSubcategorysActive.contains(categoryObject.name))
+                            if (state.showA && !state.showP && !state.showD && !state.readyToUpdate) {
+                                if (categoryObject.mainCategory == "Active")
                                     updateState(true, false, false)
-                                else if (listaSubcategorysPasive.contains(categoryObject.name))
+                                else if (categoryObject.mainCategory == "Pasive")
                                     updateState(false, true, false)
-                                else if (listaSubcategorysDatorii.contains(categoryObject.name))
+                                else if (categoryObject.mainCategory == "Datorii")
                                     updateState(false, false, true)
                                 updateFilledText(categoryObject.name)
+                                viewModel.onUpdateReadyToUpdate(true)
                             }
                         }
 
@@ -591,7 +595,8 @@ class MainActivity : ComponentActivity() {
                             onStateChangedFilledText = updateFilledText,
                             onAddCategory = updateCategory,
                             insertCoroutine = insertCategory,
-                            updateReadyToInsert = updateReadyToInsert
+                            updateCoroutine = updateCategoryInDb,
+                            updateReadyToGo = updateReadyToGo
                         )
                     }
                     composable("editBudgetScreen?budget={budget}")

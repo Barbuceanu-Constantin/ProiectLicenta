@@ -124,9 +124,6 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
     val idWarningString: Int = editBudgetScreenUIState.idWarningString
     val budget: Budgets? = editBudgetScreenUIState.budget
 
-    println("dadada1 category: $category")
-    println("dadada1 filledText: $filledText")
-
     // Obtain the context from your activity or fragment
     val context: Context = LocalContext.current
 

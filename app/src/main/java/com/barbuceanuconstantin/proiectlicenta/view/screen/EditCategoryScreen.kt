@@ -51,19 +51,21 @@ fun EditCategoryScreen(
                         onStateChangedFilledText: (String) -> Unit,
                         onAddCategory: (Categories) -> Unit,
                         insertCoroutine: suspend (Categories) -> Unit,
-                        updateReadyToInsert: (Boolean) -> Unit
+                        updateCoroutine: suspend (Categories) -> Unit,
+                        updateReadyToGo: (Boolean) -> Unit
 ) {
     val filledText: String = editCategoryScreenUIState.filledText
     val showA: Boolean = editCategoryScreenUIState.showA
     val showP: Boolean = editCategoryScreenUIState.showP
     val showD: Boolean = editCategoryScreenUIState.showD
-    val readyToInsert: Boolean = editCategoryScreenUIState.readyToInsert
+    val readyToGo: Boolean = editCategoryScreenUIState.readyToGo
     val category = editCategoryScreenUIState.category
     val keyboardController = LocalSoftwareKeyboardController.current
 
     //Trebuie sa si adaug categoria in viewState
     if (category == null) {
-        if (readyToInsert) {
+        //Aici se intra la insert.
+        if (readyToGo) {
             if (showA)
                 LaunchedEffect(Unit) {
                    insertCoroutine(
@@ -92,6 +94,15 @@ fun EditCategoryScreen(
                         )
                     )
                 }
+            onNavigateToCategoryScreen()
+        }
+    } else {
+        //Aici se intra la update.
+        if (readyToGo) {
+            category.name = filledText
+            LaunchedEffect(Unit) {
+                updateCoroutine(category)
+            }
             onNavigateToCategoryScreen()
         }
     }
@@ -165,8 +176,9 @@ fun EditCategoryScreen(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Button( onClick = {
-                                            if (!readyToInsert)
-                                                updateReadyToInsert(true)
+                                            if (!readyToGo) {
+                                                updateReadyToGo(true)
+                                            }
                                           },
                                 modifier = Modifier
                                     .weight(1f)

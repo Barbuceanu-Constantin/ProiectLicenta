@@ -7,6 +7,7 @@ data class EditCategoryScreenUIState(
     val showP: Boolean = false,
     val showD: Boolean = false,
     val filledText: String = "",
-    val readyToInsert: Boolean = false,
+    val readyToGo: Boolean = false,
+    val readyToUpdate: Boolean = false,
     val category: Categories? = null
 )
