@@ -38,7 +38,8 @@ fun CategoriesComposableScreen(lSA: List<Categories>,
                                onNavigateToGraphsScreen: () -> Unit,
                                onNavigateToMementosScreen: () -> Unit,
                                categoriesScreenUIState: CategoriesScreenUIState,
-                               updateState: (Boolean, Boolean, Boolean) -> Unit) {
+                               updateState: (Boolean, Boolean, Boolean) -> Unit,
+                               deleteByNameCoroutine: (String) -> Unit) {
     val showA = categoriesScreenUIState.showA
     val showP = categoriesScreenUIState.showP
     val showD = categoriesScreenUIState.showD
@@ -75,19 +76,47 @@ fun CategoriesComposableScreen(lSA: List<Categories>,
             FadingArrowIcon()
 
             if (showA && !showP && !showD) {
-                CategoriesLazyColumn(categorii = lSA, navController = navController)
+                CategoriesLazyColumn(
+                                        categorii = lSA,
+                                        navController = navController,
+                                        deleteByNameCoroutine = deleteByNameCoroutine
+                )
             } else if (showP && !showA && !showD) {
-                CategoriesLazyColumn(categorii = lSP, navController = navController)
+                CategoriesLazyColumn(
+                                        categorii = lSP,
+                                        navController = navController,
+                                        deleteByNameCoroutine = deleteByNameCoroutine
+                )
             } else if (showD && !showA && !showP) {
-                CategoriesLazyColumn(categorii = lSD, navController = navController)
+                CategoriesLazyColumn(
+                                        categorii = lSD,
+                                        navController = navController,
+                                        deleteByNameCoroutine = deleteByNameCoroutine
+                )
             } else if (showA && showP && showD) {
-                CategoriesLazyColumn(categorii = (lSA + lSP + lSD).toMutableList(), navController = navController)
+                CategoriesLazyColumn(
+                                        categorii = (lSA + lSP + lSD).toMutableList(),
+                                        navController = navController,
+                                        deleteByNameCoroutine = deleteByNameCoroutine
+                )
             } else if (showA && showP && !showD) {
-                CategoriesLazyColumn(categorii = (lSA + lSP).toMutableList(), navController = navController)
+                CategoriesLazyColumn(
+                                        categorii = (lSA + lSP).toMutableList(),
+                                        navController = navController,
+                                        deleteByNameCoroutine = deleteByNameCoroutine
+                )
             } else if (showA && !showP && showD) {
-                CategoriesLazyColumn(categorii = (lSA + lSD).toMutableList(), navController = navController)
+                CategoriesLazyColumn(
+                                        categorii = (lSA + lSD).toMutableList(),
+                                        navController = navController,
+                                        deleteByNameCoroutine = deleteByNameCoroutine
+                )
             } else if (!showA && showP && showD) {
-                CategoriesLazyColumn(categorii = (lSP + lSD).toMutableList(), navController = navController)
+                CategoriesLazyColumn(
+                                        categorii = (lSP + lSD).toMutableList(),
+                                        navController = navController,
+                                        deleteByNameCoroutine = deleteByNameCoroutine
+                )
             }
         }
     }

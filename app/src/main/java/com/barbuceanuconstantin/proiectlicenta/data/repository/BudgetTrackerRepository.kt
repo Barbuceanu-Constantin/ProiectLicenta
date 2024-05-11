@@ -18,6 +18,7 @@ interface BudgetTrackerRepository {
     fun getRevenueCategories() : List<Categories>
     fun getSpendingCategories() : List<Categories>
     fun getDebtCategories() : List<Categories>
+    fun deleteCategoryByName(name: String)
     ///////////////////////////////////////////////
     suspend fun insertTransaction(transaction: Transactions)
     fun getAllTransactions(): Flow<List<Transactions>>

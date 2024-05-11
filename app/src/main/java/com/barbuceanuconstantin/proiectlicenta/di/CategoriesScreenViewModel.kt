@@ -33,4 +33,8 @@ class CategoriesScreenViewModel @Inject constructor(val budgetTrackerRepository:
             categoriesD = budgetTrackerRepository.getDebtCategories(),
         )
     }
+    fun onDeleteByName(name:String) {
+        budgetTrackerRepository.deleteCategoryByName(name)
+        onStateChangedLists()
+    }
 }

@@ -29,16 +29,37 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
+import com.barbuceanuconstantin.proiectlicenta.di.CategoriesScreenViewModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
+fun CoroutineScope.launchGetDeleteCategoryByName(
+                                                    delete: (String) -> Unit,
+                                                    name: String
+                                                ) = launch {
+    delete(name)
+}
+
+fun runDeleteCategoryByName(
+                            delete: (String) -> Unit,
+                            name: String
+) {
+    runBlocking {
+        CoroutineScope(Dispatchers.Default).launchGetDeleteCategoryByName(delete, name)
+    }
+}
 @Composable
 private fun Subcategory(
     text: String,
     label: String,
     index: Int,
     navController: NavController,
-    categorii: List<Categories>
+    categorii: List<Categories>,
+    deleteByNameCoroutine: (String) -> Unit
 ) {
     val colorA = colorResource(R.color.light_cream_yellow)
     val colorP = colorResource(R.color.light_cream_red)
@@ -73,7 +94,9 @@ private fun Subcategory(
                     .weight(1f)
             )
 
-            IconButton(onClick = { }) {
+            IconButton(onClick = {
+                runDeleteCategoryByName(deleteByNameCoroutine, text)
+            }) {
                 Icon(
                     Icons.Filled.Delete, contentDescription = "Favorite",
                     tint = colorResource(id = R.color.black)
@@ -86,7 +109,8 @@ private fun Subcategory(
 @Composable
 fun CategoriesLazyColumn(
     categorii: List<Categories>,
-    navController: NavController
+    navController: NavController,
+    deleteByNameCoroutine: (String) -> Unit
 ) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         itemsIndexed(categorii) { index, subcateg ->
@@ -95,7 +119,8 @@ fun CategoriesLazyColumn(
                         label = subcateg.mainCategory,
                         index = index,
                         navController = navController,
-                        categorii = categorii
+                        categorii = categorii,
+                        deleteByNameCoroutine = deleteByNameCoroutine
             )
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
         }

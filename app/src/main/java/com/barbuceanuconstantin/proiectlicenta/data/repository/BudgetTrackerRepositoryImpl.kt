@@ -28,6 +28,7 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     override fun getRevenueCategories() : List<Categories> = categoryDAO.getRevenueCategories()
     override fun getSpendingCategories() : List<Categories> = categoryDAO.getSpendingCategories()
     override fun getDebtCategories() : List<Categories> = categoryDAO.getDebtCategories()
+    override fun deleteCategoryByName(name: String) {categoryDAO.deleteCategoryByName(name)}
     /////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////

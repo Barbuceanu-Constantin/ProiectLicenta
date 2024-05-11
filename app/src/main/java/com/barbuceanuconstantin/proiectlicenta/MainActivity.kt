@@ -272,6 +272,9 @@ class MainActivity : ComponentActivity() {
                         val updateStateMainScreen: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
                             viewModel.onStateChangedMainScreen(showA, showP, showD)
                         }
+                        val deleteByName: (String) -> Unit = { name ->
+                            viewModel.onDeleteByName(name)
+                        }
 
                         runGetCategoriesLists(viewModel)
 
@@ -335,7 +338,8 @@ class MainActivity : ComponentActivity() {
                                 }
                             },
                             categoriesScreenUIState = state,
-                            updateState = updateStateMainScreen
+                            updateState = updateStateMainScreen,
+                            deleteByNameCoroutine = deleteByName
                         )
                     }
                     composable("fixedBudgetsScreen") {
