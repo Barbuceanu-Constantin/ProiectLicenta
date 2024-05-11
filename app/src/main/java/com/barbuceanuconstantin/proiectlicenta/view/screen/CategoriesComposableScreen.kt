@@ -38,7 +38,7 @@ fun CategoriesComposableScreen(lSA: List<Categories>,
                                onNavigateToGraphsScreen: () -> Unit,
                                onNavigateToMementosScreen: () -> Unit,
                                categoriesScreenUIState: CategoriesScreenUIState,
-                               updateState: (Boolean, Boolean, Boolean) -> Unit,) {
+                               updateState: (Boolean, Boolean, Boolean) -> Unit) {
     val showA = categoriesScreenUIState.showA
     val showP = categoriesScreenUIState.showP
     val showD = categoriesScreenUIState.showD
@@ -75,7 +75,7 @@ fun CategoriesComposableScreen(lSA: List<Categories>,
             FadingArrowIcon()
 
             if (showA && !showP && !showD) {
-                CategoriesLazyColumn(categorii = categoriesScreenUIState.categoriesA, navController = navController)
+                CategoriesLazyColumn(categorii = lSA, navController = navController)
             } else if (showP && !showA && !showD) {
                 CategoriesLazyColumn(categorii = lSP, navController = navController)
             } else if (showD && !showA && !showP) {

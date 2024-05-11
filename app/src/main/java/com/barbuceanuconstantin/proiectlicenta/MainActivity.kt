@@ -1,22 +1,21 @@
 package com.barbuceanuconstantin.proiectlicenta
 
 import android.os.Bundle
+import android.os.Environment
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.room.Room
 import com.barbuceanuconstantin.proiectlicenta.data.BudgetTrackerDatabase
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
@@ -50,7 +49,11 @@ import com.barbuceanuconstantin.proiectlicenta.view.screen.listaSubcategorysPasi
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+
 
 //Branch ecrane-individuale//
 private var listSubcategoriesRevenue = subcategorysPredefiniteActive.map {
@@ -96,10 +99,21 @@ fun initHardcodedTransactions(lTrA: SnapshotStateList<Transactions>,
     lTrD.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Credit1", id = 5, budgetId = 1))
 }
 
+fun CoroutineScope.launchGetCategoriesLists(viewModel: CategoriesScreenViewModel) = launch {
+    viewModel.onStateChangedLists()
+}
+
+fun runGetCategoriesLists(viewModel: CategoriesScreenViewModel) {
+    runBlocking {
+        CoroutineScope(Dispatchers.Default).launchGetCategoriesLists(viewModel)
+    }
+}
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             ProiectLicentaTheme {
                 val lTrA = mutableStateListOf<Transactions>()
@@ -258,15 +272,8 @@ class MainActivity : ComponentActivity() {
                         val updateStateMainScreen: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
                             viewModel.onStateChangedMainScreen(showA, showP, showD)
                         }
-                        println("START1")
-                        for(category in state.categoriesA)
-                            print(category.name)
-                        println("END1")
-                        viewModel.onStateChangedLists()
-                        println("START2")
-                        for(category in state.categoriesA)
-                            print(category.name)
-                        println("END2")
+
+                        runGetCategoriesLists(viewModel)
 
                         //Categorii
                         CategoriesComposableScreen(

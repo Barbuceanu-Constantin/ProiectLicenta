@@ -13,14 +13,14 @@ interface CategoryDAO {
     fun insertCategory(category: Categories): Long
 
     @Query("SELECT * FROM categories")
-    fun getAllCategories() : Flow<List<Categories>>
+    fun getAllCategories() : List<Categories>
 
-    @Query("SELECT * FROM categories where name == 'Active'")
-    fun getRevenueCategories() : Flow<List<Categories>>
+    @Query("SELECT * FROM categories where main_category == 'Active'")
+    fun getRevenueCategories() : List<Categories>
 
-    @Query("SELECT * FROM categories where name == 'Pasive'")
-    fun getSpendingCategories() : Flow<List<Categories>>
+    @Query("SELECT * FROM categories where main_category == 'Pasive'")
+    fun getSpendingCategories() : List<Categories>
 
-    @Query("SELECT * FROM categories where name == 'Datorii'")
-    fun getDebtCategories() : Flow<List<Categories>>
+    @Query("SELECT * FROM categories where main_category == 'Datorii'")
+    fun getDebtCategories() : List<Categories>
 }

@@ -55,10 +55,8 @@ class EditCategoryScreenViewModel @Inject constructor(val budgetTrackerRepositor
         )
     }
     suspend fun insertCategory(category: Categories) {
-        var returnValue: Long
         viewModelScope.launch(IO) {
-            returnValue = budgetTrackerRepository.insertCategory(category)
-            println("dadada $returnValue")
+            budgetTrackerRepository.insertCategory(category)
         }
     }
 }

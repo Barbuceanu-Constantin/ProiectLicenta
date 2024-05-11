@@ -75,17 +75,21 @@ fun EditCategoryScreen(
                 }
             else if (showP)
                 LaunchedEffect(Unit) {
-                    Categories(
-                        name = filledText,
-                        mainCategory = "Pasive"
+                    insertCoroutine(
+                        Categories(
+                            name = filledText,
+                            mainCategory = "Pasive"
+                        )
                     )
                 }
             else
                 //showD == true
                 LaunchedEffect(Unit) {
-                    Categories(
-                        name = filledText,
-                        mainCategory = "Datorii"
+                    insertCoroutine (
+                        Categories(
+                            name = filledText,
+                            mainCategory = "Datorii"
+                        )
                     )
                 }
             onNavigateToCategoryScreen()

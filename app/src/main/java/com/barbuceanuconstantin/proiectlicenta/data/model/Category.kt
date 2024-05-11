@@ -29,19 +29,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
-import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
-import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
-import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-
-private var listaSubcategorysActive = subcategorysPredefiniteActive.toMutableList()
-private var listaSubcategorysPasive = subcategorysPredefinitePasive.toMutableList()
-private var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.toMutableList()
 
 @Composable
 private fun Subcategory(
     text: String,
+    label: String,
     index: Int,
     navController: NavController,
     categorii: List<Categories>
@@ -67,9 +61,9 @@ private fun Subcategory(
                                                       },
                                     )
     ) {
-        if (listaSubcategorysActive.contains(text)) color = colorA
-        else if (listaSubcategorysPasive.contains(text)) color = colorP
-        else if (listaSubcategorysDatorii.contains(text)) color = colorD
+        if (label == "Active") color = colorA
+        else if (label == "Pasive") color = colorP
+        else if (label == "Datorii") color = colorD
         Row(modifier = Modifier.background(color)) {
             Text(
                 text = text, fontSize = 14.sp,
@@ -97,10 +91,12 @@ fun CategoriesLazyColumn(
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         itemsIndexed(categorii) { index, subcateg ->
             Subcategory(
-                text = subcateg.name,
+                        text = subcateg.name,
+                        label = subcateg.mainCategory,
                         index = index,
                         navController = navController,
-                        categorii = categorii)
+                        categorii = categorii
+            )
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
         }
     }
