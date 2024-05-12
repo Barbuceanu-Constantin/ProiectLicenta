@@ -1,9 +1,9 @@
 package com.barbuceanuconstantin.proiectlicenta
 
 import android.os.Bundle
-import android.os.Environment
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -15,8 +15,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.room.Room
-import com.barbuceanuconstantin.proiectlicenta.data.BudgetTrackerDatabase
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
@@ -54,17 +52,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.Dispatchers
 
-
-//Branch ecrane-individuale//
-private var listSubcategoriesRevenue = subcategorysPredefiniteActive.map {
-    Categories(id = 0, name = it, mainCategory = "Active")
-}.toMutableStateList()
-private var listSubcategoriesExpenses = subcategorysPredefinitePasive.map {
-    Categories(id = 0, name = it, mainCategory = "Pasive")
-}.toMutableStateList()
-private var listSubcategoriesDebts = subcategorysPredefiniteDatorii.map {
-    Categories(id = 0, name = it, mainCategory = "Datorii")
-}.toMutableStateList()
 fun initHardcodedBudgets(lBudgets: SnapshotStateList<Budgets>) {
     lBudgets.add(Budgets(id = 1, startDate = "2024-04-21", endDate = "2024-04-21", name = "ccc", upperTreshold = 2f.toDouble(), category = "Divertisment"))
     lBudgets.add(Budgets(id = 2, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
@@ -99,6 +86,43 @@ fun initHardcodedTransactions(lTrA: SnapshotStateList<Transactions>,
     lTrD.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Credit1", id = 5, budgetId = 1))
 }
 
+fun CoroutineScope.insertPredefinedCategory(viewModel: PrincipalScreenViewModel,
+                                            categoryName: String,
+                                            mainCategory: String
+) = launch {
+    viewModel.budgetTrackerRepository.insertCategory(Categories(mainCategory = mainCategory, name = categoryName))
+}
+
+fun runInitCategoryLists(viewModel: PrincipalScreenViewModel) {
+    for (category in subcategorysPredefiniteActive) {
+        runBlocking {
+            CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
+                viewModel = viewModel,
+                categoryName = category,
+                mainCategory = "Active"
+            )
+        }
+    }
+    for (category in subcategorysPredefinitePasive) {
+        runBlocking {
+            CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
+                viewModel = viewModel,
+                categoryName = category,
+                mainCategory = "Pasive"
+            )
+        }
+    }
+    for (category in subcategorysPredefiniteDatorii) {
+        runBlocking {
+            CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
+                viewModel = viewModel,
+                categoryName = category,
+                mainCategory = "Datorii"
+            )
+        }
+    }
+}
+
 fun CoroutineScope.launchGetCategoriesLists(viewModel: CategoriesScreenViewModel) = launch {
     viewModel.onStateChangedLists()
 }
@@ -120,6 +144,8 @@ class MainActivity : ComponentActivity() {
                 val lTrP = mutableStateListOf<Transactions>()
                 val lTrD = mutableStateListOf<Transactions>()
                 val lBudgets = mutableStateListOf<Budgets>()
+
+                runInitCategoryLists(hiltViewModel<PrincipalScreenViewModel>())
 
                 initHardcodedTransactions(lTrA, lTrP, lTrD)
                 initHardcodedBudgets(lBudgets)

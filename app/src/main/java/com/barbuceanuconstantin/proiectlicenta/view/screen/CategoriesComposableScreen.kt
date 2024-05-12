@@ -77,43 +77,46 @@ fun CategoriesComposableScreen(lSA: List<Categories>,
 
             if (showA && !showP && !showD) {
                 CategoriesLazyColumn(
-                                        categorii = lSA,
+                                        categorii = lSA.sortedBy { it.name },
                                         navController = navController,
                                         deleteByNameCoroutine = deleteByNameCoroutine
                 )
             } else if (showP && !showA && !showD) {
                 CategoriesLazyColumn(
-                                        categorii = lSP,
+                                        categorii = lSP.sortedBy { it.name },
                                         navController = navController,
                                         deleteByNameCoroutine = deleteByNameCoroutine
                 )
             } else if (showD && !showA && !showP) {
                 CategoriesLazyColumn(
-                                        categorii = lSD,
+                                        categorii = lSD.sortedBy { it.name },
                                         navController = navController,
                                         deleteByNameCoroutine = deleteByNameCoroutine
                 )
             } else if (showA && showP && showD) {
                 CategoriesLazyColumn(
-                                        categorii = (lSA + lSP + lSD).toMutableList(),
+                                        categorii = (lSA.sortedBy { it.name } + lSP.sortedBy { it.name } + lSD.sortedBy { it.name }),
                                         navController = navController,
                                         deleteByNameCoroutine = deleteByNameCoroutine
                 )
-            } else if (showA && showP && !showD) {
+            } else if (showA && showP) {
+                //showA && showP && !showD
                 CategoriesLazyColumn(
-                                        categorii = (lSA + lSP).toMutableList(),
+                                        categorii = (lSA.sortedBy { it.name } + lSP.sortedBy { it.name }),
                                         navController = navController,
                                         deleteByNameCoroutine = deleteByNameCoroutine
                 )
-            } else if (showA && !showP && showD) {
+            } else if (showA) {
+                //showA && !showP && showD
                 CategoriesLazyColumn(
-                                        categorii = (lSA + lSD).toMutableList(),
+                                        categorii = (lSA.sortedBy { it.name } + lSD.sortedBy { it.name }),
                                         navController = navController,
                                         deleteByNameCoroutine = deleteByNameCoroutine
                 )
-            } else if (!showA && showP && showD) {
+            } else if (showP) {
+                //!showA && showP && showD
                 CategoriesLazyColumn(
-                                        categorii = (lSP + lSD).toMutableList(),
+                                        categorii = (lSP.sortedBy { it.name } + lSD.sortedBy { it.name }),
                                         navController = navController,
                                         deleteByNameCoroutine = deleteByNameCoroutine
                 )
