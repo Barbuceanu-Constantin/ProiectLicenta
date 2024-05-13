@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +21,21 @@ class FixedBudgetsScreenViewModel @Inject constructor(val budgetTrackerRepositor
         get() = _stateFlow.asStateFlow()
 
     fun onStateChangedButtons(buttons: Boolean) {
-        _stateFlow.value = FixedBudgetsScreenUIState(buttons)
+        _stateFlow.value = FixedBudgetsScreenUIState(
+                                                        buttons = buttons,
+                                                        budgets = _stateFlow.value.budgets
+        )
+    }
+
+    fun onStateChangedList() {
+        _stateFlow.value = FixedBudgetsScreenUIState(
+                                                        buttons = _stateFlow.value.buttons,
+                                                        budgets = budgetTrackerRepository.getAllBudgets()
+        )
+    }
+
+    fun onDeleteByName(name:String) {
+        budgetTrackerRepository.deleteBudgetByName(name)
+        onStateChangedList()
     }
 }

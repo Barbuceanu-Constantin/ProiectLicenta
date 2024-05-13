@@ -37,7 +37,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-fun CoroutineScope.launchGetDeleteCategoryByName(
+fun CoroutineScope.launchDeleteCategoryByName(
                                                     delete: (String) -> Unit,
                                                     name: String
                                                 ) = launch {
@@ -49,7 +49,7 @@ fun runDeleteCategoryByName(
                             name: String
 ) {
     runBlocking {
-        CoroutineScope(Dispatchers.Default).launchGetDeleteCategoryByName(delete, name)
+        CoroutineScope(Dispatchers.Default).launchDeleteCategoryByName(delete, name)
     }
 }
 @Composable

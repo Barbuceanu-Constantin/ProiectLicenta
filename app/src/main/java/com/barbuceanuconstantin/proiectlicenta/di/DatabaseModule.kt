@@ -27,11 +27,11 @@ object DatabaseModule {
     }
     @Provides
     fun provideTransactionDao(budgetTrackerDatabase: BudgetTrackerDatabase): TransactionsDAO {
-        return  budgetTrackerDatabase.transactionDao()
+        return  budgetTrackerDatabase.transactionsDao()
     }
     @Provides
     fun provideBudgetDao(budgetTrackerDatabase: BudgetTrackerDatabase): BudgetsDAO {
-        return budgetTrackerDatabase.budgetDao()
+        return budgetTrackerDatabase.budgetsDao()
     }
     @Provides
     @Singleton

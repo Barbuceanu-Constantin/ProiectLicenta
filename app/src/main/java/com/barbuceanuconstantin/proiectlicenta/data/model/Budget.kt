@@ -25,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -37,7 +36,26 @@ import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
+fun CoroutineScope.launchDeleteBudgetByName(
+    delete: (String) -> Unit,
+    name: String
+) = launch {
+    delete(name)
+}
+
+fun runDeleteBudgetByName(
+    delete: (String) -> Unit,
+    name: String
+) {
+    runBlocking {
+        CoroutineScope(Dispatchers.Default).launchDeleteBudgetByName(delete, name)
+    }
+}
 @Composable
 private fun HeaderBudget(text: String) {
     Column {
@@ -112,10 +130,12 @@ fun InfoBudget(value: Double, startDate: String, endDate: String, category: Stri
 }
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budgets>,
-                      buttons: Boolean,
-                      navController: NavController,
-                      updateStateButtons: (Boolean) -> Unit
+fun BudgetsLazyColumn(
+    lFixedBudgets: List<Budgets>,
+    buttons: Boolean,
+    navController: NavController,
+    updateStateButtons: (Boolean) -> Unit,
+    deleteByNameCoroutine: (String) -> Unit
 ) {
     val id: MutableState<Int> = remember { mutableIntStateOf(-1) }
 
@@ -134,7 +154,7 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budgets>,
                                                     )
             ) {
                 HeaderBudget(text = budget.name)
-                InfoBudget(budget.upperTreshold, budget.startDate, budget.endDate, budget.category)
+                InfoBudget(budget.upperThreshold, budget.startDate, budget.endDate, budget.categoryName)
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
         }
@@ -174,8 +194,10 @@ fun BudgetsLazyColumn(lFixedBudgets: SnapshotStateList<Budgets>,
                 }
             },
             dismissButton = {
+                val budgetObj = lFixedBudgets[id.value]
                 Button(
                     onClick = {
+                        runDeleteBudgetByName(deleteByNameCoroutine, budgetObj.name)
                         updateStateButtons(false)
                     }
                 ) {

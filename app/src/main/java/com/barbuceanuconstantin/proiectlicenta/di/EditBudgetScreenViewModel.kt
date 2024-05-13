@@ -1,13 +1,16 @@
 package com.barbuceanuconstantin.proiectlicenta.di
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,9 +22,9 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = budget.startDate,
             date2 = budget.endDate,
-            category = budget.category,
+            category = budget.categoryName,
             filledText = budget.name,
-            valueSum = budget.upperTreshold.toString(),
+            valueSum = budget.upperThreshold.toString(),
             openWarningDialog = _stateFlow.value.openWarningDialog,
             idWarningString = _stateFlow.value.idWarningString,
             budget = budget,
@@ -36,7 +39,8 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             valueSum = _stateFlow.value.valueSum,
             openWarningDialog = _stateFlow.value.openWarningDialog,
             idWarningString = _stateFlow.value.idWarningString,
-            budget = _stateFlow.value.budget
+            budget = _stateFlow.value.budget,
+            readyToGo = _stateFlow.value.readyToGo
         )
     }
     fun onUpdateDate2(date2: String) {
@@ -48,7 +52,8 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             valueSum = _stateFlow.value.valueSum,
             openWarningDialog = _stateFlow.value.openWarningDialog,
             idWarningString = _stateFlow.value.idWarningString,
-            budget = _stateFlow.value.budget
+            budget = _stateFlow.value.budget,
+            readyToGo = _stateFlow.value.readyToGo
         )
     }
     fun onUpdateCategory(category: String) {
@@ -60,7 +65,8 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             valueSum = _stateFlow.value.valueSum,
             openWarningDialog = _stateFlow.value.openWarningDialog,
             idWarningString = _stateFlow.value.idWarningString,
-            budget = _stateFlow.value.budget
+            budget = _stateFlow.value.budget,
+            readyToGo = _stateFlow.value.readyToGo
         )
     }
     fun onUpdateFilledText(filledText: String) {
@@ -72,7 +78,8 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             valueSum = _stateFlow.value.valueSum,
             openWarningDialog = _stateFlow.value.openWarningDialog,
             idWarningString = _stateFlow.value.idWarningString,
-            budget = _stateFlow.value.budget
+            budget = _stateFlow.value.budget,
+            readyToGo = _stateFlow.value.readyToGo
         )
     }
     fun onUpdateValueSum(valueSum: String) {
@@ -84,7 +91,8 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             valueSum = valueSum,
             openWarningDialog = _stateFlow.value.openWarningDialog,
             idWarningString = _stateFlow.value.idWarningString,
-            budget = _stateFlow.value.budget
+            budget = _stateFlow.value.budget,
+            readyToGo = _stateFlow.value.readyToGo
         )
     }
     fun onUpdateOpenWarningDialog(openWarningDialog: Boolean, idWarningString: Int) {
@@ -96,7 +104,31 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             valueSum = _stateFlow.value.valueSum,
             openWarningDialog = openWarningDialog,
             idWarningString = idWarningString,
-            budget = _stateFlow.value.budget
+            budget = _stateFlow.value.budget,
+            readyToGo = _stateFlow.value.readyToGo
         )
+    }
+    fun onUpdateReadyToGo(readyToGo: Boolean) {
+        _stateFlow.value = EditBudgetScreenUIState(
+            date1 = _stateFlow.value.date1,
+            date2 = _stateFlow.value.date2,
+            category = _stateFlow.value.category,
+            filledText = _stateFlow.value.filledText,
+            valueSum = _stateFlow.value.valueSum,
+            openWarningDialog = _stateFlow.value.openWarningDialog,
+            idWarningString = _stateFlow.value.idWarningString,
+            budget = _stateFlow.value.budget,
+            readyToGo = readyToGo
+        )
+    }
+    suspend fun insertBudget(budget: Budgets) {
+        viewModelScope.launch(Dispatchers.IO) {
+            budgetTrackerRepository.insertBudget(budget)
+        }
+    }
+    suspend fun updateBudgetInDb(budget: Budgets) {
+        viewModelScope.launch(Dispatchers.IO) {
+            budgetTrackerRepository.updateBudget(budget)
+        }
     }
 }

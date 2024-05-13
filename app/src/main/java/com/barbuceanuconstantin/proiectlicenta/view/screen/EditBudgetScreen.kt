@@ -25,6 +25,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +47,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.di.EditBudgetScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoriesMenu
@@ -112,7 +114,10 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                      onUpdateFilledText: (String) -> Unit,
                      onUpdateValueSum: (String) -> Unit,
                      onUpdateOpenWarningDialog: (Boolean, Int) -> Unit,
+                     updateReadyToGo: (Boolean) -> Unit,
                      addBudget: (Budgets) -> Unit,
+                     insertCoroutine: suspend (Budgets) -> Unit,
+                     updateCoroutine: suspend (Budgets) -> Unit,
                      editBudgetScreenUIState: EditBudgetScreenUIState) {
     val date1: String = editBudgetScreenUIState.date1
     val date2: String = editBudgetScreenUIState.date2
@@ -122,6 +127,7 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
     val valueSum: String = editBudgetScreenUIState.valueSum
     val category: String = editBudgetScreenUIState.category
     val idWarningString: Int = editBudgetScreenUIState.idWarningString
+    val readyToGo: Boolean = editBudgetScreenUIState.readyToGo
     val budget: Budgets? = editBudgetScreenUIState.budget
 
     // Obtain the context from your activity or fragment
@@ -133,6 +139,38 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
     val month: Int = calendar.get(Calendar.MONTH)
     val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    //Trebuie sa si adaug categoria in viewState
+    if (budget == null) {
+        //Aici se intra la insert.
+        if (readyToGo) {
+            LaunchedEffect(Unit) {
+                insertCoroutine(
+                    Budgets(
+                        categoryName = category,
+                        name = filledText,
+                        upperThreshold = valueSum.toDouble(),
+                        startDate = date1,
+                        endDate = date2
+                    )
+                )
+            }
+            onNavigateToFixedBudgetsScreen()
+        }
+    } else {
+        //Aici se intra la update.
+        if (readyToGo) {
+            budget.name = filledText
+            budget.categoryName = category
+            budget.upperThreshold = valueSum.toDouble()
+            budget.startDate = date1
+            budget.endDate = date2
+            LaunchedEffect(Unit) {
+                updateCoroutine(budget)
+            }
+            onNavigateToFixedBudgetsScreen()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -270,14 +308,14 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                         val localDate: LocalDate = LocalDate.parse(dateString, formatter)
                         val datePickerDialog =
                             android.app.DatePickerDialog(context, { _, year1, month1, dayOfMonth1 ->
-                                // Handle the selected date
                                 val selectedDate: Calendar = Calendar.getInstance()
                                 selectedDate.set(year1, month1, dayOfMonth1)
 
-                                // Perform any necessary operations with the selected date here
                                 // Data de final trebuie sa fie dupa data curenta si dupa data de inceput.
-                                verifyFinalDate(selectedDate, localDate, onUpdateDate2 = onUpdateDate2,
-                                                onUpdateOpenWarningDialog = onUpdateOpenWarningDialog)
+                                verifyFinalDate(
+                                    selectedDate, localDate, onUpdateDate2 = onUpdateDate2,
+                                    onUpdateOpenWarningDialog = onUpdateOpenWarningDialog
+                                )
                             }, year, month, dayOfMonth)
 
                         datePickerDialog.show()
@@ -303,17 +341,11 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                 verticalAlignment = Alignment.Bottom) {
                 Button(onClick = {
                                     //Trebuie sa si adaug bugetul in viewState
-                                    var dateString: String = date1
-                                    val formatter: DateTimeFormatter =
-                                        DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                                    val localDate: LocalDate = LocalDate.parse(dateString, formatter)
-                                    dateString = date2
-                                    if (isDateAfterOrEqualToCurrent(
-                                            dateString = dateString,
-                                            current = localDate
-                                        )
-                                    )
-                                        onNavigateToFixedBudgetsScreen()
+                                    if (date2 >= date1) {
+                                        if (!readyToGo) {
+                                            updateReadyToGo(true)
+                                        }
+                                    }
                                     else {
                                         onUpdateOpenWarningDialog(
                                             true,

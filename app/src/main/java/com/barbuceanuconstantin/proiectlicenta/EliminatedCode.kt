@@ -45,6 +45,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.view.screen.isDateAfterOrEqualToCurrent
 import kotlinx.coroutines.delay
 import java.time.LocalDate
@@ -736,3 +737,25 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //    var data: String,
 //    var payee: String
 //)
+
+//initHardcodedBudgets(lBudgets)
+
+//fun initHardcodedBudgets(lBudgets: SnapshotStateList<Budgets>) {
+//    lBudgets.add(Budgets(id = 1, startDate = "2024-04-21", endDate = "2024-04-21", name = "ccc", upperTreshold = 2f.toDouble(), category = "Divertisment"))
+//    lBudgets.add(Budgets(id = 2, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+//    lBudgets.add(Budgets(id = 3, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+//    lBudgets.add(Budgets(id = 4, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+//    lBudgets.add(Budgets(id = 5, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+//    lBudgets.add(Budgets(id = 6, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+//    lBudgets.add(Budgets(id = 7, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+//    lBudgets.add(Budgets(id = 8, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+//    lBudgets.add(Budgets(id = 9, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+//    lBudgets.add(Budgets(id = 10, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
+//}
+
+//isDateAfterOrEqualToCurrent(dateString = dateString, current = localDate)
+
+//var dateString: String = date1
+//val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+//val localDate: LocalDate = LocalDate.parse(dateString, formatter)
+//dateString = date2

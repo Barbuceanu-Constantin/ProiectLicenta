@@ -3,11 +3,8 @@ package com.barbuceanuconstantin.proiectlicenta
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.runtime.toMutableStateList
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
@@ -52,18 +49,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.Dispatchers
 
-fun initHardcodedBudgets(lBudgets: SnapshotStateList<Budgets>) {
-    lBudgets.add(Budgets(id = 1, startDate = "2024-04-21", endDate = "2024-04-21", name = "ccc", upperTreshold = 2f.toDouble(), category = "Divertisment"))
-    lBudgets.add(Budgets(id = 2, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
-    lBudgets.add(Budgets(id = 3, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
-    lBudgets.add(Budgets(id = 4, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
-    lBudgets.add(Budgets(id = 5, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
-    lBudgets.add(Budgets(id = 6, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
-    lBudgets.add(Budgets(id = 7, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
-    lBudgets.add(Budgets(id = 8, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
-    lBudgets.add(Budgets(id = 9, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
-    lBudgets.add(Budgets(id = 10, startDate = "2024-04-21", endDate = "2024-04-21", name = "---", upperTreshold = 0f.toDouble(), category = "Divertisment"))
-}
 fun initHardcodedTransactions(lTrA: SnapshotStateList<Transactions>,
                               lTrP: SnapshotStateList<Transactions>,
                               lTrD: SnapshotStateList<Transactions>) {
@@ -123,6 +108,15 @@ fun runInitCategoryLists(viewModel: PrincipalScreenViewModel) {
     }
 }
 
+fun CoroutineScope.launchGetBudgetsLists(viewModel: FixedBudgetsScreenViewModel) = launch {
+    viewModel.onStateChangedList()
+}
+fun runGetBudgetsLists(viewModel: FixedBudgetsScreenViewModel) {
+    runBlocking {
+        CoroutineScope(Dispatchers.Default).launchGetBudgetsLists(viewModel)
+    }
+}
+
 fun CoroutineScope.launchGetCategoriesLists(viewModel: CategoriesScreenViewModel) = launch {
     viewModel.onStateChangedLists()
 }
@@ -143,12 +137,10 @@ class MainActivity : ComponentActivity() {
                 val lTrA = mutableStateListOf<Transactions>()
                 val lTrP = mutableStateListOf<Transactions>()
                 val lTrD = mutableStateListOf<Transactions>()
-                val lBudgets = mutableStateListOf<Budgets>()
 
                 runInitCategoryLists(hiltViewModel<PrincipalScreenViewModel>())
 
                 initHardcodedTransactions(lTrA, lTrP, lTrD)
-                initHardcodedBudgets(lBudgets)
 
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "homeScreen") {
@@ -374,10 +366,16 @@ class MainActivity : ComponentActivity() {
                         val updateState: (Boolean) -> Unit = { buttons ->
                             viewModel.onStateChangedButtons(buttons)
                         }
+                        val deleteByName: (String) -> Unit = { name ->
+                            viewModel.onDeleteByName(name)
+                        }
+
+                        runGetBudgetsLists(viewModel)
 
                         //Bugete fixe
                         FixedBudgetsComposableScreen(
-                            lBudgets, navController,
+                            state.budgets,
+                            navController,
                             onNavigateToEditBudgetScreen = {
                                 navController.navigate("editBudgetScreen")
                             },
@@ -432,7 +430,8 @@ class MainActivity : ComponentActivity() {
                                 }
                             },
                             fixedBudgetsScreenUIState = state,
-                            updateStateButtons = updateState
+                            updateStateButtons = updateState,
+                            deleteByNameCoroutine = deleteByName
                         )
                     }
                     composable("editTransactionScreen/{index}?transaction={transaction}",
@@ -659,6 +658,15 @@ class MainActivity : ComponentActivity() {
                         val addBudget: (Budgets) -> Unit = { budget ->
                             viewModel.onAddBudget(budget)
                         }
+                        val insertBudget: suspend (Budgets) -> Unit = { budget ->
+                            viewModel.insertBudget(budget)
+                        }
+                        val updateBudget: suspend (Budgets) -> Unit = { budget ->
+                            viewModel.updateBudgetInDb(budget)
+                        }
+                        val updateReadyToGo: (Boolean) -> Unit = { readyToGo ->
+                            viewModel.onUpdateReadyToGo(readyToGo)
+                        }
 
                         if(budgetObject != null) {
                             if (state.budget == null) {
@@ -670,9 +678,9 @@ class MainActivity : ComponentActivity() {
                                 if (state.filledText == "")
                                     updateFilledText(budgetObject.name)
                                 if (state.category == "")
-                                    updateCategory(budgetObject.category)
+                                    updateCategory(budgetObject.categoryName)
                                 if (state.valueSum == "")
-                                    updateValueSum(budgetObject.upperTreshold.toString())
+                                    updateValueSum(budgetObject.upperThreshold.toString())
                             }
                         }
 
@@ -698,7 +706,10 @@ class MainActivity : ComponentActivity() {
                             onUpdateValueSum = updateValueSum,
                             onUpdateOpenWarningDialog = updateOpenWarningDialog,
                             addBudget = addBudget,
-                            editBudgetScreenUIState = state
+                            editBudgetScreenUIState = state,
+                            updateReadyToGo = updateReadyToGo,
+                            insertCoroutine = insertBudget,
+                            updateCoroutine = updateBudget
                         )
                     }
                     composable("budgetSummaryScreen") {

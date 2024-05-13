@@ -28,8 +28,8 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     override fun getRevenueCategories() : List<Categories> = categoryDAO.getRevenueCategories()
     override fun getSpendingCategories() : List<Categories> = categoryDAO.getSpendingCategories()
     override fun getDebtCategories() : List<Categories> = categoryDAO.getDebtCategories()
-    override fun deleteCategoryByName(name: String) { categoryDAO.deleteCategoryByName(name) }
     override fun updateCategory(category: Categories) { categoryDAO.updateCategory(category) }
+    override fun deleteCategoryByName(name: String) { categoryDAO.deleteCategoryByName(name) }
     /////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////
@@ -39,6 +39,8 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
 
     /////////////////////////////////////////////////////////
     override suspend fun insertBudget(budget: Budgets) = budgetsDAO.insertBudget(budget)
-    override fun getAllBudgets(): Flow<List<Budgets>> = budgetsDAO.getAllBudgets()
+    override fun getAllBudgets(): List<Budgets> = budgetsDAO.getAllBudgets()
+    override fun updateBudget(budget: Budgets) { budgetsDAO.updateBudget(budget) }
+    override fun deleteBudgetByName(name: String) { budgetsDAO.deleteBudgetByName(name) }
     /////////////////////////////////////////////////////////
 }

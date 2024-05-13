@@ -14,6 +14,6 @@ import com.barbuceanuconstantin.proiectlicenta.data.dao.TransactionsDAO
 abstract class BudgetTrackerDatabase: RoomDatabase() {
     abstract fun mainCategoryDao(): MainCategoryDAO
     abstract fun categoryDao(): CategoryDAO
-    abstract fun transactionDao(): TransactionsDAO
-    abstract fun budgetDao(): BudgetsDAO
+    abstract fun transactionsDao(): TransactionsDAO
+    abstract fun budgetsDao(): BudgetsDAO
 }
