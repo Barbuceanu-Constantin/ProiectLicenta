@@ -759,5 +759,3 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 //val localDate: LocalDate = LocalDate.parse(dateString, formatter)
 //dateString = date2
-
-//LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
