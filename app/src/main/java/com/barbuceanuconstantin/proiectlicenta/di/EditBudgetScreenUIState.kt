@@ -1,6 +1,7 @@
 package com.barbuceanuconstantin.proiectlicenta.di
 
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -20,5 +21,6 @@ data class EditBudgetScreenUIState(
     val idWarningString: Int = -1,
     val readyToGo: Boolean = false,
     val alertDialog: Boolean = false,
+    val expenseCategoriesList: List<Categories> = listOf(),
     val budget: Budgets? = null
 )

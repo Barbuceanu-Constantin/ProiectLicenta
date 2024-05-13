@@ -113,6 +113,7 @@ fun EditBudgetScreen(
     editBudgetScreenUIState: EditBudgetScreenUIState,
     updateAlertDialog: (Boolean) -> Unit,
     nullCheckFields: () -> Boolean) {
+
     val date1: Date = editBudgetScreenUIState.date1
     val date2: Date = editBudgetScreenUIState.date2
     val openWarningDialog = editBudgetScreenUIState.openWarningDialog
@@ -225,7 +226,7 @@ fun EditBudgetScreen(
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             CategoriesMenu(
-                lSubcategorys = listaSubcategorysPasive,
+                lSubcategorys = editBudgetScreenUIState.expenseCategoriesList,
                 subcategory = category
             ) {
                 onUpdateCategory(it)

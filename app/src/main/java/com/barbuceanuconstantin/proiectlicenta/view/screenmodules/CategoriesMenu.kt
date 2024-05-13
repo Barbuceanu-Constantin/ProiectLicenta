@@ -31,11 +31,13 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
 
 @Composable
-fun CategoriesMenu(lSubcategorys: MutableList<String>,
-                   subcategory: String,
-                   onSelect: (String) -> Unit) {
+fun CategoriesMenu(
+    lSubcategorys: List<Categories>,
+    subcategory: String,
+    onSelect: (String) -> Unit) {
     var expanded1 by remember { mutableStateOf(false) }
     var expanded2 by remember { mutableStateOf(false) }
     var textFilledSize by remember { mutableStateOf(Size.Zero) }
@@ -43,7 +45,7 @@ fun CategoriesMenu(lSubcategorys: MutableList<String>,
 
     Box(modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin), end = dimensionResource(id = R.dimen.margin)),
         contentAlignment = Alignment.Center) {
-        val filteredOptions = lSubcategorys.filter { it.contains(subcategory, ignoreCase = true) }
+        val filteredOptions = lSubcategorys.filter { it.name.contains(subcategory, ignoreCase = true) }
 
         OutlinedTextField(
             value = subcategory,
@@ -76,9 +78,9 @@ fun CategoriesMenu(lSubcategorys: MutableList<String>,
                     DropdownMenuItem(
                         onClick = {
                             expanded1 = false
-                            onSelect(label)
+                            onSelect(label.name)
                         },
-                        text = { Text(text = label) },
+                        text = { Text(text = label.name) },
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -93,9 +95,9 @@ fun CategoriesMenu(lSubcategorys: MutableList<String>,
                     DropdownMenuItem(
                         onClick = {
                             expanded2 = false
-                            onSelect(label)
+                            onSelect(label.name)
                         },
-                        text = { Text(text = label) },
+                        text = { Text(text = label.name) },
                         modifier = Modifier.fillMaxWidth()
                     )
                 }

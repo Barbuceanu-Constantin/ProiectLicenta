@@ -37,9 +37,6 @@ import com.barbuceanuconstantin.proiectlicenta.view.screen.GraphsComposableScree
 import com.barbuceanuconstantin.proiectlicenta.view.screen.MementosComposableScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.PrincipalComposableScreen
 import com.barbuceanuconstantin.proiectlicenta.view.screen.TransactionsComposableScreen
-import com.barbuceanuconstantin.proiectlicenta.view.screen.listaSubcategorysActive
-import com.barbuceanuconstantin.proiectlicenta.view.screen.listaSubcategorysDatorii
-import com.barbuceanuconstantin.proiectlicenta.view.screen.listaSubcategorysPasive
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -86,6 +83,15 @@ fun runInitCategoryLists(viewModel: PrincipalScreenViewModel) {
     }
 }
 
+fun CoroutineScope.launchGetCategoriesExpensesList(viewModel: EditBudgetScreenViewModel) = launch {
+    viewModel.updateExpensesList()
+}
+fun runGetCategoryExpensesList(viewModel: EditBudgetScreenViewModel) {
+    runBlocking {
+        CoroutineScope(Dispatchers.Default).launchGetCategoriesExpensesList(viewModel)
+    }
+}
+
 fun CoroutineScope.launchGetBudgetsLists(viewModel: FixedBudgetsScreenViewModel) = launch {
     viewModel.onStateChangedList()
 }
@@ -95,13 +101,21 @@ fun runGetBudgetsLists(viewModel: FixedBudgetsScreenViewModel) {
     }
 }
 
-fun CoroutineScope.launchGetCategoriesLists(viewModel: CategoriesScreenViewModel) = launch {
+fun CoroutineScope.launchGetCategoriesListsCategoriesScreen(viewModel: CategoriesScreenViewModel) = launch {
     viewModel.onStateChangedLists()
 }
-
-fun runGetCategoriesLists(viewModel: CategoriesScreenViewModel) {
+fun runGetCategoriesListsCategoriesScreen(viewModel: CategoriesScreenViewModel) {
     runBlocking {
-        CoroutineScope(Dispatchers.Default).launchGetCategoriesLists(viewModel)
+        CoroutineScope(Dispatchers.Default).launchGetCategoriesListsCategoriesScreen(viewModel)
+    }
+}
+
+fun CoroutineScope.launchGetCategoriesListsEditTransactionScreen(viewModel: EditTransactionScreenViewModel) = launch {
+    viewModel.updateLists()
+}
+fun runGetCategoryListsEditTransactionScreen(viewModel: EditTransactionScreenViewModel) {
+    runBlocking {
+        CoroutineScope(Dispatchers.Default).launchGetCategoriesListsEditTransactionScreen(viewModel)
     }
 }
 
@@ -270,7 +284,7 @@ class MainActivity : ComponentActivity() {
                             viewModel.onDeleteByName(name)
                         }
 
-                        runGetCategoriesLists(viewModel)
+                        runGetCategoriesListsCategoriesScreen(viewModel)
 
                         //Categorii
                         CategoriesComposableScreen(
@@ -430,6 +444,9 @@ class MainActivity : ComponentActivity() {
 
                         val viewModel = hiltViewModel<EditTransactionScreenViewModel>()
                         val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
+
+                        runGetCategoryListsEditTransactionScreen(viewModel)
+
                         val updateState: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
                             viewModel.onStateChanged(showA, showP, showD)
                         }
@@ -451,6 +468,12 @@ class MainActivity : ComponentActivity() {
                         val updateTransaction: (Transactions) -> Unit = { transaction ->
                             viewModel.onAddTransaction(transaction)
                         }
+                        val updateReadyToGo: (Boolean) -> Unit = { readyToGo ->
+                            viewModel.onUpdateReadyToGo(readyToGo)
+                        }
+                        val updateAlertDialog: (Boolean) -> Unit = { update ->
+                            viewModel.onUpdateAlertDialog(update)
+                        }
 
                         val index = requireNotNull(backStackEntry.arguments).getInt("index")
 
@@ -463,11 +486,11 @@ class MainActivity : ComponentActivity() {
                                 updateDescription(transactionObject.description)
                                 updateDate(transactionObject.date)
 
-                                if (listaSubcategorysActive.contains(transactionObject.categoryName))
+                                if (state.listCategoriesRevenue.any { it.name == transactionObject.categoryName })
                                     updateState(true, false, false)
-                                else if (listaSubcategorysPasive.contains(transactionObject.categoryName))
+                                else if (state.listCategoriesExpenses.any { it.name == transactionObject.categoryName })
                                     updateState(false, true, false)
-                                else if (listaSubcategorysDatorii.contains(transactionObject.categoryName))
+                                else if (state.listCategoriesDebts.any { it.name == transactionObject.categoryName })
                                     updateState(false, false, true)
                             }
                         } else {
@@ -619,6 +642,9 @@ class MainActivity : ComponentActivity() {
 
                         val viewModel = hiltViewModel<EditBudgetScreenViewModel>()
                         val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
+
+                        runGetCategoryExpensesList(viewModel)
+
                         val updateDate1: (Date) -> Unit = { date1 ->
                             viewModel.onUpdateDate1(date1)
                         }

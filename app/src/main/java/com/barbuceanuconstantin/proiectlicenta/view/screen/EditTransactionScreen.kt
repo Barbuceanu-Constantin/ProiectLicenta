@@ -45,9 +45,6 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-var listaSubcategorysActive = subcategorysPredefiniteActive.toMutableList()
-var listaSubcategorysPasive = subcategorysPredefinitePasive.toMutableList()
-var listaSubcategorysDatorii = subcategorysPredefiniteDatorii.toMutableList()
 @Composable
 fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
                           onNavigateToHomeScreen: () -> Unit,
@@ -104,28 +101,28 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
 
             if (showA && !showP && !showD) {
                 CategoriesMenu(
-                    lSubcategorys = listaSubcategorysActive,
+                    lSubcategorys = editTransactionScreenUIState.listCategoriesRevenue,
                     subcategory = category
                 ) {
                     updateCategory(it)
                 }
             } else if (showP && !showA && !showD) {
                 CategoriesMenu(
-                    lSubcategorys = listaSubcategorysPasive,
+                    lSubcategorys = editTransactionScreenUIState.listCategoriesExpenses,
                     subcategory = category
                 ) {
                     updateCategory(it)
                 }
             } else if (showD && !showA && !showP) {
                 CategoriesMenu(
-                    lSubcategorys = listaSubcategorysDatorii,
+                    lSubcategorys = editTransactionScreenUIState.listCategoriesDebts,
                     subcategory = category
                 ) {
                     updateCategory(it)
                 }
             } else {
                 CategoriesMenu(
-                    lSubcategorys = listaSubcategorysActive,
+                    lSubcategorys = editTransactionScreenUIState.listCategoriesRevenue,
                     subcategory = category
                 ) {
                     updateCategory(it)
