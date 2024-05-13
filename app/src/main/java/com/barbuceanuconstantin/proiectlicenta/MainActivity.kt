@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
@@ -48,29 +47,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.Dispatchers
-
-fun initHardcodedTransactions(lTrA: SnapshotStateList<Transactions>,
-                              lTrP: SnapshotStateList<Transactions>,
-                              lTrD: SnapshotStateList<Transactions>) {
-    lTrA.add(Transactions(value = 2F.toDouble(), date = "", description = "fd", payee = "fd", category = "Salariu", id = 1, budgetId = 1))
-    lTrA.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Salariu", id = 2, budgetId = 1))
-    lTrA.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Salariu", id = 3, budgetId = 1))
-    lTrA.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Salariu", id = 4, budgetId = 1))
-    lTrA.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Salariu", id = 5, budgetId = 1))
-
-    lTrP.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Mancare", id = 1, budgetId = 1))
-    lTrP.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Mancare", id = 2, budgetId = 1))
-    lTrP.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Mancare", id = 3, budgetId = 1))
-    lTrP.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Mancare", id = 4, budgetId = 1))
-    lTrP.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Mancare", id = 5, budgetId = 1))
-
-    lTrD.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Credit1", id = 1, budgetId = 1))
-    lTrD.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Credit1", id = 2, budgetId = 1))
-    lTrD.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Credit1", id = 3, budgetId = 1))
-    lTrD.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Credit1", id = 4, budgetId = 1))
-    lTrD.add(Transactions(value = 0F.toDouble(), date = "", description = "", payee = "", category = "Credit1", id = 5, budgetId = 1))
-}
-
 fun CoroutineScope.insertPredefinedCategory(viewModel: PrincipalScreenViewModel,
                                             categoryName: String,
                                             mainCategory: String
@@ -139,8 +115,6 @@ class MainActivity : ComponentActivity() {
                 val lTrD = mutableStateListOf<Transactions>()
 
                 runInitCategoryLists(hiltViewModel<PrincipalScreenViewModel>())
-
-                initHardcodedTransactions(lTrA, lTrP, lTrD)
 
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "homeScreen") {
@@ -481,17 +455,17 @@ class MainActivity : ComponentActivity() {
                         if (transactionObject != null) {
                             viewModel.onAddTransaction(transactionObject)
                             if (!state.showA && !state.showP && !state.showD) {
-                                updateCategory(transactionObject.category)
+                                updateCategory(transactionObject.categoryName)
                                 updatePayee(transactionObject.payee)
                                 updateValueSum(transactionObject.value.toString())
                                 updateDescription(transactionObject.description)
                                 updateDate(transactionObject.date)
 
-                                if (listaSubcategorysActive.contains(transactionObject.category))
+                                if (listaSubcategorysActive.contains(transactionObject.categoryName))
                                     updateState(true, false, false)
-                                else if (listaSubcategorysPasive.contains(transactionObject.category))
+                                else if (listaSubcategorysPasive.contains(transactionObject.categoryName))
                                     updateState(false, true, false)
-                                else if (listaSubcategorysDatorii.contains(transactionObject.category))
+                                else if (listaSubcategorysDatorii.contains(transactionObject.categoryName))
                                     updateState(false, false, true)
                             }
                         } else {
