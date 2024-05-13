@@ -3,7 +3,6 @@ package com.barbuceanuconstantin.proiectlicenta.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
-import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -11,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,7 +31,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             alertDialog = _stateFlow.value.alertDialog
         )
     }
-    fun onUpdateDate1(date1: String) {
+    fun onUpdateDate1(date1: Date) {
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = date1,
             date2 = _stateFlow.value.date2,
@@ -45,7 +45,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             alertDialog = _stateFlow.value.alertDialog
         )
     }
-    fun onUpdateDate2(date2: String) {
+    fun onUpdateDate2(date2: Date) {
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = _stateFlow.value.date1,
             date2 = date2,

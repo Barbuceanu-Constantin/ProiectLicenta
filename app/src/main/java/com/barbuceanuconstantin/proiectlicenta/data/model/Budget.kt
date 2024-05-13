@@ -40,6 +40,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 fun CoroutineScope.launchDeleteBudgetByName(
     delete: (String) -> Unit,
@@ -154,7 +156,12 @@ fun BudgetsLazyColumn(
                                                     )
             ) {
                 HeaderBudget(text = budget.name)
-                InfoBudget(budget.upperThreshold, budget.startDate, budget.endDate, budget.categoryName)
+                InfoBudget(
+                            budget.upperThreshold,
+                            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(budget.startDate),
+                            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(budget.endDate),
+                            budget.categoryName
+                )
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
         }

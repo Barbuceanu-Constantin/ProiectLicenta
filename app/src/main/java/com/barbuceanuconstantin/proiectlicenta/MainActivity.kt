@@ -47,6 +47,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.Dispatchers
+import java.util.Date
+
 fun CoroutineScope.insertPredefinedCategory(viewModel: PrincipalScreenViewModel,
                                             categoryName: String,
                                             mainCategory: String
@@ -617,10 +619,10 @@ class MainActivity : ComponentActivity() {
 
                         val viewModel = hiltViewModel<EditBudgetScreenViewModel>()
                         val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
-                        val updateDate1: (String) -> Unit = { date1 ->
+                        val updateDate1: (Date) -> Unit = { date1 ->
                             viewModel.onUpdateDate1(date1)
                         }
-                        val updateDate2: (String) -> Unit = { date2 ->
+                        val updateDate2: (Date) -> Unit = { date2 ->
                             viewModel.onUpdateDate2(date2)
                         }
                         val updateFilledText: (String) -> Unit = { filledText ->

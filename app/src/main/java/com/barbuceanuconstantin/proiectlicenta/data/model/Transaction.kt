@@ -78,11 +78,11 @@ private fun Tranzactie(
         )
 
     val color: Color =
-        if (subcategorysPredefiniteActive.contains(transaction.category))
+        if (subcategorysPredefiniteActive.contains(transaction.categoryName))
             colorResource(id = R.color.light_cream_yellow)
-        else if (subcategorysPredefinitePasive.contains(transaction.category))
+        else if (subcategorysPredefinitePasive.contains(transaction.categoryName))
             colorResource(id = R.color.light_cream_red)
-        else if (subcategorysPredefiniteDatorii.contains(transaction.category))
+        else if (subcategorysPredefiniteDatorii.contains(transaction.categoryName))
             colorResource(id = R.color.light_cream_blue) else colorResource(id = R.color.light_cream_gray)
 
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -92,7 +92,7 @@ private fun Tranzactie(
         ) {
             Column(modifier = Modifier.background(color)) {
                 Text(
-                    text = "${transaction.category} ---> ${transaction.value} RON", fontSize = 18.sp,
+                    text = "${transaction.categoryName} ---> ${transaction.value} RON", fontSize = 18.sp,
                     fontWeight = FontWeight.Bold, modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = dimensionResource(id = R.dimen.margin))

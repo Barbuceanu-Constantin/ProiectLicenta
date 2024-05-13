@@ -26,11 +26,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -47,16 +42,15 @@ import androidx.compose.ui.text.style.TextDecoration
 import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
-import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.di.EditBudgetScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoriesMenu
 import com.barbuceanuconstantin.proiectlicenta.warningCompleteAllFields
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 fun isDateAfterOrEqualToCurrent(dateString: String, current: LocalDate): Boolean {
@@ -68,10 +62,11 @@ fun isDateAfterOrEqualToCurrent(dateString: String, current: LocalDate): Boolean
     }
 }
 
-fun verifyFinalDate(selectedDate: Calendar,
-                    localDate: LocalDate,
-                    onUpdateDate2: (String) -> Unit,
-                    onUpdateOpenWarningDialog: (Boolean, Int) -> Unit
+fun verifyFinalDate(
+    selectedDate: Calendar,
+    localDate: LocalDate,
+    onUpdateDate2: (Date) -> Unit,
+    onUpdateOpenWarningDialog: (Boolean, Int) -> Unit
                     ) {
     if (isDateAfterOrEqualToCurrent(
             SimpleDateFormat(
@@ -87,12 +82,7 @@ fun verifyFinalDate(selectedDate: Calendar,
                 ).format(selectedDate.time), localDate
             )
         ) {
-            onUpdateDate2(
-                SimpleDateFormat(
-                    "yyyy-MM-dd",
-                    Locale.getDefault()
-                ).format(selectedDate.time)
-            )
+            onUpdateDate2(selectedDate.time)
         } else {
             onUpdateOpenWarningDialog(
                 true,
@@ -107,23 +97,24 @@ fun verifyFinalDate(selectedDate: Calendar,
     }
 }
 @Composable
-fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
-                     onNavigateToHomeScreen: () -> Unit,
-                     onUpdateDate1: (String) -> Unit,
-                     onUpdateDate2: (String) -> Unit,
-                     onUpdateCategory: (String) -> Unit,
-                     onUpdateFilledText: (String) -> Unit,
-                     onUpdateValueSum: (String) -> Unit,
-                     onUpdateOpenWarningDialog: (Boolean, Int) -> Unit,
-                     updateReadyToGo: (Boolean) -> Unit,
-                     addBudget: (Budgets) -> Unit,
-                     insertCoroutine: suspend (Budgets) -> Unit,
-                     updateCoroutine: suspend (Budgets) -> Unit,
-                     editBudgetScreenUIState: EditBudgetScreenUIState,
-                     updateAlertDialog: (Boolean) -> Unit,
-                     nullCheckFields: () -> Boolean) {
-    val date1: String = editBudgetScreenUIState.date1
-    val date2: String = editBudgetScreenUIState.date2
+fun EditBudgetScreen(
+    onNavigateToFixedBudgetsScreen: () -> Unit,
+    onNavigateToHomeScreen: () -> Unit,
+    onUpdateDate1: (Date) -> Unit,
+    onUpdateDate2: (Date) -> Unit,
+    onUpdateCategory: (String) -> Unit,
+    onUpdateFilledText: (String) -> Unit,
+    onUpdateValueSum: (String) -> Unit,
+    onUpdateOpenWarningDialog: (Boolean, Int) -> Unit,
+    updateReadyToGo: (Boolean) -> Unit,
+    addBudget: (Budgets) -> Unit,
+    insertCoroutine: suspend (Budgets) -> Unit,
+    updateCoroutine: suspend (Budgets) -> Unit,
+    editBudgetScreenUIState: EditBudgetScreenUIState,
+    updateAlertDialog: (Boolean) -> Unit,
+    nullCheckFields: () -> Boolean) {
+    val date1: Date = editBudgetScreenUIState.date1
+    val date2: Date = editBudgetScreenUIState.date2
     val openWarningDialog = editBudgetScreenUIState.openWarningDialog
 
     val filledText: String = editBudgetScreenUIState.filledText
@@ -266,7 +257,7 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             OutlinedTextField(
-                value = date1,
+                value = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date1),
                 enabled = false,
                 onValueChange = { },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -280,12 +271,7 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                                 // Handle the selected date
                                 val selectedDate: Calendar = Calendar.getInstance()
                                 selectedDate.set(year1, month1, dayOfMonth1)
-                                onUpdateDate1(
-                                    SimpleDateFormat(
-                                        "yyyy-MM-dd",
-                                        Locale.getDefault()
-                                    ).format(selectedDate.time)
-                                )
+                                onUpdateDate1(selectedDate.time)
                             }, year, month, dayOfMonth)
 
                         datePickerDialog.show()
@@ -307,7 +293,7 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             OutlinedTextField(
-                value = date2,
+                value = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date2),
                 enabled = false,
                 onValueChange = { },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -316,7 +302,7 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        val dateString: String = date1
+                        val dateString: String = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date1)
                         val formatter: DateTimeFormatter =
                             DateTimeFormatter.ofPattern("yyyy-MM-dd")
                         val localDate: LocalDate = LocalDate.parse(dateString, formatter)
@@ -354,8 +340,10 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.Bottom) {
                 Button(onClick = {
+                                    val date1Str: String = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date1)
+                                    val date2Str: String = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date1)
                                     //Trebuie sa si adaug bugetul in viewState
-                                    if (date2 >= date1) {
+                                    if (date2Str >= date1Str) {
                                         if (!readyToGo) {
                                             updateReadyToGo(true)
                                         }
