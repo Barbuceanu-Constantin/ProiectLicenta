@@ -14,5 +14,6 @@ data class EditBudgetScreenUIState(
     val category: String = "",
     val idWarningString: Int = -1,
     val readyToGo: Boolean = false,
+    val alertDialog: Boolean = false,
     val budget: Budgets? = null
 )

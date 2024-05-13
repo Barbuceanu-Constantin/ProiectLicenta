@@ -51,6 +51,7 @@ import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.di.EditBudgetScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoriesMenu
+import com.barbuceanuconstantin.proiectlicenta.warningCompleteAllFields
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -118,7 +119,9 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                      addBudget: (Budgets) -> Unit,
                      insertCoroutine: suspend (Budgets) -> Unit,
                      updateCoroutine: suspend (Budgets) -> Unit,
-                     editBudgetScreenUIState: EditBudgetScreenUIState) {
+                     editBudgetScreenUIState: EditBudgetScreenUIState,
+                     updateAlertDialog: (Boolean) -> Unit,
+                     nullCheckFields: () -> Boolean) {
     val date1: String = editBudgetScreenUIState.date1
     val date2: String = editBudgetScreenUIState.date2
     val openWarningDialog = editBudgetScreenUIState.openWarningDialog
@@ -128,6 +131,7 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
     val category: String = editBudgetScreenUIState.category
     val idWarningString: Int = editBudgetScreenUIState.idWarningString
     val readyToGo: Boolean = editBudgetScreenUIState.readyToGo
+    val updateAlertDialogBool: Boolean = editBudgetScreenUIState.alertDialog
     val budget: Budgets? = editBudgetScreenUIState.budget
 
     // Obtain the context from your activity or fragment
@@ -140,10 +144,14 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
     val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    if (updateAlertDialogBool) {
+        warningCompleteAllFields(updateAlertDialog)
+    }
+
     //Trebuie sa si adaug categoria in viewState
     if (budget == null) {
         //Aici se intra la insert.
-        if (readyToGo) {
+        if (readyToGo && nullCheckFields()) {
             LaunchedEffect(Unit) {
                 insertCoroutine(
                     Budgets(
@@ -156,10 +164,13 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                 )
             }
             onNavigateToFixedBudgetsScreen()
+        } else if (readyToGo && !nullCheckFields()) {
+            updateReadyToGo(false)
+            updateAlertDialog(true)
         }
     } else {
         //Aici se intra la update.
-        if (readyToGo) {
+        if (readyToGo && nullCheckFields()) {
             budget.name = filledText
             budget.categoryName = category
             budget.upperThreshold = valueSum.toDouble()
@@ -169,6 +180,9 @@ fun EditBudgetScreen(onNavigateToFixedBudgetsScreen : () -> Unit,
                 updateCoroutine(budget)
             }
             onNavigateToFixedBudgetsScreen()
+        } else if (readyToGo && !nullCheckFields()) {
+            updateReadyToGo(false)
+            updateAlertDialog(true)
         }
     }
 

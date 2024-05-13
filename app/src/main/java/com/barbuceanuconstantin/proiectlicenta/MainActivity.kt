@@ -663,6 +663,12 @@ class MainActivity : ComponentActivity() {
                                                                                 idWarningString ->
                             viewModel.onUpdateOpenWarningDialog(openWarningDialog, idWarningString)
                         }
+                        val updateAlertDialog: (Boolean) -> Unit = { update ->
+                            viewModel.onUpdateAlertDialog(update)
+                        }
+                        val nullCheckFields: () -> Boolean = {
+                            viewModel.nullCheckFields()
+                        }
                         val addBudget: (Budgets) -> Unit = { budget ->
                             viewModel.onAddBudget(budget)
                         }
@@ -717,7 +723,9 @@ class MainActivity : ComponentActivity() {
                             editBudgetScreenUIState = state,
                             updateReadyToGo = updateReadyToGo,
                             insertCoroutine = insertBudget,
-                            updateCoroutine = updateBudget
+                            updateCoroutine = updateBudget,
+                            updateAlertDialog = updateAlertDialog,
+                            nullCheckFields = nullCheckFields
                         )
                     }
                     composable("budgetSummaryScreen") {
