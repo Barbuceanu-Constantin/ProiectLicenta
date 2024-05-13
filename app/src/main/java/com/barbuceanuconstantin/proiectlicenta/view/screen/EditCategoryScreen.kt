@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ModeEdit
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
@@ -37,6 +38,7 @@ import com.barbuceanuconstantin.proiectlicenta.WarningNotSelectedCategory
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.di.EditCategoryScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
+import com.barbuceanuconstantin.proiectlicenta.warningCompleteAllFields
 
 @Composable
 fun EditCategoryScreen(
@@ -48,7 +50,9 @@ fun EditCategoryScreen(
                         onAddCategory: (Categories) -> Unit,
                         insertCoroutine: suspend (Categories) -> Unit,
                         updateCoroutine: suspend (Categories) -> Unit,
-                        updateReadyToGo: (Boolean) -> Unit
+                        updateReadyToGo: (Boolean) -> Unit,
+                        updateAlertDialog: (Boolean) -> Unit,
+                        nullCheckFields: () -> Boolean
 ) {
     val filledText: String = editCategoryScreenUIState.filledText
     val showA: Boolean = editCategoryScreenUIState.showA
@@ -56,12 +60,17 @@ fun EditCategoryScreen(
     val showD: Boolean = editCategoryScreenUIState.showD
     val readyToGo: Boolean = editCategoryScreenUIState.readyToGo
     val category = editCategoryScreenUIState.category
+    val updateAlertDialogBool: Boolean = editCategoryScreenUIState.alertDialog
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    if (updateAlertDialogBool) {
+        warningCompleteAllFields(updateAlertDialog)
+    }
 
     //Trebuie sa si adaug categoria in viewState
     if (category == null) {
         //Aici se intra la insert.
-        if (readyToGo) {
+        if (readyToGo && nullCheckFields()) {
             if (showA)
                 LaunchedEffect(Unit) {
                    insertCoroutine(
@@ -91,15 +100,21 @@ fun EditCategoryScreen(
                     )
                 }
             onNavigateToCategoryScreen()
+        } else if (readyToGo && !nullCheckFields()) {
+            updateReadyToGo(false)
+            updateAlertDialog(true)
         }
     } else {
         //Aici se intra la update.
-        if (readyToGo) {
+        if (readyToGo && nullCheckFields()) {
             category.name = filledText
             LaunchedEffect(Unit) {
                 updateCoroutine(category)
             }
             onNavigateToCategoryScreen()
+        } else if (readyToGo && !nullCheckFields()) {
+            updateReadyToGo(false)
+            updateAlertDialog(true)
         }
     }
 

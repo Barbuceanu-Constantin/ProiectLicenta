@@ -578,6 +578,12 @@ class MainActivity : ComponentActivity() {
                         val updateReadyToGo: (Boolean) -> Unit = { readyToGo ->
                             viewModel.onUpdateReadyToGo(readyToGo)
                         }
+                        val updateAlertDialog: (Boolean) -> Unit = { update ->
+                            viewModel.onUpdateAlertDialog(update)
+                        }
+                        val nullCheckFields: () -> Boolean = {
+                            viewModel.nullCheckFields()
+                        }
                         val insertCategory: suspend (Categories) -> Unit = { category ->
                             viewModel.insertCategory(category)
                         }
@@ -621,7 +627,9 @@ class MainActivity : ComponentActivity() {
                             onAddCategory = updateCategory,
                             insertCoroutine = insertCategory,
                             updateCoroutine = updateCategoryInDb,
-                            updateReadyToGo = updateReadyToGo
+                            updateReadyToGo = updateReadyToGo,
+                            updateAlertDialog = updateAlertDialog,
+                            nullCheckFields = nullCheckFields
                         )
                     }
                     composable("editBudgetScreen?budget={budget}")

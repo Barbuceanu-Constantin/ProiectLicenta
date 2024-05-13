@@ -9,5 +9,6 @@ data class EditCategoryScreenUIState(
     val filledText: String = "",
     val readyToGo: Boolean = false,
     val readyToUpdate: Boolean = false,
+    val alertDialog: Boolean = false,
     val category: Categories? = null
 )

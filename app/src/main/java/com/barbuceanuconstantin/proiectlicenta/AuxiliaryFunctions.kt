@@ -40,6 +40,7 @@ import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -694,4 +695,28 @@ fun FadingArrowIcon(budgetSummary: Boolean = false) {
             )
         }
     }
+}
+
+@Composable
+fun warningCompleteAllFields(updateAlertDialog: (Boolean) -> Unit) {
+    AlertDialog(
+        onDismissRequest = {
+            updateAlertDialog(false)
+        },
+        title = {
+            Text(text = stringResource(id = R.string.avertisment_data))
+        },
+        text = {
+            Text(text = stringResource(id = R.string.avertisment_completare_campuri))
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    updateAlertDialog(false)
+                }
+            ) {
+                Text(text = stringResource(id = R.string.ok))
+            }
+        }
+    )
 }
