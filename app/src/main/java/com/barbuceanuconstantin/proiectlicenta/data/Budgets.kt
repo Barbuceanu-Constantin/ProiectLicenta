@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity(indices = [Index(value = ["name"], unique = true)])
 data class Budgets(
@@ -19,16 +20,16 @@ data class Budgets(
     var upperThreshold: Double,
 
     @ColumnInfo(name = "start_date_string")
-    var startDate: String,
+    var startDate: Long,
 
     @ColumnInfo(name = "end_date_string")
-    var endDate: String,
+    var endDate: Long,
 ) {
     constructor(categoryName: String,
                 name: String,
                 upperThreshold: Double,
-                startDate: String,
-                endDate: String): this( id = 0, categoryName = categoryName, name = name,
+                startDate: Long,
+                endDate: Long): this( id = 0, categoryName = categoryName, name = name,
                                         upperThreshold = upperThreshold, startDate = startDate,
                                         endDate = endDate)
 }
