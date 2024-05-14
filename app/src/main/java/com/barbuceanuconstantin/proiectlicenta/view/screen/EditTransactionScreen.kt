@@ -46,6 +46,7 @@ import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoriesMenu
 import com.barbuceanuconstantin.proiectlicenta.warningCompleteAllFields
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 @Composable
@@ -57,7 +58,7 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
                           updateValueSum: (String) -> Unit,
                           updateDescription: (String) -> Unit,
                           updatePayee: (String) -> Unit,
-                          updateDate: (String) -> Unit,
+                          updateDate: (Date) -> Unit,
                           updateReadyToGo: (Boolean) -> Unit,
                           updateTransaction: (Transactions) -> Unit,
                           updateAlertDialog: (Boolean) -> Unit,
@@ -246,11 +247,9 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             OutlinedTextField(
-                value = date,
+                value = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date),
                 enabled = false,
-                onValueChange = {
-                    updateDate(it)
-                },
+                onValueChange = {},
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 label = { Text(text = stringResource(id = R.string.data)) },
                 maxLines = 1,
@@ -261,14 +260,7 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
                                 // Handle the selected date
                                 val selectedDate: Calendar = Calendar.getInstance()
                                 selectedDate.set(year1, month1, dayOfMonth1)
-
-                                // Perform any necessary operations with the selected date here
-                                // For example, update a TextView with the selected date
-                                updateDate(
-                                    SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(
-                                        selectedDate.time
-                                    )
-                                )
+                                updateDate(selectedDate.time)
                             }, year, month, dayOfMonth)
 
                         datePickerDialog.show()

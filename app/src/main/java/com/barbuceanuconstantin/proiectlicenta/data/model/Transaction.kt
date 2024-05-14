@@ -56,6 +56,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 fun CoroutineScope.launchDeleteCategoryById(
     delete: (Int) -> Unit,
@@ -135,7 +137,7 @@ private fun Tranzactie(
                 )
             )
             Text(
-                text = "${stringResource(id = R.string.data)} : ${transaction.date}",
+                text = "${stringResource(id = R.string.data)} : ${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(transaction.date)}",
                 maxLines = 2,
                 modifier = Modifier.padding(
                     start = dimensionResource(id = R.dimen.margin),

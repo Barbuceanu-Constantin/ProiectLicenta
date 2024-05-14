@@ -475,7 +475,7 @@ class MainActivity : ComponentActivity() {
                         val updateState: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
                             viewModel.onStateChanged(showA, showP, showD)
                         }
-                        val updateDate: (String) -> Unit = { date ->
+                        val updateDate: (Date) -> Unit = { date ->
                             viewModel.onUpdateDate(date)
                         }
                         val updatePayee: (String) -> Unit = { payee ->

@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -109,7 +110,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             listCategoriesDebts = _stateFlow.value.listCategoriesDebts
         )
     }
-    fun onUpdateDate(date: String) {
+    fun onUpdateDate(date: Date) {
         _stateFlow.value = EditTransactionScreenUIState(
             showA = _stateFlow.value.showA,
             showP = _stateFlow.value.showP,
