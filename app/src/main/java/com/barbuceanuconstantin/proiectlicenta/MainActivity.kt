@@ -119,6 +119,15 @@ fun runGetCategoryListsEditTransactionScreen(viewModel: EditTransactionScreenVie
     }
 }
 
+fun CoroutineScope.launchGetCategoriesTransactionsLists(viewModel: TransactionsScreenViewModel) = launch {
+    viewModel.onStateChangedLists()
+}
+fun runGetCategoriesTransactionsLists(viewModel: TransactionsScreenViewModel) {
+    runBlocking {
+        CoroutineScope(Dispatchers.Default).launchGetCategoriesTransactionsLists(viewModel)
+    }
+}
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -209,14 +218,28 @@ class MainActivity : ComponentActivity() {
                         val updateStateMainScreen: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
                             viewModel.onStateChangedMainScreen(showA, showP, showD)
                         }
-                        val updateStateButtons: (Boolean) -> Unit = { buttons ->
-                            viewModel.onStateChangedButtons(buttons)
+                        val updateStateButtons: () -> Unit = {
+                            viewModel.onStateChangedButtons()
                         }
+                        val deleteById: (Int) -> Unit = { id ->
+                            viewModel.onDeleteById(id)
+                        }
+                        val updateUpdateId: (Int) -> Unit = { id ->
+                            viewModel.onStateChangedIdUpdate(id)
+                        }
+
+                        runGetCategoriesTransactionsLists(viewModel)
 
                         //Tranzactii
                         TransactionsComposableScreen(
-                            lTrA, lTrP, lTrD, navController,
-                            onNavigateToEditTransactionScreen = {index ->
+                            state.revenueTransactions,
+                            state.expensesTransactions,
+                            state.debtTransactions,
+                            state.categoriesA,
+                            state.categoriesP,
+                            state.categoriesD,
+                            navController,
+                            onNavigateToEditTransactionScreen = { index ->
                                 navController.navigate("editTransactionScreen/$index")
                             },
                             onNavigateToHomeScreen = {
@@ -271,7 +294,9 @@ class MainActivity : ComponentActivity() {
                             },
                             transactionsScreenUIState = state,
                             updateStateMainScreen = updateStateMainScreen,
-                            updateStateButtons = updateStateButtons
+                            updateStateButtons = updateStateButtons,
+                            deleteById = deleteById,
+                            updateUpdateId = updateUpdateId
                         )
                     }
                     composable("categoriesScreen") {
@@ -474,6 +499,15 @@ class MainActivity : ComponentActivity() {
                         val updateAlertDialog: (Boolean) -> Unit = { update ->
                             viewModel.onUpdateAlertDialog(update)
                         }
+                        val nullCheckFields: () -> Boolean = {
+                            viewModel.nullCheckFields()
+                        }
+                        val insertTransaction: suspend (Transactions) -> Unit = {
+                            transaction -> viewModel.insertTransaction(transaction)
+                        }
+                        val updateTransactionInDb: suspend (transaction : Transactions) -> Unit = {
+                            transaction -> viewModel.updateTransactionInDb(transaction)
+                        }
 
                         val index = requireNotNull(backStackEntry.arguments).getInt("index")
 
@@ -551,7 +585,12 @@ class MainActivity : ComponentActivity() {
                                                 updateDescription = updateDescription,
                                                 updatePayee = updatePayee,
                                                 updateDate = updateDate,
-                                                updateTransaction = updateTransaction
+                                                updateTransaction = updateTransaction,
+                                                updateReadyToGo = updateReadyToGo,
+                                                updateAlertDialog = updateAlertDialog,
+                                                nullCheckFields = nullCheckFields,
+                                                insertCoroutine = insertTransaction,
+                                                updateCoroutine = updateTransactionInDb
                         )
                     }
                     composable("editCategoryScreen?category={category}")

@@ -23,6 +23,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -35,12 +36,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindowSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.di.EditTransactionScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoriesMenu
+import com.barbuceanuconstantin.proiectlicenta.warningCompleteAllFields
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -55,7 +58,12 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
                           updateDescription: (String) -> Unit,
                           updatePayee: (String) -> Unit,
                           updateDate: (String) -> Unit,
-                          updateTransaction: (Transactions) -> Unit) {
+                          updateReadyToGo: (Boolean) -> Unit,
+                          updateTransaction: (Transactions) -> Unit,
+                          updateAlertDialog: (Boolean) -> Unit,
+                          nullCheckFields: () -> Boolean,
+                          insertCoroutine: suspend (Transactions) -> Unit,
+                          updateCoroutine: suspend (Transactions) -> Unit) {
     val transaction = editTransactionScreenUIState.transaction
     val date = editTransactionScreenUIState.date
     val category = editTransactionScreenUIState.category
@@ -65,7 +73,8 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
     val showA = editTransactionScreenUIState.showA
     val showP = editTransactionScreenUIState.showP
     val showD = editTransactionScreenUIState.showD
-
+    val readyToGo: Boolean = editTransactionScreenUIState.readyToGo
+    val updateAlertDialogBool: Boolean = editTransactionScreenUIState.alertDialog
     val keyboardController = LocalSoftwareKeyboardController.current
 
     // Obtain the context from your activity or fragment
@@ -76,6 +85,48 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
     val year: Int = calendar.get(Calendar.YEAR)
     val month: Int = calendar.get(Calendar.MONTH)
     val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
+
+    if (updateAlertDialogBool) {
+        warningCompleteAllFields(updateAlertDialog)
+    }
+
+    //Trebuie sa si adaug categoria in viewState
+    if (transaction == null) {
+        //Aici se intra la insert.
+        if (readyToGo && nullCheckFields()) {
+            LaunchedEffect(Unit) {
+                insertCoroutine(
+                    Transactions(
+                        categoryName = category,
+                        value = valueSum.toDouble(),
+                        description = description,
+                        date = date,
+                        payee = payee
+                    )
+                )
+            }
+            onNavigateToBackScreen()
+        } else if (readyToGo && !nullCheckFields()) {
+            updateReadyToGo(false)
+            updateAlertDialog(true)
+        }
+    } else {
+        //Aici se intra la update.
+        if (readyToGo && nullCheckFields()) {
+            transaction.categoryName = category
+            transaction.value = valueSum.toDouble()
+            transaction.description = description
+            transaction.date = date
+            transaction.payee = payee
+            LaunchedEffect(Unit) {
+                updateCoroutine(transaction)
+            }
+            onNavigateToBackScreen()
+        } else if (readyToGo && !nullCheckFields()) {
+            updateReadyToGo(false)
+            updateAlertDialog(true)
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -242,9 +293,11 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
                 verticalAlignment = Alignment.Bottom) {
 
                 Button( onClick = {
-                                    //Trebuie sa adaug transactia in viewState. Plus sa fac update
+                                    //Trebuie sa adaug tranzactia in viewState. Plus sa fac update
                                     //pe baza de date.
-                                    onNavigateToBackScreen()
+                                    if (!readyToGo) {
+                                        updateReadyToGo(true)
+                                    }
                                  },
                         modifier = Modifier.weight(1f).padding(start = dimensionResource(id = R.dimen.margin)))
                 { Text(stringResource(R.string.confirmare)) }

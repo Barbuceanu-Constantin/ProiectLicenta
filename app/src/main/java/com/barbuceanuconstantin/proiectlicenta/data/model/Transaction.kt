@@ -43,34 +43,64 @@ import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.FadingArrowIcon
 import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
+import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.returnToBudgetSummaryIndex
 import com.barbuceanuconstantin.proiectlicenta.returnToCalendarIndex
 import com.barbuceanuconstantin.proiectlicenta.returnToTransactionIndex
-import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
-import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
-import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+
+fun CoroutineScope.launchDeleteCategoryById(
+    delete: (Int) -> Unit,
+    id: Int
+) = launch {
+    delete(id)
+}
+
+fun runDeleteCategoryById(
+    delete: (Int) -> Unit,
+    id: Int
+) {
+    runBlocking {
+        CoroutineScope(Dispatchers.Default).launchDeleteCategoryById(delete, id)
+    }
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Tranzactie(
+    categoriesA: List<Categories>,
+    categoriesP: List<Categories>,
+    categoriesD: List<Categories>,
     transaction: Transactions,
-    buttons: Boolean,
-    index: Int,
     id: MutableState<Int>,
-    updateStateButtons: (Boolean) -> Unit = { _ -> },
+    updateStateButtons: () -> Unit,
+    updateUpdateId: (Int) -> Unit,
+    idUpdateList: MutableState<Int>,
+    index: Int,
+    idList: Int,
 ) {
-
     val modifier = Modifier
         .combinedClickable(
             onClick = { },
             onLongClick = {
-                updateStateButtons(!buttons)
-                id.value = index
-            },
+                updateStateButtons()
+                //Index este idul din cadrul listei de tranzactii pt care
+                //vreau sa fac update, deci sa il extrag ca sa il trimit
+                //ecranului de ditare
+                updateUpdateId(index)
+                //idUpdateList stocheaza indexul listei de tranzactii
+                idUpdateList.value = idList
+                //id.value stocheaza idul efectiv din baza de date pentru stergere
+                id.value = transaction.id
+            }
         )
         .padding(
             start = dimensionResource(id = R.dimen.margin),
@@ -78,93 +108,96 @@ private fun Tranzactie(
         )
 
     val color: Color =
-        if (subcategorysPredefiniteActive.contains(transaction.categoryName))
+        if (categoriesA.any { it.name == transaction.categoryName })
             colorResource(id = R.color.light_cream_yellow)
-        else if (subcategorysPredefinitePasive.contains(transaction.categoryName))
+        else if (categoriesP.any { it.name == transaction.categoryName })
             colorResource(id = R.color.light_cream_red)
-        else if (subcategorysPredefiniteDatorii.contains(transaction.categoryName))
+        else if (categoriesD.any { it.name == transaction.categoryName })
             colorResource(id = R.color.light_cream_blue) else colorResource(id = R.color.light_cream_gray)
 
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Card(
-            shape = RoundedCornerShape(dimensionResource(id = R.dimen.medium_line)),
-            modifier = modifier
-        ) {
-            Column(modifier = Modifier.background(color)) {
-                Text(
-                    text = "${transaction.categoryName} ---> ${transaction.value} RON", fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold, modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = dimensionResource(id = R.dimen.margin))
+    Card(
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.medium_line)),
+        modifier = modifier
+    ) {
+        Column(modifier = Modifier.background(color)) {
+            Text(
+                text = "${transaction.categoryName} ---> ${transaction.value} RON", fontSize = 18.sp,
+                fontWeight = FontWeight.Bold, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = dimensionResource(id = R.dimen.margin))
+            )
+            Text(
+                text = "${stringResource(id = R.string.furnizor_sau_beneficiar)} : ${transaction.payee}",
+                maxLines = 2,
+                modifier = Modifier.padding(
+                    start = dimensionResource(id = R.dimen.margin),
+                    top = dimensionResource(id = R.dimen.spacing)
                 )
-                Text(
-                    text = "${stringResource(id = R.string.furnizor_sau_beneficiar)} : ${transaction.payee}",
-                    maxLines = 2,
-                    modifier = Modifier.padding(
-                        start = dimensionResource(id = R.dimen.margin),
-                        top = dimensionResource(id = R.dimen.spacing)
-                    )
+            )
+            Text(
+                text = "${stringResource(id = R.string.data)} : ${transaction.date}",
+                maxLines = 2,
+                modifier = Modifier.padding(
+                    start = dimensionResource(id = R.dimen.margin),
+                    top = dimensionResource(id = R.dimen.spacing)
                 )
-                Text(
-                    text = "${stringResource(id = R.string.data)} : ${transaction.date}",
-                    maxLines = 2,
-                    modifier = Modifier.padding(
-                        start = dimensionResource(id = R.dimen.margin),
-                        top = dimensionResource(id = R.dimen.spacing)
-                    )
+            )
+            Text(
+                text = "${stringResource(id = R.string.descriere)} : ${transaction.description}",
+                maxLines = 2,
+                modifier = Modifier.padding(
+                    start = dimensionResource(id = R.dimen.margin),
+                    top = dimensionResource(id = R.dimen.spacing)
                 )
-                Text(
-                    text = "${stringResource(id = R.string.descriere)} : ${transaction.description}",
-                    maxLines = 2,
-                    modifier = Modifier.padding(
-                        start = dimensionResource(id = R.dimen.margin),
-                        top = dimensionResource(id = R.dimen.spacing)
-                    )
-                )
-            }
+            )
         }
     }
+    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 }
 
 @Composable
 fun TranzactiiLazyColumn(
-    tranzactii: SnapshotStateList<Transactions>,
-    buttons: Boolean,
+    categoriesA: List<Categories>,
+    categoriesP: List<Categories>,
+    categoriesD: List<Categories>,
+    tranzactii: List<CategoryAndTransactions>,
     navController: NavController,
     summary: Boolean = false,
-    updateStateButtons: (Boolean) -> Unit = { _ -> }
+    updateStateButtons: () -> Unit,
+    buttons: Boolean,
+    deleteById: (Int) -> Unit,
+    updateUpdateId: (Int) -> Unit,
+    idUpdate: Int
 ) {
     val modifier =  if (summary)
                         Modifier.fillMaxHeight(0.9F)
                     else
                         Modifier.fillMaxHeight().fillMaxWidth()
 
-    val id: MutableState<Int> = remember { mutableIntStateOf(-1) }
-
-    LazyColumn(modifier = modifier) {
-        itemsIndexed(tranzactii) {
-            index, tranzactie -> Tranzactie(tranzactie, buttons, index, id, updateStateButtons)
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
-        }
-    }
+    val idDelete: MutableState<Int> = remember { mutableIntStateOf(-1) }
+    val idUpdateList: MutableState<Int> = remember { mutableIntStateOf(-1) }
 
     if (buttons) {
         AlertDialog(
             onDismissRequest = {
-                updateStateButtons(false)
+                updateStateButtons()
             },
             title = {
                 Text(text = stringResource(id = R.string.selectare_actiune))
             },
             text = {
                 Text(text = stringResource(id = R.string.mesaj_selectare_actiune),
-                     fontSize = fontDimensionResource(id = R.dimen.normal_text_size))
+                    fontSize = fontDimensionResource(id = R.dimen.normal_text_size))
             },
             confirmButton = {
-                val transactionObj = tranzactii[id.value]
                 Button(
                     onClick = {
-                        updateStateButtons(false)
+                        updateStateButtons()
+                        println(tranzactii.size.toString() + " tranzactii.size")
+                        println(idUpdateList.value.toString() + " idUpdateList.value.size")
+                        println(tranzactii[idUpdateList.value].transactions.size.toString() + " tranzactii[idUpdateList.value].transactions.size.toString()")
+                        println(tranzactii[idUpdateList.value].transactions[idUpdate].toString() + " ranzactii[idUpdateList.value].transactions[idUpdate]")
+                        val transactionObj = tranzactii[idUpdateList.value].transactions[idUpdate]
                         val gson: Gson = GsonBuilder().create()
                         val transactionJson = gson.toJson(transactionObj)
 
@@ -193,19 +226,39 @@ fun TranzactiiLazyColumn(
             dismissButton = {
                 Button(
                     onClick = {
-                        updateStateButtons(false)
+                        updateStateButtons()
+                        runDeleteCategoryById(deleteById, idDelete.value)
                     }
                 ) {
-                   Row {
+                    Row {
                         Text(text = stringResource(id = R.string.stergere))
                         Icon(
                             Icons.Filled.Delete, contentDescription = "Update",
                             tint = colorResource(id = R.color.white)
                         )
-                   }
+                    }
                 }
             }
         )
+    }
+
+    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+        itemsIndexed(tranzactii) { idList, tranzactie ->
+            tranzactie.transactions.forEachIndexed { index, transaction ->
+                Tranzactie(
+                    categoriesA = categoriesA,
+                    categoriesP = categoriesP,
+                    categoriesD = categoriesD,
+                    transaction = transaction,
+                    id = idDelete,
+                    updateStateButtons = updateStateButtons,
+                    updateUpdateId = updateUpdateId,
+                    index = index,
+                    idList = idList,
+                    idUpdateList = idUpdateList
+                )
+            }
+        }
     }
 }
 
@@ -249,7 +302,7 @@ fun CalendarSummaryTranzactiiLazyColumn(
 
         LazyColumn(modifier = modifier) {
             itemsIndexed(tranzactii) { index, tranzactie ->
-                Tranzactie(tranzactie, buttons, updateStateButtons = updateButtons, id = id, index = index)
+                //Tranzactie(tranzactie, buttons, updateStateButtons = updateButtons, id = id, index = index)
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
             }
         }

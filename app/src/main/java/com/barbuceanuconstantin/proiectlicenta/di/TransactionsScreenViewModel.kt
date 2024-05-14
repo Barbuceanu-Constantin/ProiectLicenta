@@ -16,10 +16,87 @@ class TransactionsScreenViewModel @Inject constructor(val budgetTrackerRepositor
         get() = _stateFlow.asStateFlow()
 
     fun onStateChangedMainScreen(showA: Boolean, showP: Boolean, showD:Boolean) {
-        _stateFlow.value = TransactionsScreenUIState(showA, showP, showD)
+        _stateFlow.value = TransactionsScreenUIState(
+            showA = showA,
+            showP = showP,
+            showD = showD,
+            buttons = _stateFlow.value.buttons,
+            revenueTransactions = _stateFlow.value.revenueTransactions,
+            expensesTransactions = _stateFlow.value.expensesTransactions,
+            debtTransactions = _stateFlow.value.debtTransactions,
+            categoriesA = _stateFlow.value.categoriesA,
+            categoriesP = _stateFlow.value.categoriesP,
+            categoriesD = _stateFlow.value.categoriesD,
+            idDelete = _stateFlow.value.idDelete,
+            idUpdate = _stateFlow.value.idUpdate
+        )
     }
-
-    fun onStateChangedButtons(buttons: Boolean) {
-        _stateFlow.value = TransactionsScreenUIState(stateFlow.value.showA, stateFlow.value.showP, stateFlow.value.showD, buttons)
+    fun onStateChangedButtons() {
+        _stateFlow.value = TransactionsScreenUIState(
+            showA = stateFlow.value.showA,
+            showP = stateFlow.value.showP,
+            showD = stateFlow.value.showD,
+            buttons =  !stateFlow.value.buttons,
+            revenueTransactions = _stateFlow.value.revenueTransactions,
+            expensesTransactions = _stateFlow.value.expensesTransactions,
+            debtTransactions = _stateFlow.value.debtTransactions,
+            categoriesA = _stateFlow.value.categoriesA,
+            categoriesP = _stateFlow.value.categoriesP,
+            categoriesD = _stateFlow.value.categoriesD,
+            idDelete = _stateFlow.value.idDelete,
+            idUpdate = _stateFlow.value.idUpdate
+        )
+    }
+    fun onStateChangedLists() {
+        _stateFlow.value = TransactionsScreenUIState(
+            showA = _stateFlow.value.showA,
+            showP = _stateFlow.value.showP,
+            showD = _stateFlow.value.showD,
+            buttons = _stateFlow.value.buttons,
+            revenueTransactions = budgetTrackerRepository.getTransactionsCategoryList("Active"),
+            expensesTransactions = budgetTrackerRepository.getTransactionsCategoryList("Pasive"),
+            debtTransactions = budgetTrackerRepository.getTransactionsCategoryList("Datorii"),
+            categoriesA = budgetTrackerRepository.getRevenueCategories(),
+            categoriesP = budgetTrackerRepository.getSpendingCategories(),
+            categoriesD = budgetTrackerRepository.getDebtCategories(),
+            idDelete = _stateFlow.value.idDelete,
+            idUpdate = _stateFlow.value.idUpdate
+        )
+    }
+    fun onStateChangedIdDelete(idDelete: Int) {
+        _stateFlow.value = TransactionsScreenUIState(
+            showA = _stateFlow.value.showA,
+            showP = _stateFlow.value.showP,
+            showD = _stateFlow.value.showD,
+            buttons = _stateFlow.value.buttons,
+            revenueTransactions = _stateFlow.value.revenueTransactions,
+            expensesTransactions = _stateFlow.value.expensesTransactions,
+            debtTransactions = _stateFlow.value.debtTransactions,
+            categoriesA = _stateFlow.value.categoriesA,
+            categoriesP = _stateFlow.value.categoriesP,
+            categoriesD = _stateFlow.value.categoriesD,
+            idDelete = idDelete,
+            idUpdate = _stateFlow.value.idUpdate
+        )
+    }
+    fun onStateChangedIdUpdate(idUpdate: Int) {
+        _stateFlow.value = TransactionsScreenUIState(
+            showA = _stateFlow.value.showA,
+            showP = _stateFlow.value.showP,
+            showD = _stateFlow.value.showD,
+            buttons = _stateFlow.value.buttons,
+            revenueTransactions = _stateFlow.value.revenueTransactions,
+            expensesTransactions = _stateFlow.value.expensesTransactions,
+            debtTransactions = _stateFlow.value.debtTransactions,
+            categoriesA = _stateFlow.value.categoriesA,
+            categoriesP = _stateFlow.value.categoriesP,
+            categoriesD = _stateFlow.value.categoriesD,
+            idDelete = _stateFlow.value.idDelete,
+            idUpdate = idUpdate
+        )
+    }
+    fun onDeleteById(id: Int) {
+        budgetTrackerRepository.deleteTransactionById(id)
+        onStateChangedLists()
     }
 }

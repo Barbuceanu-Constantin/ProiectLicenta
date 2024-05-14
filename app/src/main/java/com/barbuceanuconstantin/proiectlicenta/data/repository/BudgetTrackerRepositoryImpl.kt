@@ -3,6 +3,7 @@ package com.barbuceanuconstantin.proiectlicenta.data.repository
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.dao.BudgetsDAO
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
+import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.dao.CategoryDAO
 import com.barbuceanuconstantin.proiectlicenta.data.MainCategories
 import com.barbuceanuconstantin.proiectlicenta.data.dao.MainCategoryDAO
@@ -25,16 +26,19 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     /////////////////////////////////////////////////////////
     override suspend fun insertCategory(category: Categories):Long = categoryDAO.insertCategory(category)
     override fun getAllCategories(): List<Categories> = categoryDAO.getAllCategories()
-    override fun getRevenueCategories() : List<Categories> = categoryDAO.getRevenueCategories()
-    override fun getSpendingCategories() : List<Categories> = categoryDAO.getSpendingCategories()
-    override fun getDebtCategories() : List<Categories> = categoryDAO.getDebtCategories()
+    override fun getRevenueCategories() : List<Categories> = categoryDAO.getListCategories("Active")
+    override fun getSpendingCategories() : List<Categories> = categoryDAO.getListCategories("Pasive")
+    override fun getDebtCategories() : List<Categories> = categoryDAO.getListCategories("Datorii")
     override fun updateCategory(category: Categories) { categoryDAO.updateCategory(category) }
     override fun deleteCategoryByName(name: String) { categoryDAO.deleteCategoryByName(name) }
+    override fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions> = categoryDAO.getTransactionsCategoryList(mainCategory)
     /////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////
     override suspend fun insertTransaction(transaction: Transactions) = transactionsDAO.insertTransaction(transaction)
     override fun getAllTransactions(): Flow<List<Transactions>> = transactionsDAO.getAllTransactions()
+    override fun deleteTransactionById(id: Int) = transactionsDAO.deleteTransactionById(id)
+    override fun updateTransaction(transaction: Transactions) = transactionsDAO.updateTransaction(transaction)
     /////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////

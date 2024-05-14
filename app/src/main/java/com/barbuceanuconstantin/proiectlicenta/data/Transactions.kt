@@ -2,17 +2,24 @@ package com.barbuceanuconstantin.proiectlicenta.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(
+    tableName = "transactions",
+    foreignKeys = [ForeignKey(
+        entity = Categories::class,
+        parentColumns = arrayOf("name"),
+        childColumns = arrayOf("category_name"),
+        onDelete = CASCADE
+    )]
+)
 data class Transactions(
     @PrimaryKey(autoGenerate = true) val id: Int,
 
-    @ColumnInfo(name = "category_name")
-    val categoryName: String,
-
-    @ColumnInfo(name = "budget_id")
-    val budgetId: Int,
+    @ColumnInfo(name = "category_name", index = true)
+    var categoryName: String,
 
     @ColumnInfo(name = "value")
     var value: Double,
@@ -27,11 +34,10 @@ data class Transactions(
     var payee: String
 ) {
     constructor(categoryName: String,
-                budgetId: Int,
                 value: Double,
                 description: String,
                 date: String,
-                payee: String): this( id = 0, categoryName = categoryName, budgetId = budgetId,
+                payee: String): this( id = 0, categoryName = categoryName,
                                       value = value, description = description, date = date,
                                       payee = payee)
 }

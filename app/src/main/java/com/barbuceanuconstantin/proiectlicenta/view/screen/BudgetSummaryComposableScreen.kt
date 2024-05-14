@@ -181,13 +181,13 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transactions>,
             } else if (daily && weekly && monthly) {
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 FadingArrowIcon(budgetSummary = true)
-                TranzactiiLazyColumn(
-                                        tranzactii = (lTrP + lTrA).toMutableStateList(),
-                                        buttons,
-                                        summary = true,
-                                        navController = navController,
-                                        updateStateButtons = updateStateButtons
-                )
+//                TranzactiiLazyColumn(
+//                                        tranzactii = (lTrP + lTrA).toMutableStateList(),
+//                                        buttons,
+//                                        summary = true,
+//                                        navController = navController,
+//                                        updateStateButtons = updateStateButtons
+//                )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
             }

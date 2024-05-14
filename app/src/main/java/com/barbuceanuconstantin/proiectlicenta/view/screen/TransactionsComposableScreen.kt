@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,32 +19,41 @@ import com.barbuceanuconstantin.proiectlicenta.FloatingActionButtonCustom
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
-import com.barbuceanuconstantin.proiectlicenta.data.Transactions
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
+import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.di.TransactionsScreenUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transactions>,
-                                 lTrP: SnapshotStateList<Transactions>,
-                                 lTrD: SnapshotStateList<Transactions>,
-                                 navController: NavController,
-                                 onNavigateToEditTransactionScreen: (index: Int) -> Unit,
-                                 onNavigateToHomeScreen: () -> Unit,
-                                 onNavigateToTransactionScreen: () -> Unit,
-                                 onNavigateToCategoriesScreen: () -> Unit,
-                                 onNavigateToFixedBudgetsScreen: () -> Unit,
-                                 onNavigateToBudgetSummaryScreen: () -> Unit,
-                                 onNavigateToCalendarScreen: () -> Unit,
-                                 onNavigateToGraphsScreen: () -> Unit,
-                                 onNavigateToMementosScreen: () -> Unit,
-                                 transactionsScreenUIState: TransactionsScreenUIState,
-                                 updateStateMainScreen: (Boolean, Boolean, Boolean) -> Unit,
-                                 updateStateButtons: (Boolean) -> Unit) {
+fun TransactionsComposableScreen(
+    lTrA: List<CategoryAndTransactions>,
+    lTrP: List<CategoryAndTransactions>,
+    lTrD: List<CategoryAndTransactions>,
+    categoriesA: List<Categories>,
+    categoriesP: List<Categories>,
+    categoriesD: List<Categories>,
+    navController: NavController,
+    onNavigateToEditTransactionScreen: (index: Int) -> Unit,
+    onNavigateToHomeScreen: () -> Unit,
+    onNavigateToTransactionScreen: () -> Unit,
+    onNavigateToCategoriesScreen: () -> Unit,
+    onNavigateToFixedBudgetsScreen: () -> Unit,
+    onNavigateToBudgetSummaryScreen: () -> Unit,
+    onNavigateToCalendarScreen: () -> Unit,
+    onNavigateToGraphsScreen: () -> Unit,
+    onNavigateToMementosScreen: () -> Unit,
+    transactionsScreenUIState: TransactionsScreenUIState,
+    updateStateMainScreen: (Boolean, Boolean, Boolean) -> Unit,
+    updateStateButtons: () -> Unit,
+    deleteById: (Int) -> Unit,
+    updateUpdateId: (Int) -> Unit) {
+
     val showA = transactionsScreenUIState.showA
     val showP = transactionsScreenUIState.showP
     val showD = transactionsScreenUIState.showD
     val buttons = transactionsScreenUIState.buttons
+    val idUpdate = transactionsScreenUIState.idUpdate
 
     Scaffold(
         floatingActionButton = {
@@ -80,52 +88,97 @@ fun TransactionsComposableScreen(lTrA: SnapshotStateList<Transactions>,
 
             if (showA && !showP && !showD) {
                 TranzactiiLazyColumn(
+                                        categoriesA = categoriesA,
+                                        categoriesP = categoriesP,
+                                        categoriesD = categoriesD,
                                         tranzactii = lTrA,
-                                        buttons = buttons,
                                         navController = navController,
-                                        updateStateButtons = updateStateButtons
+                                        updateStateButtons = updateStateButtons,
+                                        buttons = buttons,
+                                        deleteById = deleteById,
+                                        updateUpdateId = updateUpdateId,
+                                        idUpdate = idUpdate
                 )
             } else if (showP && !showA && !showD) {
                 TranzactiiLazyColumn(
+                                        categoriesA = categoriesA,
+                                        categoriesP = categoriesP,
+                                        categoriesD = categoriesD,
                                         tranzactii = lTrP,
-                                        buttons = buttons,
                                         navController = navController,
-                                        updateStateButtons = updateStateButtons
+                                        updateStateButtons = updateStateButtons,
+                                        buttons = buttons,
+                                        deleteById = deleteById,
+                                        updateUpdateId = updateUpdateId,
+                                        idUpdate = idUpdate
                 )
             } else if (showD && !showA && !showP) {
                 TranzactiiLazyColumn(
+                                        categoriesA = categoriesA,
+                                        categoriesP = categoriesP,
+                                        categoriesD = categoriesD,
                                         tranzactii = lTrD,
-                                        buttons = buttons,
                                         navController = navController,
-                                        updateStateButtons = updateStateButtons
+                                        updateStateButtons = updateStateButtons,
+                                        buttons = buttons,
+                                        deleteById = deleteById,
+                                        updateUpdateId = updateUpdateId,
+                                        idUpdate = idUpdate
                 )
             } else if (showA && showP && showD) {
                 TranzactiiLazyColumn(
-                                        tranzactii = (lTrA + lTrP + lTrD).toMutableStateList(),
-                                        buttons = buttons,
+                                        categoriesA = categoriesA,
+                                        categoriesP = categoriesP,
+                                        categoriesD = categoriesD,
+                                        tranzactii = lTrA + lTrP + lTrD,
                                         navController = navController,
-                                        updateStateButtons = updateStateButtons
+                                        updateStateButtons = updateStateButtons,
+                                        buttons = buttons,
+                                        deleteById = deleteById,
+                                        updateUpdateId = updateUpdateId,
+                                        idUpdate = idUpdate
                 )
-            } else  if (showA && showP && !showD) {
+            } else  if (showA && showP) {
+                //showA && showP && !showD
                 TranzactiiLazyColumn(
-                                        tranzactii = (lTrA + lTrP).toMutableStateList(),
-                                        buttons = buttons,
+                                        categoriesA = categoriesA,
+                                        categoriesP = categoriesP,
+                                        categoriesD = categoriesD,
+                                        tranzactii = lTrA + lTrP,
                                         navController = navController,
-                                        updateStateButtons = updateStateButtons
+                                        updateStateButtons = updateStateButtons,
+                                        buttons = buttons,
+                                        deleteById = deleteById,
+                                        updateUpdateId = updateUpdateId,
+                                        idUpdate = idUpdate
                 )
-            } else if (showA && showD && !showP) {
+            } else if (showA) {
+                //showA && showD && !showP
                 TranzactiiLazyColumn(
-                                        tranzactii = (lTrA + lTrD).toMutableStateList(),
-                                        buttons = buttons,
+                                        categoriesA = categoriesA,
+                                        categoriesP = categoriesP,
+                                        categoriesD = categoriesD,
+                                        tranzactii = lTrA + lTrD,
                                         navController = navController,
-                                        updateStateButtons = updateStateButtons
+                                        updateStateButtons = updateStateButtons,
+                                        buttons = buttons,
+                                        deleteById = deleteById,
+                                        updateUpdateId = updateUpdateId,
+                                        idUpdate = idUpdate
                 )
-            } else if (!showA && showP && showD) {
+            } else if (showP) {
+                //!showA && showP && showD
                 TranzactiiLazyColumn(
-                                        tranzactii = (lTrP + lTrD).toMutableStateList(),
-                                        buttons = buttons,
+                                        categoriesA = categoriesA,
+                                        categoriesP = categoriesP,
+                                        categoriesD = categoriesD,
+                                        tranzactii = lTrP + lTrD,
                                         navController = navController,
-                                        updateStateButtons = updateStateButtons
+                                        updateStateButtons = updateStateButtons,
+                                        buttons = buttons,
+                                        deleteById = deleteById,
+                                        updateUpdateId = updateUpdateId,
+                                        idUpdate = idUpdate
                 )
             }
         }

@@ -6,7 +6,10 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.util.Date
 
-@Entity(indices = [Index(value = ["name"], unique = true)])
+@Entity(
+        tableName = "budgets",
+        indices = [Index(value = ["name"], unique = true)]
+)
 data class Budgets(
     @PrimaryKey(autoGenerate = true) val id: Int,
 
