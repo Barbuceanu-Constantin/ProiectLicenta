@@ -25,6 +25,13 @@ interface CategoryDAO {
     @Query("SELECT * FROM categories where main_category == :mainCategory")
     fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions>
 
+    @Transaction
+    @Query( "SELECT SUM(Transactions.value)" +
+            "FROM Categories " +
+            "LEFT JOIN Transactions ON Categories.name = Transactions.category_name " +
+            "WHERE Categories.main_category = :mainCategory")
+    fun getTransactionsCategoryListTotalSum(mainCategory: String): Double
+
     @Query("DELETE FROM categories WHERE name = :name")
     fun deleteCategoryByName(name: String)
 

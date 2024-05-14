@@ -35,7 +35,11 @@ import com.barbuceanuconstantin.proiectlicenta.di.PrincipalScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 
 @Composable
-private fun TotalBalance() {
+private fun TotalBalance(
+    revenuesSum: Double = 0.0,
+    expensesSum: Double = 0.0,
+    debtSum: Double = 0.0
+) {
     Column {
         Card(shape = RoundedCornerShape(dimensionResource(id = R.dimen.margin)),
              modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
@@ -51,7 +55,7 @@ private fun TotalBalance() {
                     .background(color = colorResource(R.color.light_cream_yellow))
             ) {
                 Text(
-                    text = stringResource(id = R.string.active) + " : ",
+                    text = stringResource(id = R.string.active) + " : " + revenuesSum.toString(),
                     modifier = Modifier
                         .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),
@@ -65,7 +69,7 @@ private fun TotalBalance() {
                     .background(color = colorResource(R.color.light_cream_red))
             ) {
                 Text(
-                    text = stringResource(id = R.string.pasive) + " : ",
+                    text = stringResource(id = R.string.pasive) + " : " + expensesSum.toString(),
                     modifier = Modifier
                         .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),
@@ -79,7 +83,7 @@ private fun TotalBalance() {
                     .background(color = colorResource(R.color.light_cream_blue))
             ) {
                 Text(
-                    text = stringResource(id = R.string.datorii) + " : ",
+                    text = stringResource(id = R.string.datorii) + " : " + debtSum.toString(),
                     modifier = Modifier
                         .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),
@@ -94,7 +98,7 @@ private fun TotalBalance() {
 
         Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
-        Balance()
+        Balance(revenuesSum, expensesSum, debtSum)
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
@@ -154,7 +158,11 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
 
             Spacer(Modifier.height(dimensionResource(id = R.dimen.gap)))
 
-            TotalBalance()
+            TotalBalance(
+                revenuesSum = principalScreenUIState.revenuesSum,
+                expensesSum = principalScreenUIState.expensesSum,
+                debtSum = principalScreenUIState.debtSum
+            )
 
             Spacer(Modifier.height(dimensionResource(id = R.dimen.almost_hundred)))
 

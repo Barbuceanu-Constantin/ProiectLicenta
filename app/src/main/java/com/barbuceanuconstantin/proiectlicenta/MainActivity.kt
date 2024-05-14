@@ -128,6 +128,15 @@ fun runGetCategoriesTransactionsLists(viewModel: TransactionsScreenViewModel) {
     }
 }
 
+fun CoroutineScope.launchGetPrincipalScreenMetrics(viewModel: PrincipalScreenViewModel) = launch {
+    viewModel.updateMetrics()
+}
+fun runGetPrincipalScreenMetrics(viewModel: PrincipalScreenViewModel) {
+    runBlocking {
+        CoroutineScope(Dispatchers.Default).launchGetPrincipalScreenMetrics(viewModel)
+    }
+}
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -137,7 +146,6 @@ class MainActivity : ComponentActivity() {
             ProiectLicentaTheme {
                 val lTrA = mutableStateListOf<Transactions>()
                 val lTrP = mutableStateListOf<Transactions>()
-                val lTrD = mutableStateListOf<Transactions>()
 
                 runInitCategoryLists(hiltViewModel<PrincipalScreenViewModel>())
 
@@ -150,6 +158,8 @@ class MainActivity : ComponentActivity() {
                         val updateState: (Int) -> Unit = { selectedIndex ->
                             viewModel.onStateChanged(selectedIndex)
                         }
+
+                        runGetPrincipalScreenMetrics(viewModel)
 
                         //Ecran principal
                         PrincipalComposableScreen(

@@ -32,6 +32,7 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     override fun updateCategory(category: Categories) { categoryDAO.updateCategory(category) }
     override fun deleteCategoryByName(name: String) { categoryDAO.deleteCategoryByName(name) }
     override fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions> = categoryDAO.getTransactionsCategoryList(mainCategory)
+    override fun getTransactionsCategoryListTotalSum(mainCategory: String): Double = categoryDAO.getTransactionsCategoryListTotalSum(mainCategory)
     /////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////

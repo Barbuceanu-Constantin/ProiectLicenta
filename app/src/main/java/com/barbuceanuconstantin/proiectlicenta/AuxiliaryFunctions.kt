@@ -156,7 +156,11 @@ fun EditTopAppBar(
 }
 
 @Composable
-fun Balance() {
+fun Balance(
+    revenuesSum: Double = 0.0,
+    expensesSum: Double = 0.0,
+    debtSum: Double = 0.0
+) {
     Card(shape = RoundedCornerShape(dimensionResource(id = R.dimen.margin)),
          modifier = Modifier.padding(dimensionResource(id = R.dimen.margin))) {
         HorizontalDivider(
@@ -166,11 +170,12 @@ fun Balance() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(dimensionResource(id = R.dimen.upper_middle))
                 .background(color = colorResource(R.color.light_cream_green))
         ) {
             Text(
-                text = stringResource(id = R.string.balanta) + " : ",
+                text = stringResource(id = R.string.balanta) + " :\n A - P - D = " +
+                        (revenuesSum - expensesSum - debtSum).toString() + "\n A - P = " +
+                        (revenuesSum - expensesSum),
                 modifier = Modifier
                     .padding(start = dimensionResource(id = R.dimen.medium_line))
                     .align(Alignment.CenterStart),
