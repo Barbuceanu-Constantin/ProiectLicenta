@@ -136,6 +136,14 @@ fun runGetPrincipalScreenMetrics(viewModel: PrincipalScreenViewModel) {
         CoroutineScope(Dispatchers.Default).launchGetPrincipalScreenMetrics(viewModel)
     }
 }
+fun CoroutineScope.launchGetTransactionListsBudgetSummaryScreen(viewModel: BudgetSummaryScreenViewModel) = launch {
+    viewModel.onStateChangedLists()
+}
+fun runGetTransactionListsBudgetSummaryScreen(viewModel: BudgetSummaryScreenViewModel) {
+    runBlocking {
+        CoroutineScope(Dispatchers.Default).launchGetTransactionListsBudgetSummaryScreen(viewModel)
+    }
+}
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -795,13 +803,23 @@ class MainActivity : ComponentActivity() {
                         val updateStateDate: (String) -> Unit = { date ->
                             viewModel.onStateChangedDate(date)
                         }
-                        val updateStateButtons: (Boolean) -> Unit = { buttons ->
-                            viewModel.onStateChangedButtons(buttons)
+                        val updateStateButtons: () -> Unit = { viewModel.onStateChangedButtons() }
+                        val deleteById: (Int) -> Unit = { id ->
+                            viewModel.onDeleteById(id)
                         }
+                        val updateUpdateId: (Int) -> Unit = { id ->
+                            viewModel.onStateChangedIdUpdate(id)
+                        }
+
+                        runGetTransactionListsBudgetSummaryScreen(viewModel)
 
                         //Bugete fixe
                         BudgetSummaryComposableScreen(
-                            lTrA, lTrP,
+                            lTrA = state.expensesTransactions,
+                            lTrP = state.revenueTransactions,
+                            categoriesA = state.categoriesA,
+                            categoriesP = state.categoriesP,
+                            categoriesD = state.categoriesD,
                             onNavigateToHomeScreen = {
                                 navController.navigate("homeScreen") {
                                     popUpTo("homeScreen") {
@@ -859,6 +877,8 @@ class MainActivity : ComponentActivity() {
                             updateStateTimeInterval = updateStateTimeInterval,
                             updateStateDate = updateStateDate,
                             updateStateButtons = updateStateButtons,
+                            deleteById = deleteById,
+                            updateUpdateId = updateUpdateId
                         )
                     }
                     composable("calendarScreen") {

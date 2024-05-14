@@ -6,13 +6,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
 class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerRepository: BudgetTrackerRepository): ViewModel() {
-    //Nu cred ca e necesar sa ii dau parametrii pentru ca oricum ii initializez in data class
     private val _stateFlow = MutableStateFlow(BudgetSummaryScreenUIState())
     val stateFlow: StateFlow<BudgetSummaryScreenUIState>
         get() = _stateFlow.asStateFlow()
@@ -24,7 +21,14 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
             dateButton = stateFlow.value.dateButton,
             daily = daily,
             weekly = weekly,
-            monthly = monthly
+            monthly = monthly,
+            revenueTransactions = _stateFlow.value.revenueTransactions,
+            expensesTransactions = _stateFlow.value.expensesTransactions,
+            categoriesA = _stateFlow.value.categoriesA,
+            categoriesP = _stateFlow.value.categoriesP,
+            categoriesD = _stateFlow.value.categoriesD,
+            idDelete = _stateFlow.value.idDelete,
+            idUpdate = _stateFlow.value.idUpdate
         )
     }
     fun onStateChangedDate(date: String) {
@@ -35,18 +39,32 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
             dateButton = stateFlow.value.dateButton,
             daily = stateFlow.value.daily,
             weekly = stateFlow.value.weekly,
-            monthly = stateFlow.value.monthly
+            monthly = stateFlow.value.monthly,
+            revenueTransactions = _stateFlow.value.revenueTransactions,
+            expensesTransactions = _stateFlow.value.expensesTransactions,
+            categoriesA = _stateFlow.value.categoriesA,
+            categoriesP = _stateFlow.value.categoriesP,
+            categoriesD = _stateFlow.value.categoriesD,
+            idDelete = _stateFlow.value.idDelete,
+            idUpdate = _stateFlow.value.idUpdate
         )
     }
-    fun onStateChangedButtons(buttons: Boolean) {
+    fun onStateChangedButtons() {
         _stateFlow.value = BudgetSummaryScreenUIState(
             date = stateFlow.value.date,
-            buttons = buttons,
+            buttons = !stateFlow.value.buttons,
             month = stateFlow.value.month,
             dateButton = stateFlow.value.dateButton,
             daily = stateFlow.value.daily,
             weekly = stateFlow.value.weekly,
-            monthly = stateFlow.value.monthly
+            monthly = stateFlow.value.monthly,
+            revenueTransactions = _stateFlow.value.revenueTransactions,
+            expensesTransactions = _stateFlow.value.expensesTransactions,
+            categoriesA = _stateFlow.value.categoriesA,
+            categoriesP = _stateFlow.value.categoriesP,
+            categoriesD = _stateFlow.value.categoriesD,
+            idDelete = _stateFlow.value.idDelete,
+            idUpdate = _stateFlow.value.idUpdate
         )
     }
     fun onStateChangedMonth(month: String) {
@@ -57,7 +75,14 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
             dateButton = stateFlow.value.dateButton,
             daily = stateFlow.value.daily,
             weekly = stateFlow.value.weekly,
-            monthly = stateFlow.value.monthly
+            monthly = stateFlow.value.monthly,
+            revenueTransactions = _stateFlow.value.revenueTransactions,
+            expensesTransactions = _stateFlow.value.expensesTransactions,
+            categoriesA = _stateFlow.value.categoriesA,
+            categoriesP = _stateFlow.value.categoriesP,
+            categoriesD = _stateFlow.value.categoriesD,
+            idDelete = _stateFlow.value.idDelete,
+            idUpdate = _stateFlow.value.idUpdate
         )
     }
     fun onStateChangedDateButton(dateButton: Boolean) {
@@ -68,7 +93,73 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
             dateButton = dateButton,
             daily = stateFlow.value.daily,
             weekly = stateFlow.value.weekly,
-            monthly = stateFlow.value.monthly
+            monthly = stateFlow.value.monthly,
+            revenueTransactions = _stateFlow.value.revenueTransactions,
+            expensesTransactions = _stateFlow.value.expensesTransactions,
+            categoriesA = _stateFlow.value.categoriesA,
+            categoriesP = _stateFlow.value.categoriesP,
+            categoriesD = _stateFlow.value.categoriesD,
+            idDelete = _stateFlow.value.idDelete,
+            idUpdate = _stateFlow.value.idUpdate
         )
+    }
+
+    fun onStateChangedLists() {
+        _stateFlow.value = BudgetSummaryScreenUIState(
+            date = _stateFlow.value.date,
+            buttons = stateFlow.value.buttons,
+            month = stateFlow.value.month,
+            dateButton = stateFlow.value.dateButton,
+            daily = stateFlow.value.daily,
+            weekly = stateFlow.value.weekly,
+            monthly = stateFlow.value.monthly,
+            revenueTransactions = budgetTrackerRepository.getTransactionsCategoryList("Active"),
+            expensesTransactions = budgetTrackerRepository.getTransactionsCategoryList("Pasive"),
+            categoriesA = budgetTrackerRepository.getRevenueCategories(),
+            categoriesP = budgetTrackerRepository.getSpendingCategories(),
+            categoriesD = budgetTrackerRepository.getDebtCategories(),
+            idDelete = _stateFlow.value.idDelete,
+            idUpdate = _stateFlow.value.idUpdate
+        )
+    }
+    fun onStateChangedIdDelete(idDelete: Int) {
+        _stateFlow.value = BudgetSummaryScreenUIState(
+            date = _stateFlow.value.date,
+            buttons = stateFlow.value.buttons,
+            month = stateFlow.value.month,
+            dateButton = stateFlow.value.dateButton,
+            daily = stateFlow.value.daily,
+            weekly = stateFlow.value.weekly,
+            monthly = stateFlow.value.monthly,
+            revenueTransactions = _stateFlow.value.revenueTransactions,
+            expensesTransactions = _stateFlow.value.expensesTransactions,
+            categoriesA = _stateFlow.value.categoriesA,
+            categoriesP = _stateFlow.value.categoriesP,
+            categoriesD = _stateFlow.value.categoriesD,
+            idDelete = idDelete,
+            idUpdate = _stateFlow.value.idUpdate
+        )
+    }
+    fun onStateChangedIdUpdate(idUpdate: Int) {
+        _stateFlow.value = BudgetSummaryScreenUIState(
+            date = _stateFlow.value.date,
+            buttons = stateFlow.value.buttons,
+            month = stateFlow.value.month,
+            dateButton = stateFlow.value.dateButton,
+            daily = stateFlow.value.daily,
+            weekly = stateFlow.value.weekly,
+            monthly = stateFlow.value.monthly,
+            revenueTransactions = _stateFlow.value.revenueTransactions,
+            expensesTransactions = _stateFlow.value.expensesTransactions,
+            categoriesA = _stateFlow.value.categoriesA,
+            categoriesP = _stateFlow.value.categoriesP,
+            categoriesD = _stateFlow.value.categoriesD,
+            idDelete = _stateFlow.value.idDelete,
+            idUpdate = idUpdate
+        )
+    }
+    fun onDeleteById(id: Int) {
+        budgetTrackerRepository.deleteTransactionById(id)
+        onStateChangedLists()
     }
 }

@@ -14,8 +14,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -34,18 +32,22 @@ import com.barbuceanuconstantin.proiectlicenta.IntToMonth
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.TimeIntervalSegmentedButton
-import com.barbuceanuconstantin.proiectlicenta.data.Transactions
-import com.barbuceanuconstantin.proiectlicenta.getStartAndEndDateOfWeek
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
+import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.getStartAndEndDateOfWeek
 import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 @Composable
-fun SelectDay(date: String,
-              updateStateDateButton: (Boolean) -> Unit) {
+fun SelectDay(
+    date: String,
+    updateStateDateButton: (Boolean) -> Unit) {
     Button(onClick = { updateStateDateButton(true) }) {
         Text(text = stringResource(id = R.string.selectare_zi), fontSize = fontDimensionResource(id = R.dimen.medium_text_size))
     }
@@ -55,8 +57,9 @@ fun SelectDay(date: String,
 }
 
 @Composable
-fun SelectWeek(date: String,
-               updateStateDateButton: (Boolean) -> Unit) {
+fun SelectWeek(
+    date: String,
+    updateStateDateButton: (Boolean) -> Unit) {
     val limits = getStartAndEndDateOfWeek(date)
 
     Button(onClick = { updateStateDateButton(true) }) {
@@ -70,11 +73,12 @@ fun SelectWeek(date: String,
     )
 }
 @Composable
-fun SelectMonth(date: String, monthMutable: String,
-                updateStateDateButton: (Boolean) -> Unit,
-                updateStateMonth: (String) -> Unit) {
+fun SelectMonth(
+    date: String, monthMutable: String,
+    updateStateDateButton: (Boolean) -> Unit,
+    updateStateMonth: (String) -> Unit) {
     val month : Int = (date[5].code - 48) * 10 + (date[6].code - 48)
-    IntToMonth(month, monthMutable, updateStateMonth)
+    IntToMonth(month, updateStateMonth)
 
     Button(onClick = { updateStateDateButton(true) }) {
         Text(text = stringResource(id = R.string.selectare_luna),
@@ -89,30 +93,39 @@ fun SelectMonth(date: String, monthMutable: String,
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transactions>,
-                                  lTrP: SnapshotStateList<Transactions>,
-                                  onNavigateToHomeScreen: () -> Unit,
-                                  onNavigateToTransactionScreen: () -> Unit,
-                                  onNavigateToCategoriesScreen: () -> Unit,
-                                  onNavigateToFixedBudgetsScreen: () -> Unit,
-                                  onNavigateToBudgetSummaryScreen: () -> Unit,
-                                  onNavigateToCalendarScreen: () -> Unit,
-                                  onNavigateToGraphsScreen: () -> Unit,
-                                  onNavigateToMementosScreen: () -> Unit,
-                                  navController: NavController,
-                                  budgetSummaryScreenUIState: BudgetSummaryScreenUIState,
-                                  updateStateDateButton: (Boolean) -> Unit,
-                                  updateStateMonth: (String) -> Unit,
-                                  updateStateTimeInterval: (Boolean, Boolean, Boolean) -> Unit,
-                                  updateStateDate: (String) -> Unit,
-                                  updateStateButtons: (Boolean) -> Unit) {
+fun BudgetSummaryComposableScreen(
+    lTrA: List<CategoryAndTransactions>,
+    lTrP: List<CategoryAndTransactions>,
+    categoriesA: List<Categories>,
+    categoriesP: List<Categories>,
+    categoriesD: List<Categories>,
+    onNavigateToHomeScreen: () -> Unit,
+    onNavigateToTransactionScreen: () -> Unit,
+    onNavigateToCategoriesScreen: () -> Unit,
+    onNavigateToFixedBudgetsScreen: () -> Unit,
+    onNavigateToBudgetSummaryScreen: () -> Unit,
+    onNavigateToCalendarScreen: () -> Unit,
+    onNavigateToGraphsScreen: () -> Unit,
+    onNavigateToMementosScreen: () -> Unit,
+    navController: NavController,
+    budgetSummaryScreenUIState: BudgetSummaryScreenUIState,
+    updateStateDateButton: (Boolean) -> Unit,
+    updateStateMonth: (String) -> Unit,
+    updateStateTimeInterval: (Boolean, Boolean, Boolean) -> Unit,
+    updateStateDate: (String) -> Unit,
+    updateStateButtons: () -> Unit,
+    deleteById: (Int) -> Unit,
+    updateUpdateId: (Int) -> Unit) {
+
     val daily: Boolean = budgetSummaryScreenUIState.daily
     val weekly: Boolean = budgetSummaryScreenUIState.weekly
     val monthly: Boolean = budgetSummaryScreenUIState.monthly
     var date: String = budgetSummaryScreenUIState.date
     val monthMutable : String = budgetSummaryScreenUIState.month
+
     val buttons: Boolean = budgetSummaryScreenUIState.buttons
     val dateButton: Boolean = budgetSummaryScreenUIState.dateButton
+    val idUpdate: Int = budgetSummaryScreenUIState.idUpdate
 
     // Obtain the context from your activity or fragment
     val context: Context = LocalContext.current
@@ -181,13 +194,19 @@ fun BudgetSummaryComposableScreen(lTrA: SnapshotStateList<Transactions>,
             } else if (daily && weekly && monthly) {
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 FadingArrowIcon(budgetSummary = true)
-//                TranzactiiLazyColumn(
-//                                        tranzactii = (lTrP + lTrA).toMutableStateList(),
-//                                        buttons,
-//                                        summary = true,
-//                                        navController = navController,
-//                                        updateStateButtons = updateStateButtons
-//                )
+                TranzactiiLazyColumn(
+                                        tranzactii = (lTrP + lTrA),
+                                        buttons = buttons,
+                                        summary = true,
+                                        navController = navController,
+                                        updateStateButtons = updateStateButtons,
+                                        categoriesA = categoriesA,
+                                        categoriesP = categoriesP,
+                                        categoriesD = categoriesD,
+                                        deleteById = deleteById,
+                                        updateUpdateId = updateUpdateId,
+                                        idUpdate = idUpdate
+                )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
             }

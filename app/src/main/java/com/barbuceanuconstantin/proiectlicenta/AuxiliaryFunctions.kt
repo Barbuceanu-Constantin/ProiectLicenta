@@ -234,7 +234,7 @@ fun getStartAndEndDateOfWeek(dateString: String): Pair<String, String> {
     return Pair(startDate, endDate)
 }
 @Composable
-fun IntToMonth(month: Int, monthMutable: String, updateStateMonth: (String) -> Unit) {
+fun IntToMonth(month: Int, updateStateMonth: (String) -> Unit) {
     when (month) {
         1 -> updateStateMonth(stringResource(id = R.string.ianuarie))
         2 -> updateStateMonth(stringResource(id = R.string.februarie))

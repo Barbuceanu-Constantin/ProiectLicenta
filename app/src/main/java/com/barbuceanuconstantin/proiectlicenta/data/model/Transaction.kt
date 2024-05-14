@@ -244,7 +244,7 @@ fun TranzactiiLazyColumn(
         )
     }
 
-    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+    LazyColumn(modifier = modifier.fillMaxWidth()) {
         itemsIndexed(tranzactii) { idList, tranzactie ->
             tranzactie.transactions.forEachIndexed { index, transaction ->
                 Tranzactie(
