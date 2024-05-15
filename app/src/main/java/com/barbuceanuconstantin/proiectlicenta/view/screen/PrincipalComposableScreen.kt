@@ -98,7 +98,7 @@ private fun TotalBalance(
 
         Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
-        Balance(revenuesSum, expensesSum, debtSum)
+        Balance(revenuesSum, expensesSum, debtSum, false)
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)

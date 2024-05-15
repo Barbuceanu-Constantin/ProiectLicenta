@@ -342,7 +342,7 @@ fun EditBudgetScreen(
                 verticalAlignment = Alignment.Bottom) {
                 Button(onClick = {
                                     val date1Str: String = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date1)
-                                    val date2Str: String = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date1)
+                                    val date2Str: String = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date2)
                                     //Trebuie sa si adaug bugetul in viewState
                                     if (date2Str >= date1Str) {
                                         if (!readyToGo) {

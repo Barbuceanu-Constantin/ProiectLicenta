@@ -159,7 +159,8 @@ fun EditTopAppBar(
 fun Balance(
     revenuesSum: Double = 0.0,
     expensesSum: Double = 0.0,
-    debtSum: Double = 0.0
+    debtSum: Double = 0.0,
+    calendar: Boolean = true
 ) {
     Card(shape = RoundedCornerShape(dimensionResource(id = R.dimen.margin)),
          modifier = Modifier.padding(dimensionResource(id = R.dimen.margin))) {
@@ -172,15 +173,25 @@ fun Balance(
                 .fillMaxWidth()
                 .background(color = colorResource(R.color.light_cream_green))
         ) {
-            Text(
-                text = stringResource(id = R.string.balanta) + " :\n A - P - D = " +
-                        (revenuesSum - expensesSum - debtSum).toString() + "\n A - P = " +
-                        (revenuesSum - expensesSum),
-                modifier = Modifier
-                    .padding(start = dimensionResource(id = R.dimen.medium_line))
-                    .align(Alignment.CenterStart),
-                fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
-            )
+            if (!calendar) {
+                Text(
+                    text = stringResource(id = R.string.balanta) + " :\n A - P - D = " +
+                            (revenuesSum - expensesSum - debtSum).toString() + "\n A - P = " +
+                            (revenuesSum - expensesSum),
+                    modifier = Modifier
+                        .padding(start = dimensionResource(id = R.dimen.medium_line))
+                        .align(Alignment.CenterStart),
+                    fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
+                )
+            } else {
+                Text(
+                    text = stringResource(id = R.string.balanta) + " : \n A - P = " + (revenuesSum - expensesSum),
+                    modifier = Modifier
+                        .padding(start = dimensionResource(id = R.dimen.medium_line))
+                        .align(Alignment.CenterStart),
+                    fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
+                )
+            }
         }
         HorizontalDivider(
             thickness = dimensionResource(id = R.dimen.thin_line),
