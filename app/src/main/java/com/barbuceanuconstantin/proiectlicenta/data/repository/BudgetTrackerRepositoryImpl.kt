@@ -10,6 +10,7 @@ import com.barbuceanuconstantin.proiectlicenta.data.dao.MainCategoryDAO
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.data.dao.TransactionsDAO
 import kotlinx.coroutines.flow.Flow
+import java.util.Date
 import javax.inject.Inject
 
 class BudgetTrackerRepositoryImpl @Inject constructor(
@@ -31,13 +32,17 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     override fun getDebtCategories() : List<Categories> = categoryDAO.getListCategories("Datorii")
     override fun updateCategory(category: Categories) { categoryDAO.updateCategory(category) }
     override fun deleteCategoryByName(name: String) { categoryDAO.deleteCategoryByName(name) }
-    override fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions> = categoryDAO.getTransactionsCategoryList(mainCategory)
-    override fun getTransactionsCategoryListTotalSum(mainCategory: String): Double = categoryDAO.getTransactionsCategoryListTotalSum(mainCategory)
+    override fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions> = transactionsDAO.getTransactionsCategoryList(mainCategory)
+    override fun getTransactionsCategoryListTotalSum(mainCategory: String): Double = transactionsDAO.getTransactionsCategoryListTotalSum(mainCategory)
     /////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////
     override suspend fun insertTransaction(transaction: Transactions) = transactionsDAO.insertTransaction(transaction)
     override fun getAllTransactions(): Flow<List<Transactions>> = transactionsDAO.getAllTransactions()
+    override fun getTransactionsRevenuesSumByDay(currentDate: Date): Double = transactionsDAO.getTransactionsSumByDay(currentDate, "Active")
+    override fun getTransactionsExpensesSumByDay(currentDate: Date): Double = transactionsDAO.getTransactionsSumByDay(currentDate, "Pasive")
+    override fun getRevenueTransactionsByDate(currentDate: Date): List<CategoryAndTransactions> = transactionsDAO.getTransactionsByDate(currentDate, "Active")
+    override fun getExpensesTransactionsByDate(currentDate: Date): List<CategoryAndTransactions> = transactionsDAO.getTransactionsByDate(currentDate, "Pasive")
     override fun deleteTransactionById(id: Int) = transactionsDAO.deleteTransactionById(id)
     override fun updateTransaction(transaction: Transactions) = transactionsDAO.updateTransaction(transaction)
     /////////////////////////////////////////////////////////

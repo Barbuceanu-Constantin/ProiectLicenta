@@ -27,7 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -195,10 +194,6 @@ fun TranzactiiLazyColumn(
                 Button(
                     onClick = {
                         updateStateButtons()
-                        println(tranzactii.size.toString() + " tranzactii.size")
-                        println(idUpdateList.value.toString() + " idUpdateList.value.size")
-                        println(tranzactii[idUpdateList.value].transactions.size.toString() + " tranzactii[idUpdateList.value].transactions.size.toString()")
-                        println(tranzactii[idUpdateList.value].transactions[idUpdate].toString() + " ranzactii[idUpdateList.value].transactions[idUpdate]")
                         val transactionObj = tranzactii[idUpdateList.value].transactions[idUpdate]
                         val gson: Gson = GsonBuilder().create()
                         val transactionJson = gson.toJson(transactionObj)
@@ -266,17 +261,24 @@ fun TranzactiiLazyColumn(
 
 @Composable
 fun CalendarSummaryTranzactiiLazyColumn(
-    tranzactii: SnapshotStateList<Transactions>,
+    navController: NavController,
+    tranzactii: List<CategoryAndTransactions>,
+    categoriesA: List<Categories>,
+    categoriesP: List<Categories>,
+    categoriesD: List<Categories>,
     incomesOrExpenses: Boolean,
-    date: String,
-    buttons: Boolean,
-    updateButtons: (Boolean) -> Unit,
     updateIncomesExpenses: (Boolean, Boolean) -> Unit,
-    navController: NavController
+    deleteById: (Int) -> Unit,
+    updateUpdateId: (Int) -> Unit,
+    updateButtons: () -> Unit,
+    buttons: Boolean,
+    date: String,
+    idUpdate: Int
 ) {
     val modifier: Modifier = Modifier.fillMaxHeight(0.9F)
 
-    val id: MutableState<Int> = remember { mutableIntStateOf(-1) }
+    val idDelete: MutableState<Int> = remember { mutableIntStateOf(-1) }
+    val idUpdateList: MutableState<Int> = remember { mutableIntStateOf(-1) }
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
@@ -302,10 +304,22 @@ fun CalendarSummaryTranzactiiLazyColumn(
             FadingArrowIcon()
         }
 
-        LazyColumn(modifier = modifier) {
-            itemsIndexed(tranzactii) { index, tranzactie ->
-                //Tranzactie(tranzactie, buttons, updateStateButtons = updateButtons, id = id, index = index)
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
+        LazyColumn(modifier = modifier.fillMaxWidth()) {
+            itemsIndexed(tranzactii) { idList, tranzactie ->
+                tranzactie.transactions.forEachIndexed { index, transaction ->
+                    Tranzactie(
+                        categoriesA = categoriesA,
+                        categoriesP = categoriesP,
+                        categoriesD = categoriesD,
+                        transaction = transaction,
+                        id = idDelete,
+                        updateStateButtons = updateButtons,
+                        updateUpdateId = updateUpdateId,
+                        index = index,
+                        idList = idList,
+                        idUpdateList = idUpdateList
+                    )
+                }
             }
         }
 
@@ -317,7 +331,7 @@ fun CalendarSummaryTranzactiiLazyColumn(
     if (buttons) {
         AlertDialog(
             onDismissRequest = {
-                updateButtons(false)
+                updateButtons()
             },
             title = {
                 Text(text = stringResource(id = R.string.selectare_actiune))
@@ -327,10 +341,10 @@ fun CalendarSummaryTranzactiiLazyColumn(
                     fontSize = fontDimensionResource(id = R.dimen.normal_text_size))
             },
             confirmButton = {
-                val transactionObj = tranzactii[id.value]
                 Button(
                     onClick = {
-                        updateButtons(false)
+                        updateButtons()
+                        val transactionObj = tranzactii[idUpdateList.value].transactions[idUpdate]
                         val gson: Gson = GsonBuilder().create()
                         val transactionJson = gson.toJson(transactionObj)
 
@@ -352,7 +366,8 @@ fun CalendarSummaryTranzactiiLazyColumn(
             dismissButton = {
                 Button(
                     onClick = {
-                        updateButtons(false)
+                        updateButtons()
+                        runDeleteCategoryById(deleteById, idDelete.value)
                     }
                 ) {
                     Row {

@@ -6,6 +6,7 @@ import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.MainCategories
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import kotlinx.coroutines.flow.Flow
+import java.util.Date
 
 interface BudgetTrackerRepository {
     ///////////////////////////////////////////////
@@ -28,6 +29,10 @@ interface BudgetTrackerRepository {
     ///////////////////////////////////////////////
     suspend fun insertTransaction(transaction: Transactions)
     fun getAllTransactions(): Flow<List<Transactions>>
+    fun getTransactionsRevenuesSumByDay(currentDate: Date): Double
+    fun getTransactionsExpensesSumByDay(currentDate: Date): Double
+    fun getRevenueTransactionsByDate(currentDate: Date): List<CategoryAndTransactions>
+    fun getExpensesTransactionsByDate(currentDate: Date): List<CategoryAndTransactions>
     fun deleteTransactionById(id: Int)
     fun updateTransaction(transaction: Transactions)
     ///////////////////////////////////////////////

@@ -5,28 +5,34 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
-import com.barbuceanuconstantin.proiectlicenta.data.Transactions
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
+import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.model.CalendarSummaryTranzactiiLazyColumn
 
 @Composable
 fun CurrentSituationComposableScreen(
+    categoriesA: List<Categories>,
+    categoriesP: List<Categories>,
+    categoriesD: List<Categories>,
     onNavigateToCalendarScreen: () -> Unit,
     onNavigateToHomeScreen: () -> Unit,
     incomes: Boolean,
     expenses: Boolean,
-    lTrA: SnapshotStateList<Transactions>,
-    lTrP: SnapshotStateList<Transactions>,
+    lTrA: List<CategoryAndTransactions>,
+    lTrP: List<CategoryAndTransactions>,
     date: String,
     buttons: Boolean,
-    updateButtons: (Boolean) -> Unit,
+    updateButtons: () -> Unit,
     updateIncomesExpenses: (Boolean, Boolean) -> Unit,
-    navController: NavController
+    navController: NavController,
+    deleteById: (Int) -> Unit,
+    updateUpdateId: (Int) -> Unit,
+    idUpdate: Int
 ) {
     Scaffold (
         topBar = {
@@ -51,7 +57,13 @@ fun CurrentSituationComposableScreen(
                     buttons = buttons,
                     updateButtons = updateButtons,
                     updateIncomesExpenses = updateIncomesExpenses,
-                    navController = navController
+                    navController = navController,
+                    deleteById = deleteById,
+                    updateUpdateId = updateUpdateId,
+                    idUpdate = idUpdate,
+                    categoriesA = categoriesA,
+                    categoriesP = categoriesP,
+                    categoriesD = categoriesD
                 )
             } else if (!incomes && expenses) {
                 CalendarSummaryTranzactiiLazyColumn(
@@ -61,7 +73,13 @@ fun CurrentSituationComposableScreen(
                     buttons = buttons,
                     updateButtons = updateButtons,
                     updateIncomesExpenses = updateIncomesExpenses,
-                    navController = navController
+                    navController = navController,
+                    deleteById = deleteById,
+                    updateUpdateId = updateUpdateId,
+                    idUpdate = idUpdate,
+                    categoriesA = categoriesA,
+                    categoriesP = categoriesP,
+                    categoriesD = categoriesD
                 )
             }
         }

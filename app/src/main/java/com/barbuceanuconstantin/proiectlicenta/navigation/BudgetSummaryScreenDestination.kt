@@ -11,12 +11,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-fun CoroutineScope.launchGetTransactionListsBudgetSummaryScreen(viewModel: BudgetSummaryScreenViewModel) = launch {
+fun CoroutineScope.launchGetCategoriesListsBudgetSummaryScreen(viewModel: BudgetSummaryScreenViewModel) = launch {
     viewModel.onStateChangedLists()
 }
-fun runGetTransactionListsBudgetSummaryScreen(viewModel: BudgetSummaryScreenViewModel) {
+fun runGetCategoriesListsBudgetSummaryScreen(viewModel: BudgetSummaryScreenViewModel) {
     runBlocking {
-        CoroutineScope(Dispatchers.Default).launchGetTransactionListsBudgetSummaryScreen(viewModel)
+        CoroutineScope(Dispatchers.Default).launchGetCategoriesListsBudgetSummaryScreen(viewModel)
     }
 }
 @Composable
@@ -48,7 +48,7 @@ fun BudgetSummaryScreenDestination(
         viewModel.onStateChangedIdUpdate(id)
     }
 
-    runGetTransactionListsBudgetSummaryScreen(viewModel)
+    runGetCategoriesListsBudgetSummaryScreen(viewModel)
 
     //Bugete fixe
     BudgetSummaryComposableScreen(
