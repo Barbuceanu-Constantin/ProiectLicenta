@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
+import com.barbuceanuconstantin.proiectlicenta.navigation.editBudgetScreenFullPath
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
@@ -186,7 +187,8 @@ fun BudgetsLazyColumn(
                         updateStateButtons(false)
                         val gson: Gson = GsonBuilder().create()
                         val budgetJson = gson.toJson(budgetObj)
-                        navController.navigate("editBudgetScreen?budget={budget}"
+                        navController.navigate(
+                            editBudgetScreenFullPath
                             .replace(oldValue = "{budget}", newValue = budgetJson)
                         )
                     }

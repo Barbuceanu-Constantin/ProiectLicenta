@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.di.CategoriesScreenViewModel
+import com.barbuceanuconstantin.proiectlicenta.navigation.editCategoryScreenFullPath
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
@@ -76,7 +77,8 @@ private fun Subcategory(
                                                         val categoryObj = categorii[index]
                                                         val gson: Gson = GsonBuilder().create()
                                                         val categoryJson = gson.toJson(categoryObj)
-                                                        navController.navigate("editCategoryScreen?category={category}"
+                                                        navController.navigate(
+                                                            editCategoryScreenFullPath
                                                             .replace(oldValue = "{category}", newValue = categoryJson)
                                                         )
                                                       },
