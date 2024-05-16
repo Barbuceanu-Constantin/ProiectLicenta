@@ -20,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.util.Date
 
 fun CoroutineScope.launchGetCategoriesListsEditTransactionScreen(viewModel: EditTransactionScreenViewModel) = launch {
     viewModel.updateLists()
@@ -49,7 +50,7 @@ fun EditTransactionScreenDestination(
     val updateState: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
         viewModel.onStateChanged(showA, showP, showD)
     }
-    val updateDate: (String) -> Unit = { date ->
+    val updateDate: (Date) -> Unit = { date ->
         viewModel.onUpdateDate(date)
     }
     val updatePayee: (String) -> Unit = { payee ->

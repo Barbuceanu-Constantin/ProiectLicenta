@@ -58,7 +58,7 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
                           updateValueSum: (String) -> Unit,
                           updateDescription: (String) -> Unit,
                           updatePayee: (String) -> Unit,
-                          updateDate: (String) -> Unit,
+                          updateDate: (Date) -> Unit,
                           updateReadyToGo: (Boolean) -> Unit,
                           updateTransaction: (Transactions) -> Unit,
                           updateAlertDialog: (Boolean) -> Unit,
@@ -247,7 +247,7 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
             OutlinedTextField(
-                value = date,
+                value = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date),
                 enabled = false,
                 onValueChange = {},
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -260,7 +260,7 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
                                 // Handle the selected date
                                 val selectedDate: Calendar = Calendar.getInstance()
                                 selectedDate.set(year1, month1, dayOfMonth1)
-                                updateDate(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time))
+                                updateDate(selectedDate.time)
                             }, year, month, dayOfMonth)
 
                         datePickerDialog.show()

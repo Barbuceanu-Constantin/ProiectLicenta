@@ -16,7 +16,9 @@ data class EditTransactionScreenUIState(
     val showA: Boolean = false,
     val showP: Boolean = false,
     val showD: Boolean = false,
-    val date: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+    val date: Date =    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).
+                        parse(LocalDateTime.now().
+                        format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))!!,
     val readyToGo: Boolean = false,
     val alertDialog: Boolean = false,
     val listCategoriesRevenue: List<Categories> = listOf(),

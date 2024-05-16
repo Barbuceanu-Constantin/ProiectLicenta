@@ -9,9 +9,11 @@ import java.util.Date
 import java.util.Locale
 
 data class EditBudgetScreenUIState(
-    val formattedDate: String =   LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-    val date1: String = formattedDate,
-    val date2: String = formattedDate,
+    val formattedDate: Date =   SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).
+                                parse(LocalDateTime.now().
+                                format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))!!,
+    val date1: Date = formattedDate,
+    val date2: Date = formattedDate,
     val openWarningDialog: Boolean = false,
     val filledText: String = "",
     val valueSum: String = "",

@@ -37,6 +37,8 @@ fun CalendarScreenDestination(
     viewModel: CalendarScreenViewModel = hiltViewModel<CalendarScreenViewModel>(),
     navController: NavHostController,
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
     val updateDate: suspend (String) -> Unit = { date ->
         viewModel.onStateChangedDate(date)

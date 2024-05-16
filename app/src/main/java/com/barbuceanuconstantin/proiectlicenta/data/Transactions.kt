@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity(
     tableName = "transactions",
@@ -28,7 +29,7 @@ data class Transactions(
     var description: String,
 
     @ColumnInfo(name = "date")
-    var date: String,
+    var date: Date,
 
     @ColumnInfo(name = "payee")
     var payee: String
@@ -36,7 +37,7 @@ data class Transactions(
     constructor(categoryName: String,
                 value: Double,
                 description: String,
-                date: String,
+                date: Date,
                 payee: String): this( id = 0, categoryName = categoryName,
                                       value = value, description = description, date = date,
                                       payee = payee)

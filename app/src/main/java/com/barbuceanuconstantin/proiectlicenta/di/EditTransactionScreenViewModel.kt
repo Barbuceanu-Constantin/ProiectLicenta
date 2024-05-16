@@ -2,6 +2,7 @@ package com.barbuceanuconstantin.proiectlicenta.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -108,7 +110,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             listCategoriesDebts = _stateFlow.value.listCategoriesDebts
         )
     }
-    fun onUpdateDate(date: String) {
+    fun onUpdateDate(date: Date) {
         _stateFlow.value = EditTransactionScreenUIState(
             showA = _stateFlow.value.showA,
             showP = _stateFlow.value.showP,
@@ -221,7 +223,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             budgetTrackerRepository.insertTransaction(transaction)
         }
     }
-    fun updateTransactionInDb(transaction: Transactions) {
+    suspend fun updateTransactionInDb(transaction: Transactions) {
         viewModelScope.launch(Dispatchers.IO) {
             budgetTrackerRepository.updateTransaction(transaction)
         }
