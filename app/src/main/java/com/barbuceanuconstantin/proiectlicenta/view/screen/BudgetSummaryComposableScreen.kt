@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -39,9 +40,7 @@ import com.barbuceanuconstantin.proiectlicenta.getStartAndEndDateOfWeek
 import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 
 @Composable
@@ -121,7 +120,9 @@ fun BudgetSummaryComposableScreen(
     val weekly: Boolean = budgetSummaryScreenUIState.weekly
     val monthly: Boolean = budgetSummaryScreenUIState.monthly
     var date: String = budgetSummaryScreenUIState.date
-    val monthMutable : String = budgetSummaryScreenUIState.month
+    val monthMutable: String = budgetSummaryScreenUIState.month
+    val revenuesSum: Double = budgetSummaryScreenUIState.sumRevenues
+    val expensesSum: Double = budgetSummaryScreenUIState.sumExpenses
 
     val buttons: Boolean = budgetSummaryScreenUIState.buttons
     val dateButton: Boolean = budgetSummaryScreenUIState.dateButton
@@ -175,12 +176,29 @@ fun BudgetSummaryComposableScreen(
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 
             //Aici voi face bilantul total al cheltuielilor si veniturilor.
-            //Dar pentru inceput le voi lista pe toate fara sa filtrez, asta si pentru ca
-            //o sa fie mai relevant probabil cand conectez cu baza de date.
             if (daily && !weekly && !monthly) {
-                //Se selecteaza ziua pentru care se vrea bilantul cheltuielilor si veniturilor
 
+                //Se selecteaza ziua pentru care se vrea bilantul cheltuielilor si veniturilor
                 SelectDay(date, updateStateDateButton)
+                HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
+                FadingArrowIcon(budgetSummary = true)
+                TranzactiiLazyColumn(
+                    tranzactii = (lTrP + lTrA),
+                    buttons = buttons,
+                    navController = navController,
+                    updateStateButtons = updateStateButtons,
+                    categoriesA = categoriesA,
+                    categoriesP = categoriesP,
+                    categoriesD = categoriesD,
+                    deleteById = deleteById,
+                    updateUpdateId = updateUpdateId,
+                    idUpdate = idUpdate,
+                    modifier = Modifier.fillMaxHeight(0.85F),
+                    summary = true
+                )
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
+                HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
+
             } else if (weekly && !daily && !monthly) {
                 //Se selecteaza saptamana pentru care se vrea bilantul cheltuielilor si veniturilor,
                 //prin selectarea unei zile si extragerea saptamanii din care face parte
@@ -191,13 +209,13 @@ fun BudgetSummaryComposableScreen(
                 //prin selectarea unei zile si extragerea lunii din care face parte
 
                 SelectMonth(date, monthMutable, updateStateDateButton, updateStateMonth)
-            } else if (daily && weekly && monthly) {
+            } else if (!daily && !weekly) {
+                //!daily && !weekly && !monthly
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 FadingArrowIcon(budgetSummary = true)
                 TranzactiiLazyColumn(
                                         tranzactii = (lTrP + lTrA),
                                         buttons = buttons,
-                                        summary = true,
                                         navController = navController,
                                         updateStateButtons = updateStateButtons,
                                         categoriesA = categoriesA,
@@ -205,7 +223,9 @@ fun BudgetSummaryComposableScreen(
                                         categoriesD = categoriesD,
                                         deleteById = deleteById,
                                         updateUpdateId = updateUpdateId,
-                                        idUpdate = idUpdate
+                                        idUpdate = idUpdate,
+                                        modifier = Modifier.fillMaxHeight(0.9F),
+                                        summary = true
                 )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
@@ -213,7 +233,7 @@ fun BudgetSummaryComposableScreen(
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
 
-            Text(text = stringResource(id = R.string.bilant),
+            Text(text = stringResource(id = R.string.bilant) + " " + (revenuesSum - expensesSum).toString(),
                  modifier = Modifier
                      .fillMaxWidth()
                      .padding(

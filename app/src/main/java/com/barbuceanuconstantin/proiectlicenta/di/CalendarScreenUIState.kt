@@ -20,6 +20,5 @@ data class CalendarScreenUIState(
     val categoriesA: List<Categories> = listOf(),
     val categoriesP: List<Categories> = listOf(),
     val categoriesD: List<Categories> = listOf(),
-    val idDelete: Int = -1,
     val idUpdate: Int = -1,
 )

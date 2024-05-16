@@ -81,9 +81,9 @@ fun EditTransactionScreenDestination(
         viewModel.insertTransaction(transaction)
     }
     val updateTransactionInDb: suspend (transaction: Transactions) -> Unit =
-        { transaction ->
-            viewModel.updateTransactionInDb(transaction)
-        }
+    { transaction ->
+        viewModel.updateTransactionInDb(transaction)
+    }
 
     val index = requireNotNull(backStackEntry.arguments).getInt("index")
 
