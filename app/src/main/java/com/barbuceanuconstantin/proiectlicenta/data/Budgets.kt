@@ -23,16 +23,16 @@ data class Budgets(
     var upperThreshold: Double,
 
     @ColumnInfo(name = "start_date_string")
-    var startDate: Date,
+    var startDate: String,
 
     @ColumnInfo(name = "end_date_string")
-    var endDate: Date,
+    var endDate: String,
 ) {
     constructor(categoryName: String,
                 name: String,
                 upperThreshold: Double,
-                startDate: Date,
-                endDate: Date): this(   id = 0, categoryName = categoryName, name = name,
+                startDate: String,
+                endDate: String): this(   id = 0, categoryName = categoryName, name = name,
                                         upperThreshold = upperThreshold, startDate = startDate,
                                         endDate = endDate
                 )

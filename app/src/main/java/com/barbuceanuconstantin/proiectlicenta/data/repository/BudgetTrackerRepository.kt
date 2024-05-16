@@ -29,10 +29,10 @@ interface BudgetTrackerRepository {
     ///////////////////////////////////////////////
     suspend fun insertTransaction(transaction: Transactions)
     fun getAllTransactions(): Flow<List<Transactions>>
-    fun getTransactionsRevenuesSumByDay(currentDate: Date): Double
-    fun getTransactionsExpensesSumByDay(currentDate: Date): Double
-    fun getRevenueTransactionsByDate(currentDate: Date): List<CategoryAndTransactions>
-    fun getExpensesTransactionsByDate(currentDate: Date): List<CategoryAndTransactions>
+    fun getTransactionsRevenuesSumByDay(currentDate: String): Double
+    fun getTransactionsExpensesSumByDay(currentDate: String): Double
+    fun getRevenueTransactionsByDate(currentDate: String): List<CategoryAndTransactions>
+    fun getExpensesTransactionsByDate(currentDate: String): List<CategoryAndTransactions>
     fun deleteTransactionById(id: Int)
     fun updateTransaction(transaction: Transactions)
     ///////////////////////////////////////////////

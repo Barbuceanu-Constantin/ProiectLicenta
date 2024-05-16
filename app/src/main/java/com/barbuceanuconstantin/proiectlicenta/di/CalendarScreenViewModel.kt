@@ -49,11 +49,10 @@ class CalendarScreenViewModel @Inject constructor(val budgetTrackerRepository: B
                                                     categoriesD = stateFlow.value.categoriesD,
         )
         viewModelScope.launch(Dispatchers.IO) {
-            val dateCt: Date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(date)!!
-            revenuesSum = budgetTrackerRepository.getTransactionsRevenuesSumByDay(dateCt)
-            expensesSum = budgetTrackerRepository.getTransactionsExpensesSumByDay(dateCt)
-            lTrA = budgetTrackerRepository.getRevenueTransactionsByDate(dateCt)
-            lTrP= budgetTrackerRepository.getExpensesTransactionsByDate(dateCt)
+            revenuesSum = budgetTrackerRepository.getTransactionsRevenuesSumByDay(date)
+            expensesSum = budgetTrackerRepository.getTransactionsExpensesSumByDay(date)
+            lTrA = budgetTrackerRepository.getRevenueTransactionsByDate(date)
+            lTrP= budgetTrackerRepository.getExpensesTransactionsByDate(date)
             _stateFlow.value = _stateFlow.value.copy(
                 sumRevenues = revenuesSum,
                 sumExpenses = expensesSum,

@@ -33,7 +33,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             expenseCategoriesList = _stateFlow.value.expenseCategoriesList
         )
     }
-    fun onUpdateDate1(date1: Date) {
+    fun onUpdateDate1(date1: String) {
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = date1,
             date2 = _stateFlow.value.date2,
@@ -48,7 +48,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             expenseCategoriesList = _stateFlow.value.expenseCategoriesList
         )
     }
-    fun onUpdateDate2(date2: Date) {
+    fun onUpdateDate2(date2: String) {
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = _stateFlow.value.date1,
             date2 = date2,

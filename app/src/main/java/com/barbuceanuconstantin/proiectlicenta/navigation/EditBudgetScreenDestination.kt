@@ -41,10 +41,10 @@ fun EditBudgetScreenDestination(
 
     runGetCategoryExpensesList(viewModel)
 
-    val updateDate1: (Date) -> Unit = { date1 ->
+    val updateDate1: (String) -> Unit = { date1 ->
         viewModel.onUpdateDate1(date1)
     }
-    val updateDate2: (Date) -> Unit = { date2 ->
+    val updateDate2: (String) -> Unit = { date2 ->
         viewModel.onUpdateDate2(date2)
     }
     val updateFilledText: (String) -> Unit = { filledText ->

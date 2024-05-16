@@ -6,11 +6,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import kotlinx.coroutines.flow.Flow
-import java.util.Date
 
 @Dao
 interface TransactionsDAO {
@@ -26,7 +24,7 @@ interface TransactionsDAO {
             "LEFT JOIN Transactions ON Categories.name = Transactions.category_name " +
             "WHERE Categories.main_category = :mainCategory " +
             "AND Transactions.date = :currentDate")
-    fun getTransactionsByDate(currentDate: Date, mainCategory: String): List<CategoryAndTransactions>
+    fun getTransactionsByDate(currentDate: String, mainCategory: String): List<CategoryAndTransactions>
 
     @Transaction
     @Query( "SELECT SUM(Transactions.value)" +
@@ -34,7 +32,7 @@ interface TransactionsDAO {
             "LEFT JOIN Transactions ON Categories.name = Transactions.category_name " +
             "WHERE Categories.main_category = :mainCategory " +
             "AND Transactions.date = :currentDate")
-    fun getTransactionsSumByDay(currentDate: Date, mainCategory: String): Double
+    fun getTransactionsSumByDay(currentDate: String, mainCategory: String): Double
 
     @Transaction
     @Query("SELECT * FROM categories where main_category == :mainCategory")
