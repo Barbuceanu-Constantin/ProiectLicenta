@@ -84,6 +84,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MoreScreensMenu
 import kotlinx.coroutines.delay
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Date
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -118,6 +121,7 @@ fun MainScreenToAppBar(id: Int, scrollBehavior: TopAppBarScrollBehavior? = null,
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditTopAppBar(
                     id : Int,
@@ -267,10 +271,12 @@ fun resetButtons(showA: MutableState<Boolean>, showP: MutableState<Boolean>, sho
     showD.value = true
 }
 @Composable
-fun OkButton(id: Int = R.string.ok, updateIncomesExpenses: (Boolean, Boolean) -> Unit) {
+fun OkButton(id: Int = R.string.ok, updateIncomesExpenses: (Boolean, Boolean) -> Unit,
+             updateDate: (String) -> Unit) {
     val buttonWidthFraction = if (id == R.string.ok) 0.3f else 0.5f
 
     Button( onClick = {
+                        updateDate(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                         updateIncomesExpenses(false, false)
                       },
             modifier = Modifier
@@ -735,4 +741,14 @@ fun warningCompleteAllFields(updateAlertDialog: (Boolean) -> Unit) {
             }
         }
     )
+}
+
+fun stripTime(date: Date): Date {
+    val cal = Calendar.getInstance()
+    cal.time = date
+    cal.set(Calendar.HOUR_OF_DAY, 0)
+    cal.set(Calendar.MINUTE, 0)
+    cal.set(Calendar.SECOND, 0)
+    cal.set(Calendar.MILLISECOND, 0)
+    return cal.time
 }

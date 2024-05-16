@@ -9,6 +9,7 @@ import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
 import com.barbuceanuconstantin.proiectlicenta.navigation.budgetSummaryScreen
+import com.barbuceanuconstantin.proiectlicenta.stripTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +29,8 @@ class CalendarScreenViewModel @Inject constructor(val budgetTrackerRepository: B
     val stateFlow: StateFlow<CalendarScreenUIState>
         get() = _stateFlow.asStateFlow()
 
-    suspend fun onStateChangedDate(date: String) {
+    fun onStateChangedDate(date: String) {
+        println("dadada $date")
         var revenuesSum: Double = 0.0
         var expensesSum: Double = 0.0
         var lTrA: List<CategoryAndTransactions> = listOf()
@@ -47,9 +49,11 @@ class CalendarScreenViewModel @Inject constructor(val budgetTrackerRepository: B
                                                     categoriesA = stateFlow.value.categoriesA,
                                                     categoriesP = stateFlow.value.categoriesP,
                                                     categoriesD = stateFlow.value.categoriesD,
+                                                    firstComposition = false
         )
         viewModelScope.launch(Dispatchers.IO) {
-            val dateCt: Date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(date)!!
+            var dateCt: Date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(date)!!
+            dateCt = stripTime(dateCt)
             revenuesSum = budgetTrackerRepository.getTransactionsRevenuesSumByDay(dateCt)
             expensesSum = budgetTrackerRepository.getTransactionsExpensesSumByDay(dateCt)
             lTrA = budgetTrackerRepository.getRevenueTransactionsByDate(dateCt)
@@ -78,6 +82,7 @@ class CalendarScreenViewModel @Inject constructor(val budgetTrackerRepository: B
                                                     categoriesA = stateFlow.value.categoriesA,
                                                     categoriesP = stateFlow.value.categoriesP,
                                                     categoriesD = stateFlow.value.categoriesD,
+                                                    firstComposition = _stateFlow.value.firstComposition
         )
     }
     fun onStateChangedButtons() {
@@ -95,6 +100,7 @@ class CalendarScreenViewModel @Inject constructor(val budgetTrackerRepository: B
                                                     categoriesA = stateFlow.value.categoriesA,
                                                     categoriesP = stateFlow.value.categoriesP,
                                                     categoriesD = stateFlow.value.categoriesD,
+                                                    firstComposition = _stateFlow.value.firstComposition
         )
     }
 
@@ -112,8 +118,10 @@ class CalendarScreenViewModel @Inject constructor(val budgetTrackerRepository: B
             categoriesP = budgetTrackerRepository.getSpendingCategories(),
             categoriesD = budgetTrackerRepository.getDebtCategories(),
             idUpdate = stateFlow.value.idUpdate,
-            idDelete = stateFlow.value.idDelete
+            idDelete = stateFlow.value.idDelete,
+            firstComposition = _stateFlow.value.firstComposition
         )
+        onStateChangedDate(LocalDate.now().toString())
     }
 
     fun onStateChangedIdDelete(idDelete: Int) {
@@ -130,10 +138,10 @@ class CalendarScreenViewModel @Inject constructor(val budgetTrackerRepository: B
             categoriesP = stateFlow.value.categoriesP,
             categoriesD = stateFlow.value.categoriesD,
             idUpdate = stateFlow.value.idUpdate,
+            firstComposition = _stateFlow.value.firstComposition,
             idDelete = idDelete,
         )
     }
-
     fun onStateChangedIdUpdate(idUpdate: Int) {
         _stateFlow.value = CalendarScreenUIState(
             date = stateFlow.value.date,
@@ -148,10 +156,29 @@ class CalendarScreenViewModel @Inject constructor(val budgetTrackerRepository: B
             categoriesP = stateFlow.value.categoriesP,
             categoriesD = stateFlow.value.categoriesD,
             idUpdate = idUpdate,
-            idDelete = stateFlow.value.idDelete
+            idDelete = stateFlow.value.idDelete,
+            firstComposition = _stateFlow.value.firstComposition
         )
     }
-    suspend fun onDeleteById(id: Int) {
+    fun onStateChangedFirstComposition(first: Boolean) {
+        _stateFlow.value = CalendarScreenUIState(
+            date = stateFlow.value.date,
+            incomes = stateFlow.value.incomes,
+            expenses = stateFlow.value.expenses,
+            buttons = stateFlow.value.buttons,
+            sumRevenues = stateFlow.value.sumRevenues,
+            sumExpenses = stateFlow.value.sumExpenses,
+            lTrA = stateFlow.value.lTrA,
+            lTrP = stateFlow.value.lTrP,
+            categoriesA = stateFlow.value.categoriesA,
+            categoriesP = stateFlow.value.categoriesP,
+            categoriesD = stateFlow.value.categoriesD,
+            idUpdate = stateFlow.value.idUpdate,
+            idDelete = stateFlow.value.idDelete,
+            firstComposition = first
+        )
+    }
+    fun onDeleteById(id: Int) {
         budgetTrackerRepository.deleteTransactionById(id)
         onStateChangedDate(stateFlow.value.date)
     }

@@ -44,6 +44,7 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.di.EditBudgetScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
+import com.barbuceanuconstantin.proiectlicenta.stripTime
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoriesMenu
 import com.barbuceanuconstantin.proiectlicenta.warningCompleteAllFields
 import java.text.SimpleDateFormat
@@ -67,7 +68,7 @@ fun verifyFinalDate(
     localDate: LocalDate,
     onUpdateDate2: (Date) -> Unit,
     onUpdateOpenWarningDialog: (Boolean, Int) -> Unit
-                    ) {
+) {
     if (isDateAfterOrEqualToCurrent(
             SimpleDateFormat(
                 "yyyy-MM-dd",
@@ -82,7 +83,7 @@ fun verifyFinalDate(
                 ).format(selectedDate.time), localDate
             )
         ) {
-            onUpdateDate2(selectedDate.time)
+            onUpdateDate2(stripTime(selectedDate.time))
         } else {
             onUpdateOpenWarningDialog(
                 true,
@@ -272,7 +273,7 @@ fun EditBudgetScreen(
                                 // Handle the selected date
                                 val selectedDate: Calendar = Calendar.getInstance()
                                 selectedDate.set(year1, month1, dayOfMonth1)
-                                onUpdateDate1(selectedDate.time)
+                                onUpdateDate1(stripTime(selectedDate.time))
                             }, year, month, dayOfMonth)
 
                         datePickerDialog.show()

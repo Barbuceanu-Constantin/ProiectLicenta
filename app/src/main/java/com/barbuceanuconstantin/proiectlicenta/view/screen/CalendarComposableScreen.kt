@@ -16,7 +16,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -32,44 +31,31 @@ import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.di.CalendarScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
-import kotlinx.coroutines.launch
-
-@Composable
-fun MyCalendar(updateDate: suspend (String) -> Unit) {
-    // Obtain a CoroutineScope bound to the lifecycle of this composable
-    val coroutineScope = rememberCoroutineScope()
-
-    Calendar(
-        onDateSelected = { selectedDate ->
-            coroutineScope.launch {
-                updateDate(selectedDate)
-            }
-        }
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CalendarComposableScreen(lTrA: List<CategoryAndTransactions>,
-                             lTrP: List<CategoryAndTransactions>,
-                             onNavigateToHomeScreen: () -> Unit,
-                             onNavigateToTransactionScreen: () -> Unit,
-                             onNavigateToCategoriesScreen: () -> Unit,
-                             onNavigateToFixedBudgetsScreen: () -> Unit,
-                             onNavigateToBudgetSummaryScreen: () -> Unit,
-                             onNavigateToCalendarScreen: () -> Unit,
-                             onNavigateToGraphsScreen: () -> Unit,
-                             onNavigateToMementosScreen: () -> Unit,
-                             calendarScreenUIState: CalendarScreenUIState,
-                             updateDate: suspend (String) -> Unit,
-                             updateIncomesExpenses: (Boolean, Boolean) -> Unit,
-                             updateButtons: () -> Unit,
-                             navController: NavController,
-                             deleteById: (Int) -> Unit,
-                             updateUpdateId: (Int) -> Unit,
-                             categoriesA: List<Categories>,
-                             categoriesP: List<Categories>,
-                             categoriesD: List<Categories>
+fun CalendarComposableScreen(
+    lTrA: List<CategoryAndTransactions>,
+    lTrP: List<CategoryAndTransactions>,
+    onNavigateToHomeScreen: () -> Unit,
+    onNavigateToTransactionScreen: () -> Unit,
+    onNavigateToCategoriesScreen: () -> Unit,
+    onNavigateToFixedBudgetsScreen: () -> Unit,
+    onNavigateToBudgetSummaryScreen: () -> Unit,
+    onNavigateToCalendarScreen: () -> Unit,
+    onNavigateToGraphsScreen: () -> Unit,
+    onNavigateToMementosScreen: () -> Unit,
+    calendarScreenUIState: CalendarScreenUIState,
+    updateDate: (String) -> Unit,
+    updateIncomesExpenses: (Boolean, Boolean) -> Unit,
+    updateButtons: () -> Unit,
+    navController: NavController,
+    deleteById: (Int) -> Unit,
+    updateUpdateId: (Int) -> Unit,
+    categoriesA: List<Categories>,
+    categoriesP: List<Categories>,
+    categoriesD: List<Categories>,
+    onStateChangedFirstComposition: (Boolean) -> Unit,
 ) {
     val date: String = calendarScreenUIState.date
     var incomes: Boolean = calendarScreenUIState.incomes
@@ -100,7 +86,9 @@ fun CalendarComposableScreen(lTrA: List<CategoryAndTransactions>,
                                          idUpdate = idUpdate,
                                          categoriesA = categoriesA,
                                          categoriesP = categoriesP,
-                                         categoriesD = categoriesD
+                                         categoriesD = categoriesD,
+                                         onStateChangedFirstComposition = onStateChangedFirstComposition,
+                                         updateDate = updateDate
         )
     } else {
         Scaffold(
@@ -132,7 +120,12 @@ fun CalendarComposableScreen(lTrA: List<CategoryAndTransactions>,
                 Box(
                     modifier = Modifier.padding(dimensionResource(id = R.dimen.margin))
                 ) {
-                    MyCalendar(updateDate)
+                    Calendar(
+                        onDateSelected = { selectedDate ->
+                            println("Calendar Composable")
+                            updateDate(selectedDate)
+                        }
+                    )
                 }
 
                 Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_extra)))

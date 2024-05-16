@@ -32,7 +32,9 @@ fun CurrentSituationComposableScreen(
     navController: NavController,
     deleteById: (Int) -> Unit,
     updateUpdateId: (Int) -> Unit,
-    idUpdate: Int
+    idUpdate: Int,
+    onStateChangedFirstComposition: (Boolean) -> Unit,
+    updateDate: (String) -> Unit
 ) {
     Scaffold (
         topBar = {
@@ -63,7 +65,9 @@ fun CurrentSituationComposableScreen(
                     idUpdate = idUpdate,
                     categoriesA = categoriesA,
                     categoriesP = categoriesP,
-                    categoriesD = categoriesD
+                    categoriesD = categoriesD,
+                    onStateChangedFirstComposition = onStateChangedFirstComposition,
+                    updateDate = updateDate
                 )
             } else if (!incomes && expenses) {
                 CalendarSummaryTranzactiiLazyColumn(
@@ -79,7 +83,9 @@ fun CurrentSituationComposableScreen(
                     idUpdate = idUpdate,
                     categoriesA = categoriesA,
                     categoriesP = categoriesP,
-                    categoriesD = categoriesD
+                    categoriesD = categoriesD,
+                    onStateChangedFirstComposition = onStateChangedFirstComposition,
+                    updateDate = updateDate
                 )
             }
         }

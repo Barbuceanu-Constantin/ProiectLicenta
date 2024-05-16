@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.isTraceInProgress
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -39,6 +40,7 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.di.EditTransactionScreenUIState
+import com.barbuceanuconstantin.proiectlicenta.stripTime
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
 import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
@@ -260,7 +262,7 @@ fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
                                 // Handle the selected date
                                 val selectedDate: Calendar = Calendar.getInstance()
                                 selectedDate.set(year1, month1, dayOfMonth1)
-                                updateDate(selectedDate.time)
+                                updateDate(stripTime(selectedDate.time))
                             }, year, month, dayOfMonth)
 
                         datePickerDialog.show()

@@ -1,20 +1,15 @@
 package com.barbuceanuconstantin.proiectlicenta.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.CalendarScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.view.screen.CalendarComposableScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 fun CoroutineScope.launchDeleteByIdCalendarScreen(id: Int, viewModel: CalendarScreenViewModel) = launch {
     viewModel.onDeleteById(id)
@@ -32,16 +27,23 @@ fun runGetCategoriesListsCalendarScreen(viewModel: CalendarScreenViewModel) {
         CoroutineScope(Dispatchers.Default).launchGetCategoriesListsCalendarScreen(viewModel)
     }
 }
+fun CoroutineScope.launchOnStateChangedDate(date: String, viewModel: CalendarScreenViewModel) = launch {
+    viewModel.onStateChangedDate(date)
+}
+fun runOnStateChangedDate(date: String, viewModel: CalendarScreenViewModel) {
+    runBlocking {
+        CoroutineScope(Dispatchers.Default).launchOnStateChangedDate(date, viewModel)
+    }
+}
 @Composable
 fun CalendarScreenDestination(
     viewModel: CalendarScreenViewModel = hiltViewModel<CalendarScreenViewModel>(),
     navController: NavHostController,
 ) {
-    val coroutineScope = rememberCoroutineScope()
-
     val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
-    val updateDate: suspend (String) -> Unit = { date ->
-        viewModel.onStateChangedDate(date)
+
+    val updateDate: (String) -> Unit = { date ->
+        runOnStateChangedDate(date, viewModel)
     }
     val updateIncomesExpenses: (Boolean, Boolean) -> Unit = { incomes, expenses ->
         viewModel.onStateChangedIncomesExpenses(incomes, expenses)
@@ -53,12 +55,14 @@ fun CalendarScreenDestination(
     val updateUpdateId: (Int) -> Unit = { id ->
         viewModel.onStateChangedIdUpdate(id)
     }
-
-    LaunchedEffect(Unit) {
-        updateDate(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+    val onStateChangedFirstComposition: (Boolean) -> Unit = { first ->
+        viewModel.onStateChangedFirstComposition(first)
     }
 
-    runGetCategoriesListsCalendarScreen(viewModel)
+    if(state.firstComposition) {
+        println("first composition")
+        runGetCategoriesListsCalendarScreen(viewModel)
+    }
 
     //Bugete fixe
     CalendarComposableScreen(
@@ -129,6 +133,7 @@ fun CalendarScreenDestination(
         updateUpdateId = updateUpdateId,
         categoriesA = state.categoriesA,
         categoriesP = state.categoriesP,
-        categoriesD = state.categoriesD
+        categoriesD = state.categoriesD,
+        onStateChangedFirstComposition = onStateChangedFirstComposition,
     )
 }

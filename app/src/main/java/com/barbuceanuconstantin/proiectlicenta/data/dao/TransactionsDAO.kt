@@ -21,11 +21,12 @@ interface TransactionsDAO {
     fun getAllTransactions() : Flow<List<Transactions>>
 
     @Transaction
-    @Query( "SELECT *" +
+    @Query(
+            "SELECT *" +
             "FROM Categories " +
             "LEFT JOIN Transactions ON Categories.name = Transactions.category_name " +
-            "WHERE Categories.main_category = :mainCategory " +
-            "AND Transactions.date = :currentDate")
+            "WHERE Transactions.date = :currentDate AND Categories.main_category = :mainCategory "
+    )
     fun getTransactionsByDate(currentDate: Date, mainCategory: String): List<CategoryAndTransactions>
 
     @Transaction

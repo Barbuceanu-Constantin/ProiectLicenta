@@ -56,6 +56,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 fun CoroutineScope.launchDeleteCategoryById(
@@ -268,12 +270,14 @@ fun CalendarSummaryTranzactiiLazyColumn(
     categoriesD: List<Categories>,
     incomesOrExpenses: Boolean,
     updateIncomesExpenses: (Boolean, Boolean) -> Unit,
+    onStateChangedFirstComposition: (Boolean) -> Unit,
     deleteById: (Int) -> Unit,
     updateUpdateId: (Int) -> Unit,
     updateButtons: () -> Unit,
     buttons: Boolean,
     date: String,
-    idUpdate: Int
+    idUpdate: Int,
+    updateDate: (String) -> Unit
 ) {
     val modifier: Modifier = Modifier.fillMaxHeight(0.9F)
 
@@ -325,7 +329,7 @@ fun CalendarSummaryTranzactiiLazyColumn(
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 
-        OkButton(updateIncomesExpenses = updateIncomesExpenses)
+        OkButton(updateIncomesExpenses = updateIncomesExpenses, updateDate = updateDate)
     }
 
     if (buttons) {
@@ -348,6 +352,7 @@ fun CalendarSummaryTranzactiiLazyColumn(
                         val gson: Gson = GsonBuilder().create()
                         val transactionJson = gson.toJson(transactionObj)
 
+                        onStateChangedFirstComposition(true)
                         navController.navigate(
                             "editTransactionScreen/$returnToCalendarIndex?transaction={transaction}"
                                 .replace(oldValue = "{transaction}", newValue = transactionJson)
