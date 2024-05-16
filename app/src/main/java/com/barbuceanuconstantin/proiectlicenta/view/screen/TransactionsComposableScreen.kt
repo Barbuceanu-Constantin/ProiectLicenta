@@ -2,7 +2,6 @@ package com.barbuceanuconstantin.proiectlicenta.view.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -98,8 +97,7 @@ fun TransactionsComposableScreen(
                                         buttons = buttons,
                                         deleteById = deleteById,
                                         updateUpdateId = updateUpdateId,
-                                        idUpdate = idUpdate,
-                                        modifier = Modifier.fillMaxHeight().fillMaxWidth()
+                                        idUpdate = idUpdate
                 )
             } else if (showP && !showA && !showD) {
                 TranzactiiLazyColumn(
@@ -112,8 +110,7 @@ fun TransactionsComposableScreen(
                                         buttons = buttons,
                                         deleteById = deleteById,
                                         updateUpdateId = updateUpdateId,
-                                        idUpdate = idUpdate,
-                                        modifier = Modifier.fillMaxHeight().fillMaxWidth()
+                                        idUpdate = idUpdate
                 )
             } else if (showD && !showA && !showP) {
                 TranzactiiLazyColumn(
@@ -126,8 +123,7 @@ fun TransactionsComposableScreen(
                                         buttons = buttons,
                                         deleteById = deleteById,
                                         updateUpdateId = updateUpdateId,
-                                        idUpdate = idUpdate,
-                                        modifier = Modifier.fillMaxHeight().fillMaxWidth()
+                                        idUpdate = idUpdate
                 )
             } else if (showA && showP && showD) {
                 TranzactiiLazyColumn(
@@ -140,8 +136,7 @@ fun TransactionsComposableScreen(
                                         buttons = buttons,
                                         deleteById = deleteById,
                                         updateUpdateId = updateUpdateId,
-                                        idUpdate = idUpdate,
-                                        modifier = Modifier.fillMaxHeight().fillMaxWidth()
+                                        idUpdate = idUpdate
                 )
             } else  if (showA && showP) {
                 //showA && showP && !showD
@@ -155,8 +150,7 @@ fun TransactionsComposableScreen(
                                         buttons = buttons,
                                         deleteById = deleteById,
                                         updateUpdateId = updateUpdateId,
-                                        idUpdate = idUpdate,
-                                        modifier = Modifier.fillMaxHeight().fillMaxWidth()
+                                        idUpdate = idUpdate
                 )
             } else if (showA) {
                 //showA && showD && !showP
@@ -170,8 +164,7 @@ fun TransactionsComposableScreen(
                                         buttons = buttons,
                                         deleteById = deleteById,
                                         updateUpdateId = updateUpdateId,
-                                        idUpdate = idUpdate,
-                                        modifier = Modifier.fillMaxHeight().fillMaxWidth()
+                                        idUpdate = idUpdate
                 )
             } else if (showP) {
                 //!showA && showP && showD
@@ -185,8 +178,7 @@ fun TransactionsComposableScreen(
                                         buttons = buttons,
                                         deleteById = deleteById,
                                         updateUpdateId = updateUpdateId,
-                                        idUpdate = idUpdate,
-                                        modifier = Modifier.fillMaxHeight().fillMaxWidth()
+                                        idUpdate = idUpdate
                 )
             }
         }

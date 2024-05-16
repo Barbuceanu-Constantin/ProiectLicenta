@@ -84,7 +84,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.MoreScreensMenu
 import kotlinx.coroutines.delay
-import java.util.Date
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -384,7 +383,7 @@ fun TimeIntervalSegmentedButton(
                             selectedIndex2 = index
                             when (selectedIndex2) {
                                 0 -> {
-                                    updateStateTimeInterval(false, false, false)
+                                    updateStateTimeInterval(true, true, true)
                                     selectedIndex1 = -1
                                 }
                             }
@@ -736,14 +735,4 @@ fun warningCompleteAllFields(updateAlertDialog: (Boolean) -> Unit) {
             }
         }
     )
-}
-
-fun stripTime(date: Date): Date {
-    val cal = Calendar.getInstance()
-    cal.time = date
-    cal.set(Calendar.HOUR_OF_DAY, 0)
-    cal.set(Calendar.MINUTE, 0)
-    cal.set(Calendar.SECOND, 0)
-    cal.set(Calendar.MILLISECOND, 0)
-    return cal.time
 }

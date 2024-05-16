@@ -163,14 +163,18 @@ fun TranzactiiLazyColumn(
     categoriesD: List<Categories>,
     tranzactii: List<CategoryAndTransactions>,
     navController: NavController,
+    summary: Boolean = false,
     updateStateButtons: () -> Unit,
     buttons: Boolean,
     deleteById: (Int) -> Unit,
     updateUpdateId: (Int) -> Unit,
-    idUpdate: Int,
-    modifier: Modifier,
-    summary: Boolean = false
+    idUpdate: Int
 ) {
+    val modifier =  if (summary)
+                        Modifier.fillMaxHeight(0.9F)
+                    else
+                        Modifier.fillMaxHeight().fillMaxWidth()
+
     val idDelete: MutableState<Int> = remember { mutableIntStateOf(-1) }
     val idUpdateList: MutableState<Int> = remember { mutableIntStateOf(-1) }
 

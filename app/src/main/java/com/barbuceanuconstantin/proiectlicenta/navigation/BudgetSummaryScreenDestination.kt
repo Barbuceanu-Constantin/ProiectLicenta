@@ -5,52 +5,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenViewModel
-import com.barbuceanuconstantin.proiectlicenta.di.CalendarScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.view.screen.BudgetSummaryComposableScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-fun CoroutineScope.launchGetTransactionListsBudgetSummaryScreen(viewModel: BudgetSummaryScreenViewModel) = launch {
+fun CoroutineScope.launchGetCategoriesListsBudgetSummaryScreen(viewModel: BudgetSummaryScreenViewModel) = launch {
     viewModel.onStateChangedLists()
 }
-fun runGetTransactionListsBudgetSummaryScreen(viewModel: BudgetSummaryScreenViewModel) {
+fun runGetCategoriesListsBudgetSummaryScreen(viewModel: BudgetSummaryScreenViewModel) {
     runBlocking {
-        CoroutineScope(Dispatchers.Default).launchGetTransactionListsBudgetSummaryScreen(viewModel)
-    }
-}
-fun CoroutineScope.launchUpdateTimeIntervalMetrics(
-    daily: Boolean,
-    weekly: Boolean,
-    monthly: Boolean,
-    viewModel: BudgetSummaryScreenViewModel
-) = launch {
-    viewModel.onStateChangedTimeInterval(daily, weekly, monthly)
-}
-fun runUpdateTimeIntervalMetrics(
-    daily: Boolean,
-    weekly: Boolean,
-    monthly: Boolean,
-    viewModel: BudgetSummaryScreenViewModel
-) {
-    runBlocking {
-        CoroutineScope(Dispatchers.Default).launchUpdateTimeIntervalMetrics(daily, weekly, monthly, viewModel)
-    }
-}
-
-fun CoroutineScope.launchUpdateStateDate(
-    date: String,
-    viewModel: BudgetSummaryScreenViewModel
-) = launch {
-    viewModel.onStateChangedDate(date)
-}
-fun runUpdateStateDate(
-    date: String,
-    viewModel: BudgetSummaryScreenViewModel
-) {
-    runBlocking {
-        CoroutineScope(Dispatchers.Default).launchUpdateStateDate(date, viewModel)
+        CoroutineScope(Dispatchers.Default).launchGetCategoriesListsBudgetSummaryScreen(viewModel)
     }
 }
 @Composable
@@ -68,11 +34,11 @@ fun BudgetSummaryScreenDestination(
         viewModel.onStateChangedMonth(month)
     }
     val updateStateTimeInterval: (Boolean, Boolean, Boolean) -> Unit =
-    { daily, weekly, monthly ->
-        runUpdateTimeIntervalMetrics(daily, weekly, monthly, viewModel)
-    }
+        { daily, weekly, monthly ->
+            viewModel.onStateChangedTimeInterval(daily, weekly, monthly)
+        }
     val updateStateDate: (String) -> Unit = { date ->
-        runUpdateStateDate(date, viewModel)
+        viewModel.onStateChangedDate(date)
     }
     val updateStateButtons: () -> Unit = { viewModel.onStateChangedButtons() }
     val deleteById: (Int) -> Unit = { id ->
@@ -82,9 +48,7 @@ fun BudgetSummaryScreenDestination(
         viewModel.onStateChangedIdUpdate(id)
     }
 
-    //Se executa doar cand butonul "Toate" este selectat.
-    if (!state.daily && !state.weekly && !state.monthly)
-        runGetTransactionListsBudgetSummaryScreen(viewModel)
+    runGetCategoriesListsBudgetSummaryScreen(viewModel)
 
     //Bugete fixe
     BudgetSummaryComposableScreen(

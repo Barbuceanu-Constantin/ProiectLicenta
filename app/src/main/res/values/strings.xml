@@ -111,7 +111,7 @@
     <string name="salariu">Salariu</string>
     <string name="datorii">Datorii</string>
     <string name="balanta">Balanta</string>
-    <string name="bilant">Bilant : A - P = </string>
+    <string name="bilant">Bilant :</string>
     <string name="pasive">Pasive</string>
     <string name="zilnic">Zilnic</string>
     <string name="active">Active</string>
