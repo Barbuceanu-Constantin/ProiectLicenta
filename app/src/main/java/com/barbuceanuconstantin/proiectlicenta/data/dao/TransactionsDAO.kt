@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import kotlinx.coroutines.flow.Flow
@@ -19,26 +20,14 @@ interface TransactionsDAO {
     @Query("SELECT * FROM transactions")
     fun getAllTransactions() : Flow<List<Transactions>>
 
-    "SELECT *" +
-    "FROM Categories " +
-    "INNER JOIN Transactions ON Categories.name = Transactions.category_name " +
-    "WHERE (Transactions.date = :currentDate AND Categories.main_category = :mainCategory) "
-
-    @Query("SELECT *" +
-            "FROM Categories " +
-            "INNER JOIN Transactions ON Categories.name = Transactions.category_name " +
-            "WHERE Categories.main_category = :mainCategory"
-    )
-    fun getTransactionsByDateAnMainCategory(mainCategory: String): List<CategoryAndTransactions>
-
     @Transaction
-    @Query("")
-    fun getTransactionsByDate(currentDate: Date, mainCategory: String): List<CategoryAndTransactions> {
-        val mainList: List<CategoryAndTransactions> = getTransactionsByDateAnMainCategory(mainCategory)
-        mainList[0].transactions.forEachIndexed { index, transaction ->
-
-        }
-    }
+    @Query(
+            "SELECT *" +
+            "FROM Categories " +
+            "LEFT JOIN Transactions ON Categories.name = Transactions.category_name " +
+            "WHERE Transactions.date = :currentDate AND Categories.main_category = :mainCategory "
+    )
+    fun getTransactionsByDate(currentDate: Date, mainCategory: String): List<CategoryAndTransactions>
 
     @Transaction
     @Query( "SELECT SUM(Transactions.value)" +
