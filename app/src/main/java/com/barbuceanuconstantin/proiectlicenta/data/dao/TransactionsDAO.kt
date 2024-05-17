@@ -21,13 +21,19 @@ interface TransactionsDAO {
     fun getAllTransactions() : Flow<List<Transactions>>
 
     @Transaction
-    @Query(
-            "SELECT *" +
-            "FROM Categories " +
-            "LEFT JOIN Transactions ON Categories.name = Transactions.category_name " +
-            "WHERE Transactions.date = :currentDate AND Categories.main_category = :mainCategory "
-    )
-    fun getTransactionsByDate(currentDate: Date, mainCategory: String): List<CategoryAndTransactions>
+    @Query("SELECT * FROM categories where main_category == :mainCategory")
+    fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions>
+    @Transaction
+    fun getTransactionsByDate(currentDate: Date, mainCategory: String): List<CategoryAndTransactions>{
+        val list = getTransactionsCategoryList(mainCategory)
+
+        list.forEach { categoryAndTransactions ->
+            val filteredTransactions = categoryAndTransactions.transactions.filter { it.date == currentDate }
+            categoryAndTransactions.transactions = filteredTransactions
+        }
+
+        return list
+    }
 
     @Transaction
     @Query( "SELECT SUM(Transactions.value)" +
@@ -36,10 +42,6 @@ interface TransactionsDAO {
             "WHERE Categories.main_category = :mainCategory " +
             "AND Transactions.date = :currentDate")
     fun getTransactionsSumByDay(currentDate: Date, mainCategory: String): Double
-
-    @Transaction
-    @Query("SELECT * FROM categories where main_category == :mainCategory")
-    fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions>
 
     @Transaction
     @Query( "SELECT SUM(Transactions.value)" +

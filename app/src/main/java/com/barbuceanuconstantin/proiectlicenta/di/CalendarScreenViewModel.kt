@@ -57,6 +57,7 @@ class CalendarScreenViewModel @Inject constructor(val budgetTrackerRepository: B
             revenuesSum = budgetTrackerRepository.getTransactionsRevenuesSumByDay(dateCt)
             expensesSum = budgetTrackerRepository.getTransactionsExpensesSumByDay(dateCt)
             lTrA = budgetTrackerRepository.getRevenueTransactionsByDate(dateCt)
+            println("lTrA:    $lTrA")
             lTrP= budgetTrackerRepository.getExpensesTransactionsByDate(dateCt)
             _stateFlow.value = _stateFlow.value.copy(
                 sumRevenues = revenuesSum,
