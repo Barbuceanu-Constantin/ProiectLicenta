@@ -122,6 +122,7 @@ fun CalendarComposableScreen(
                 ) {
                     Calendar(
                         onDateSelected = { selectedDate ->
+                            println("Calendar Composable")
                             updateDate(selectedDate)
                         }
                     )

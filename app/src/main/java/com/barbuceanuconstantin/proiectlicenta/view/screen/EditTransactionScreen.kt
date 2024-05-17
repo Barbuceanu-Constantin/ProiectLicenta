@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.isTraceInProgress
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -36,9 +37,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransactionWindowSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.di.EditTransactionScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.stripTime
+import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
+import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
+import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoriesMenu
 import com.barbuceanuconstantin.proiectlicenta.warningCompleteAllFields
 import java.text.SimpleDateFormat
@@ -47,27 +52,24 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun EditTransactionScreen(
-    onNavigateToBackScreen: () -> Unit,
-    onNavigateToHomeScreen: () -> Unit,
-    editTransactionScreenUIState: EditTransactionScreenUIState,
-    updateState: (Boolean, Boolean, Boolean) -> Unit,
-    updateCategory: (String, String) -> Unit,
-    updateValueSum: (String) -> Unit,
-    updateDescription: (String) -> Unit,
-    updatePayee: (String) -> Unit,
-    updateDate: (Date) -> Unit,
-    updateReadyToGo: (Boolean) -> Unit,
-    updateTransaction: (Transactions) -> Unit,
-    updateAlertDialog: (Boolean) -> Unit,
-    nullCheckFields: () -> Boolean,
-    insertCoroutine: suspend (Transactions) -> Unit,
-    updateCoroutine: suspend (Transactions) -> Unit) {
-
+fun EditTransactionScreen(onNavigateToBackScreen : () -> Unit,
+                          onNavigateToHomeScreen: () -> Unit,
+                          editTransactionScreenUIState: EditTransactionScreenUIState,
+                          updateState: (Boolean, Boolean, Boolean) -> Unit,
+                          updateCategory: (String) -> Unit,
+                          updateValueSum: (String) -> Unit,
+                          updateDescription: (String) -> Unit,
+                          updatePayee: (String) -> Unit,
+                          updateDate: (Date) -> Unit,
+                          updateReadyToGo: (Boolean) -> Unit,
+                          updateTransaction: (Transactions) -> Unit,
+                          updateAlertDialog: (Boolean) -> Unit,
+                          nullCheckFields: () -> Boolean,
+                          insertCoroutine: suspend (Transactions) -> Unit,
+                          updateCoroutine: suspend (Transactions) -> Unit) {
     val transaction = editTransactionScreenUIState.transaction
     val date = editTransactionScreenUIState.date
-    val categoryId = editTransactionScreenUIState.category
-    val categoryName = editTransactionScreenUIState.categoryName
+    val category = editTransactionScreenUIState.category
     val payee = editTransactionScreenUIState.payee
     val description = editTransactionScreenUIState.description
     val valueSum = editTransactionScreenUIState.valueSum
@@ -98,7 +100,7 @@ fun EditTransactionScreen(
             LaunchedEffect(Unit) {
                 insertCoroutine(
                     Transactions(
-                        categoryId = categoryId,
+                        categoryName = category,
                         value = valueSum.toDouble(),
                         description = description,
                         date = date,
@@ -114,7 +116,7 @@ fun EditTransactionScreen(
     } else {
         //Aici se intra la update.
         if (readyToGo && nullCheckFields()) {
-            transaction.categoryId = categoryId
+            transaction.categoryName = category
             transaction.value = valueSum.toDouble()
             transaction.description = description
             transaction.date = date
@@ -154,30 +156,30 @@ fun EditTransactionScreen(
             if (showA && !showP && !showD) {
                 CategoriesMenu(
                     lSubcategorys = editTransactionScreenUIState.listCategoriesRevenue,
-                    subcategory = categoryName
+                    subcategory = category
                 ) {
-                    updateCategory(it, "Active")
+                    updateCategory(it)
                 }
             } else if (showP && !showA && !showD) {
                 CategoriesMenu(
                     lSubcategorys = editTransactionScreenUIState.listCategoriesExpenses,
-                    subcategory = categoryName
+                    subcategory = category
                 ) {
-                    updateCategory(it, "Pasive")
+                    updateCategory(it)
                 }
             } else if (showD && !showA && !showP) {
                 CategoriesMenu(
                     lSubcategorys = editTransactionScreenUIState.listCategoriesDebts,
-                    subcategory = categoryName
+                    subcategory = category
                 ) {
-                    updateCategory(it, "Datorii")
+                    updateCategory(it)
                 }
             } else {
                 CategoriesMenu(
                     lSubcategorys = editTransactionScreenUIState.listCategoriesRevenue,
-                    subcategory = categoryName
+                    subcategory = category
                 ) {
-                    updateCategory(it, "Active")
+                    updateCategory(it)
                 }
             }
 

@@ -9,8 +9,7 @@ import java.util.Date
 import java.util.Locale
 
 data class EditTransactionScreenUIState(
-    val category: Int = 0,
-    val categoryName: String = "",
+    val category: String = "",
     val payee: String = "",
     val valueSum: String = "",
     val description: String = "",

@@ -30,15 +30,6 @@ fun runGetCategoryListsEditTransactionScreen(viewModel: EditTransactionScreenVie
         CoroutineScope(Dispatchers.Default).launchGetCategoriesListsEditTransactionScreen(viewModel)
     }
 }
-
-fun CoroutineScope.launchGetName(idCateg: Int, viewModel: EditTransactionScreenViewModel) = launch {
-    viewModel.getName(idCateg)
-}
-fun runGetName(idCateg: Int, viewModel: EditTransactionScreenViewModel) {
-    runBlocking {
-        CoroutineScope(Dispatchers.Default).launchGetName(idCateg, viewModel)
-    }
-}
 @Composable
 fun EditTransactionScreenDestination(
     viewModel: EditTransactionScreenViewModel = hiltViewModel<EditTransactionScreenViewModel>(),
@@ -68,8 +59,8 @@ fun EditTransactionScreenDestination(
     val updateDescription: (String) -> Unit = { description ->
         viewModel.onUpdateDescription(description)
     }
-    val updateCategory: (String, String) -> Unit = { category, main ->
-        viewModel.onUpdateCategory(category, main)
+    val updateCategory: (String) -> Unit = { category ->
+        viewModel.onUpdateCategory(category)
     }
     val updateValueSum: (String) -> Unit = { valueSum ->
         viewModel.onUpdateValueSum(valueSum)
@@ -90,36 +81,27 @@ fun EditTransactionScreenDestination(
         viewModel.insertTransaction(transaction)
     }
     val updateTransactionInDb: suspend (transaction: Transactions) -> Unit =
-    { transaction ->
-        viewModel.updateTransactionInDb(transaction)
-    }
-    val getName: (Int) -> Unit = { id ->
-        runGetName(idCateg = id, viewModel)
-    }
+        { transaction ->
+            viewModel.updateTransactionInDb(transaction)
+        }
 
     val index = requireNotNull(backStackEntry.arguments).getInt("index")
 
     if (transactionObject != null) {
         viewModel.onAddTransaction(transactionObject)
         if (!state.showA && !state.showP && !state.showD) {
+            updateCategory(transactionObject.categoryName)
             updatePayee(transactionObject.payee)
             updateValueSum(transactionObject.value.toString())
             updateDescription(transactionObject.description)
             updateDate(transactionObject.date)
-            getName(transactionObject.categoryId)
 
-            if (state.listCategoriesRevenue.any { it.name == state.categoryName }) {
+            if (state.listCategoriesRevenue.any { it.name == transactionObject.categoryName })
                 updateState(true, false, false)
-                updateCategory(state.categoryName, "Active")
-            }
-            else if (state.listCategoriesExpenses.any { it.name == state.categoryName }) {
+            else if (state.listCategoriesExpenses.any { it.name == transactionObject.categoryName })
                 updateState(false, true, false)
-                updateCategory(state.categoryName, "Pasive")
-            }
-            else if (state.listCategoriesDebts.any { it.name == state.categoryName }) {
+            else if (state.listCategoriesDebts.any { it.name == transactionObject.categoryName })
                 updateState(false, false, true)
-                updateCategory(state.categoryName, "Datorii")
-            }
         }
     } else {
         when (index) {

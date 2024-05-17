@@ -45,7 +45,6 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
-import com.barbuceanuconstantin.proiectlicenta.di.EditBudgetScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.returnToBudgetSummaryIndex
 import com.barbuceanuconstantin.proiectlicenta.returnToCalendarIndex
@@ -57,6 +56,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 fun CoroutineScope.launchDeleteCategoryById(
@@ -85,7 +86,6 @@ private fun Tranzactie(
     id: MutableState<Int>,
     updateStateButtons: () -> Unit,
     updateUpdateId: (Int) -> Unit,
-    getName: (Int) -> String,
     idUpdateList: MutableState<Int>,
     index: Int,
     idList: Int,
@@ -111,16 +111,11 @@ private fun Tranzactie(
         )
 
     val color: Color =
-        if (categoriesA.any {
-                println("dadada0 ")
-                println("dadada1 $categoriesA")
-                println("categoryId " + transaction.categoryId)
-                it.name == getName(transaction.categoryId)
-        })
+        if (categoriesA.any { it.name == transaction.categoryName })
             colorResource(id = R.color.light_cream_yellow)
-        else if (categoriesP.any { it.name == getName(transaction.categoryId) })
+        else if (categoriesP.any { it.name == transaction.categoryName })
             colorResource(id = R.color.light_cream_red)
-        else if (categoriesD.any { it.name == getName(transaction.categoryId) })
+        else if (categoriesD.any { it.name == transaction.categoryName })
             colorResource(id = R.color.light_cream_blue) else colorResource(id = R.color.light_cream_gray)
 
     Card(
@@ -129,7 +124,7 @@ private fun Tranzactie(
     ) {
         Column(modifier = Modifier.background(color)) {
             Text(
-                text = "${getName(transaction.categoryId)} ---> ${transaction.value} RON", fontSize = 18.sp,
+                text = "${transaction.categoryName} ---> ${transaction.value} RON", fontSize = 18.sp,
                 fontWeight = FontWeight.Bold, modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = dimensionResource(id = R.dimen.margin))
@@ -175,8 +170,7 @@ fun TranzactiiLazyColumn(
     buttons: Boolean,
     deleteById: (Int) -> Unit,
     updateUpdateId: (Int) -> Unit,
-    getName: (Int) -> String = { _ -> ""},
-    idUpdate: Int,
+    idUpdate: Int
 ) {
     val modifier =  if (summary)
                         Modifier.fillMaxHeight(0.9F)
@@ -260,8 +254,7 @@ fun TranzactiiLazyColumn(
                     updateUpdateId = updateUpdateId,
                     index = index,
                     idList = idList,
-                    idUpdateList = idUpdateList,
-                    getName = getName
+                    idUpdateList = idUpdateList
                 )
             }
         }
@@ -284,8 +277,7 @@ fun CalendarSummaryTranzactiiLazyColumn(
     buttons: Boolean,
     date: String,
     idUpdate: Int,
-    updateDate: (String) -> Unit,
-    getName: (Int) -> String = { _ -> ""}
+    updateDate: (String) -> Unit
 ) {
     val modifier: Modifier = Modifier.fillMaxHeight(0.9F)
 
@@ -329,8 +321,7 @@ fun CalendarSummaryTranzactiiLazyColumn(
                         updateUpdateId = updateUpdateId,
                         index = index,
                         idList = idList,
-                        idUpdateList = idUpdateList,
-                        getName = getName
+                        idUpdateList = idUpdateList
                     )
                 }
             }
