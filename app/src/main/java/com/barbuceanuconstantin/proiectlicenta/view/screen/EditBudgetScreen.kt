@@ -103,7 +103,7 @@ fun EditBudgetScreen(
     onNavigateToHomeScreen: () -> Unit,
     onUpdateDate1: (Date) -> Unit,
     onUpdateDate2: (Date) -> Unit,
-    onUpdateCategory: (String) -> Unit,
+    onUpdateCategoryString: (String) -> Unit,
     onUpdateFilledText: (String) -> Unit,
     onUpdateValueSum: (String) -> Unit,
     onUpdateOpenWarningDialog: (Boolean, Int) -> Unit,
@@ -230,7 +230,7 @@ fun EditBudgetScreen(
                 lSubcategorys = editBudgetScreenUIState.expenseCategoriesList,
                 subcategory = category
             ) {
-                onUpdateCategory(it)
+                onUpdateCategoryString(it)
             }
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))

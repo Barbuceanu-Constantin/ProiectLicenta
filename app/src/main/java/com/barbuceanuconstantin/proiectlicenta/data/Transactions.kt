@@ -11,16 +11,16 @@ import java.util.Date
     tableName = "transactions",
     foreignKeys = [ForeignKey(
         entity = Categories::class,
-        parentColumns = arrayOf("name"),
-        childColumns = arrayOf("category_name"),
-        onDelete = CASCADE
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("category_id"),
+        onUpdate = CASCADE
     )]
 )
 data class Transactions(
     @PrimaryKey(autoGenerate = true) val id: Int,
 
-    @ColumnInfo(name = "category_name", index = true)
-    var categoryName: String,
+    @ColumnInfo(name = "category_id", index = true)
+    var categoryId: Int,
 
     @ColumnInfo(name = "value")
     var value: Double,
@@ -34,11 +34,11 @@ data class Transactions(
     @ColumnInfo(name = "payee")
     var payee: String
 ) {
-    constructor(categoryName: String,
+    constructor(categoryId: Int,
                 value: Double,
                 description: String,
                 date: Date,
-                payee: String): this( id = 0, categoryName = categoryName,
+                payee: String): this( id = 0, categoryId = categoryId,
                                       value = value, description = description, date = date,
                                       payee = payee)
 }

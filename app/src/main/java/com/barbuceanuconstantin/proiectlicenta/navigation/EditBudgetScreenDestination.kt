@@ -50,8 +50,8 @@ fun EditBudgetScreenDestination(
     val updateFilledText: (String) -> Unit = { filledText ->
         viewModel.onUpdateFilledText(filledText)
     }
-    val updateCategory: (String) -> Unit = { category ->
-        viewModel.onUpdateCategory(category)
+    val updateCategoryString: (String) -> Unit = { category ->
+        viewModel.onUpdateCategoryString(category)
     }
     val updateValueSum: (String) -> Unit = { valueSum ->
         viewModel.onUpdateValueSum(valueSum)
@@ -88,8 +88,10 @@ fun EditBudgetScreenDestination(
                 updateDate2(budgetObject.endDate)
             if (state.filledText == "")
                 updateFilledText(budgetObject.name)
-            if (state.category == "")
-                updateCategory(budgetObject.categoryName)
+            if (state.categoryId == 0) {
+                updateCategoryId(budgetObject.categoryId)
+                updateCategoryString()
+            }
             if (state.valueSum == "")
                 updateValueSum(budgetObject.upperThreshold.toString())
         }
@@ -113,7 +115,7 @@ fun EditBudgetScreenDestination(
         onUpdateDate1 = updateDate1,
         onUpdateDate2 = updateDate2,
         onUpdateFilledText = updateFilledText,
-        onUpdateCategory = updateCategory,
+        onUpdateCategoryString = updateCategoryString,
         onUpdateValueSum = updateValueSum,
         onUpdateOpenWarningDialog = updateOpenWarningDialog,
         addBudget = addBudget,
