@@ -23,7 +23,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = budget.startDate,
             date2 = budget.endDate,
-            categoryId = budget.categoryId,
+            category = budget.categoryName,
             filledText = budget.name,
             valueSum = budget.upperThreshold.toString(),
             openWarningDialog = _stateFlow.value.openWarningDialog,
@@ -37,7 +37,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = date1,
             date2 = _stateFlow.value.date2,
-            categoryString = _stateFlow.value.categoryString,
+            category = _stateFlow.value.category,
             filledText = _stateFlow.value.filledText,
             valueSum = _stateFlow.value.valueSum,
             openWarningDialog = _stateFlow.value.openWarningDialog,
@@ -52,7 +52,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = _stateFlow.value.date1,
             date2 = date2,
-            categoryString = _stateFlow.value.categoryString,
+            category = _stateFlow.value.category,
             filledText = _stateFlow.value.filledText,
             valueSum = _stateFlow.value.valueSum,
             openWarningDialog = _stateFlow.value.openWarningDialog,
@@ -63,11 +63,11 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             expenseCategoriesList = _stateFlow.value.expenseCategoriesList
         )
     }
-    fun onUpdateCategoryString(categoryString: String) {
+    fun onUpdateCategory(category: String) {
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = _stateFlow.value.date1,
             date2 = _stateFlow.value.date2,
-            categoryString = categoryString,
+            category = category,
             filledText = _stateFlow.value.filledText,
             valueSum = _stateFlow.value.valueSum,
             openWarningDialog = _stateFlow.value.openWarningDialog,
@@ -82,7 +82,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = _stateFlow.value.date1,
             date2 = _stateFlow.value.date2,
-            categoryString = _stateFlow.value.categoryString,
+            category = _stateFlow.value.category,
             filledText = filledText,
             valueSum = _stateFlow.value.valueSum,
             openWarningDialog = _stateFlow.value.openWarningDialog,
@@ -97,7 +97,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = _stateFlow.value.date1,
             date2 = _stateFlow.value.date2,
-            categoryString = _stateFlow.value.categoryString,
+            category = _stateFlow.value.category,
             filledText = _stateFlow.value.filledText,
             valueSum = valueSum,
             openWarningDialog = _stateFlow.value.openWarningDialog,
@@ -112,7 +112,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = _stateFlow.value.date1,
             date2 = _stateFlow.value.date2,
-            categoryString = _stateFlow.value.categoryString,
+            category = _stateFlow.value.category,
             filledText = _stateFlow.value.filledText,
             valueSum = _stateFlow.value.valueSum,
             openWarningDialog = openWarningDialog,
@@ -127,7 +127,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = _stateFlow.value.date1,
             date2 = _stateFlow.value.date2,
-            categoryString = _stateFlow.value.categoryString,
+            category = _stateFlow.value.category,
             filledText = _stateFlow.value.filledText,
             valueSum = _stateFlow.value.valueSum,
             openWarningDialog = _stateFlow.value.openWarningDialog,
@@ -142,7 +142,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = _stateFlow.value.date1,
             date2 = _stateFlow.value.date2,
-            categoryString = _stateFlow.value.categoryString,
+            category = _stateFlow.value.category,
             filledText = _stateFlow.value.filledText,
             valueSum = _stateFlow.value.valueSum,
             openWarningDialog = _stateFlow.value.openWarningDialog,
@@ -154,7 +154,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
         )
     }
     fun nullCheckFields(): Boolean {
-        return _stateFlow.value.categoryString != "" && _stateFlow.value.filledText != ""
+        return _stateFlow.value.category != "" && _stateFlow.value.filledText != ""
                 && _stateFlow.value.valueSum != ""
     }
     suspend fun insertBudget(budget: Budgets) {
@@ -172,7 +172,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = _stateFlow.value.date1,
             date2 = _stateFlow.value.date2,
-            categoryString = _stateFlow.value.categoryString,
+            category = _stateFlow.value.category,
             filledText = _stateFlow.value.filledText,
             valueSum = _stateFlow.value.valueSum,
             openWarningDialog = _stateFlow.value.openWarningDialog,

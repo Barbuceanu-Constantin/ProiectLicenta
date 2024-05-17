@@ -2,17 +2,19 @@ package com.barbuceanuconstantin.proiectlicenta.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.util.Date
 
 @Entity(
-        tableName = "budgets"
+        tableName = "budgets",
+        indices = [Index(value = ["name"], unique = true)]
 )
 data class Budgets(
     @PrimaryKey(autoGenerate = true) val id: Int,
 
-    @ColumnInfo(name = "category_id")
-    var categoryId: Int,
+    @ColumnInfo(name = "category_name")
+    var categoryName: String,
 
     @ColumnInfo(name = "name")
     var name: String,
@@ -26,11 +28,11 @@ data class Budgets(
     @ColumnInfo(name = "end_date_string")
     var endDate: Date,
 ) {
-    constructor(categoryId: Int,
+    constructor(categoryName: String,
                 name: String,
                 upperThreshold: Double,
                 startDate: Date,
-                endDate: Date): this(   id = 0, categoryId = categoryId, name = name,
+                endDate: Date): this(   id = 0, categoryName = categoryName, name = name,
                                         upperThreshold = upperThreshold, startDate = startDate,
                                         endDate = endDate
                 )
