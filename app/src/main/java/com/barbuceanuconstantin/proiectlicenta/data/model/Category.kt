@@ -39,18 +39,20 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 fun CoroutineScope.launchDeleteCategoryByName(
-                                                    delete: (String) -> Unit,
-                                                    name: String
+                                                    delete: (String, String) -> Unit,
+                                                    name: String,
+                                                    main: String
                                                 ) = launch {
-    delete(name)
+    delete(name, main)
 }
 
 fun runDeleteCategoryByName(
-                            delete: (String) -> Unit,
-                            name: String
+                            delete: (String, String) -> Unit,
+                            name: String,
+                            main: String
 ) {
     runBlocking {
-        CoroutineScope(Dispatchers.Default).launchDeleteCategoryByName(delete, name)
+        CoroutineScope(Dispatchers.Default).launchDeleteCategoryByName(delete, name, main)
     }
 }
 @Composable
@@ -60,7 +62,7 @@ private fun Subcategory(
     index: Int,
     navController: NavController,
     categorii: List<Categories>,
-    deleteByNameCoroutine: (String) -> Unit
+    deleteByNameCoroutine: (String, String) -> Unit
 ) {
     val colorA = colorResource(R.color.light_cream_yellow)
     val colorP = colorResource(R.color.light_cream_red)
@@ -97,7 +99,7 @@ private fun Subcategory(
             )
 
             IconButton(onClick = {
-                runDeleteCategoryByName(deleteByNameCoroutine, text)
+                runDeleteCategoryByName(deleteByNameCoroutine, text, label)
             }) {
                 Icon(
                     Icons.Filled.Delete, contentDescription = "Favorite",
@@ -112,7 +114,7 @@ private fun Subcategory(
 fun CategoriesLazyColumn(
     categorii: List<Categories>,
     navController: NavController,
-    deleteByNameCoroutine: (String) -> Unit
+    deleteByNameCoroutine: (String, String) -> Unit
 ) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         itemsIndexed(categorii) { index, subcateg ->

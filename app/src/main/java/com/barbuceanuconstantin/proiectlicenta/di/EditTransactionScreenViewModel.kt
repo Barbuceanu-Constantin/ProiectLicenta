@@ -277,9 +277,6 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
         }
     }
     fun nullCheckFields(): Boolean {
-        println("1: " + _stateFlow.value.category)
-        println("2: " + _stateFlow.value.payee)
-        println("3: " + _stateFlow.value.valueSum)
         return _stateFlow.value.category != 0 && _stateFlow.value.payee != ""
                 && _stateFlow.value.valueSum != "" && _stateFlow.value.valueSum.toDouble() != 0.0
     }

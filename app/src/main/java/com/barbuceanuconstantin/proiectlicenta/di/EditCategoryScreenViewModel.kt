@@ -19,26 +19,34 @@ class EditCategoryScreenViewModel @Inject constructor(val budgetTrackerRepositor
         get() = _stateFlow.asStateFlow()
     fun onStateChanged(showA: Boolean, showP: Boolean, showD: Boolean) {
         _stateFlow.value = EditCategoryScreenUIState(
-                                                        showA = showA,
-                                                        showP = showP,
-                                                        showD = showD,
-                                                        category = _stateFlow.value.category,
-                                                        filledText = _stateFlow.value.filledText,
-                                                        readyToUpdate = _stateFlow.value.readyToUpdate,
-                                                        readyToGo = _stateFlow.value.readyToGo,
-                                                        alertDialog = _stateFlow.value.alertDialog
+            showA = showA,
+            showP = showP,
+            showD = showD,
+            category = _stateFlow.value.category,
+            filledText = _stateFlow.value.filledText,
+            readyToUpdate = _stateFlow.value.readyToUpdate,
+            readyToGo = _stateFlow.value.readyToGo,
+            alertDialog = _stateFlow.value.alertDialog,
+            revenueCategories = _stateFlow.value.revenueCategories,
+            expensesCategories = _stateFlow.value.expensesCategories,
+            debtCategories = _stateFlow.value.debtCategories,
+            alertAlreadyExistDialog = _stateFlow.value.alertAlreadyExistDialog
         )
     }
     fun onAddCategory(category: Categories) {
         _stateFlow.value = EditCategoryScreenUIState(
-                                                        showA = _stateFlow.value.showA,
-                                                        showP = _stateFlow.value.showP,
-                                                        showD = _stateFlow.value.showD,
-                                                        category = category,
-                                                        filledText = _stateFlow.value.filledText,
-                                                        readyToUpdate = _stateFlow.value.readyToUpdate,
-                                                        readyToGo = _stateFlow.value.readyToGo,
-                                                        alertDialog = _stateFlow.value.alertDialog
+            showA = _stateFlow.value.showA,
+            showP = _stateFlow.value.showP,
+            showD = _stateFlow.value.showD,
+            category = category,
+            filledText = _stateFlow.value.filledText,
+            readyToUpdate = _stateFlow.value.readyToUpdate,
+            readyToGo = _stateFlow.value.readyToGo,
+            alertDialog = _stateFlow.value.alertDialog,
+            revenueCategories = _stateFlow.value.revenueCategories,
+            expensesCategories = _stateFlow.value.expensesCategories,
+            debtCategories = _stateFlow.value.debtCategories,
+            alertAlreadyExistDialog = _stateFlow.value.alertAlreadyExistDialog
         )
     }
     fun onStateChangedFilledText(filledText: String) {
@@ -50,7 +58,11 @@ class EditCategoryScreenViewModel @Inject constructor(val budgetTrackerRepositor
             category = _stateFlow.value.category,
             readyToUpdate = _stateFlow.value.readyToUpdate,
             readyToGo = _stateFlow.value.readyToGo,
-            alertDialog = _stateFlow.value.alertDialog
+            alertDialog = _stateFlow.value.alertDialog,
+            revenueCategories = _stateFlow.value.revenueCategories,
+            expensesCategories = _stateFlow.value.expensesCategories,
+            debtCategories = _stateFlow.value.debtCategories,
+            alertAlreadyExistDialog = _stateFlow.value.alertAlreadyExistDialog
         )
     }
     fun onUpdateReadyToGo(readyToGo: Boolean) {
@@ -62,7 +74,11 @@ class EditCategoryScreenViewModel @Inject constructor(val budgetTrackerRepositor
             category = _stateFlow.value.category,
             readyToGo = readyToGo ,
             readyToUpdate = _stateFlow.value.readyToUpdate,
-            alertDialog = _stateFlow.value.alertDialog
+            alertDialog = _stateFlow.value.alertDialog,
+            revenueCategories = _stateFlow.value.revenueCategories,
+            expensesCategories = _stateFlow.value.expensesCategories,
+            debtCategories = _stateFlow.value.debtCategories,
+            alertAlreadyExistDialog = _stateFlow.value.alertAlreadyExistDialog
         )
     }
     fun onUpdateReadyToUpdate(readyToUpdate: Boolean) {
@@ -74,7 +90,11 @@ class EditCategoryScreenViewModel @Inject constructor(val budgetTrackerRepositor
             category = _stateFlow.value.category,
             readyToGo = _stateFlow.value.readyToGo,
             readyToUpdate = readyToUpdate,
-            alertDialog = _stateFlow.value.alertDialog
+            alertDialog = _stateFlow.value.alertDialog,
+            revenueCategories = _stateFlow.value.revenueCategories,
+            expensesCategories = _stateFlow.value.expensesCategories,
+            debtCategories = _stateFlow.value.debtCategories,
+            alertAlreadyExistDialog = _stateFlow.value.alertAlreadyExistDialog
         )
     }
     fun onUpdateAlertDialog(alertDialog: Boolean) {
@@ -86,7 +106,43 @@ class EditCategoryScreenViewModel @Inject constructor(val budgetTrackerRepositor
             category = _stateFlow.value.category,
             readyToGo = _stateFlow.value.readyToGo,
             readyToUpdate = _stateFlow.value.readyToUpdate,
-            alertDialog = alertDialog
+            alertDialog = alertDialog,
+            revenueCategories = _stateFlow.value.revenueCategories,
+            expensesCategories = _stateFlow.value.expensesCategories,
+            debtCategories = _stateFlow.value.debtCategories,
+            alertAlreadyExistDialog = _stateFlow.value.alertAlreadyExistDialog
+        )
+    }
+    fun onUpdateAlertAlreadyExistDialog(alertDialog: Boolean) {
+        _stateFlow.value = EditCategoryScreenUIState(
+            showA = _stateFlow.value.showA,
+            showP = _stateFlow.value.showP,
+            showD = _stateFlow.value.showD,
+            filledText = _stateFlow.value.filledText,
+            category = _stateFlow.value.category,
+            readyToGo = _stateFlow.value.readyToGo,
+            readyToUpdate = _stateFlow.value.readyToUpdate,
+            alertDialog = _stateFlow.value.alertDialog,
+            revenueCategories = _stateFlow.value.revenueCategories,
+            expensesCategories = _stateFlow.value.expensesCategories,
+            debtCategories = _stateFlow.value.debtCategories,
+            alertAlreadyExistDialog = alertDialog
+        )
+    }
+    fun onUpdateCategoryLists() {
+        _stateFlow.value = EditCategoryScreenUIState(
+            showA = _stateFlow.value.showA,
+            showP = _stateFlow.value.showP,
+            showD = _stateFlow.value.showD,
+            filledText = _stateFlow.value.filledText,
+            category = _stateFlow.value.category,
+            readyToGo = _stateFlow.value.readyToGo,
+            readyToUpdate = _stateFlow.value.readyToUpdate,
+            alertDialog = _stateFlow.value.alertDialog,
+            revenueCategories = budgetTrackerRepository.getRevenueCategories(),
+            expensesCategories = budgetTrackerRepository.getSpendingCategories(),
+            debtCategories = budgetTrackerRepository.getDebtCategories(),
+            alertAlreadyExistDialog = _stateFlow.value.alertAlreadyExistDialog
         )
     }
     fun nullCheckFields(): Boolean {
@@ -97,7 +153,7 @@ class EditCategoryScreenViewModel @Inject constructor(val budgetTrackerRepositor
             budgetTrackerRepository.insertCategory(category)
         }
     }
-    suspend fun updateCategoryInDb(category: Categories) {
+    fun updateCategoryInDb(category: Categories) {
         viewModelScope.launch(IO) {
             budgetTrackerRepository.updateCategory(category = category)
         }

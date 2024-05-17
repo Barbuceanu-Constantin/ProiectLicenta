@@ -743,6 +743,30 @@ fun warningCompleteAllFields(updateAlertDialog: (Boolean) -> Unit) {
     )
 }
 
+@Composable
+fun warningCategoryNameAlreadyExists(updateAlertDialog: (Boolean) -> Unit) {
+    AlertDialog(
+        onDismissRequest = {
+            updateAlertDialog(false)
+        },
+        title = {
+            Text(text = stringResource(id = R.string.avertisment_data))
+        },
+        text = {
+            Text(text = stringResource(id = R.string.avertisment_categorie_deja_existenta))
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    updateAlertDialog(false)
+                }
+            ) {
+                Text(text = stringResource(id = R.string.ok))
+            }
+        }
+    )
+}
+
 fun stripTime(date: Date): Date {
     val cal = Calendar.getInstance()
     cal.time = date

@@ -7,11 +7,22 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.di.EditCategoryScreenViewModel
-import com.barbuceanuconstantin.proiectlicenta.di.EditTransactionScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.view.screen.EditCategoryScreen
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
+fun CoroutineScope.launchGetCategoriesLists(viewModel: EditCategoryScreenViewModel) = launch {
+    viewModel.onUpdateCategoryLists()
+}
+fun runGetCategoriesLists(viewModel: EditCategoryScreenViewModel) {
+    runBlocking {
+        CoroutineScope(Dispatchers.Default).launchGetCategoriesLists(viewModel)
+    }
+}
 @Composable
 fun EditCategoryScreenDestination(
     viewModel: EditCategoryScreenViewModel = hiltViewModel<EditCategoryScreenViewModel>(),
@@ -41,6 +52,9 @@ fun EditCategoryScreenDestination(
     val updateAlertDialog: (Boolean) -> Unit = { update ->
         viewModel.onUpdateAlertDialog(update)
     }
+    val updateAlertAlreadyExistDialog: (Boolean) -> Unit = { update ->
+        viewModel.onUpdateAlertAlreadyExistDialog(update)
+    }
     val nullCheckFields: () -> Boolean = {
         viewModel.nullCheckFields()
     }
@@ -50,6 +64,8 @@ fun EditCategoryScreenDestination(
     val updateCategoryInDb: suspend (category: Categories) -> Unit = { category ->
         viewModel.updateCategoryInDb(category)
     }
+
+    runGetCategoriesLists(viewModel)
 
     //Add the category in state.
     if (categoryObject != null) {
@@ -89,6 +105,7 @@ fun EditCategoryScreenDestination(
         updateCoroutine = updateCategoryInDb,
         updateReadyToGo = updateReadyToGo,
         updateAlertDialog = updateAlertDialog,
-        nullCheckFields = nullCheckFields
+        nullCheckFields = nullCheckFields,
+        updateAlertAlreadyExistDialog = updateAlertAlreadyExistDialog
     )
 }

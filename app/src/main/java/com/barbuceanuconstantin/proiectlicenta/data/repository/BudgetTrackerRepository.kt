@@ -23,7 +23,7 @@ interface BudgetTrackerRepository {
     fun getSpendingCategories() : List<Categories>
     fun getDebtCategories() : List<Categories>
     fun updateCategory(category: Categories)
-    fun deleteCategoryByName(name: String)
+    fun deleteCategoryByNameAndPrincipal(name: String, main: String)
     fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions>
     fun getTransactionsCategoryListTotalSum(mainCategory: String): Double
     ///////////////////////////////////////////////

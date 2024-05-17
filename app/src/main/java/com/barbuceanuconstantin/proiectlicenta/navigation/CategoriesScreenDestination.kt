@@ -25,12 +25,11 @@ fun CategoriesScreenDestination(
     navController: NavHostController,
 ) {
     val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
-    val updateStateMainScreen: (Boolean, Boolean, Boolean) -> Unit =
-        { showA, showP, showD ->
-            viewModel.onStateChangedMainScreen(showA, showP, showD)
-        }
-    val deleteByName: (String) -> Unit = { name ->
-        viewModel.onDeleteByName(name)
+    val updateStateMainScreen: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
+        viewModel.onStateChangedMainScreen(showA, showP, showD)
+    }
+    val deleteByName: (String, String) -> Unit = { name, main ->
+        viewModel.onDeleteByName(name, main)
     }
 
     runGetCategoriesListsCategoriesScreen(viewModel)

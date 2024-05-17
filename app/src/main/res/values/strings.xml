@@ -69,8 +69,6 @@
     <string name="stergere">Stergere</string>
     <string name="anulare">Anulare</string>
 
-    <string name="avertisment_neselectare_categorie">Nu ati selectat categoria principala</string>
-
     <string name="ecran_bugete_fixe">Ecran bugete fixe</string>
     <string name="ecran_modificare_tranzactie">Ecran modificare tranzactie</string>
 
@@ -78,6 +76,8 @@
     <string name="avertisment_data_continut_data_inceput">Data de final trebuie sa fie dupa data de inceput</string>
     <string name="avertisment_data_continut_data_curenta">Data de final trebuie sa fie dupa data curenta</string>
     <string name="avertisment_completare_campuri">Completati toate campurile!</string>
+    <string name="avertisment_categorie_deja_existenta">Atentie numele introdus exista deja !</string>
+    <string name="avertisment_neselectare_categorie">Nu ati selectat categoria principala</string>
 
     <string name="introduceti_detalii_buget">Introduceti detalii buget</string>
     <string name="furnizor_sau_beneficiar">Furnizor/Beneficiar</string>

@@ -27,8 +27,8 @@ interface CategoryDAO {
     @Query("SELECT id FROM categories where name = :name AND main_category = :main")
     fun getCategoryId(name: String, main: String) : Int
 
-    @Query("DELETE FROM categories WHERE name = :name")
-    fun deleteCategoryByName(name: String)
+    @Query("DELETE FROM categories WHERE name = :name AND  main_category = :main")
+    fun deleteCategoryByNameAndPrincipal(name: String, main: String)
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun updateCategory(category: Categories)

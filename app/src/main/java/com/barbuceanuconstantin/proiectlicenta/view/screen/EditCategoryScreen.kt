@@ -12,7 +12,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ModeEdit
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
@@ -38,7 +37,12 @@ import com.barbuceanuconstantin.proiectlicenta.WarningNotSelectedCategory
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.di.EditCategoryScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
+import com.barbuceanuconstantin.proiectlicenta.warningCategoryNameAlreadyExists
 import com.barbuceanuconstantin.proiectlicenta.warningCompleteAllFields
+
+fun checkForExistence(name: String, list: List<Categories>): Boolean {
+    return list.any { it.name == name }
+}
 
 @Composable
 fun EditCategoryScreen(
@@ -52,7 +56,8 @@ fun EditCategoryScreen(
                         updateCoroutine: suspend (Categories) -> Unit,
                         updateReadyToGo: (Boolean) -> Unit,
                         updateAlertDialog: (Boolean) -> Unit,
-                        nullCheckFields: () -> Boolean
+                        nullCheckFields: () -> Boolean,
+                        updateAlertAlreadyExistDialog: (Boolean) -> Unit
 ) {
     val filledText: String = editCategoryScreenUIState.filledText
     val showA: Boolean = editCategoryScreenUIState.showA
@@ -61,44 +66,62 @@ fun EditCategoryScreen(
     val readyToGo: Boolean = editCategoryScreenUIState.readyToGo
     val category = editCategoryScreenUIState.category
     val updateAlertDialogBool: Boolean = editCategoryScreenUIState.alertDialog
+    val updateAlertAlreadyExistDialogBool: Boolean = editCategoryScreenUIState.alertAlreadyExistDialog
     val keyboardController = LocalSoftwareKeyboardController.current
 
     if (updateAlertDialogBool) {
         warningCompleteAllFields(updateAlertDialog)
+    } else if (updateAlertAlreadyExistDialogBool) {
+        warningCategoryNameAlreadyExists(updateAlertAlreadyExistDialog)
     }
 
     //Trebuie sa si adaug categoria in viewState
     if (category == null) {
         //Aici se intra la insert.
         if (readyToGo && nullCheckFields()) {
-            if (showA)
-                LaunchedEffect(Unit) {
-                   insertCoroutine(
-                        Categories(
-                            name = filledText,
-                            mainCategory = "Active"
+            if (showA) {
+                if (!checkForExistence(filledText, editCategoryScreenUIState.revenueCategories)) {
+                    LaunchedEffect(Unit) {
+                        insertCoroutine(
+                            Categories(
+                                name = filledText,
+                                mainCategory = "Active"
+                            )
                         )
-                    )
+                    }
+                } else {
+                    updateAlertAlreadyExistDialog(true)
                 }
-            else if (showP)
-                LaunchedEffect(Unit) {
-                    insertCoroutine(
-                        Categories(
-                            name = filledText,
-                            mainCategory = "Pasive"
+            }
+            else if (showP) {
+                if (!checkForExistence(filledText, editCategoryScreenUIState.expensesCategories)) {
+                    LaunchedEffect(Unit) {
+                        insertCoroutine(
+                            Categories(
+                                name = filledText,
+                                mainCategory = "Pasive"
+                            )
                         )
-                    )
+                    }
+                } else {
+                    updateAlertAlreadyExistDialog(true)
                 }
-            else
+            }
+            else {
                 //showD == true
-                LaunchedEffect(Unit) {
-                    insertCoroutine (
-                        Categories(
-                            name = filledText,
-                            mainCategory = "Datorii"
+                if (!checkForExistence(filledText, editCategoryScreenUIState.debtCategories)) {
+                    LaunchedEffect(Unit) {
+                        insertCoroutine(
+                            Categories(
+                                name = filledText,
+                                mainCategory = "Datorii"
+                            )
                         )
-                    )
+                    }
+                } else {
+                    updateAlertAlreadyExistDialog(true)
                 }
+            }
             onNavigateToCategoryScreen()
         } else if (readyToGo && !nullCheckFields()) {
             updateReadyToGo(false)
@@ -108,8 +131,32 @@ fun EditCategoryScreen(
         //Aici se intra la update.
         if (readyToGo && nullCheckFields()) {
             category.name = filledText
-            LaunchedEffect(Unit) {
-                updateCoroutine(category)
+            if (category.mainCategory == "Active") {
+                if (!checkForExistence(filledText, editCategoryScreenUIState.revenueCategories)) {
+                    LaunchedEffect(Unit) {
+                        updateCoroutine(category)
+                    }
+                }
+            } else {
+                updateAlertAlreadyExistDialog(true)
+            }
+            if (category.mainCategory == "Pasive") {
+                if (!checkForExistence(filledText, editCategoryScreenUIState.expensesCategories)) {
+                    LaunchedEffect(Unit) {
+                        updateCoroutine(category)
+                    }
+                }
+            } else {
+                updateAlertAlreadyExistDialog(true)
+            }
+            if (category.mainCategory == "Datorii") {
+                if (!checkForExistence(filledText, editCategoryScreenUIState.debtCategories)) {
+                    LaunchedEffect(Unit) {
+                        updateCoroutine(category)
+                    }
+                }
+            } else {
+                updateAlertAlreadyExistDialog(true)
             }
             onNavigateToCategoryScreen()
         } else if (readyToGo && !nullCheckFields()) {

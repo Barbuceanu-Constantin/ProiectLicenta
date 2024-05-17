@@ -10,5 +10,9 @@ data class EditCategoryScreenUIState(
     val readyToGo: Boolean = false,
     val readyToUpdate: Boolean = false,
     val alertDialog: Boolean = false,
-    val category: Categories? = null
+    val alertAlreadyExistDialog: Boolean = false,
+    val category: Categories? = null,
+    val revenueCategories: List<Categories> = listOf(),
+    val expensesCategories: List<Categories> = listOf(),
+    val debtCategories: List<Categories> = listOf()
 )

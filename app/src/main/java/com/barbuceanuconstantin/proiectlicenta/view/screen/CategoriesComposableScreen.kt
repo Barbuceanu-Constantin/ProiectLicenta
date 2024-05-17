@@ -39,7 +39,7 @@ fun CategoriesComposableScreen(lSA: List<Categories>,
                                onNavigateToMementosScreen: () -> Unit,
                                categoriesScreenUIState: CategoriesScreenUIState,
                                updateState: (Boolean, Boolean, Boolean) -> Unit,
-                               deleteByNameCoroutine: (String) -> Unit) {
+                               deleteByNameCoroutine: (String, String) -> Unit) {
     val showA = categoriesScreenUIState.showA
     val showP = categoriesScreenUIState.showP
     val showD = categoriesScreenUIState.showD

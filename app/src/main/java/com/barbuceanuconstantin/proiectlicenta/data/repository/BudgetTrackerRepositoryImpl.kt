@@ -33,7 +33,7 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     override fun getSpendingCategories() : List<Categories> = categoryDAO.getListCategories("Pasive")
     override fun getDebtCategories() : List<Categories> = categoryDAO.getListCategories("Datorii")
     override fun updateCategory(category: Categories) { categoryDAO.updateCategory(category) }
-    override fun deleteCategoryByName(name: String) { categoryDAO.deleteCategoryByName(name) }
+    override fun deleteCategoryByNameAndPrincipal(name: String, main: String) { categoryDAO.deleteCategoryByNameAndPrincipal(name, main) }
     override fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions> = transactionsDAO.getTransactionsCategoryList(mainCategory)
     override fun getTransactionsCategoryListTotalSum(mainCategory: String): Double = transactionsDAO.getTransactionsCategoryListTotalSum(mainCategory)
     /////////////////////////////////////////////////////////
