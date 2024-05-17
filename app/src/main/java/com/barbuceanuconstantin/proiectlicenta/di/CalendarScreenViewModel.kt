@@ -30,7 +30,6 @@ class CalendarScreenViewModel @Inject constructor(val budgetTrackerRepository: B
         get() = _stateFlow.asStateFlow()
 
     fun onStateChangedDate(date: String) {
-        println("dadada $date")
         var revenuesSum: Double = 0.0
         var expensesSum: Double = 0.0
         var lTrA: List<CategoryAndTransactions> = listOf()
@@ -57,7 +56,6 @@ class CalendarScreenViewModel @Inject constructor(val budgetTrackerRepository: B
             revenuesSum = budgetTrackerRepository.getTransactionsRevenuesSumByDay(dateCt)
             expensesSum = budgetTrackerRepository.getTransactionsExpensesSumByDay(dateCt)
             lTrA = budgetTrackerRepository.getRevenueTransactionsByDate(dateCt)
-            println("lTrA:    $lTrA")
             lTrP= budgetTrackerRepository.getExpensesTransactionsByDate(dateCt)
             _stateFlow.value = _stateFlow.value.copy(
                 sumRevenues = revenuesSum,

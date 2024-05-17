@@ -60,7 +60,6 @@ fun CalendarScreenDestination(
     }
 
     if(state.firstComposition) {
-        println("first composition")
         runGetCategoriesListsCalendarScreen(viewModel)
     }
 
