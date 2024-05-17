@@ -80,46 +80,35 @@ fun EditCategoryScreen(
         //Aici se intra la insert.
         if (readyToGo && nullCheckFields()) {
             if (showA) {
-                if (!checkForExistence(filledText, editCategoryScreenUIState.revenueCategories)) {
-                    LaunchedEffect(Unit) {
-                        insertCoroutine(
-                            Categories(
-                                name = filledText,
-                                mainCategory = "Active"
-                            )
+                LaunchedEffect(Unit) {
+                    insertCoroutine(
+                        Categories(
+                            name = filledText,
+                            mainCategory = "Active"
                         )
-                    }
-                } else {
-                    updateAlertAlreadyExistDialog(true)
+                    )
                 }
             }
             else if (showP) {
-                if (!checkForExistence(filledText, editCategoryScreenUIState.expensesCategories)) {
-                    LaunchedEffect(Unit) {
-                        insertCoroutine(
-                            Categories(
-                                name = filledText,
-                                mainCategory = "Pasive"
-                            )
+                LaunchedEffect(Unit) {
+                    insertCoroutine(
+                        Categories(
+                            name = filledText,
+                            mainCategory = "Pasive"
                         )
-                    }
-                } else {
-                    updateAlertAlreadyExistDialog(true)
+                    )
                 }
+
             }
             else {
                 //showD == true
-                if (!checkForExistence(filledText, editCategoryScreenUIState.debtCategories)) {
-                    LaunchedEffect(Unit) {
-                        insertCoroutine(
-                            Categories(
-                                name = filledText,
-                                mainCategory = "Datorii"
-                            )
+                LaunchedEffect(Unit) {
+                    insertCoroutine(
+                        Categories(
+                            name = filledText,
+                            mainCategory = "Datorii"
                         )
-                    }
-                } else {
-                    updateAlertAlreadyExistDialog(true)
+                    )
                 }
             }
             onNavigateToCategoryScreen()
@@ -132,31 +121,20 @@ fun EditCategoryScreen(
         if (readyToGo && nullCheckFields()) {
             category.name = filledText
             if (category.mainCategory == "Active") {
-                if (!checkForExistence(filledText, editCategoryScreenUIState.revenueCategories)) {
-                    LaunchedEffect(Unit) {
-                        updateCoroutine(category)
-                    }
+                LaunchedEffect(Unit) {
+                    updateCoroutine(category)
                 }
-            } else {
-                updateAlertAlreadyExistDialog(true)
             }
             if (category.mainCategory == "Pasive") {
-                if (!checkForExistence(filledText, editCategoryScreenUIState.expensesCategories)) {
-                    LaunchedEffect(Unit) {
-                        updateCoroutine(category)
-                    }
+                LaunchedEffect(Unit) {
+                    updateCoroutine(category)
                 }
-            } else {
-                updateAlertAlreadyExistDialog(true)
             }
             if (category.mainCategory == "Datorii") {
-                if (!checkForExistence(filledText, editCategoryScreenUIState.debtCategories)) {
-                    LaunchedEffect(Unit) {
-                        updateCoroutine(category)
-                    }
+                LaunchedEffect(Unit) {
+                    updateCoroutine(category)
                 }
-            } else {
-                updateAlertAlreadyExistDialog(true)
+
             }
             onNavigateToCategoryScreen()
         } else if (readyToGo && !nullCheckFields()) {
