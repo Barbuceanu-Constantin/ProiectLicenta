@@ -21,6 +21,12 @@ interface CategoryDAO {
     @Query("SELECT * FROM categories where main_category == :mainCategory")
     fun getListCategories(mainCategory: String) : List<Categories>
 
+    @Query("SELECT name FROM categories where id = :id")
+    fun getCategoryName(id: Int) : String
+
+    @Query("SELECT id FROM categories where name = :name AND main_category = :main")
+    fun getCategoryId(name: String, main: String) : Int
+
     @Query("DELETE FROM categories WHERE name = :name")
     fun deleteCategoryByName(name: String)
 

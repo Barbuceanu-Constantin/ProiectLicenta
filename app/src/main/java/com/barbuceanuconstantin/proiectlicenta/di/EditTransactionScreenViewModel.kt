@@ -35,7 +35,8 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             alertDialog = _stateFlow.value.alertDialog,
             listCategoriesExpenses = _stateFlow.value.listCategoriesExpenses,
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
-            listCategoriesDebts = _stateFlow.value.listCategoriesDebts
+            listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
+            categoryName = _stateFlow.value.categoryName,
         )
     }
     fun onStateChanged(showA: Boolean, showP: Boolean, showD: Boolean) {
@@ -53,10 +54,11 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             alertDialog = _stateFlow.value.alertDialog,
             listCategoriesExpenses = _stateFlow.value.listCategoriesExpenses,
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
-            listCategoriesDebts = _stateFlow.value.listCategoriesDebts
+            listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
+            categoryName = _stateFlow.value.categoryName,
         )
     }
-    fun onUpdateCategory(category: String) {
+    fun onUpdateCategory(category: Int) {
         _stateFlow.value = EditTransactionScreenUIState(
             showA = _stateFlow.value.showA,
             showP = _stateFlow.value.showP,
@@ -71,7 +73,8 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             alertDialog = _stateFlow.value.alertDialog,
             listCategoriesExpenses = _stateFlow.value.listCategoriesExpenses,
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
-            listCategoriesDebts = _stateFlow.value.listCategoriesDebts
+            listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
+            categoryName = _stateFlow.value.categoryName,
         )
     }
     fun onUpdateDescription(description: String) {
@@ -89,7 +92,8 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             alertDialog = _stateFlow.value.alertDialog,
             listCategoriesExpenses = _stateFlow.value.listCategoriesExpenses,
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
-            listCategoriesDebts = _stateFlow.value.listCategoriesDebts
+            listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
+            categoryName = _stateFlow.value.categoryName,
         )
     }
     fun onUpdatePayee(payee: String) {
@@ -107,7 +111,8 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             alertDialog = _stateFlow.value.alertDialog,
             listCategoriesExpenses = _stateFlow.value.listCategoriesExpenses,
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
-            listCategoriesDebts = _stateFlow.value.listCategoriesDebts
+            listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
+            categoryName = _stateFlow.value.categoryName,
         )
     }
     fun onUpdateDate(date: Date) {
@@ -125,7 +130,8 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             alertDialog = _stateFlow.value.alertDialog,
             listCategoriesExpenses = _stateFlow.value.listCategoriesExpenses,
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
-            listCategoriesDebts = _stateFlow.value.listCategoriesDebts
+            listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
+            categoryName = _stateFlow.value.categoryName,
         )
     }
     fun onUpdateValueSum(valueSum: String) {
@@ -143,7 +149,8 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             alertDialog = _stateFlow.value.alertDialog,
             listCategoriesExpenses = _stateFlow.value.listCategoriesExpenses,
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
-            listCategoriesDebts = _stateFlow.value.listCategoriesDebts
+            listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
+            categoryName = _stateFlow.value.categoryName,
         )
     }
     fun onUpdateReadyToGo(readyToGo: Boolean) {
@@ -161,7 +168,8 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             alertDialog = _stateFlow.value.alertDialog,
             listCategoriesExpenses = _stateFlow.value.listCategoriesExpenses,
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
-            listCategoriesDebts = _stateFlow.value.listCategoriesDebts
+            listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
+            categoryName = _stateFlow.value.categoryName,
         )
     }
     fun onUpdateAlertDialog(alertDialog: Boolean) {
@@ -179,10 +187,63 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             alertDialog = alertDialog,
             listCategoriesExpenses = _stateFlow.value.listCategoriesExpenses,
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
-            listCategoriesDebts = _stateFlow.value.listCategoriesDebts
+            listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
+            categoryName = _stateFlow.value.categoryName,
         )
     }
-    suspend fun updateLists() {
+    fun onUpdateCategoryNameSimple(name: String, main: String) {
+        var categoryId: Int
+        _stateFlow.value = EditTransactionScreenUIState(
+            showA = _stateFlow.value.showA,
+            showP = _stateFlow.value.showP,
+            showD = _stateFlow.value.showD,
+            categoryName = name,
+            category = _stateFlow.value.category,
+            description = _stateFlow.value.description,
+            payee = _stateFlow.value.payee,
+            date = _stateFlow.value.date,
+            valueSum = _stateFlow.value.valueSum,
+            transaction = _stateFlow.value.transaction,
+            readyToGo = _stateFlow.value.readyToGo,
+            alertDialog = _stateFlow.value.alertDialog,
+            listCategoriesExpenses = _stateFlow.value.listCategoriesExpenses,
+            listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
+            listCategoriesDebts = _stateFlow.value.listCategoriesDebts
+        )
+        viewModelScope.launch(Dispatchers.IO) {
+            categoryId = budgetTrackerRepository.getCategoryId(name, main)
+            _stateFlow.value = _stateFlow.value.copy(
+                category = categoryId
+            )
+        }
+    }
+    fun onUpdateCategoryName(id: Int) {
+        var categoryName: String = ""
+        _stateFlow.value = EditTransactionScreenUIState(
+            showA = _stateFlow.value.showA,
+            showP = _stateFlow.value.showP,
+            showD = _stateFlow.value.showD,
+            category = _stateFlow.value.category,
+            description = _stateFlow.value.description,
+            payee = _stateFlow.value.payee,
+            date = _stateFlow.value.date,
+            valueSum = _stateFlow.value.valueSum,
+            transaction = _stateFlow.value.transaction,
+            readyToGo = _stateFlow.value.readyToGo,
+            alertDialog = _stateFlow.value.alertDialog,
+            listCategoriesExpenses = _stateFlow.value.listCategoriesExpenses,
+            listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
+            listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
+            categoryName = _stateFlow.value.categoryName,
+        )
+        viewModelScope.launch(Dispatchers.IO) {
+            categoryName = budgetTrackerRepository.getCategoryName(id)
+            _stateFlow.value = _stateFlow.value.copy(
+                categoryName = categoryName
+            )
+        }
+    }
+    fun updateLists() {
         var expensesCategoriesList: List<Categories> = listOf()
         var revenueCategoriesList: List<Categories> = listOf()
         var debtsCategoriesList: List<Categories> = listOf()
@@ -198,6 +259,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             transaction = _stateFlow.value.transaction,
             readyToGo = _stateFlow.value.readyToGo,
             alertDialog = _stateFlow.value.alertDialog,
+            categoryName = _stateFlow.value.categoryName,
             listCategoriesExpenses = expensesCategoriesList,
             listCategoriesRevenue = revenueCategoriesList,
             listCategoriesDebts = debtsCategoriesList
@@ -215,7 +277,10 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
         }
     }
     fun nullCheckFields(): Boolean {
-        return _stateFlow.value.category != "" && _stateFlow.value.payee != ""
+        println("1: " + _stateFlow.value.category)
+        println("2: " + _stateFlow.value.payee)
+        println("3: " + _stateFlow.value.valueSum)
+        return _stateFlow.value.category != 0 && _stateFlow.value.payee != ""
                 && _stateFlow.value.valueSum != "" && _stateFlow.value.valueSum.toDouble() != 0.0
     }
     suspend fun insertTransaction(transaction: Transactions) {
@@ -223,7 +288,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             budgetTrackerRepository.insertTransaction(transaction)
         }
     }
-    suspend fun updateTransactionInDb(transaction: Transactions) {
+    fun updateTransactionInDb(transaction: Transactions) {
         viewModelScope.launch(Dispatchers.IO) {
             budgetTrackerRepository.updateTransaction(transaction)
         }

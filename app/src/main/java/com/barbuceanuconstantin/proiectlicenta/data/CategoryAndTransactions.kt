@@ -8,8 +8,8 @@ data class CategoryAndTransactions(
     var category: Categories,
 
     @Relation(
-        parentColumn = "name",
-        entityColumn = "category_name"
+        parentColumn = "id",
+        entityColumn = "category_id"
     )
     var transactions: List<Transactions>
 )

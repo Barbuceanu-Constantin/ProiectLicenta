@@ -32,12 +32,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
+import com.barbuceanuconstantin.proiectlicenta.listCategories
 
 @Composable
 fun CategoriesMenu(
-    lSubcategorys: List<Categories>,
-    subcategory: String,
-    onSelect: (String) -> Unit) {
+    lSubcategorys: List<Categories> = listOf(),
+    listType: listCategories = listCategories.REVENUES,
+    updateCategory: (Int) -> Unit = { _ -> },
+    categoryName: String = "",
+    updateCategoryNameSimple: (String, String) -> Unit = { _, _-> },
+    ) {
+
     var expanded1 by remember { mutableStateOf(false) }
     var expanded2 by remember { mutableStateOf(false) }
     var textFilledSize by remember { mutableStateOf(Size.Zero) }
@@ -45,11 +50,18 @@ fun CategoriesMenu(
 
     Box(modifier = Modifier.fillMaxWidth().padding(start = dimensionResource(id = R.dimen.margin), end = dimensionResource(id = R.dimen.margin)),
         contentAlignment = Alignment.Center) {
-        val filteredOptions = lSubcategorys.filter { it.name.contains(subcategory, ignoreCase = true) }
+        val filteredOptions = lSubcategorys.filter { it.name.contains(categoryName, ignoreCase = true) }
 
         OutlinedTextField(
-            value = subcategory,
-            onValueChange = { onSelect(it) },
+            value = categoryName,
+            onValueChange = {
+                if (listType == listCategories.REVENUES)
+                    updateCategoryNameSimple(it, "Active")
+                if (listType == listCategories.EXPENSES)
+                    updateCategoryNameSimple(it, "Pasive")
+                if (listType == listCategories.DEBT)
+                    updateCategoryNameSimple(it, "Datorii")
+            },
             modifier = Modifier.fillMaxWidth().onGloballyPositioned { coordinates ->
                 textFilledSize = coordinates.size.toSize()
             },
@@ -78,7 +90,12 @@ fun CategoriesMenu(
                     DropdownMenuItem(
                         onClick = {
                             expanded1 = false
-                            onSelect(label.name)
+                            if (listType == listCategories.REVENUES)
+                                updateCategoryNameSimple(label.name, "Active")
+                            if (listType == listCategories.EXPENSES)
+                                updateCategoryNameSimple(label.name, "Pasive")
+                            if (listType == listCategories.DEBT)
+                                updateCategoryNameSimple(label.name, "Datorii")
                         },
                         text = { Text(text = label.name) },
                         modifier = Modifier.fillMaxWidth()
@@ -95,7 +112,12 @@ fun CategoriesMenu(
                     DropdownMenuItem(
                         onClick = {
                             expanded2 = false
-                            onSelect(label.name)
+                            if (listType == listCategories.REVENUES)
+                                updateCategoryNameSimple(label.name, "Active")
+                            if (listType == listCategories.EXPENSES)
+                                updateCategoryNameSimple(label.name, "Pasive")
+                            if (listType == listCategories.DEBT)
+                                updateCategoryNameSimple(label.name, "Datorii")
                         },
                         text = { Text(text = label.name) },
                         modifier = Modifier.fillMaxWidth()

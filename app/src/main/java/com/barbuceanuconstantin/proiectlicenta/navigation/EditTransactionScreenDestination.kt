@@ -59,7 +59,7 @@ fun EditTransactionScreenDestination(
     val updateDescription: (String) -> Unit = { description ->
         viewModel.onUpdateDescription(description)
     }
-    val updateCategory: (String) -> Unit = { category ->
+    val updateCategory: (Int) -> Unit = { category ->
         viewModel.onUpdateCategory(category)
     }
     val updateValueSum: (String) -> Unit = { valueSum ->
@@ -81,26 +81,33 @@ fun EditTransactionScreenDestination(
         viewModel.insertTransaction(transaction)
     }
     val updateTransactionInDb: suspend (transaction: Transactions) -> Unit =
-        { transaction ->
-            viewModel.updateTransactionInDb(transaction)
-        }
+    { transaction ->
+        viewModel.updateTransactionInDb(transaction)
+    }
+    val updateCategoryName: (Int) -> Unit = { id ->
+        viewModel.onUpdateCategoryName(id)
+    }
+    val updateCategoryNameSimple: (String, String) -> Unit = { name, main ->
+        viewModel.onUpdateCategoryNameSimple(name, main)
+    }
 
     val index = requireNotNull(backStackEntry.arguments).getInt("index")
 
     if (transactionObject != null) {
         viewModel.onAddTransaction(transactionObject)
         if (!state.showA && !state.showP && !state.showD) {
-            updateCategory(transactionObject.categoryName)
+            updateCategory(transactionObject.categoryId)
             updatePayee(transactionObject.payee)
             updateValueSum(transactionObject.value.toString())
             updateDescription(transactionObject.description)
             updateDate(transactionObject.date)
+            updateCategoryName(transactionObject.categoryId)
 
-            if (state.listCategoriesRevenue.any { it.name == transactionObject.categoryName })
+            if (state.listCategoriesRevenue.any { it.name == state.categoryName })
                 updateState(true, false, false)
-            else if (state.listCategoriesExpenses.any { it.name == transactionObject.categoryName })
+            else if (state.listCategoriesExpenses.any { it.name == state.categoryName })
                 updateState(false, true, false)
-            else if (state.listCategoriesDebts.any { it.name == transactionObject.categoryName })
+            else if (state.listCategoriesDebts.any { it.name == state.categoryName })
                 updateState(false, false, true)
         }
     } else {
@@ -166,6 +173,7 @@ fun EditTransactionScreenDestination(
         updateAlertDialog = updateAlertDialog,
         nullCheckFields = nullCheckFields,
         insertCoroutine = insertTransaction,
-        updateCoroutine = updateTransactionInDb
+        updateCoroutine = updateTransactionInDb,
+        updateCategoryNameSimple = updateCategoryNameSimple,
     )
 }

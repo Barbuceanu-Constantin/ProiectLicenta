@@ -6,13 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
-import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenViewModel
-import com.barbuceanuconstantin.proiectlicenta.di.CategoriesScreenViewModel
-import com.barbuceanuconstantin.proiectlicenta.di.EditBudgetScreenViewModel
-import com.barbuceanuconstantin.proiectlicenta.di.EditTransactionScreenViewModel
-import com.barbuceanuconstantin.proiectlicenta.di.FixedBudgetsScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.PrincipalScreenViewModel
-import com.barbuceanuconstantin.proiectlicenta.di.TransactionsScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.navigation.AppNavHost
 import com.barbuceanuconstantin.proiectlicenta.navigation.homeScreen
 import com.barbuceanuconstantin.proiectlicenta.ui.theme.ProiectLicentaTheme
@@ -21,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 fun CoroutineScope.insertPredefinedCategory(viewModel: PrincipalScreenViewModel,
                                             categoryName: String,
@@ -29,32 +24,40 @@ fun CoroutineScope.insertPredefinedCategory(viewModel: PrincipalScreenViewModel,
     viewModel.budgetTrackerRepository.insertCategory(Categories(mainCategory = mainCategory, name = categoryName))
 }
 
+// Extension function to check if the categories list is empty or not
+suspend fun isCategoriesEmpty(viewModel: PrincipalScreenViewModel): Boolean {
+    return withContext(Dispatchers.IO) {
+        val categories = viewModel.budgetTrackerRepository.getAllCategories()
+        categories.isEmpty()
+    }
+}
+
 fun runInitCategoryLists(viewModel: PrincipalScreenViewModel) {
-    for (category in subcategorysPredefiniteActive) {
-        runBlocking {
-            CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
-                viewModel = viewModel,
-                categoryName = category,
-                mainCategory = "Active"
-            )
-        }
-    }
-    for (category in subcategorysPredefinitePasive) {
-        runBlocking {
-            CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
-                viewModel = viewModel,
-                categoryName = category,
-                mainCategory = "Pasive"
-            )
-        }
-    }
-    for (category in subcategorysPredefiniteDatorii) {
-        runBlocking {
-            CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
-                viewModel = viewModel,
-                categoryName = category,
-                mainCategory = "Datorii"
-            )
+    runBlocking {
+        val isEmpty = isCategoriesEmpty(viewModel)
+
+        if (isEmpty) {
+            for (category in subcategorysPredefiniteActive) {
+                CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
+                    viewModel = viewModel,
+                    categoryName = category,
+                    mainCategory = "Active"
+                )
+            }
+            for (category in subcategorysPredefinitePasive) {
+                CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
+                    viewModel = viewModel,
+                    categoryName = category,
+                    mainCategory = "Pasive"
+                )
+            }
+            for (category in subcategorysPredefiniteDatorii) {
+                CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
+                    viewModel = viewModel,
+                    categoryName = category,
+                    mainCategory = "Datorii"
+                )
+            }
         }
     }
 }

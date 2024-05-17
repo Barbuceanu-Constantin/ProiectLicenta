@@ -228,10 +228,7 @@ fun EditBudgetScreen(
 
             CategoriesMenu(
                 lSubcategorys = editBudgetScreenUIState.expenseCategoriesList,
-                subcategory = category
-            ) {
-                onUpdateCategory(it)
-            }
+            )
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))
 

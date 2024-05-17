@@ -30,3 +30,7 @@ const val showDIndex = 2
 const val returnToTransactionIndex = 3
 const val returnToBudgetSummaryIndex = 4
 const val returnToCalendarIndex = 5
+
+enum class listCategories {
+    REVENUES, EXPENSES, DEBT
+}

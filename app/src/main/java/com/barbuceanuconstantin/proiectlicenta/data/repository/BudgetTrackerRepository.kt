@@ -17,6 +17,8 @@ interface BudgetTrackerRepository {
     ///////////////////////////////////////////////
     suspend fun insertCategory(category: Categories): Long
     fun getAllCategories(): List<Categories>
+    fun getCategoryName(id: Int) : String
+    fun getCategoryId(name: String, main: String) : Int
     fun getRevenueCategories() : List<Categories>
     fun getSpendingCategories() : List<Categories>
     fun getDebtCategories() : List<Categories>

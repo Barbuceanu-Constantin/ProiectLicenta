@@ -44,6 +44,7 @@ import com.barbuceanuconstantin.proiectlicenta.OkButton
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
+import com.barbuceanuconstantin.proiectlicenta.data.TransactionWithCategory
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.returnToBudgetSummaryIndex
@@ -82,7 +83,7 @@ private fun Tranzactie(
     categoriesA: List<Categories>,
     categoriesP: List<Categories>,
     categoriesD: List<Categories>,
-    transaction: Transactions,
+    transaction: TransactionWithCategory,
     id: MutableState<Int>,
     updateStateButtons: () -> Unit,
     updateUpdateId: (Int) -> Unit,
@@ -102,7 +103,7 @@ private fun Tranzactie(
                 //idUpdateList stocheaza indexul listei de tranzactii
                 idUpdateList.value = idList
                 //id.value stocheaza idul efectiv din baza de date pentru stergere
-                id.value = transaction.id
+                id.value = transaction.transaction.id
             }
         )
         .padding(
@@ -111,11 +112,11 @@ private fun Tranzactie(
         )
 
     val color: Color =
-        if (categoriesA.any { it.name == transaction.categoryName })
+        if (categoriesA.any { it.name == transaction.category.name })
             colorResource(id = R.color.light_cream_yellow)
-        else if (categoriesP.any { it.name == transaction.categoryName })
+        else if (categoriesP.any { it.name == transaction.category.name })
             colorResource(id = R.color.light_cream_red)
-        else if (categoriesD.any { it.name == transaction.categoryName })
+        else if (categoriesD.any { it.name == transaction.category.name })
             colorResource(id = R.color.light_cream_blue) else colorResource(id = R.color.light_cream_gray)
 
     Card(
@@ -124,13 +125,13 @@ private fun Tranzactie(
     ) {
         Column(modifier = Modifier.background(color)) {
             Text(
-                text = "${transaction.categoryName} ---> ${transaction.value} RON", fontSize = 18.sp,
+                text = "${transaction.category.name} ---> ${transaction.transaction.value} RON", fontSize = 18.sp,
                 fontWeight = FontWeight.Bold, modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = dimensionResource(id = R.dimen.margin))
             )
             Text(
-                text = "${stringResource(id = R.string.furnizor_sau_beneficiar)} : ${transaction.payee}",
+                text = "${stringResource(id = R.string.furnizor_sau_beneficiar)} : ${transaction.transaction.payee}",
                 maxLines = 2,
                 modifier = Modifier.padding(
                     start = dimensionResource(id = R.dimen.margin),
@@ -138,7 +139,7 @@ private fun Tranzactie(
                 )
             )
             Text(
-                text = "${stringResource(id = R.string.data)} : ${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(transaction.date)}",
+                text = "${stringResource(id = R.string.data)} : ${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(transaction.transaction.date)}",
                 maxLines = 2,
                 modifier = Modifier.padding(
                     start = dimensionResource(id = R.dimen.margin),
@@ -146,7 +147,7 @@ private fun Tranzactie(
                 )
             )
             Text(
-                text = "${stringResource(id = R.string.descriere)} : ${transaction.description}",
+                text = "${stringResource(id = R.string.descriere)} : ${transaction.transaction.description}",
                 maxLines = 2,
                 modifier = Modifier.padding(
                     start = dimensionResource(id = R.dimen.margin),
@@ -244,11 +245,17 @@ fun TranzactiiLazyColumn(
     LazyColumn(modifier = modifier.fillMaxWidth()) {
         itemsIndexed(tranzactii) { idList, tranzactie ->
             tranzactie.transactions.forEachIndexed { index, transaction ->
+                val c: Categories = tranzactii[idList].category
+                val t: Transactions = tranzactie.transactions[index]
+                val compoundTransactionWithCategory: TransactionWithCategory = TransactionWithCategory(
+                    category = c,
+                    transaction = t
+                )
                 Tranzactie(
                     categoriesA = categoriesA,
                     categoriesP = categoriesP,
                     categoriesD = categoriesD,
-                    transaction = transaction,
+                    transaction = compoundTransactionWithCategory,
                     id = idDelete,
                     updateStateButtons = updateStateButtons,
                     updateUpdateId = updateUpdateId,
@@ -311,11 +318,17 @@ fun CalendarSummaryTranzactiiLazyColumn(
         LazyColumn(modifier = modifier.fillMaxWidth()) {
             itemsIndexed(tranzactii) { idList, tranzactie ->
                 tranzactie.transactions.forEachIndexed { index, transaction ->
+                    val c: Categories = tranzactii[idList].category
+                    val t: Transactions = tranzactie.transactions[index]
+                    val compoundTransactionWithCategory: TransactionWithCategory = TransactionWithCategory(
+                        category = c,
+                        transaction = t
+                    )
                     Tranzactie(
                         categoriesA = categoriesA,
                         categoriesP = categoriesP,
                         categoriesD = categoriesD,
-                        transaction = transaction,
+                        transaction = compoundTransactionWithCategory,
                         id = idDelete,
                         updateStateButtons = updateButtons,
                         updateUpdateId = updateUpdateId,

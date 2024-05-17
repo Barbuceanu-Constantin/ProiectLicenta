@@ -38,7 +38,7 @@ interface TransactionsDAO {
     @Transaction
     @Query( "SELECT SUM(Transactions.value)" +
             "FROM Categories " +
-            "LEFT JOIN Transactions ON Categories.name = Transactions.category_name " +
+            "LEFT JOIN Transactions ON Categories.id = Transactions.category_id " +
             "WHERE Categories.main_category = :mainCategory " +
             "AND Transactions.date = :currentDate")
     fun getTransactionsSumByDay(currentDate: Date, mainCategory: String): Double
@@ -46,7 +46,7 @@ interface TransactionsDAO {
     @Transaction
     @Query( "SELECT SUM(Transactions.value)" +
             "FROM Categories " +
-            "LEFT JOIN Transactions ON Categories.name = Transactions.category_name " +
+            "LEFT JOIN Transactions ON Categories.id = Transactions.category_id " +
             "WHERE Categories.main_category = :mainCategory")
     fun getTransactionsCategoryListTotalSum(mainCategory: String): Double
 

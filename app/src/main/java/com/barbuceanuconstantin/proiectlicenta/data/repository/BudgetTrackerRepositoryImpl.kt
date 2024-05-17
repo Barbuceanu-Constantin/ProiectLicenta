@@ -27,6 +27,8 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     /////////////////////////////////////////////////////////
     override suspend fun insertCategory(category: Categories):Long = categoryDAO.insertCategory(category)
     override fun getAllCategories(): List<Categories> = categoryDAO.getAllCategories()
+    override fun getCategoryName(id: Int) : String = categoryDAO.getCategoryName(id)
+    override fun getCategoryId(name: String, main: String) : Int = categoryDAO.getCategoryId(name, main)
     override fun getRevenueCategories() : List<Categories> = categoryDAO.getListCategories("Active")
     override fun getSpendingCategories() : List<Categories> = categoryDAO.getListCategories("Pasive")
     override fun getDebtCategories() : List<Categories> = categoryDAO.getListCategories("Datorii")
