@@ -36,12 +36,11 @@ import com.barbuceanuconstantin.proiectlicenta.listCategories
 
 @Composable
 fun CategoriesMenu(
-    lSubcategorys: List<Categories> = listOf(),
-    listType: listCategories = listCategories.REVENUES,
-    updateCategory: (Int) -> Unit = { _ -> },
-    categoryName: String = "",
-    updateCategoryNameSimple: (String, String) -> Unit = { _, _-> },
-    ) {
+    updateCategoryNameSimple: (String, String) -> Unit,
+    listType: listCategories,
+    lSubcategorys: List<Categories>,
+    categoryName: String,
+) {
 
     var expanded1 by remember { mutableStateOf(false) }
     var expanded2 by remember { mutableStateOf(false) }

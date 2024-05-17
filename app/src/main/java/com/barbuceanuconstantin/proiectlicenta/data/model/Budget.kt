@@ -22,9 +22,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -33,8 +37,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
+import com.barbuceanuconstantin.proiectlicenta.di.EditBudgetScreenViewModel
+import com.barbuceanuconstantin.proiectlicenta.di.FixedBudgetsScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.navigation.editBudgetScreenFullPath
+import com.barbuceanuconstantin.proiectlicenta.navigation.getCategoryName
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
@@ -79,7 +86,22 @@ private fun HeaderBudget(text: String) {
 }
 
 @Composable
-fun InfoBudget(value: Double, startDate: String, endDate: String, category: String) {
+fun InfoBudget(value: Double, startDate: String, endDate: String, category: Int,
+               getCategoryName: suspend (Int) -> String) {
+    // Remember the category name to avoid recomposition
+    var categoryName by remember(category) {
+        mutableStateOf("")
+    }
+
+    // Launch coroutine to fetch category name
+    LaunchedEffect(category) {
+        val name = getCategoryName(category)
+        if (name.isNotEmpty()) {
+            // Update the category name if it's not empty
+            categoryName = name
+        }
+    }
+
     Column(modifier = Modifier.background(colorResource(id = R.color.light_cream_gray))) {
         Text(
             text = stringResource(id = R.string.category) + ": $category",
@@ -138,7 +160,8 @@ fun BudgetsLazyColumn(
     buttons: Boolean,
     navController: NavController,
     updateStateButtons: (Boolean) -> Unit,
-    deleteByNameCoroutine: (String) -> Unit
+    deleteByNameCoroutine: (String) -> Unit,
+    getCategoryName: suspend (Int) -> String,
 ) {
     val id: MutableState<Int> = remember { mutableIntStateOf(-1) }
 
@@ -161,7 +184,8 @@ fun BudgetsLazyColumn(
                             budget.upperThreshold,
                             SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(budget.startDate),
                             SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(budget.endDate),
-                            budget.categoryName
+                            budget.categoryId,
+                            getCategoryName
                 )
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))

@@ -44,6 +44,7 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.di.EditBudgetScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
+import com.barbuceanuconstantin.proiectlicenta.listCategories
 import com.barbuceanuconstantin.proiectlicenta.stripTime
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoriesMenu
 import com.barbuceanuconstantin.proiectlicenta.warningCompleteAllFields
@@ -103,11 +104,12 @@ fun EditBudgetScreen(
     onNavigateToHomeScreen: () -> Unit,
     onUpdateDate1: (Date) -> Unit,
     onUpdateDate2: (Date) -> Unit,
-    onUpdateCategory: (String) -> Unit,
+    onUpdateCategory: (Int) -> Unit,
     onUpdateFilledText: (String) -> Unit,
     onUpdateValueSum: (String) -> Unit,
     onUpdateOpenWarningDialog: (Boolean, Int) -> Unit,
     updateReadyToGo: (Boolean) -> Unit,
+    updateCategoryNameSimple: (String, String) -> Unit,
     addBudget: (Budgets) -> Unit,
     insertCoroutine: suspend (Budgets) -> Unit,
     updateCoroutine: suspend (Budgets) -> Unit,
@@ -121,7 +123,7 @@ fun EditBudgetScreen(
 
     val filledText: String = editBudgetScreenUIState.filledText
     val valueSum: String = editBudgetScreenUIState.valueSum
-    val category: String = editBudgetScreenUIState.category
+    val category: Int = editBudgetScreenUIState.category
     val idWarningString: Int = editBudgetScreenUIState.idWarningString
     val readyToGo: Boolean = editBudgetScreenUIState.readyToGo
     val updateAlertDialogBool: Boolean = editBudgetScreenUIState.alertDialog
@@ -148,7 +150,7 @@ fun EditBudgetScreen(
             LaunchedEffect(Unit) {
                 insertCoroutine(
                     Budgets(
-                        categoryName = category,
+                        categoryId = category,
                         name = filledText,
                         upperThreshold = valueSum.toDouble(),
                         startDate = date1,
@@ -165,7 +167,7 @@ fun EditBudgetScreen(
         //Aici se intra la update.
         if (readyToGo && nullCheckFields()) {
             budget.name = filledText
-            budget.categoryName = category
+            budget.categoryId = category
             budget.upperThreshold = valueSum.toDouble()
             budget.startDate = date1
             budget.endDate = date2
@@ -228,6 +230,9 @@ fun EditBudgetScreen(
 
             CategoriesMenu(
                 lSubcategorys = editBudgetScreenUIState.expenseCategoriesList,
+                listType = listCategories.EXPENSES,
+                categoryName = editBudgetScreenUIState.categoryName,
+                updateCategoryNameSimple = updateCategoryNameSimple,
             )
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.margin_extra)))

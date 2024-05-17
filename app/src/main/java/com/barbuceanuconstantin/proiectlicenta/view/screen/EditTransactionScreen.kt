@@ -69,7 +69,6 @@ fun EditTransactionScreen(
     val transaction = editTransactionScreenUIState.transaction
     val date = editTransactionScreenUIState.date
     val category = editTransactionScreenUIState.category
-    val categoryName = editTransactionScreenUIState.categoryName
     val payee = editTransactionScreenUIState.payee
     val description = editTransactionScreenUIState.description
     val valueSum = editTransactionScreenUIState.valueSum
@@ -159,7 +158,6 @@ fun EditTransactionScreen(
                     listType = listCategories.REVENUES,
                     categoryName = editTransactionScreenUIState.categoryName,
                     updateCategoryNameSimple = updateCategoryNameSimple,
-                    updateCategory = updateCategory
                 )
             } else if (showP && !showA && !showD) {
                 CategoriesMenu(
@@ -167,7 +165,6 @@ fun EditTransactionScreen(
                     listType = listCategories.EXPENSES,
                     categoryName = editTransactionScreenUIState.categoryName,
                     updateCategoryNameSimple = updateCategoryNameSimple,
-                    updateCategory = updateCategory
                 )
             } else if (showD && !showA && !showP) {
                 CategoriesMenu(
@@ -175,7 +172,6 @@ fun EditTransactionScreen(
                     listType = listCategories.DEBT,
                     categoryName = editTransactionScreenUIState.categoryName,
                     updateCategoryNameSimple = updateCategoryNameSimple,
-                    updateCategory = updateCategory
                 )
             } else {
                 CategoriesMenu(
@@ -183,7 +179,6 @@ fun EditTransactionScreen(
                     listType = listCategories.REVENUES,
                     categoryName = editTransactionScreenUIState.categoryName,
                     updateCategoryNameSimple = updateCategoryNameSimple,
-                    updateCategory = updateCategory
                 )
             }
 

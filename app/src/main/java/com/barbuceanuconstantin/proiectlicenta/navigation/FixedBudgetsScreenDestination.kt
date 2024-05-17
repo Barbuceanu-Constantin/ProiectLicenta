@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 fun CoroutineScope.launchGetBudgetsLists(viewModel: FixedBudgetsScreenViewModel) = launch {
     viewModel.onStateChangedList()
@@ -19,6 +20,17 @@ fun runGetBudgetsLists(viewModel: FixedBudgetsScreenViewModel) {
         CoroutineScope(Dispatchers.Default).launchGetBudgetsLists(viewModel)
     }
 }
+
+suspend fun getCategoryName(id: Int, viewModel: FixedBudgetsScreenViewModel): String {
+    return withContext(Dispatchers.IO) {
+        viewModel.budgetTrackerRepository.getCategoryName(id)
+    }
+}
+
+suspend fun getCategoryNameAsync(id: Int, viewModel: FixedBudgetsScreenViewModel): String {
+    return getCategoryName(id, viewModel)
+}
+
 @Composable
 fun FixedBudgetsScreenDestination(
     viewModel: FixedBudgetsScreenViewModel = hiltViewModel<FixedBudgetsScreenViewModel>(),
@@ -30,6 +42,12 @@ fun FixedBudgetsScreenDestination(
     }
     val deleteByName: (String) -> Unit = { name ->
         viewModel.onDeleteByName(name)
+    }
+    val getCategoryName: suspend (Int) -> String = { id ->
+        withContext(Dispatchers.Main) {
+            val categoryName = getCategoryNameAsync(id, viewModel)
+            categoryName
+        }
     }
 
     runGetBudgetsLists(viewModel)
@@ -93,6 +111,7 @@ fun FixedBudgetsScreenDestination(
         },
         fixedBudgetsScreenUIState = state,
         updateStateButtons = updateState,
-        deleteByNameCoroutine = deleteByName
+        deleteByNameCoroutine = deleteByName,
+        getCategoryName = getCategoryName
     )
 }
