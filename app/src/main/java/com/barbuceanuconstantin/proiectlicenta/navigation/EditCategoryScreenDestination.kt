@@ -37,6 +37,9 @@ fun EditCategoryScreenDestination(
     val categoryObject = gson.fromJson(categoryJson, Categories::class.java)
 
     val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
+    println("DADADA3 " + state.readyToGo + "   " + state.alertDialog)
+    runGetCategoriesLists(viewModel)
+
     val updateState: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
         viewModel.onStateChanged(showA, showP, showD)
     }
@@ -64,8 +67,6 @@ fun EditCategoryScreenDestination(
     val updateCategoryInDb: suspend (category: Categories) -> Unit = { category ->
         viewModel.updateCategoryInDb(category)
     }
-
-    runGetCategoriesLists(viewModel)
 
     //Add the category in state.
     if (categoryObject != null) {
@@ -104,8 +105,8 @@ fun EditCategoryScreenDestination(
         insertCoroutine = insertCategory,
         updateCoroutine = updateCategoryInDb,
         updateReadyToGo = updateReadyToGo,
-        updateAlertDialog = updateAlertDialog,
         nullCheckFields = nullCheckFields,
-        updateAlertAlreadyExistDialog = updateAlertAlreadyExistDialog
+        updateAlertAlreadyExistDialog = updateAlertAlreadyExistDialog,
+        updateAlertDialog = updateAlertDialog
     )
 }

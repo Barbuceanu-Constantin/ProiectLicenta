@@ -104,7 +104,7 @@ fun InfoBudget(value: Double, startDate: String, endDate: String, category: Int,
 
     Column(modifier = Modifier.background(colorResource(id = R.color.light_cream_gray))) {
         Text(
-            text = stringResource(id = R.string.category) + ": $category",
+            text = stringResource(id = R.string.category) + ": $categoryName",
             fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
             fontWeight = FontWeight.Bold,
             modifier = Modifier

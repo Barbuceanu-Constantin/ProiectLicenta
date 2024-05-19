@@ -78,7 +78,7 @@ fun EditCategoryScreen(
     //Trebuie sa si adaug categoria in viewState
     if (category == null) {
         //Aici se intra la insert.
-        if (readyToGo && nullCheckFields()) {
+        if (readyToGo) {
             if (showA) {
                 LaunchedEffect(Unit) {
                     insertCoroutine(
@@ -88,8 +88,7 @@ fun EditCategoryScreen(
                         )
                     )
                 }
-            }
-            else if (showP) {
+            } else if (showP) {
                 LaunchedEffect(Unit) {
                     insertCoroutine(
                         Categories(
@@ -99,8 +98,7 @@ fun EditCategoryScreen(
                     )
                 }
 
-            }
-            else {
+            } else {
                 //showD == true
                 LaunchedEffect(Unit) {
                     insertCoroutine(
@@ -112,13 +110,10 @@ fun EditCategoryScreen(
                 }
             }
             onNavigateToCategoryScreen()
-        } else if (readyToGo && !nullCheckFields()) {
-            updateReadyToGo(false)
-            updateAlertDialog(true)
         }
     } else {
         //Aici se intra la update.
-        if (readyToGo && nullCheckFields()) {
+        if (readyToGo) {
             category.name = filledText
             if (category.mainCategory == "Active") {
                 LaunchedEffect(Unit) {
@@ -137,9 +132,6 @@ fun EditCategoryScreen(
 
             }
             onNavigateToCategoryScreen()
-        } else if (readyToGo && !nullCheckFields()) {
-            updateReadyToGo(false)
-            updateAlertDialog(true)
         }
     }
 
@@ -212,10 +204,42 @@ fun EditCategoryScreen(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Button( onClick = {
-                                            if (!readyToGo) {
+                                    if (!readyToGo) {
+                                        if (!nullCheckFields())
+                                            updateAlertDialog(true)
+                                        else if (showA) {
+                                            if (checkForExistence(
+                                                    filledText,
+                                                    editCategoryScreenUIState.revenueCategories
+                                                )
+                                            ) {
+                                                updateAlertAlreadyExistDialog(true)
+                                            } else {
                                                 updateReadyToGo(true)
                                             }
-                                          },
+                                        } else if (showP) {
+                                            if (checkForExistence(
+                                                    filledText,
+                                                    editCategoryScreenUIState.expensesCategories
+                                                )
+                                            ) {
+                                                updateAlertAlreadyExistDialog(true)
+                                            } else {
+                                                updateReadyToGo(true)
+                                            }
+                                        } else {
+                                            if (checkForExistence(
+                                                    filledText,
+                                                    editCategoryScreenUIState.debtCategories
+                                                )
+                                            ) {
+                                                updateAlertAlreadyExistDialog(true)
+                                            } else {
+                                                updateReadyToGo(true)
+                                            }
+                                        }
+                                    }
+                                },
                                 modifier = Modifier
                                     .weight(1f)
                                     .padding(start = dimensionResource(id = R.dimen.margin))) {
