@@ -22,4 +22,6 @@ data class BudgetSummaryScreenUIState(
     val categoriesD: List<Categories> = listOf(),
     val idDelete: Int = -1,
     val idUpdate: Int = -1,
+    val balance: Double = 0.0,
+    val firstComposition: Boolean = true
 )

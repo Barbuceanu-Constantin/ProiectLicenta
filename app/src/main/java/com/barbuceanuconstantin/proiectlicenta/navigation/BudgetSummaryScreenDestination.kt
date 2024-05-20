@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.util.Date
 
 fun CoroutineScope.launchGetCategoriesListsBudgetSummaryScreen(viewModel: BudgetSummaryScreenViewModel) = launch {
     viewModel.onStateChangedLists()
@@ -47,13 +48,20 @@ fun BudgetSummaryScreenDestination(
     val updateUpdateId: (Int) -> Unit = { id ->
         viewModel.onStateChangedIdUpdate(id)
     }
+    val updateListsBasedOnDay: (Date) -> Unit = { date ->
+        viewModel.updateListsBasedOnDay(date)
+    }
+    val updateListsFull: () -> Unit = {
+        viewModel.updateListsFull()
+    }
 
-    runGetCategoriesListsBudgetSummaryScreen(viewModel)
+    if (state.firstComposition) {
+        runGetCategoriesListsBudgetSummaryScreen(viewModel)
+        viewModel.onStateChangedFirstComposition(false)
+    }
 
     //Bugete fixe
     BudgetSummaryComposableScreen(
-        lTrA = state.expensesTransactions,
-        lTrP = state.revenueTransactions,
         categoriesA = state.categoriesA,
         categoriesP = state.categoriesP,
         categoriesD = state.categoriesD,
@@ -115,6 +123,8 @@ fun BudgetSummaryScreenDestination(
         updateStateDate = updateStateDate,
         updateStateButtons = updateStateButtons,
         deleteById = deleteById,
-        updateUpdateId = updateUpdateId
+        updateUpdateId = updateUpdateId,
+        updateListsBasedOnDay = updateListsBasedOnDay,
+        updateListsFull = updateListsFull
     )
 }

@@ -171,13 +171,9 @@ fun TranzactiiLazyColumn(
     buttons: Boolean,
     deleteById: (Int) -> Unit,
     updateUpdateId: (Int) -> Unit,
-    idUpdate: Int
+    idUpdate: Int,
+    modifier: Modifier
 ) {
-    val modifier =  if (summary)
-                        Modifier.fillMaxHeight(0.9F)
-                    else
-                        Modifier.fillMaxHeight().fillMaxWidth()
-
     val idDelete: MutableState<Int> = remember { mutableIntStateOf(-1) }
     val idUpdateList: MutableState<Int> = remember { mutableIntStateOf(-1) }
 
