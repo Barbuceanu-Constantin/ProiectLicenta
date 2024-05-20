@@ -720,7 +720,8 @@ fun FadingArrowIcon(budgetSummary: Boolean = false) {
 }
 
 @Composable
-fun warningCompleteAllFields(updateAlertDialog: (Boolean) -> Unit) {
+fun warningDialog(updateAlertDialog: (Boolean) -> Unit,
+                  warningMessage: String) {
     AlertDialog(
         onDismissRequest = {
             updateAlertDialog(false)
@@ -729,31 +730,7 @@ fun warningCompleteAllFields(updateAlertDialog: (Boolean) -> Unit) {
             Text(text = stringResource(id = R.string.avertisment_data))
         },
         text = {
-            Text(text = stringResource(id = R.string.avertisment_completare_campuri))
-        },
-        confirmButton = {
-            Button(
-                onClick = {
-                    updateAlertDialog(false)
-                }
-            ) {
-                Text(text = stringResource(id = R.string.ok))
-            }
-        }
-    )
-}
-
-@Composable
-fun warningCategoryNameAlreadyExists(updateAlertDialog: (Boolean) -> Unit) {
-    AlertDialog(
-        onDismissRequest = {
-            updateAlertDialog(false)
-        },
-        title = {
-            Text(text = stringResource(id = R.string.avertisment_data))
-        },
-        text = {
-            Text(text = stringResource(id = R.string.avertisment_categorie_deja_existenta))
+            Text(text = warningMessage)
         },
         confirmButton = {
             Button(

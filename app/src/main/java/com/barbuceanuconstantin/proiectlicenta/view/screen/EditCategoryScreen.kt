@@ -37,8 +37,8 @@ import com.barbuceanuconstantin.proiectlicenta.WarningNotSelectedCategory
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.di.EditCategoryScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
-import com.barbuceanuconstantin.proiectlicenta.warningCategoryNameAlreadyExists
-import com.barbuceanuconstantin.proiectlicenta.warningCompleteAllFields
+
+import com.barbuceanuconstantin.proiectlicenta.warningDialog
 
 fun checkForExistence(name: String, list: List<Categories>): Boolean {
     return list.any { it.name == name }
@@ -70,9 +70,9 @@ fun EditCategoryScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     if (updateAlertDialogBool) {
-        warningCompleteAllFields(updateAlertDialog)
+        warningDialog(updateAlertDialog, stringResource(id = R.string.avertisment_completare_campuri))
     } else if (updateAlertAlreadyExistDialogBool) {
-        warningCategoryNameAlreadyExists(updateAlertAlreadyExistDialog)
+        warningDialog(updateAlertAlreadyExistDialog, stringResource(id = R.string.avertisment_categorie_deja_existenta))
     }
 
     //Trebuie sa si adaug categoria in viewState

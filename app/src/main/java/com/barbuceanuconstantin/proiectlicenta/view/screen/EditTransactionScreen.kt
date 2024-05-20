@@ -41,7 +41,7 @@ import com.barbuceanuconstantin.proiectlicenta.di.EditTransactionScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.listCategories
 import com.barbuceanuconstantin.proiectlicenta.stripTime
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoriesMenu
-import com.barbuceanuconstantin.proiectlicenta.warningCompleteAllFields
+import com.barbuceanuconstantin.proiectlicenta.warningDialog
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -89,7 +89,7 @@ fun EditTransactionScreen(
     val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
 
     if (updateAlertDialogBool) {
-        warningCompleteAllFields(updateAlertDialog)
+        warningDialog(updateAlertDialog, stringResource(id = R.string.avertisment_completare_campuri))
     }
 
     //Trebuie sa si adaug categoria in viewState

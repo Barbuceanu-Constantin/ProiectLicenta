@@ -47,7 +47,7 @@ import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.listCategories
 import com.barbuceanuconstantin.proiectlicenta.stripTime
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoriesMenu
-import com.barbuceanuconstantin.proiectlicenta.warningCompleteAllFields
+import com.barbuceanuconstantin.proiectlicenta.warningDialog
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -140,7 +140,7 @@ fun EditBudgetScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     if (updateAlertDialogBool) {
-        warningCompleteAllFields(updateAlertDialog)
+        warningDialog(updateAlertDialog, stringResource(id = R.string.avertisment_completare_campuri))
     }
 
     //Trebuie sa si adaug categoria in viewState
