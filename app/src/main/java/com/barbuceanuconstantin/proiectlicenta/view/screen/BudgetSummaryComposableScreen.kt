@@ -34,14 +34,15 @@ import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.TimeIntervalSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
-import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.getStartAndEndDateOfWeek
 import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
-import com.barbuceanuconstantin.proiectlicenta.stripTime
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAdjusters
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -49,7 +50,8 @@ import java.util.Locale
 @Composable
 fun SelectDay(
     date: String,
-    updateStateDateButton: (Boolean) -> Unit, ) {
+    updateStateDateButton: (Boolean) -> Unit
+) {
     Button(onClick = { updateStateDateButton(true) }) {
         Text(text = stringResource(id = R.string.selectare_zi), fontSize = fontDimensionResource(id = R.dimen.medium_text_size))
     }
@@ -61,8 +63,13 @@ fun SelectDay(
 @Composable
 fun SelectWeek(
     date: String,
-    updateStateDateButton: (Boolean) -> Unit) {
+    updateStateDateButton: (Boolean) -> Unit,
+    updateListsWeek: (Date, Date) -> Unit
+) {
     val limits = getStartAndEndDateOfWeek(date)
+    val startDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(limits.first)
+    val endDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(limits.second)
+    updateListsWeek(startDate!!, endDate!!)
 
     Button(onClick = { updateStateDateButton(true) }) {
         Text(text = stringResource(id = R.string.selectare_saptamana),
@@ -76,10 +83,20 @@ fun SelectWeek(
 }
 @Composable
 fun SelectMonth(
-    date: String, monthMutable: String,
+    date: String,
+    monthMutable: String,
     updateStateDateButton: (Boolean) -> Unit,
-    updateStateMonth: (String) -> Unit) {
+    updateStateMonth: (String) -> Unit,
+    updateListsMonth: (Date, Date) -> Unit
+) {
     val month : Int = (date[5].code - 48) * 10 + (date[6].code - 48)
+    val parsedDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    val startOfMonth = parsedDate.with(TemporalAdjusters.firstDayOfMonth())
+    val endOfMonth = parsedDate.with(TemporalAdjusters.lastDayOfMonth())
+    val startOfMonthDate = Date.from(startOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant())
+    val endOfMonthDate = Date.from(endOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant())
+
+    updateListsMonth(startOfMonthDate!!, endOfMonthDate!!)
     IntToMonth(month, updateStateMonth)
 
     Button(onClick = { updateStateDateButton(true) }) {
@@ -117,7 +134,8 @@ fun BudgetSummaryComposableScreen(
     deleteById: (Int) -> Unit,
     updateUpdateId: (Int) -> Unit,
     updateListsBasedOnDay: (Date) -> Unit,
-    updateListsFull: () -> Unit) {
+    updateListsFull: () -> Unit,
+    updateListsInterval: (Date, Date) -> Unit) {
 
     val daily: Boolean = budgetSummaryScreenUIState.daily
     val weekly: Boolean = budgetSummaryScreenUIState.weekly
@@ -177,9 +195,8 @@ fun BudgetSummaryComposableScreen(
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
 
             //Aici voi face bilantul total al cheltuielilor si veniturilor.
-            //Dar pentru inceput le voi lista pe toate fara sa filtrez, asta si pentru ca
-            //o sa fie mai relevant probabil cand conectez cu baza de date.
             if (daily && !weekly && !monthly) {
+
                 //Se selecteaza ziua pentru care se vrea bilantul cheltuielilor si veniturilor
                 SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(date)
                     ?.let { updateListsBasedOnDay(it) }
@@ -202,36 +219,83 @@ fun BudgetSummaryComposableScreen(
                 )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
+
             } else if (weekly && !daily && !monthly) {
+
                 //Se selecteaza saptamana pentru care se vrea bilantul cheltuielilor si veniturilor,
                 //prin selectarea unei zile si extragerea saptamanii din care face parte
 
-                SelectWeek(date, updateStateDateButton)
+                SelectWeek(date, updateStateDateButton, updateListsInterval)
+                HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
+                FadingArrowIcon(budgetSummary = true)
+                TranzactiiLazyColumn(
+                    tranzactii = (budgetSummaryScreenUIState.expensesTransactions + budgetSummaryScreenUIState.revenueTransactions),
+                    buttons = buttons,
+                    summary = true,
+                    navController = navController,
+                    updateStateButtons = updateStateButtons,
+                    categoriesA = categoriesA,
+                    categoriesP = categoriesP,
+                    categoriesD = categoriesD,
+                    deleteById = deleteById,
+                    updateUpdateId = updateUpdateId,
+                    idUpdate = idUpdate,
+                    modifier = Modifier.fillMaxHeight(0.85F)
+                )
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
+                HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
+
             } else if (monthly && !daily && !weekly) {
+
                 //Se selecteaza luna pentru care se vrea bilantul cheltuielilor si veniturilor
                 //prin selectarea unei zile si extragerea lunii din care face parte
 
-                SelectMonth(date, monthMutable, updateStateDateButton, updateStateMonth)
+                SelectMonth(date = date,
+                            monthMutable = monthMutable,
+                            updateStateDateButton =  updateStateDateButton,
+                            updateStateMonth = updateStateMonth,
+                            updateListsMonth = updateListsInterval)
+                HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
+                FadingArrowIcon(budgetSummary = true)
+                TranzactiiLazyColumn(
+                    tranzactii = (budgetSummaryScreenUIState.expensesTransactions + budgetSummaryScreenUIState.revenueTransactions),
+                    buttons = buttons,
+                    summary = true,
+                    navController = navController,
+                    updateStateButtons = updateStateButtons,
+                    categoriesA = categoriesA,
+                    categoriesP = categoriesP,
+                    categoriesD = categoriesD,
+                    deleteById = deleteById,
+                    updateUpdateId = updateUpdateId,
+                    idUpdate = idUpdate,
+                    modifier = Modifier.fillMaxHeight(0.85F)
+                )
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
+                HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
+
             } else if (daily && weekly && monthly) {
+
                 updateListsFull()
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 FadingArrowIcon(budgetSummary = true)
                 TranzactiiLazyColumn(
-                                        tranzactii = (budgetSummaryScreenUIState.expensesTransactions + budgetSummaryScreenUIState.revenueTransactions),
-                                        buttons = buttons,
-                                        summary = true,
-                                        navController = navController,
-                                        updateStateButtons = updateStateButtons,
-                                        categoriesA = categoriesA,
-                                        categoriesP = categoriesP,
-                                        categoriesD = categoriesD,
-                                        deleteById = deleteById,
-                                        updateUpdateId = updateUpdateId,
-                                        idUpdate = idUpdate,
-                                        modifier = Modifier.fillMaxHeight(0.9F)
+                    tranzactii = (budgetSummaryScreenUIState.expensesTransactions + budgetSummaryScreenUIState.revenueTransactions),
+                    buttons = buttons,
+                    summary = true,
+                    navController = navController,
+                    updateStateButtons = updateStateButtons,
+                    categoriesA = categoriesA,
+                    categoriesP = categoriesP,
+                    categoriesD = categoriesD,
+                    deleteById = deleteById,
+                    updateUpdateId = updateUpdateId,
+                    idUpdate = idUpdate,
+                    modifier = Modifier.fillMaxHeight(0.9F)
                 )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
+
             }
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))

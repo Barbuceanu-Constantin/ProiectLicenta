@@ -138,6 +138,46 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
         )
     }
 
+    fun updateListsBasedOnWeek(
+                                startDate: Date,
+                                endDate: Date
+    ) {
+        var balance: Double = 0.0
+        viewModelScope.launch(Dispatchers.IO) {
+            _stateFlow.value = BudgetSummaryScreenUIState(
+                date = _stateFlow.value.date,
+                buttons = stateFlow.value.buttons,
+                month = stateFlow.value.month,
+                dateButton = stateFlow.value.dateButton,
+                daily = stateFlow.value.daily,
+                weekly = stateFlow.value.weekly,
+                monthly = stateFlow.value.monthly,
+                revenueTransactions = budgetTrackerRepository.getRevenueTransactionsByInterval(startDate, endDate),
+                expensesTransactions = budgetTrackerRepository.getExpensesTransactionsByInterval(startDate, endDate),
+                categoriesA = _stateFlow.value.categoriesA,
+                categoriesP = _stateFlow.value.categoriesP,
+                categoriesD = _stateFlow.value.categoriesD,
+                idDelete = _stateFlow.value.idDelete,
+                idUpdate = _stateFlow.value.idUpdate,
+                balance = balance,
+                firstComposition = _stateFlow.value.firstComposition
+            )
+            for (categTr in _stateFlow.value.revenueTransactions) {
+                for (tr in categTr.transactions) {
+                    balance += tr.value
+                }
+            }
+            for (categTr in _stateFlow.value.expensesTransactions) {
+                for (tr in categTr.transactions) {
+                    balance -= tr.value
+                }
+            }
+            _stateFlow.value = _stateFlow.value.copy(
+                balance = balance
+            )
+        }
+    }
+
     fun updateListsBasedOnDay(date: Date) {
         var balance: Double = 0.0
         viewModelScope.launch(Dispatchers.IO) {

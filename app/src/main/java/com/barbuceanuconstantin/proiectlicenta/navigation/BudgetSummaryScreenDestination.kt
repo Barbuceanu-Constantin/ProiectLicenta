@@ -54,6 +54,9 @@ fun BudgetSummaryScreenDestination(
     val updateListsFull: () -> Unit = {
         viewModel.updateListsFull()
     }
+    val updateListsInterval: (Date, Date) -> Unit = { startDate, endDate ->
+        viewModel.updateListsBasedOnWeek(startDate, endDate)
+    }
 
     if (state.firstComposition) {
         runGetCategoriesListsBudgetSummaryScreen(viewModel)
@@ -125,6 +128,7 @@ fun BudgetSummaryScreenDestination(
         deleteById = deleteById,
         updateUpdateId = updateUpdateId,
         updateListsBasedOnDay = updateListsBasedOnDay,
-        updateListsFull = updateListsFull
+        updateListsFull = updateListsFull,
+        updateListsInterval = updateListsInterval
     )
 }

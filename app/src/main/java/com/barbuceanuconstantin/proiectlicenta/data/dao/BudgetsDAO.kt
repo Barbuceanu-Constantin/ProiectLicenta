@@ -6,8 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
-import com.barbuceanuconstantin.proiectlicenta.data.Categories
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BudgetsDAO {
