@@ -46,9 +46,16 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
+import com.barbuceanuconstantin.proiectlicenta.di.PrincipalScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.view.screen.isDateAfterOrEqualToCurrent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -787,3 +794,54 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //{
 //
 //}
+
+
+//Fosta preinitializare la categorii
+////runInitCategoryLists(hiltViewModel<PrincipalScreenViewModel>())
+
+//fun CoroutineScope.insertPredefinedCategory(viewModel: PrincipalScreenViewModel,
+//                                            categoryName: String,
+//                                            mainCategory: String
+//) = launch {
+//    viewModel.budgetTrackerRepository.insertCategory(Categories(mainCategory = mainCategory, name = categoryName))
+//}
+//
+//// Extension function to check if the categories list is empty or not
+//suspend fun isCategoriesEmpty(viewModel: PrincipalScreenViewModel): Boolean {
+//    return withContext(Dispatchers.IO) {
+//        val categories = viewModel.budgetTrackerRepository.getAllCategories()
+//        categories.isEmpty()
+//    }
+//}
+//
+//fun runInitCategoryLists(viewModel: PrincipalScreenViewModel) {
+//    runBlocking {
+//        val isEmpty = isCategoriesEmpty(viewModel)
+//
+//        if (isEmpty) {
+//            for (category in subcategorysPredefiniteActive) {
+//                CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
+//                    viewModel = viewModel,
+//                    categoryName = category,
+//                    mainCategory = "Active"
+//                )
+//            }
+//            for (category in subcategorysPredefinitePasive) {
+//                CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
+//                    viewModel = viewModel,
+//                    categoryName = category,
+//                    mainCategory = "Pasive"
+//                )
+//            }
+//            for (category in subcategorysPredefiniteDatorii) {
+//                CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
+//                    viewModel = viewModel,
+//                    categoryName = category,
+//                    mainCategory = "Datorii"
+//                )
+//            }
+//        }
+//    }
+//}
+
+//Fosta preinitializare la categorii
