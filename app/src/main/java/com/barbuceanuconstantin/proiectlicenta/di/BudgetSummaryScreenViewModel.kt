@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import javax.inject.Inject
 
@@ -39,7 +41,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
     }
     fun onStateChangedTimeInterval(daily: Boolean, weekly: Boolean, monthly: Boolean) {
         _stateFlow.value = BudgetSummaryScreenUIState(
-            date = stateFlow.value.date,
+            date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
             buttons = stateFlow.value.buttons,
             month = stateFlow.value.month,
             dateButton = stateFlow.value.dateButton,

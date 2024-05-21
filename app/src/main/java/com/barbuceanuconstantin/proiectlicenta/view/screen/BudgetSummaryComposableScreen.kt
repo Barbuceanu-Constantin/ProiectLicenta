@@ -38,6 +38,7 @@ import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.getStartAndEndDateOfWeek
 import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
+import com.barbuceanuconstantin.proiectlicenta.stripTime
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
@@ -66,9 +67,12 @@ fun SelectWeek(
     updateStateDateButton: (Boolean) -> Unit,
     updateListsWeek: (Date, Date) -> Unit
 ) {
+    //Aici merge stripTime
     val limits = getStartAndEndDateOfWeek(date)
     val startDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(limits.first)
+                                     ?.let { stripTime(it) }
     val endDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(limits.second)
+                                    ?.let { stripTime(it) }
     updateListsWeek(startDate!!, endDate!!)
 
     Button(onClick = { updateStateDateButton(true) }) {
@@ -89,6 +93,7 @@ fun SelectMonth(
     updateStateMonth: (String) -> Unit,
     updateListsMonth: (Date, Date) -> Unit
 ) {
+    //Nu mai pun stripTime aici pentru ca valorile sunt de tip LocalDate nu Date
     val month : Int = (date[5].code - 48) * 10 + (date[6].code - 48)
     val parsedDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
     val startOfMonth = parsedDate.with(TemporalAdjusters.firstDayOfMonth())
@@ -197,9 +202,10 @@ fun BudgetSummaryComposableScreen(
             //Aici voi face bilantul total al cheltuielilor si veniturilor.
             if (daily && !weekly && !monthly) {
 
-                //Se selecteaza ziua pentru care se vrea bilantul cheltuielilor si veniturilor
+                //Se selecteaza ziua pentru care se vrea bilantul cheltuielilor si veniturilor.
+                //Aici merge stripTime()
                 SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(date)
-                    ?.let { updateListsBasedOnDay(it) }
+                    ?.let { updateListsBasedOnDay(stripTime(it)) }
                 SelectDay(date, updateStateDateButton)
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 FadingArrowIcon(budgetSummary = true)
