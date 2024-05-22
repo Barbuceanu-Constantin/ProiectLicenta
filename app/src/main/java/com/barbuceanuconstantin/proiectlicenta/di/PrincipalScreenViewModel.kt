@@ -28,7 +28,7 @@ class PrincipalScreenViewModel @Inject constructor(val budgetTrackerRepository: 
         )
     }
 
-    suspend fun updateMetrics() {
+    fun updateMetrics() {
         var revenuesSum: Double = 0.0
         var expensesSum: Double = 0.0
         var debtSum: Double = 0.0

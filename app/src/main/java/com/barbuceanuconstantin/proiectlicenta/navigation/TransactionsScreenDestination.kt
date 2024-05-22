@@ -28,9 +28,9 @@ fun TransactionsScreenDestination(
 
     // Define a function that can be called to update the state
     val updateStateMainScreen: (Boolean, Boolean, Boolean) -> Unit =
-        { showA, showP, showD ->
-            viewModel.onStateChangedMainScreen(showA, showP, showD)
-        }
+    { showA, showP, showD ->
+        viewModel.onStateChangedMainScreen(showA, showP, showD)
+    }
     val updateStateButtons: () -> Unit = {
         viewModel.onStateChangedButtons()
     }

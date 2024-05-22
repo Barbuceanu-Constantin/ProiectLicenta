@@ -35,8 +35,10 @@ interface BudgetTrackerRepository {
     fun getTransactionsExpensesSumByDay(currentDate: Date): Double
     fun getRevenueTransactionsByDate(currentDate: Date): List<CategoryAndTransactions>
     fun getExpensesTransactionsByDate(currentDate: Date): List<CategoryAndTransactions>
+    fun getDebtTransactionsByDate(currentDate: Date): List<CategoryAndTransactions>
     fun getRevenueTransactionsByInterval(startDate: Date, endDate: Date): List<CategoryAndTransactions>
     fun getExpensesTransactionsByInterval(startDate: Date, endDate: Date): List<CategoryAndTransactions>
+    fun getDebtTransactionsByInterval(startDate: Date, endDate: Date): List<CategoryAndTransactions>
     fun deleteTransactionById(id: Int)
     fun updateTransaction(transaction: Transactions)
     ///////////////////////////////////////////////

@@ -30,6 +30,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
             monthly = stateFlow.value.monthly,
             revenueTransactions = _stateFlow.value.revenueTransactions,
             expensesTransactions = _stateFlow.value.expensesTransactions,
+            debtTransactions = _stateFlow.value.debtTransactions,
             categoriesA = _stateFlow.value.categoriesA,
             categoriesP = _stateFlow.value.categoriesP,
             categoriesD = _stateFlow.value.categoriesD,
@@ -50,6 +51,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
             monthly = monthly,
             revenueTransactions = _stateFlow.value.revenueTransactions,
             expensesTransactions = _stateFlow.value.expensesTransactions,
+            debtTransactions = _stateFlow.value.debtTransactions,
             categoriesA = _stateFlow.value.categoriesA,
             categoriesP = _stateFlow.value.categoriesP,
             categoriesD = _stateFlow.value.categoriesD,
@@ -70,6 +72,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
             monthly = stateFlow.value.monthly,
             revenueTransactions = _stateFlow.value.revenueTransactions,
             expensesTransactions = _stateFlow.value.expensesTransactions,
+            debtTransactions = _stateFlow.value.debtTransactions,
             categoriesA = _stateFlow.value.categoriesA,
             categoriesP = _stateFlow.value.categoriesP,
             categoriesD = _stateFlow.value.categoriesD,
@@ -90,6 +93,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
             monthly = stateFlow.value.monthly,
             revenueTransactions = _stateFlow.value.revenueTransactions,
             expensesTransactions = _stateFlow.value.expensesTransactions,
+            debtTransactions = _stateFlow.value.debtTransactions,
             categoriesA = _stateFlow.value.categoriesA,
             categoriesP = _stateFlow.value.categoriesP,
             categoriesD = _stateFlow.value.categoriesD,
@@ -110,6 +114,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
             monthly = stateFlow.value.monthly,
             revenueTransactions = _stateFlow.value.revenueTransactions,
             expensesTransactions = _stateFlow.value.expensesTransactions,
+            debtTransactions = _stateFlow.value.debtTransactions,
             categoriesA = _stateFlow.value.categoriesA,
             categoriesP = _stateFlow.value.categoriesP,
             categoriesD = _stateFlow.value.categoriesD,
@@ -130,6 +135,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
             monthly = stateFlow.value.monthly,
             revenueTransactions = _stateFlow.value.revenueTransactions,
             expensesTransactions = _stateFlow.value.expensesTransactions,
+            debtTransactions = _stateFlow.value.debtTransactions,
             categoriesA = _stateFlow.value.categoriesA,
             categoriesP = _stateFlow.value.categoriesP,
             categoriesD = _stateFlow.value.categoriesD,
@@ -156,6 +162,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
                 monthly = stateFlow.value.monthly,
                 revenueTransactions = budgetTrackerRepository.getRevenueTransactionsByInterval(startDate, endDate),
                 expensesTransactions = budgetTrackerRepository.getExpensesTransactionsByInterval(startDate, endDate),
+                debtTransactions = budgetTrackerRepository.getDebtTransactionsByInterval(startDate, endDate),
                 categoriesA = _stateFlow.value.categoriesA,
                 categoriesP = _stateFlow.value.categoriesP,
                 categoriesD = _stateFlow.value.categoriesD,
@@ -170,6 +177,11 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
                 }
             }
             for (categTr in _stateFlow.value.expensesTransactions) {
+                for (tr in categTr.transactions) {
+                    balance -= tr.value
+                }
+            }
+            for (categTr in _stateFlow.value.debtTransactions) {
                 for (tr in categTr.transactions) {
                     balance -= tr.value
                 }
@@ -193,6 +205,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
                 monthly = stateFlow.value.monthly,
                 revenueTransactions = budgetTrackerRepository.getRevenueTransactionsByDate(date),
                 expensesTransactions = budgetTrackerRepository.getExpensesTransactionsByDate(date),
+                debtTransactions = budgetTrackerRepository.getDebtTransactionsByDate(date),
                 categoriesA = _stateFlow.value.categoriesA,
                 categoriesP = _stateFlow.value.categoriesP,
                 categoriesD = _stateFlow.value.categoriesD,
@@ -207,6 +220,11 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
                 }
             }
             for (categTr in _stateFlow.value.expensesTransactions) {
+                for (tr in categTr.transactions) {
+                    balance -= tr.value
+                }
+            }
+            for (categTr in _stateFlow.value.debtTransactions) {
                 for (tr in categTr.transactions) {
                     balance -= tr.value
                 }
@@ -230,6 +248,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
                 monthly = stateFlow.value.monthly,
                 revenueTransactions = budgetTrackerRepository.getTransactionsCategoryList("Active"),
                 expensesTransactions = budgetTrackerRepository.getTransactionsCategoryList("Pasive"),
+                debtTransactions = budgetTrackerRepository.getTransactionsCategoryList("Datorii"),
                 categoriesA = _stateFlow.value.categoriesA,
                 categoriesP = _stateFlow.value.categoriesP,
                 categoriesD = _stateFlow.value.categoriesD,
@@ -244,6 +263,11 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
                 }
             }
             for (categTr in _stateFlow.value.expensesTransactions) {
+                for (tr in categTr.transactions) {
+                    balance -= tr.value
+                }
+            }
+            for (categTr in _stateFlow.value.debtTransactions) {
                 for (tr in categTr.transactions) {
                     balance -= tr.value
                 }
@@ -268,6 +292,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
                 monthly = stateFlow.value.monthly,
                 revenueTransactions = budgetTrackerRepository.getTransactionsCategoryList("Active"),
                 expensesTransactions = budgetTrackerRepository.getTransactionsCategoryList("Pasive"),
+                debtTransactions = budgetTrackerRepository.getTransactionsCategoryList("Datorii"),
                 categoriesA = budgetTrackerRepository.getRevenueCategories(),
                 categoriesP = budgetTrackerRepository.getSpendingCategories(),
                 categoriesD = budgetTrackerRepository.getDebtCategories(),
@@ -282,6 +307,11 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
                 }
             }
             for (categTr in _stateFlow.value.expensesTransactions) {
+                for (tr in categTr.transactions) {
+                    balance -= tr.value
+                }
+            }
+            for (categTr in _stateFlow.value.debtTransactions) {
                 for (tr in categTr.transactions) {
                     balance -= tr.value
                 }
@@ -302,6 +332,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
             monthly = stateFlow.value.monthly,
             revenueTransactions = _stateFlow.value.revenueTransactions,
             expensesTransactions = _stateFlow.value.expensesTransactions,
+            debtTransactions = _stateFlow.value.debtTransactions,
             categoriesA = _stateFlow.value.categoriesA,
             categoriesP = _stateFlow.value.categoriesP,
             categoriesD = _stateFlow.value.categoriesD,
@@ -322,6 +353,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
             monthly = stateFlow.value.monthly,
             revenueTransactions = _stateFlow.value.revenueTransactions,
             expensesTransactions = _stateFlow.value.expensesTransactions,
+            debtTransactions = _stateFlow.value.debtTransactions,
             categoriesA = _stateFlow.value.categoriesA,
             categoriesP = _stateFlow.value.categoriesP,
             categoriesD = _stateFlow.value.categoriesD,

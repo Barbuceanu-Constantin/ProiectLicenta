@@ -74,27 +74,14 @@ fun verifyFinalDate(
             SimpleDateFormat(
                 "yyyy-MM-dd",
                 Locale.getDefault()
-            ).format(selectedDate.time), LocalDate.now()
+            ).format(selectedDate.time), localDate
         )
     ) {
-        if (isDateAfterOrEqualToCurrent(
-                SimpleDateFormat(
-                    "yyyy-MM-dd",
-                    Locale.getDefault()
-                ).format(selectedDate.time), localDate
-            )
-        ) {
-            onUpdateDate2(stripTime(selectedDate.time))
-        } else {
-            onUpdateOpenWarningDialog(
-                true,
-                R.string.avertisment_data_continut_data_inceput
-            )
-        }
+        onUpdateDate2(stripTime(selectedDate.time))
     } else {
         onUpdateOpenWarningDialog(
             true,
-            R.string.avertisment_data_continut_data_curenta
+            R.string.avertisment_data_continut_data_inceput
         )
     }
 }

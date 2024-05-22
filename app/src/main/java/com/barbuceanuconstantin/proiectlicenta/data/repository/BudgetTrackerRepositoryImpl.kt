@@ -45,8 +45,10 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     override fun getTransactionsExpensesSumByDay(currentDate: Date): Double = transactionsDAO.getTransactionsSumByDay(currentDate, "Pasive")
     override fun getRevenueTransactionsByDate(currentDate: Date): List<CategoryAndTransactions> = transactionsDAO.getTransactionsByDate(currentDate, "Active")
     override fun getExpensesTransactionsByDate(currentDate: Date): List<CategoryAndTransactions> = transactionsDAO.getTransactionsByDate(currentDate, "Pasive")
+    override fun getDebtTransactionsByDate(currentDate: Date): List<CategoryAndTransactions> = transactionsDAO.getTransactionsByDate(currentDate, "Datorii")
     override fun getRevenueTransactionsByInterval(startDate: Date, endDate: Date): List<CategoryAndTransactions> = transactionsDAO.getTransactionsByInterval(startDate, endDate, "Active")
     override fun getExpensesTransactionsByInterval(startDate: Date, endDate: Date): List<CategoryAndTransactions> = transactionsDAO.getTransactionsByInterval(startDate, endDate, "Pasive")
+    override fun getDebtTransactionsByInterval(startDate: Date, endDate: Date): List<CategoryAndTransactions> = transactionsDAO.getTransactionsByInterval(startDate, endDate, "Datorii")
     override fun deleteTransactionById(id: Int) = transactionsDAO.deleteTransactionById(id)
     override fun updateTransaction(transaction: Transactions) = transactionsDAO.updateTransaction(transaction)
     /////////////////////////////////////////////////////////

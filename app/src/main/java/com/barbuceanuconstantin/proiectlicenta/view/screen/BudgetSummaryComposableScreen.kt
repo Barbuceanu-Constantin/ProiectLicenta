@@ -210,7 +210,9 @@ fun BudgetSummaryComposableScreen(
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 FadingArrowIcon(budgetSummary = true)
                 TranzactiiLazyColumn(
-                    tranzactii = (budgetSummaryScreenUIState.expensesTransactions + budgetSummaryScreenUIState.revenueTransactions),
+                    tranzactii = (  budgetSummaryScreenUIState.expensesTransactions +
+                                    budgetSummaryScreenUIState.revenueTransactions +
+                                    budgetSummaryScreenUIState.debtTransactions),
                     buttons = buttons,
                     summary = true,
                     navController = navController,
@@ -235,7 +237,9 @@ fun BudgetSummaryComposableScreen(
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 FadingArrowIcon(budgetSummary = true)
                 TranzactiiLazyColumn(
-                    tranzactii = (budgetSummaryScreenUIState.expensesTransactions + budgetSummaryScreenUIState.revenueTransactions),
+                    tranzactii = (  budgetSummaryScreenUIState.expensesTransactions +
+                                    budgetSummaryScreenUIState.revenueTransactions +
+                                    budgetSummaryScreenUIState.debtTransactions),
                     buttons = buttons,
                     summary = true,
                     navController = navController,
@@ -264,7 +268,9 @@ fun BudgetSummaryComposableScreen(
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 FadingArrowIcon(budgetSummary = true)
                 TranzactiiLazyColumn(
-                    tranzactii = (budgetSummaryScreenUIState.expensesTransactions + budgetSummaryScreenUIState.revenueTransactions),
+                    tranzactii = (  budgetSummaryScreenUIState.expensesTransactions +
+                                    budgetSummaryScreenUIState.revenueTransactions +
+                                    budgetSummaryScreenUIState.debtTransactions),
                     buttons = buttons,
                     summary = true,
                     navController = navController,
@@ -286,7 +292,9 @@ fun BudgetSummaryComposableScreen(
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 FadingArrowIcon(budgetSummary = true)
                 TranzactiiLazyColumn(
-                    tranzactii = (budgetSummaryScreenUIState.expensesTransactions + budgetSummaryScreenUIState.revenueTransactions),
+                    tranzactii = (  budgetSummaryScreenUIState.expensesTransactions +
+                                    budgetSummaryScreenUIState.revenueTransactions +
+                                    budgetSummaryScreenUIState.debtTransactions),
                     buttons = buttons,
                     summary = true,
                     navController = navController,
