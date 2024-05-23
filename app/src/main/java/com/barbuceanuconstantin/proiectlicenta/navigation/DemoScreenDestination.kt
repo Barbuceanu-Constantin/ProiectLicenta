@@ -105,8 +105,15 @@ fun DemoScreenDestination(
     navController: NavHostController,
 ) {
     val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
-
-    runInitCategoryLists(hiltViewModel<DemoScreenViewModel>())
+    val onInitCategoryLists = {
+        runInitCategoryLists(viewModel)
+    }
+    val onDeleteTables: (onInitCategoryLists: () -> Unit) -> Unit = { it ->
+        viewModel.onDeleteTables(it)
+    }
+    val updateTablesForDemo: () -> Unit = {
+        viewModel.updateTablesForDemo()
+    }
 
     //Ecran demo
     DemoComposableScreen(
@@ -117,6 +124,9 @@ fun DemoScreenDestination(
                 }
             }
         },
-        demoScreenUIState = state
+        demoScreenUIState = state,
+        onInitCategoryLists = onInitCategoryLists,
+        onDeleteTables = onDeleteTables,
+        updateTablesForDemo = updateTablesForDemo
     )
 }

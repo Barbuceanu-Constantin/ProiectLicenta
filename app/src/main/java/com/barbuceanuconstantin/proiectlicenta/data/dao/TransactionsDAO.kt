@@ -287,6 +287,7 @@ interface TransactionsDAO {
         )
 
         transactionsList.forEach { transaction ->
+            println("dadada " + transaction.id + " " + transaction.categoryId)
             insertTransaction(transaction)
         }
     }
@@ -355,4 +356,10 @@ interface TransactionsDAO {
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun updateTransaction(transaction: Transactions)
+
+    @Query("DELETE FROM transactions")
+    fun deleteAllEntriesFromTransactions()
+
+    @Query("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'transactions'") // Reset auto-increment counter
+    fun resetPrimaryKeyAutoIncrementValueTransactions()
 }

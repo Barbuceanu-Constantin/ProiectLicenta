@@ -13,4 +13,10 @@ interface MainCategoryDAO {
 
     @Query("SELECT * FROM mainCategories")
     fun getAllMainCategories() : List<MainCategories>
+
+    @Query("DELETE FROM mainCategories")
+    fun deleteAllEntriesFromMainCategories()
+
+    @Query("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'mainCategories'") // Reset auto-increment counter
+    fun resetPrimaryKeyAutoIncrementValueMainCategories()
 }

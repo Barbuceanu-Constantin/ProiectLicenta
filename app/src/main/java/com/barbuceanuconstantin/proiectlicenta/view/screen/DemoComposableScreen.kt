@@ -28,7 +28,12 @@ import androidx.compose.ui.text.style.TextDecoration
 fun DemoComposableScreen(
     onNavigateToHomeScreen: () -> Unit,
     demoScreenUIState: DemoScreenUIState,
+    onInitCategoryLists: () -> Unit,
+    onDeleteTables: (onInitCategoryLists: () -> Unit) -> Unit,
+    updateTablesForDemo: () -> Unit
 ) {
+    onInitCategoryLists()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -75,6 +80,7 @@ fun DemoComposableScreen(
                     Button(
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle)),
                         onClick = {
+                            updateTablesForDemo()
                             onNavigateToHomeScreen()
                         }
                     ) {
@@ -91,11 +97,28 @@ fun DemoComposableScreen(
                     Button(
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle)),
                         onClick = {
+                            onDeleteTables { onInitCategoryLists() }
                             onNavigateToHomeScreen()
                         }
                     ) {
                         Text(
                             text = stringResource(id = R.string.pornire_de_la_zero),
+                            style = TextStyle(
+                                fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+                            )
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.middle)))
+
+                    Button(
+                        modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle)),
+                        onClick = {
+                            onNavigateToHomeScreen()
+                        }
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.continuare),
                             style = TextStyle(
                                 fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
                             )

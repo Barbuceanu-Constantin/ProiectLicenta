@@ -1,11 +1,14 @@
 package com.barbuceanuconstantin.proiectlicenta.di
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,4 +17,24 @@ class DemoScreenViewModel @Inject constructor(val budgetTrackerRepository: Budge
 
     val stateFlow: StateFlow<DemoScreenUIState>
         get() = _stateFlow.asStateFlow()
+
+    fun onDeleteTables(onInitCategoryLists: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            budgetTrackerRepository.deleteAllMainCategories()
+            budgetTrackerRepository.deleteAllBudgets()
+            budgetTrackerRepository.deleteAllTransactions()
+            budgetTrackerRepository.deleteAllCategories()
+            budgetTrackerRepository.resetPrimaryKeyAutoIncrementValueMainCategories()
+            budgetTrackerRepository.resetPrimaryKeyAutoIncrementValueCategories()
+            budgetTrackerRepository.resetPrimaryKeyAutoIncrementValueTransactions()
+            budgetTrackerRepository.resetPrimaryKeyAutoIncrementValueBudgets()
+            onInitCategoryLists()
+        }
+    }
+
+    fun updateTablesForDemo() {
+        viewModelScope.launch(Dispatchers.IO) {
+            budgetTrackerRepository.prepopulateDbForDemo()
+        }
+    }
 }

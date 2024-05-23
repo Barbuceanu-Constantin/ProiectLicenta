@@ -27,9 +27,15 @@ interface CategoryDAO {
     @Query("SELECT id FROM categories where name = :name AND main_category = :main")
     fun getCategoryId(name: String, main: String) : Int
 
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    fun updateCategory(category: Categories)
+
     @Query("DELETE FROM categories WHERE name = :name AND  main_category = :main")
     fun deleteCategoryByNameAndPrincipal(name: String, main: String)
 
-    @Update(onConflict = OnConflictStrategy.IGNORE)
-    fun updateCategory(category: Categories)
+    @Query("DELETE FROM categories")
+    fun deleteAllEntriesFromCategories()
+
+    @Query("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'categories'") // Reset auto-increment counter
+    fun resetPrimaryKeyAutoIncrementValueCategories()
 }

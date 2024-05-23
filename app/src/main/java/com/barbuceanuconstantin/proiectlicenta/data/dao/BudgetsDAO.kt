@@ -20,4 +20,10 @@ interface BudgetsDAO {
 
     @Query("DELETE FROM budgets WHERE name = :name")
     fun deleteBudgetByName(name: String)
+
+    @Query("DELETE FROM budgets")
+    fun deleteAllEntriesFromBudgets()
+
+    @Query("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'budgets'") // Reset auto-increment counter
+    fun resetPrimaryKeyAutoIncrementValueBudgets()
 }
