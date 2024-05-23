@@ -21,7 +21,7 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
 ) : BudgetTrackerRepository {
     /////////////////////////////////////////////////////////
     override suspend fun insertMainCategory(mainCategory: MainCategories) = mainCategoryDAO.insertMainCategory(mainCategory)
-    override fun getAllMainCategories(): Flow<List<MainCategories>> = mainCategoryDAO.getAllMainCategories()
+    override fun getAllMainCategories(): List<MainCategories> = mainCategoryDAO.getAllMainCategories()
     /////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////
@@ -40,6 +40,7 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
 
     /////////////////////////////////////////////////////////
     override suspend fun insertTransaction(transaction: Transactions) = transactionsDAO.insertTransaction(transaction)
+    override suspend fun prepopulateDbForDemo() = transactionsDAO.prepopulateDbForDemo()
     override fun getAllTransactions(): Flow<List<Transactions>> = transactionsDAO.getAllTransactions()
     override fun getTransactionsRevenuesSumByDay(currentDate: Date): Double = transactionsDAO.getTransactionsSumByDay(currentDate, "Active")
     override fun getTransactionsExpensesSumByDay(currentDate: Date): Double = transactionsDAO.getTransactionsSumByDay(currentDate, "Pasive")

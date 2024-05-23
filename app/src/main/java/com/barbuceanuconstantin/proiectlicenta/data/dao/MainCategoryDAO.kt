@@ -12,5 +12,5 @@ interface MainCategoryDAO {
     fun insertMainCategory(mainCategory: MainCategories)
 
     @Query("SELECT * FROM mainCategories")
-    fun getAllMainCategories() : Flow<List<MainCategories>>
+    fun getAllMainCategories() : List<MainCategories>
 }

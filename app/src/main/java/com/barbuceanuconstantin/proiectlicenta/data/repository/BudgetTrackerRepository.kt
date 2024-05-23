@@ -11,7 +11,7 @@ import java.util.Date
 interface BudgetTrackerRepository {
     ///////////////////////////////////////////////
     suspend fun insertMainCategory(mainCategory: MainCategories)
-    fun getAllMainCategories(): Flow<List<MainCategories>>
+    fun getAllMainCategories(): List<MainCategories>
     ///////////////////////////////////////////////
 
     ///////////////////////////////////////////////
@@ -30,6 +30,7 @@ interface BudgetTrackerRepository {
 
     ///////////////////////////////////////////////
     suspend fun insertTransaction(transaction: Transactions)
+    suspend fun prepopulateDbForDemo()
     fun getAllTransactions(): Flow<List<Transactions>>
     fun getTransactionsRevenuesSumByDay(currentDate: Date): Double
     fun getTransactionsExpensesSumByDay(currentDate: Date): Double

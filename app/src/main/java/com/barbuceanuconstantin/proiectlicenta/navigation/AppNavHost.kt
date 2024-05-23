@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 
+const val demoScreen = "demoScreen"
 const val homeScreen = "homeScreen"
 const val transactionScreen = "transactionScreen"
 const val categoriesScreen = "categoriesScreen"
@@ -26,6 +27,10 @@ const val editBudgetScreenShortPath = "editBudgetScreen"
 fun AppNavHost(navController: NavHostController,
                startDestination: String) {
     NavHost(navController = navController, startDestination = startDestination) {
+        composable(demoScreen)
+        {
+            DemoScreenDestination(navController = navController)
+        }
         composable(homeScreen)
         {
             HomeScreenDestination(navController = navController)

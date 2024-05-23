@@ -41,8 +41,7 @@ object DatabaseModule {
                                     BudgetTrackerDatabase::class.java,
                                     "budget_tracker_database"
                                 )
-                    .fallbackToDestructiveMigration() //.allowMainThreadQueries()
-                    .createFromAsset("databases/transactions.db")
+                    .fallbackToDestructiveMigration() //.allowMainThreadQueries() //.createFromAsset("databases/transactions.db")
                     .build()
     }
 }

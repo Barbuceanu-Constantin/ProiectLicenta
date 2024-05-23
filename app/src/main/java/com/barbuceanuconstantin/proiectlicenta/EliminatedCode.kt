@@ -845,3 +845,8 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //}
 
 //Fosta preinitializare la categorii
+
+//fun CoroutineScope.insertTransactionsDemo(viewModel: PrincipalScreenViewModel) = launch {
+//    viewModel.budgetTrackerRepository.prepopulateDbForDemo()
+//}
+//CoroutineScope(Dispatchers.Default).insertTransactionsDemo(viewModel = viewModel,)

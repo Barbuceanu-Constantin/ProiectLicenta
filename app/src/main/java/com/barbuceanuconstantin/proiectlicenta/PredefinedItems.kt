@@ -3,7 +3,10 @@ package com.barbuceanuconstantin.proiectlicenta
 var subcategorysPredefiniteActive = mutableListOf(
     "Salariu",
     "Bursa",
-    "Treburi marunte"
+    "Bani parinti",
+    "Chirie",
+    "Treburi marunte",
+    "Vanzare legume"
 ).sorted()
 
 var subcategorysPredefinitePasive = mutableListOf(
@@ -15,13 +18,16 @@ var subcategorysPredefinitePasive = mutableListOf(
     "Reparatii masina",
     "Abonament metrou",
     "Abonament transport suprafata",
-    "Tips"
+    "Tips",
+    "Benzina",
+    "Factura curent",
+    "Factura apa",
+    "Factura gaz",
+    "Internet"
 ).sorted()
 
 var subcategorysPredefiniteDatorii = mutableListOf(
-    "Credit1",
-    "Credit2",
-    "Credit3",
+    "Leasing auto"
 ).sorted()
 
 const val showAIndex = 0

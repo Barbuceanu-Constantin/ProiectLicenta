@@ -19,26 +19,27 @@ import java.util.Date
 data class Transactions(
     @PrimaryKey(autoGenerate = true) val id: Int,
 
-    @ColumnInfo(name = "category_id", index = true)
-    var categoryId: Int,
-
-    @ColumnInfo(name = "value")
-    var value: Double,
+    @ColumnInfo(name = "payee")
+    var payee: String,
 
     @ColumnInfo(name = "description")
     var description: String,
 
+    @ColumnInfo(name = "value")
+    var value: Double,
+
+    @ColumnInfo(name = "category_id", index = true)
+    var categoryId: Int,
+
     @ColumnInfo(name = "date")
     var date: Date,
-
-    @ColumnInfo(name = "payee")
-    var payee: String
 ) {
-    constructor(categoryId: Int,
-                value: Double,
+    constructor(payee: String,
                 description: String,
+                value: Double,
+                categoryId: Int,
                 date: Date,
-                payee: String): this( id = 0, categoryId = categoryId,
+                ): this( id = 0, categoryId = categoryId,
                                       value = value, description = description, date = date,
                                       payee = payee)
 }

@@ -37,7 +37,6 @@ fun EditCategoryScreenDestination(
     val categoryObject = gson.fromJson(categoryJson, Categories::class.java)
 
     val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
-    println("DADADA3 " + state.readyToGo + "   " + state.alertDialog)
     runGetCategoriesLists(viewModel)
 
     val updateState: (Boolean, Boolean, Boolean) -> Unit = { showA, showP, showD ->
