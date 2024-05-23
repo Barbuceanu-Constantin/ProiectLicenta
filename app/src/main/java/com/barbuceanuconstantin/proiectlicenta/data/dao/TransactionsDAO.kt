@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import kotlinx.coroutines.flow.Flow
@@ -21,15 +20,27 @@ interface TransactionsDAO {
     fun getAllTransactions() : Flow<List<Transactions>>
 
     @Transaction
-    @Query("SELECT * FROM categories where main_category == :mainCategory")
-    fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions>
+    @Query("SELECT * FROM categories where main_category == :mainCategory order by name ASC")
+    fun getTransactionsCategoryListQuery(mainCategory: String) : List<CategoryAndTransactions>
+
+    fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions> {
+        val list = getTransactionsCategoryListQuery(mainCategory)
+
+        list.forEach { categoryAndTransactions ->
+            val sortedTransactions = categoryAndTransactions.transactions.sortedByDescending { it.date }
+            categoryAndTransactions.transactions = sortedTransactions
+        }
+
+        return list
+    }
 
     @Transaction
     fun getTransactionsByDate(currentDate: Date, mainCategory: String): List<CategoryAndTransactions>{
-        val list = getTransactionsCategoryList(mainCategory)
+        val list = getTransactionsCategoryListQuery(mainCategory)
 
         list.forEach { categoryAndTransactions ->
             val filteredTransactions = categoryAndTransactions.transactions.filter { it.date == currentDate }
+                                                                           .sortedByDescending { it.date }
             categoryAndTransactions.transactions = filteredTransactions
         }
 
@@ -38,10 +49,11 @@ interface TransactionsDAO {
 
     @Transaction
     fun getTransactionsByInterval(startDate: Date, endDate: Date, mainCategory: String): List<CategoryAndTransactions>{
-        val list = getTransactionsCategoryList(mainCategory)
+        val list = getTransactionsCategoryListQuery(mainCategory)
 
         list.forEach { categoryAndTransactions ->
-            val filteredTransactions = categoryAndTransactions.transactions.filter { it.date in startDate..endDate }
+            val filteredTransactions = categoryAndTransactions.transactions .filter { it.date in startDate..endDate }
+                                                                            .sortedByDescending { it.date }
             categoryAndTransactions.transactions = filteredTransactions
         }
 
