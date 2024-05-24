@@ -38,7 +38,7 @@ import com.barbuceanuconstantin.proiectlicenta.HeaderSelectCategoryOrTransaction
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.di.EditTransactionScreenUIState
-import com.barbuceanuconstantin.proiectlicenta.listCategories
+import com.barbuceanuconstantin.proiectlicenta.ListCategories
 import com.barbuceanuconstantin.proiectlicenta.stripTime
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoriesMenu
 import com.barbuceanuconstantin.proiectlicenta.warningDialog
@@ -155,28 +155,28 @@ fun EditTransactionScreen(
             if (showA && !showP && !showD) {
                 CategoriesMenu(
                     lSubcategorys = editTransactionScreenUIState.listCategoriesRevenue,
-                    listType = listCategories.REVENUES,
+                    listType = ListCategories.REVENUES,
                     categoryName = editTransactionScreenUIState.categoryName,
                     updateCategoryNameSimple = updateCategoryNameSimple,
                 )
             } else if (showP && !showA && !showD) {
                 CategoriesMenu(
                     lSubcategorys = editTransactionScreenUIState.listCategoriesExpenses,
-                    listType = listCategories.EXPENSES,
+                    listType = ListCategories.EXPENSES,
                     categoryName = editTransactionScreenUIState.categoryName,
                     updateCategoryNameSimple = updateCategoryNameSimple,
                 )
             } else if (showD && !showA && !showP) {
                 CategoriesMenu(
                     lSubcategorys = editTransactionScreenUIState.listCategoriesDebts,
-                    listType = listCategories.DEBT,
+                    listType = ListCategories.DEBT,
                     categoryName = editTransactionScreenUIState.categoryName,
                     updateCategoryNameSimple = updateCategoryNameSimple,
                 )
             } else {
                 CategoriesMenu(
                     lSubcategorys = editTransactionScreenUIState.listCategoriesRevenue,
-                    listType = listCategories.REVENUES,
+                    listType = ListCategories.REVENUES,
                     categoryName = editTransactionScreenUIState.categoryName,
                     updateCategoryNameSimple = updateCategoryNameSimple,
                 )

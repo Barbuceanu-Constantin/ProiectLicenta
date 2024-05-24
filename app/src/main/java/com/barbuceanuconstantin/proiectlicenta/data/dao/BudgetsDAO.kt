@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 
@@ -22,8 +23,8 @@ interface BudgetsDAO {
     fun deleteBudgetByName(name: String)
 
     @Query("DELETE FROM budgets")
-    fun deleteAllEntriesFromBudgets()
+    suspend fun deleteAllEntriesFromBudgets()
 
     @Query("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'budgets'") // Reset auto-increment counter
-    fun resetPrimaryKeyAutoIncrementValueBudgets()
+    suspend fun resetPrimaryKeyAutoIncrementValueBudgets()
 }

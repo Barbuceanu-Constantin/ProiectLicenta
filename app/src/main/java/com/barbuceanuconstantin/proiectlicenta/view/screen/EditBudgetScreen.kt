@@ -44,7 +44,7 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.di.EditBudgetScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
-import com.barbuceanuconstantin.proiectlicenta.listCategories
+import com.barbuceanuconstantin.proiectlicenta.ListCategories
 import com.barbuceanuconstantin.proiectlicenta.stripTime
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.CategoriesMenu
 import com.barbuceanuconstantin.proiectlicenta.warningDialog
@@ -217,7 +217,7 @@ fun EditBudgetScreen(
 
             CategoriesMenu(
                 lSubcategorys = editBudgetScreenUIState.expenseCategoriesList,
-                listType = listCategories.EXPENSES,
+                listType = ListCategories.EXPENSES,
                 categoryName = editBudgetScreenUIState.categoryName,
                 updateCategoryNameSimple = updateCategoryNameSimple,
             )

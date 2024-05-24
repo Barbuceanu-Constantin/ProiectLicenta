@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.barbuceanuconstantin.proiectlicenta.data.BudgetTrackerDatabase
 import com.barbuceanuconstantin.proiectlicenta.data.dao.BudgetsDAO
 import com.barbuceanuconstantin.proiectlicenta.data.dao.CategoryDAO
+import com.barbuceanuconstantin.proiectlicenta.data.dao.DatabaseDAO
 import com.barbuceanuconstantin.proiectlicenta.data.dao.MainCategoryDAO
 import com.barbuceanuconstantin.proiectlicenta.data.dao.TransactionsDAO
 import dagger.Module
@@ -17,6 +18,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 object DatabaseModule {
+    @Provides
+    fun provideDatabaseDao(budgetTrackerDatabase: BudgetTrackerDatabase): DatabaseDAO {
+        return  budgetTrackerDatabase.databaseDAO()
+    }
+
     @Provides
     fun provideMainCategoryDao(budgetTrackerDatabase: BudgetTrackerDatabase): MainCategoryDAO {
         return  budgetTrackerDatabase.mainCategoryDao()

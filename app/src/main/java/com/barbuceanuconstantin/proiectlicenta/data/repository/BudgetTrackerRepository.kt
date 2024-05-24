@@ -9,15 +9,18 @@ import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
 interface BudgetTrackerRepository {
+    fun clearPrimaryKeyIndex()
+    suspend fun resetDb()
     ///////////////////////////////////////////////
     suspend fun insertMainCategory(mainCategory: MainCategories)
     fun getAllMainCategories(): List<MainCategories>
-    fun deleteAllMainCategories()
-    fun resetPrimaryKeyAutoIncrementValueMainCategories()
+    suspend fun deleteAllMainCategories()
+    suspend fun resetPrimaryKeyAutoIncrementValueMainCategories()
     ///////////////////////////////////////////////
 
     ///////////////////////////////////////////////
     suspend fun insertCategory(category: Categories): Long
+    fun getSeqIndexCategories() : Int
     fun getAllCategories(): List<Categories>
     fun getCategoryName(id: Int) : String
     fun getCategoryId(name: String, main: String) : Int
@@ -28,8 +31,9 @@ interface BudgetTrackerRepository {
     fun deleteCategoryByNameAndPrincipal(name: String, main: String)
     fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions>
     fun getTransactionsCategoryListTotalSum(mainCategory: String): Double
-    fun deleteAllCategories()
-    fun resetPrimaryKeyAutoIncrementValueCategories()
+    suspend fun deleteAllCategories()
+    suspend fun deletePrimaryKeyIndexCategories()
+    suspend fun resetPrimaryKeyAutoIncrementValueCategories()
     ///////////////////////////////////////////////
 
     ///////////////////////////////////////////////
@@ -46,8 +50,8 @@ interface BudgetTrackerRepository {
     fun getDebtTransactionsByInterval(startDate: Date, endDate: Date): List<CategoryAndTransactions>
     fun deleteTransactionById(id: Int)
     fun updateTransaction(transaction: Transactions)
-    fun deleteAllTransactions()
-    fun resetPrimaryKeyAutoIncrementValueTransactions()
+    suspend fun deleteAllTransactions()
+    suspend fun resetPrimaryKeyAutoIncrementValueTransactions()
     ///////////////////////////////////////////////
 
     ///////////////////////////////////////////////
@@ -55,7 +59,7 @@ interface BudgetTrackerRepository {
     fun getAllBudgets(): List<Budgets>
     fun updateBudget(budget: Budgets)
     fun deleteBudgetByName(name: String)
-    fun deleteAllBudgets()
-    fun resetPrimaryKeyAutoIncrementValueBudgets()
+    suspend fun deleteAllBudgets()
+    suspend fun resetPrimaryKeyAutoIncrementValueBudgets()
     ///////////////////////////////////////////////
 }

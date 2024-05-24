@@ -7,7 +7,7 @@ var subcategorysPredefiniteActive = mutableListOf(
     "Chirie",
     "Treburi marunte",
     "Vanzare legume"
-).sorted()
+)
 
 var subcategorysPredefinitePasive = mutableListOf(
     "Mancare",
@@ -24,11 +24,11 @@ var subcategorysPredefinitePasive = mutableListOf(
     "Factura apa",
     "Factura gaz",
     "Internet"
-).sorted()
+)
 
 var subcategorysPredefiniteDatorii = mutableListOf(
     "Leasing auto"
-).sorted()
+)
 
 const val showAIndex = 0
 const val showPIndex = 1
@@ -37,6 +37,6 @@ const val returnToTransactionIndex = 3
 const val returnToBudgetSummaryIndex = 4
 const val returnToCalendarIndex = 5
 
-enum class listCategories {
+enum class ListCategories {
     REVENUES, EXPENSES, DEBT
 }

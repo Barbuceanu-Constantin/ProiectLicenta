@@ -12,23 +12,22 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DemoScreenViewModel @Inject constructor(val budgetTrackerRepository: BudgetTrackerRepository): ViewModel() {
+class DemoScreenViewModel @Inject constructor(
+    val budgetTrackerRepository: BudgetTrackerRepository
+): ViewModel() {
     private val _stateFlow = MutableStateFlow(DemoScreenUIState())
 
     val stateFlow: StateFlow<DemoScreenUIState>
         get() = _stateFlow.asStateFlow()
 
-    fun onDeleteTables(onInitCategoryLists: () -> Unit) {
+    fun onDeleteTables() {
         viewModelScope.launch(Dispatchers.IO) {
             budgetTrackerRepository.deleteAllMainCategories()
             budgetTrackerRepository.deleteAllBudgets()
             budgetTrackerRepository.deleteAllTransactions()
             budgetTrackerRepository.deleteAllCategories()
-            budgetTrackerRepository.resetPrimaryKeyAutoIncrementValueMainCategories()
-            budgetTrackerRepository.resetPrimaryKeyAutoIncrementValueCategories()
-            budgetTrackerRepository.resetPrimaryKeyAutoIncrementValueTransactions()
-            budgetTrackerRepository.resetPrimaryKeyAutoIncrementValueBudgets()
-            onInitCategoryLists()
+            budgetTrackerRepository.deletePrimaryKeyIndexCategories()
+            budgetTrackerRepository.resetDb()
         }
     }
 

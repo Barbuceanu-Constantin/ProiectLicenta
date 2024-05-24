@@ -32,12 +32,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.toSize
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
-import com.barbuceanuconstantin.proiectlicenta.listCategories
+import com.barbuceanuconstantin.proiectlicenta.ListCategories
 
 @Composable
 fun CategoriesMenu(
     updateCategoryNameSimple: (String, String) -> Unit,
-    listType: listCategories,
+    listType: ListCategories,
     lSubcategorys: List<Categories>,
     categoryName: String,
 ) {
@@ -54,11 +54,11 @@ fun CategoriesMenu(
         OutlinedTextField(
             value = categoryName,
             onValueChange = {
-                if (listType == listCategories.REVENUES)
+                if (listType == ListCategories.REVENUES)
                     updateCategoryNameSimple(it, "Active")
-                if (listType == listCategories.EXPENSES)
+                if (listType == ListCategories.EXPENSES)
                     updateCategoryNameSimple(it, "Pasive")
-                if (listType == listCategories.DEBT)
+                if (listType == ListCategories.DEBT)
                     updateCategoryNameSimple(it, "Datorii")
             },
             modifier = Modifier.fillMaxWidth().onGloballyPositioned { coordinates ->
@@ -89,11 +89,11 @@ fun CategoriesMenu(
                     DropdownMenuItem(
                         onClick = {
                             expanded1 = false
-                            if (listType == listCategories.REVENUES)
+                            if (listType == ListCategories.REVENUES)
                                 updateCategoryNameSimple(label.name, "Active")
-                            if (listType == listCategories.EXPENSES)
+                            if (listType == ListCategories.EXPENSES)
                                 updateCategoryNameSimple(label.name, "Pasive")
-                            if (listType == listCategories.DEBT)
+                            if (listType == ListCategories.DEBT)
                                 updateCategoryNameSimple(label.name, "Datorii")
                         },
                         text = { Text(text = label.name) },
@@ -111,11 +111,11 @@ fun CategoriesMenu(
                     DropdownMenuItem(
                         onClick = {
                             expanded2 = false
-                            if (listType == listCategories.REVENUES)
+                            if (listType == ListCategories.REVENUES)
                                 updateCategoryNameSimple(label.name, "Active")
-                            if (listType == listCategories.EXPENSES)
+                            if (listType == ListCategories.EXPENSES)
                                 updateCategoryNameSimple(label.name, "Pasive")
-                            if (listType == listCategories.DEBT)
+                            if (listType == ListCategories.DEBT)
                                 updateCategoryNameSimple(label.name, "Datorii")
                         },
                         text = { Text(text = label.name) },

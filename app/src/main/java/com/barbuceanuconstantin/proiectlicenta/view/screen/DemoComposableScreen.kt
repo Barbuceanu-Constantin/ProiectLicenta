@@ -23,13 +23,14 @@ import com.barbuceanuconstantin.proiectlicenta.di.DemoScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import androidx.compose.ui.text.style.TextDecoration
+import kotlinx.coroutines.runBlocking
 
 @Composable
 fun DemoComposableScreen(
     onNavigateToHomeScreen: () -> Unit,
     demoScreenUIState: DemoScreenUIState,
     onInitCategoryLists: () -> Unit,
-    onDeleteTables: (onInitCategoryLists: () -> Unit) -> Unit,
+    onDeleteTables: () -> Unit,
     updateTablesForDemo: () -> Unit
 ) {
     onInitCategoryLists()
@@ -80,7 +81,9 @@ fun DemoComposableScreen(
                     Button(
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle)),
                         onClick = {
-                            updateTablesForDemo()
+                            runBlocking {
+                                updateTablesForDemo()
+                            }
                             onNavigateToHomeScreen()
                         }
                     ) {
@@ -97,7 +100,12 @@ fun DemoComposableScreen(
                     Button(
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle)),
                         onClick = {
-                            onDeleteTables { onInitCategoryLists() }
+                            runBlocking {
+                                onDeleteTables()
+                            }
+                            runBlocking {
+                                onInitCategoryLists()
+                            }
                             onNavigateToHomeScreen()
                         }
                     ) {

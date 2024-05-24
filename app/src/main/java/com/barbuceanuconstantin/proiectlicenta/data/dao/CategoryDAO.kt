@@ -7,8 +7,6 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
-import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
-
 
 @Dao
 interface CategoryDAO {
@@ -33,9 +31,17 @@ interface CategoryDAO {
     @Query("DELETE FROM categories WHERE name = :name AND  main_category = :main")
     fun deleteCategoryByNameAndPrincipal(name: String, main: String)
 
+    @Transaction
     @Query("DELETE FROM categories")
-    fun deleteAllEntriesFromCategories()
+    suspend fun deleteAllEntriesFromCategories()
 
+    @Transaction
     @Query("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'categories'") // Reset auto-increment counter
-    fun resetPrimaryKeyAutoIncrementValueCategories()
+    suspend fun resetPrimaryKeyAutoIncrementValueCategories()
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'categories'")
+    suspend fun deletePrimaryKeyIndexCategories()
+
+    @Query("SELECT seq FROM sqlite_sequence WHERE name = 'categories'")
+    fun getSeqIndexCategories() : Int
 }

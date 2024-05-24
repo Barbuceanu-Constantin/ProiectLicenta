@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.barbuceanuconstantin.proiectlicenta.data.dao.BudgetsDAO
 import com.barbuceanuconstantin.proiectlicenta.data.dao.CategoryDAO
+import com.barbuceanuconstantin.proiectlicenta.data.dao.DatabaseDAO
 import com.barbuceanuconstantin.proiectlicenta.data.dao.MainCategoryDAO
 import com.barbuceanuconstantin.proiectlicenta.data.dao.TransactionsDAO
 
@@ -14,6 +15,7 @@ import com.barbuceanuconstantin.proiectlicenta.data.dao.TransactionsDAO
 )
 @TypeConverters(Converters::class)
 abstract class BudgetTrackerDatabase: RoomDatabase() {
+    abstract fun databaseDAO(): DatabaseDAO
     abstract fun mainCategoryDao(): MainCategoryDAO
     abstract fun categoryDao(): CategoryDAO
     abstract fun transactionsDao(): TransactionsDAO

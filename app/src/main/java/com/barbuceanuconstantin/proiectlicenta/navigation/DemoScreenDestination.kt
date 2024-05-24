@@ -67,8 +67,8 @@ fun runInitCategoryLists(viewModel: DemoScreenViewModel) {
                 )
             }
 
-            runBlocking {
-                for (category in subcategorysPredefiniteActive) {
+            for (category in subcategorysPredefiniteActive) {
+                runBlocking {
                     CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
                         viewModel = viewModel,
                         categoryName = category,
@@ -77,8 +77,8 @@ fun runInitCategoryLists(viewModel: DemoScreenViewModel) {
                 }
             }
 
-            runBlocking {
-                for (category in subcategorysPredefinitePasive) {
+            for (category in subcategorysPredefinitePasive) {
+                runBlocking {
                     CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
                         viewModel = viewModel,
                         categoryName = category,
@@ -87,8 +87,8 @@ fun runInitCategoryLists(viewModel: DemoScreenViewModel) {
                 }
             }
 
-            runBlocking {
-                for (category in subcategorysPredefiniteDatorii) {
+            for (category in subcategorysPredefiniteDatorii) {
+                runBlocking {
                     CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
                         viewModel = viewModel,
                         categoryName = category,
@@ -108,8 +108,8 @@ fun DemoScreenDestination(
     val onInitCategoryLists = {
         runInitCategoryLists(viewModel)
     }
-    val onDeleteTables: (onInitCategoryLists: () -> Unit) -> Unit = { it ->
-        viewModel.onDeleteTables(it)
+    val onDeleteTables: () -> Unit = {
+        viewModel.onDeleteTables()
     }
     val updateTablesForDemo: () -> Unit = {
         viewModel.updateTablesForDemo()
