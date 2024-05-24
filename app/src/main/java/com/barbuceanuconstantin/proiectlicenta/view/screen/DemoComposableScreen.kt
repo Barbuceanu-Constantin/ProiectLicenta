@@ -11,6 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -23,17 +28,64 @@ import com.barbuceanuconstantin.proiectlicenta.di.DemoScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import androidx.compose.ui.text.style.TextDecoration
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
 @Composable
 fun DemoComposableScreen(
     onNavigateToHomeScreen: () -> Unit,
     demoScreenUIState: DemoScreenUIState,
-    onInitCategoryLists: () -> Unit,
-    onDeleteTables: () -> Unit,
-    updateTablesForDemo: () -> Unit
+    onInitCategoryLists: suspend () -> Unit,
+    onDeleteTables: suspend () -> Unit,
+    updateTablesForDemo: suspend () -> Unit,
+    getCategoryCount: () -> Unit,
+    isEmpty: () -> Unit,
+    isEmptyTransactions: () -> Unit
 ) {
-    onInitCategoryLists()
+    var isClicked1 by remember { mutableStateOf(false) }
+    var isClicked2 by remember { mutableStateOf(false) }
+    var isClicked3 by remember { mutableStateOf(false) }
+
+    if (isClicked1) {
+        isEmpty()
+        isEmptyTransactions()
+        LaunchedEffect(Unit) {
+            if(demoScreenUIState.isEmpty) {
+                runBlocking {
+                    onInitCategoryLists()
+                    isEmpty()
+                    isEmptyTransactions()
+                }
+
+                runBlocking {
+                    updateTablesForDemo()
+                    isEmpty()
+                    isEmptyTransactions()
+                }
+            }
+            delay(5000)
+            onNavigateToHomeScreen()
+        }
+    } else if (isClicked2) {
+        LaunchedEffect(Unit) {
+            runBlocking {
+                onDeleteTables()
+                isEmpty()
+                isEmptyTransactions()
+            }
+
+            runBlocking {
+                onInitCategoryLists()
+                isEmpty()
+                isEmptyTransactions()
+            }
+
+            delay(5000)
+            onNavigateToHomeScreen()
+        }
+    } else if (isClicked3) {
+        onNavigateToHomeScreen()
+    }
 
     Box(
         modifier = Modifier
@@ -81,10 +133,8 @@ fun DemoComposableScreen(
                     Button(
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle)),
                         onClick = {
-                            runBlocking {
-                                updateTablesForDemo()
-                            }
-                            onNavigateToHomeScreen()
+                            if (!isClicked2 && !isClicked3)
+                                isClicked1 = true
                         }
                     ) {
                         Text(
@@ -100,13 +150,8 @@ fun DemoComposableScreen(
                     Button(
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle)),
                         onClick = {
-                            runBlocking {
-                                onDeleteTables()
-                            }
-                            runBlocking {
-                                onInitCategoryLists()
-                            }
-                            onNavigateToHomeScreen()
+                            if (!isClicked1 && !isClicked3)
+                                isClicked2 = true
                         }
                     ) {
                         Text(
@@ -122,7 +167,8 @@ fun DemoComposableScreen(
                     Button(
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle)),
                         onClick = {
-                            onNavigateToHomeScreen()
+                            if (!isClicked1 && !isClicked2)
+                                isClicked3 = true
                         }
                     ) {
                         Text(

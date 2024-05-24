@@ -10,11 +10,17 @@ import com.barbuceanuconstantin.proiectlicenta.data.Categories
 
 @Dao
 interface CategoryDAO {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertCategory(category: Categories): Long
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCategory(category: Categories): Long
 
     @Query("SELECT * FROM categories")
     fun getAllCategories() : List<Categories>
+
+    @Query("SELECT COUNT(*) FROM categories")
+    fun getCategoryCount(): Int
+
+    @Query("SELECT (SELECT COUNT(*) FROM categories) == 0")
+    fun isEmptyCategories(): Boolean
 
     @Query("SELECT * FROM categories where main_category == :mainCategory")
     fun getListCategories(mainCategory: String) : List<Categories>
@@ -36,7 +42,7 @@ interface CategoryDAO {
     suspend fun deleteAllEntriesFromCategories()
 
     @Transaction
-    @Query("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'categories'") // Reset auto-increment counter
+    @Query("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'categories'")
     suspend fun resetPrimaryKeyAutoIncrementValueCategories()
 
     @Query("DELETE FROM sqlite_sequence WHERE name = 'categories'")

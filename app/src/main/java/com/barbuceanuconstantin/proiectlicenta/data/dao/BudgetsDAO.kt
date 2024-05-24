@@ -16,6 +16,9 @@ interface BudgetsDAO {
     @Query("SELECT * FROM budgets")
     fun getAllBudgets() : List<Budgets>
 
+    @Query("SELECT (SELECT COUNT(*) FROM budgets) == 0")
+    fun isEmptyBudgets(): Boolean
+
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun updateBudget(budget: Budgets)
 
@@ -25,6 +28,9 @@ interface BudgetsDAO {
     @Query("DELETE FROM budgets")
     suspend fun deleteAllEntriesFromBudgets()
 
-    @Query("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'budgets'") // Reset auto-increment counter
+    @Query("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'budgets'")
     suspend fun resetPrimaryKeyAutoIncrementValueBudgets()
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'budgets'")
+    suspend fun deletePrimaryKeyIndexBudgets()
 }

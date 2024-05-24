@@ -47,7 +47,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
+import com.barbuceanuconstantin.proiectlicenta.data.MainCategories
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
+import com.barbuceanuconstantin.proiectlicenta.di.DemoScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.PrincipalScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.view.screen.isDateAfterOrEqualToCurrent
 import kotlinx.coroutines.CoroutineScope
@@ -850,3 +852,89 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //    viewModel.budgetTrackerRepository.prepopulateDbForDemo()
 //}
 //CoroutineScope(Dispatchers.Default).insertTransactionsDemo(viewModel = viewModel,)
+
+///////////////////////////////////////////////////////////////////////
+
+//fun CoroutineScope.insertMainCategory(
+//    viewModel: DemoScreenViewModel,
+//    name: String
+//) = launch {
+//    viewModel.budgetTrackerRepository.insertMainCategory(MainCategories(name = name))
+//}
+
+//fun CoroutineScope.insertPredefinedCategory(
+//    viewModel: DemoScreenViewModel,
+//    categoryName: String,
+//    mainCategory: String
+//) = launch {
+//    viewModel.budgetTrackerRepository.insertCategory(Categories(mainCategory = mainCategory, name = categoryName))
+//}
+//
+//// Extension function to check if the categories list is empty or not
+//suspend fun isMainCategoriesEmpty(viewModel: DemoScreenViewModel): Boolean {
+//    return withContext(Dispatchers.IO) {
+//        val categories = viewModel.budgetTrackerRepository.getAllMainCategories()
+//        categories.isEmpty()
+//    }
+//}
+//
+//fun runInitCategoryLists(viewModel: DemoScreenViewModel) {
+//    runBlocking {
+//        val isEmpty = isMainCategoriesEmpty(viewModel)
+//
+//        if (isEmpty) {
+//            runBlocking {
+//                CoroutineScope(Dispatchers.Default).insertMainCategory(
+//                    viewModel = viewModel,
+//                    name = "Active"
+//                )
+//            }
+//
+//            runBlocking {
+//                CoroutineScope(Dispatchers.Default).insertMainCategory(
+//                    viewModel = viewModel,
+//                    name = "Pasive"
+//                )
+//            }
+//
+//            runBlocking {
+//                CoroutineScope(Dispatchers.Default).insertMainCategory(
+//                    viewModel = viewModel,
+//                    name = "Datorii"
+//                )
+//            }
+//        } else {
+//            for (category in subcategorysPredefiniteActive) {
+//                runBlocking {
+//                    CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
+//                        viewModel = viewModel,
+//                        categoryName = category,
+//                        mainCategory = "Active"
+//                    )
+//                }
+//            }
+//
+//            for (category in subcategorysPredefinitePasive) {
+//                runBlocking {
+//                    CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
+//                        viewModel = viewModel,
+//                        categoryName = category,
+//                        mainCategory = "Pasive"
+//                    )
+//                }
+//            }
+//
+//            for (category in subcategorysPredefiniteDatorii) {
+//                runBlocking {
+//                    CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
+//                        viewModel = viewModel,
+//                        categoryName = category,
+//                        mainCategory = "Datorii"
+//                    )
+//                }
+//            }
+//        }
+//    }
+//}
+
+///////////////////////////////////////////////////////////////////////

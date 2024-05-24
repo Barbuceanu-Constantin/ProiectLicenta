@@ -17,102 +17,29 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-fun CoroutineScope.insertMainCategory(
-    viewModel: DemoScreenViewModel,
-    name: String
-) = launch {
-    viewModel.budgetTrackerRepository.insertMainCategory(MainCategories(name = name))
-}
-
-
-fun CoroutineScope.insertPredefinedCategory(
-    viewModel: DemoScreenViewModel,
-    categoryName: String,
-    mainCategory: String
-) = launch {
-    viewModel.budgetTrackerRepository.insertCategory(Categories(mainCategory = mainCategory, name = categoryName))
-}
-
-// Extension function to check if the categories list is empty or not
-suspend fun isMainCategoriesEmpty(viewModel: DemoScreenViewModel): Boolean {
-    return withContext(Dispatchers.IO) {
-        val categories = viewModel.budgetTrackerRepository.getAllMainCategories()
-        categories.isEmpty()
-    }
-}
-
-fun runInitCategoryLists(viewModel: DemoScreenViewModel) {
-    runBlocking {
-        val isEmpty = isMainCategoriesEmpty(viewModel)
-
-        if (isEmpty) {
-            runBlocking {
-                CoroutineScope(Dispatchers.Default).insertMainCategory(
-                    viewModel = viewModel,
-                    name = "Active"
-                )
-            }
-
-            runBlocking {
-                CoroutineScope(Dispatchers.Default).insertMainCategory(
-                    viewModel = viewModel,
-                    name = "Pasive"
-                )
-            }
-
-            runBlocking {
-                CoroutineScope(Dispatchers.Default).insertMainCategory(
-                    viewModel = viewModel,
-                    name = "Datorii"
-                )
-            }
-
-            for (category in subcategorysPredefiniteActive) {
-                runBlocking {
-                    CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
-                        viewModel = viewModel,
-                        categoryName = category,
-                        mainCategory = "Active"
-                    )
-                }
-            }
-
-            for (category in subcategorysPredefinitePasive) {
-                runBlocking {
-                    CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
-                        viewModel = viewModel,
-                        categoryName = category,
-                        mainCategory = "Pasive"
-                    )
-                }
-            }
-
-            for (category in subcategorysPredefiniteDatorii) {
-                runBlocking {
-                    CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
-                        viewModel = viewModel,
-                        categoryName = category,
-                        mainCategory = "Datorii"
-                    )
-                }
-            }
-        }
-    }
-}
 @Composable
 fun DemoScreenDestination(
     viewModel: DemoScreenViewModel = hiltViewModel<DemoScreenViewModel>(),
     navController: NavHostController,
 ) {
     val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
-    val onInitCategoryLists = {
-        runInitCategoryLists(viewModel)
+    val onInitCategoryLists: suspend () -> Unit = {
+        viewModel.runInitCategoryLists()
     }
-    val onDeleteTables: () -> Unit = {
+    val onDeleteTables: suspend () -> Unit = {
         viewModel.onDeleteTables()
     }
-    val updateTablesForDemo: () -> Unit = {
+    val updateTablesForDemo: suspend () -> Unit = {
         viewModel.updateTablesForDemo()
+    }
+    val getCategoryCount: () -> Unit = {
+        viewModel.getCategoryCount()
+    }
+    val isEmpty: () -> Unit = {
+        viewModel.isEmpty()
+    }
+    val isEmptyTransactions: () -> Unit = {
+        viewModel.isEmptyTransactions()
     }
 
     //Ecran demo
@@ -127,6 +54,9 @@ fun DemoScreenDestination(
         demoScreenUIState = state,
         onInitCategoryLists = onInitCategoryLists,
         onDeleteTables = onDeleteTables,
-        updateTablesForDemo = updateTablesForDemo
+        updateTablesForDemo = updateTablesForDemo,
+        isEmpty = isEmpty,
+        isEmptyTransactions = isEmptyTransactions,
+        getCategoryCount = getCategoryCount
     )
 }

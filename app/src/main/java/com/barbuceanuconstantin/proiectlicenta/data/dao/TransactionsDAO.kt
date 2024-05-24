@@ -16,6 +16,9 @@ interface TransactionsDAO {
     @Insert
     fun insertTransaction(transaction: Transactions)
 
+    @Query("SELECT (SELECT COUNT(*) FROM transactions) == 0")
+    fun isEmptyTransactions(): Boolean
+
     @Transaction
     fun prepopulateDbForDemo() {
         val transactionsList = listOf<Transactions>(
@@ -287,7 +290,6 @@ interface TransactionsDAO {
         )
 
         transactionsList.forEach { transaction ->
-            println("dadada " + transaction.id + " " + transaction.categoryId)
             insertTransaction(transaction)
         }
     }
@@ -362,4 +364,7 @@ interface TransactionsDAO {
 
     @Query("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'transactions'") // Reset auto-increment counter
     fun resetPrimaryKeyAutoIncrementValueTransactions()
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'transactions'")
+    suspend fun deletePrimaryKeyIndexTransactions()
 }
