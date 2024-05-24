@@ -97,7 +97,7 @@ fun DemoComposableScreen(
                     Button(
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle)),
                         onClick = {
-                            onDeleteTables(onInitCategoryLists)
+                            onDeleteTables { onInitCategoryLists() }
                             onNavigateToHomeScreen()
                         }
                     ) {

@@ -49,9 +49,6 @@ import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.di.PrincipalScreenViewModel
-import com.barbuceanuconstantin.proiectlicenta.navigation.insertMainCategory
-import com.barbuceanuconstantin.proiectlicenta.navigation.insertPredefinedCategory
-import com.barbuceanuconstantin.proiectlicenta.navigation.isMainCategoriesEmpty
 import com.barbuceanuconstantin.proiectlicenta.view.screen.isDateAfterOrEqualToCurrent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -853,60 +850,3 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //    viewModel.budgetTrackerRepository.prepopulateDbForDemo()
 //}
 //CoroutineScope(Dispatchers.Default).insertTransactionsDemo(viewModel = viewModel,)
-
-//runBlocking {
-//    val isEmpty = isMainCategoriesEmpty(viewModel)
-//
-//    if (isEmpty) {
-//        runBlocking {
-//            CoroutineScope(Dispatchers.Default).insertMainCategory(
-//                viewModel = viewModel,
-//                name = "Active"
-//            )
-//        }
-//
-//        runBlocking {
-//            CoroutineScope(Dispatchers.Default).insertMainCategory(
-//                viewModel = viewModel,
-//                name = "Pasive"
-//            )
-//        }
-//
-//        runBlocking {
-//            CoroutineScope(Dispatchers.Default).insertMainCategory(
-//                viewModel = viewModel,
-//                name = "Datorii"
-//            )
-//        }
-//
-//        runBlocking {
-//            for (category in subcategorysPredefiniteActive) {
-//                CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
-//                    viewModel = viewModel,
-//                    categoryName = category,
-//                    mainCategory = "Active"
-//                )
-//            }
-//        }
-//
-//        runBlocking {
-//            for (category in subcategorysPredefinitePasive) {
-//                CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
-//                    viewModel = viewModel,
-//                    categoryName = category,
-//                    mainCategory = "Pasive"
-//                )
-//            }
-//        }
-//
-//        runBlocking {
-//            for (category in subcategorysPredefiniteDatorii) {
-//                CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
-//                    viewModel = viewModel,
-//                    categoryName = category,
-//                    mainCategory = "Datorii"
-//                )
-//            }
-//        }
-//    }
-//}

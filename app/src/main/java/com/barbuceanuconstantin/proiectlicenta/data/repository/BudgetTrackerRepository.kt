@@ -12,7 +12,7 @@ interface BudgetTrackerRepository {
     ///////////////////////////////////////////////
     suspend fun insertMainCategory(mainCategory: MainCategories)
     fun getAllMainCategories(): List<MainCategories>
-    suspend fun deleteAllMainCategories()
+    fun deleteAllMainCategories()
     fun resetPrimaryKeyAutoIncrementValueMainCategories()
     ///////////////////////////////////////////////
 
@@ -28,7 +28,7 @@ interface BudgetTrackerRepository {
     fun deleteCategoryByNameAndPrincipal(name: String, main: String)
     fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions>
     fun getTransactionsCategoryListTotalSum(mainCategory: String): Double
-    suspend fun deleteAllCategories()
+    fun deleteAllCategories()
     fun resetPrimaryKeyAutoIncrementValueCategories()
     ///////////////////////////////////////////////
 
@@ -46,7 +46,7 @@ interface BudgetTrackerRepository {
     fun getDebtTransactionsByInterval(startDate: Date, endDate: Date): List<CategoryAndTransactions>
     fun deleteTransactionById(id: Int)
     fun updateTransaction(transaction: Transactions)
-    suspend fun deleteAllTransactions()
+    fun deleteAllTransactions()
     fun resetPrimaryKeyAutoIncrementValueTransactions()
     ///////////////////////////////////////////////
 
@@ -55,7 +55,7 @@ interface BudgetTrackerRepository {
     fun getAllBudgets(): List<Budgets>
     fun updateBudget(budget: Budgets)
     fun deleteBudgetByName(name: String)
-    suspend fun deleteAllBudgets()
+    fun deleteAllBudgets()
     fun resetPrimaryKeyAutoIncrementValueBudgets()
     ///////////////////////////////////////////////
 }

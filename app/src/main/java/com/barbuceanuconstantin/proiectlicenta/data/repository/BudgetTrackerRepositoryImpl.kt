@@ -22,7 +22,7 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     /////////////////////////////////////////////////////////
     override suspend fun insertMainCategory(mainCategory: MainCategories) = mainCategoryDAO.insertMainCategory(mainCategory)
     override fun getAllMainCategories(): List<MainCategories> = mainCategoryDAO.getAllMainCategories()
-    override suspend fun deleteAllMainCategories() = mainCategoryDAO.deleteAllEntriesFromMainCategories()
+    override fun deleteAllMainCategories() = mainCategoryDAO.deleteAllEntriesFromMainCategories()
     override fun resetPrimaryKeyAutoIncrementValueMainCategories() = mainCategoryDAO.resetPrimaryKeyAutoIncrementValueMainCategories()
     /////////////////////////////////////////////////////////
 
@@ -38,7 +38,7 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     override fun deleteCategoryByNameAndPrincipal(name: String, main: String) = categoryDAO.deleteCategoryByNameAndPrincipal(name, main)
     override fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions> = transactionsDAO.getTransactionsCategoryList(mainCategory)
     override fun getTransactionsCategoryListTotalSum(mainCategory: String): Double = transactionsDAO.getTransactionsCategoryListTotalSum(mainCategory)
-    override suspend fun deleteAllCategories() = categoryDAO.deleteAllEntriesFromCategories()
+    override fun deleteAllCategories() = categoryDAO.deleteAllEntriesFromCategories()
     override fun resetPrimaryKeyAutoIncrementValueCategories() = categoryDAO.resetPrimaryKeyAutoIncrementValueCategories()
     /////////////////////////////////////////////////////////
 
@@ -56,7 +56,7 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     override fun getDebtTransactionsByInterval(startDate: Date, endDate: Date): List<CategoryAndTransactions> = transactionsDAO.getTransactionsByInterval(startDate, endDate, "Datorii")
     override fun deleteTransactionById(id: Int) = transactionsDAO.deleteTransactionById(id)
     override fun updateTransaction(transaction: Transactions) = transactionsDAO.updateTransaction(transaction)
-    override suspend fun deleteAllTransactions() = transactionsDAO.deleteAllEntriesFromTransactions()
+    override fun deleteAllTransactions() = transactionsDAO.deleteAllEntriesFromTransactions()
     override fun resetPrimaryKeyAutoIncrementValueTransactions() = transactionsDAO.resetPrimaryKeyAutoIncrementValueTransactions()
     /////////////////////////////////////////////////////////
 
@@ -65,7 +65,7 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     override fun getAllBudgets(): List<Budgets> = budgetsDAO.getAllBudgets()
     override fun updateBudget(budget: Budgets) = budgetsDAO.updateBudget(budget)
     override fun deleteBudgetByName(name: String) = budgetsDAO.deleteBudgetByName(name)
-    override suspend fun deleteAllBudgets() = budgetsDAO.deleteAllEntriesFromBudgets()
+    override fun deleteAllBudgets() = budgetsDAO.deleteAllEntriesFromBudgets()
     override fun resetPrimaryKeyAutoIncrementValueBudgets() = budgetsDAO.resetPrimaryKeyAutoIncrementValueBudgets()
     /////////////////////////////////////////////////////////
 }
