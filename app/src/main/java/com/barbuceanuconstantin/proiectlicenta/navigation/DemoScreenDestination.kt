@@ -13,6 +13,7 @@ import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.barbuceanuconstantin.proiectlicenta.view.screen.DemoComposableScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -46,56 +47,30 @@ fun runInitCategoryLists(viewModel: DemoScreenViewModel) {
         val isEmpty = isMainCategoriesEmpty(viewModel)
 
         if (isEmpty) {
-            runBlocking {
-                CoroutineScope(Dispatchers.Default).insertMainCategory(
-                    viewModel = viewModel,
-                    name = "Active"
-                )
-            }
-
-            runBlocking {
-                CoroutineScope(Dispatchers.Default).insertMainCategory(
-                    viewModel = viewModel,
-                    name = "Pasive"
-                )
-            }
-
-            runBlocking {
-                CoroutineScope(Dispatchers.Default).insertMainCategory(
-                    viewModel = viewModel,
-                    name = "Datorii"
-                )
-            }
-
-            runBlocking {
-                for (category in subcategorysPredefiniteActive) {
-                    CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
-                        viewModel = viewModel,
-                        categoryName = category,
-                        mainCategory = "Active"
-                    )
+            // Insert main categories concurrently
+            val mainCategories = listOf("Active", "Pasive", "Datorii")
+            val mainCategoryJobs = mainCategories.map { name ->
+                launch(Dispatchers.Default) {
+                    viewModel.budgetTrackerRepository.insertCategory(Categories(mainCategory = name, name = name))
                 }
             }
+            mainCategoryJobs.joinAll()
 
-            runBlocking {
-                for (category in subcategorysPredefinitePasive) {
-                    CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
-                        viewModel = viewModel,
-                        categoryName = category,
-                        mainCategory = "Pasive"
-                    )
+            // Insert predefined subcategories concurrently for each main category
+            val predefinedCategories = mapOf(
+                "Active" to subcategorysPredefiniteActive,
+                "Pasive" to subcategorysPredefinitePasive,
+                "Datorii" to subcategorysPredefiniteDatorii
+            )
+
+            val subCategoryJobs = predefinedCategories.flatMap { (mainCategory, subcategories) ->
+                subcategories.map { categoryName ->
+                    launch(Dispatchers.Default) {
+                        viewModel.budgetTrackerRepository.insertCategory(Categories(mainCategory = mainCategory, name = categoryName))
+                    }
                 }
             }
-
-            runBlocking {
-                for (category in subcategorysPredefiniteDatorii) {
-                    CoroutineScope(Dispatchers.Default).insertPredefinedCategory(
-                        viewModel = viewModel,
-                        categoryName = category,
-                        mainCategory = "Datorii"
-                    )
-                }
-            }
+            subCategoryJobs.joinAll()
         }
     }
 }
