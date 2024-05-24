@@ -13,7 +13,6 @@ import java.util.Date
 
 @Dao
 interface TransactionsDAO {
-    @Transaction
     @Insert
     fun insertTransaction(transaction: Transactions)
 
@@ -288,12 +287,11 @@ interface TransactionsDAO {
         )
 
         transactionsList.forEach { transaction ->
-            println("AICI 0 " + transaction.id + " " + transaction.categoryId)
+            println("dadada " + transaction.id + " " + transaction.categoryId)
             insertTransaction(transaction)
         }
     }
 
-    @Transaction
     @Query("SELECT * FROM transactions")
     fun getAllTransactions() : Flow<List<Transactions>>
 
@@ -301,7 +299,6 @@ interface TransactionsDAO {
     @Query("SELECT * FROM categories where main_category == :mainCategory order by name ASC")
     fun getTransactionsCategoryListQuery(mainCategory: String) : List<CategoryAndTransactions>
 
-    @Transaction
     fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions> {
         val list = getTransactionsCategoryListQuery(mainCategory)
 
@@ -354,19 +351,15 @@ interface TransactionsDAO {
             "WHERE Categories.main_category = :mainCategory")
     fun getTransactionsCategoryListTotalSum(mainCategory: String): Double
 
-    @Transaction
     @Query("DELETE FROM transactions WHERE id = :id")
     fun deleteTransactionById(id: Int)
 
-    @Transaction
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun updateTransaction(transaction: Transactions)
 
-    @Transaction
     @Query("DELETE FROM transactions")
-    suspend fun deleteAllEntriesFromTransactions()
+    fun deleteAllEntriesFromTransactions()
 
-    @Transaction
     @Query("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'transactions'") // Reset auto-increment counter
     fun resetPrimaryKeyAutoIncrementValueTransactions()
 }
