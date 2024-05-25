@@ -110,10 +110,10 @@ class DemoScreenViewModel @Inject constructor(
             _stateFlow.value = DemoScreenUIState(
                 categoryCount = _stateFlow.value.categoryCount,
                 mainCategoryCount = _stateFlow.value.mainCategoryCount,
-                isEmpty = budgetTrackerRepository.isEmptyMainCategories() &&
-                        budgetTrackerRepository.isEmptyBudgets() &&
-                        budgetTrackerRepository.isEmptyTransactions() &&
-                        budgetTrackerRepository.isEmptyCategories(),
+                isEmpty =   budgetTrackerRepository.isEmptyMainCategories() &&
+                            budgetTrackerRepository.isEmptyBudgets() &&
+                            budgetTrackerRepository.isEmptyTransactions() &&
+                            budgetTrackerRepository.isEmptyCategories(),
                 isEmptyTransactions = _stateFlow.value.isEmptyTransactions
             )
         }

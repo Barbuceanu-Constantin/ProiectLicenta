@@ -47,20 +47,14 @@ fun DemoComposableScreen(
     var isClicked3 by remember { mutableStateOf(false) }
 
     if (isClicked1) {
-        isEmpty()
-        isEmptyTransactions()
         LaunchedEffect(Unit) {
             if(demoScreenUIState.isEmpty) {
                 runBlocking {
                     onInitCategoryLists()
-                    isEmpty()
-                    isEmptyTransactions()
                 }
 
                 runBlocking {
                     updateTablesForDemo()
-                    isEmpty()
-                    isEmptyTransactions()
                 }
             }
             delay(5000)
@@ -70,14 +64,10 @@ fun DemoComposableScreen(
         LaunchedEffect(Unit) {
             runBlocking {
                 onDeleteTables()
-                isEmpty()
-                isEmptyTransactions()
             }
 
             runBlocking {
                 onInitCategoryLists()
-                isEmpty()
-                isEmptyTransactions()
             }
 
             delay(5000)
@@ -133,8 +123,11 @@ fun DemoComposableScreen(
                     Button(
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle)),
                         onClick = {
-                            if (!isClicked2 && !isClicked3)
+                            if (!isClicked2 && !isClicked3) {
+                                isEmpty()
+                                isEmptyTransactions()
                                 isClicked1 = true
+                            }
                         }
                     ) {
                         Text(
@@ -150,8 +143,11 @@ fun DemoComposableScreen(
                     Button(
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle)),
                         onClick = {
-                            if (!isClicked1 && !isClicked3)
+                            if (!isClicked1 && !isClicked3) {
+                                isEmpty()
+                                isEmptyTransactions()
                                 isClicked2 = true
+                            }
                         }
                     ) {
                         Text(
@@ -167,8 +163,11 @@ fun DemoComposableScreen(
                     Button(
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle)),
                         onClick = {
-                            if (!isClicked1 && !isClicked2)
+                            if (!isClicked1 && !isClicked2) {
+                                isEmpty()
+                                isEmptyTransactions()
                                 isClicked3 = true
+                            }
                         }
                     ) {
                         Text(
