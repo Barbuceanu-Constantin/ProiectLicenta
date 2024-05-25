@@ -47,9 +47,9 @@ fun DemoComposableScreen(
     var isClicked3 by remember { mutableStateOf(false) }
 
     if (isClicked1) {
-        isEmpty()
-        isEmptyTransactions()
         LaunchedEffect(Unit) {
+            isEmpty()
+            isEmptyTransactions()
             if(demoScreenUIState.isEmpty) {
                 runBlocking {
                     onInitCategoryLists()
