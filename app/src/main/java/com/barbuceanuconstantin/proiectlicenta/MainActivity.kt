@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
             ProiectLicentaTheme {
                 val navController = rememberNavController()
 
-                AppNavHost(navController = navController, startDestination = demoScreen)
+                AppNavHost(navController = navController, startDestination = homeScreen)
             }
         }
     }
