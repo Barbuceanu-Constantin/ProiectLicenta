@@ -16,7 +16,22 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
     val stateFlow: StateFlow<GraphsScreenUIState>
         get() = _stateFlow.asStateFlow()
 
-    fun onStateChanged(nothing: Boolean) {
-        _stateFlow.value = GraphsScreenUIState(nothing)
+    fun onStateChangedGraphInterval(name : String) {
+        _stateFlow.value = GraphsScreenUIState(
+            graphChoice = name,
+            revenuesSum = _stateFlow.value.revenuesSum,
+            expensesSum = _stateFlow.value.expensesSum,
+            debtSum = _stateFlow.value.debtSum
+        )
+    }
+
+    fun onStateChangedGraphType(type : String) {
+        _stateFlow.value = GraphsScreenUIState(
+            graphChoice = _stateFlow.value.graphChoice,
+            chartType = type,
+            revenuesSum = _stateFlow.value.revenuesSum,
+            expensesSum = _stateFlow.value.expensesSum,
+            debtSum = _stateFlow.value.debtSum
+        )
     }
 }

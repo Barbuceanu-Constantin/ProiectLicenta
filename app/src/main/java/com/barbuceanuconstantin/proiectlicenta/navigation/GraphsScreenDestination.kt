@@ -14,6 +14,13 @@ fun GraphsScreenDestination(
 ) {
     val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
 
+    val updateGraphInterval: (String) -> Unit = { it ->
+        viewModel.onStateChangedGraphInterval(it)
+    }
+    val updateGraphType: (String) -> Unit = { it ->
+        viewModel.onStateChangedGraphType(it)
+    }
+
     GraphsComposableScreen(
         onNavigateToHomeScreen = {
             navController.navigate(homeScreen) {
@@ -65,6 +72,8 @@ fun GraphsScreenDestination(
                 }
             }
         },
-        graphsScreenUIState = state
+        graphsScreenUIState = state,
+        updateGraphInterval = updateGraphInterval,
+        updateChartTypeChoice = updateGraphType
     )
 }

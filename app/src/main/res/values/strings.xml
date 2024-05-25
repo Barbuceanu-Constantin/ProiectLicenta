@@ -55,6 +55,9 @@
     <string name="mesaj_bun_venit">Bine ati venit in aplicatie!</string>
     <string name="mesaj_alegere_varianta_demo">Doriti versiunea demo sau pornire de la 0?</string>
 
+    <string name="pie_chart">Pie Chart</string>
+    <string name="bar_chart">Bar chart</string>
+
     <string name="selectare_zi">Selectati ziua</string>
     <string name="selectare_saptamana">Selectati saptamana</string>
     <string name="selectare_luna">Selectati luna</string>
@@ -62,6 +65,11 @@
     <string name="selectare_subcategory">Selecteaza subcategoria</string>
     <string name="selectare_valuta">Selecteaza valuta</string>
     <string name="selectare_actiune">Selectati actiunea !</string>
+    <string name="selectare_graph_interval">Alegeti intervalul de analiza</string>
+    <string name="selectare_graph_name">Alegeti tipul de grafic</string>
+    <string name="selectie_globala">Selectie globala</string>
+    <string name="selectie_lunara">Selectie lunara</string>
+    <string name="comparatie_luni">Comparatie luni</string>
 
     <string name="mesaj_selectare_actiune">Alegeti actiunea dorita pe care doriti sa o executati, modificare sau stergere: </string>
     <string name="mesaj_eliminare_subcategory">Introduceti numele subcategoriei pe care vreti sa o eliminati: </string>
