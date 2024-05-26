@@ -1,16 +1,14 @@
 package com.barbuceanuconstantin.proiectlicenta
 
+import android.graphics.Color
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
@@ -33,7 +31,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import co.yml.charts.axis.AxisData
 import co.yml.charts.common.model.Point
 import co.yml.charts.ui.barchart.BarChart
@@ -91,7 +88,7 @@ internal fun PieDonutChart(
 
     // clicked slice index
     var clickedItemIndex by remember {
-        mutableStateOf(-1)
+        mutableStateOf(0)
     }
 
     // calculate each slice end point in degrees, for handling click position
@@ -110,6 +107,30 @@ internal fun PieDonutChart(
     val textPaint = remember {
         Paint().apply {
             color = textColor.toArgb()
+            textSize = textFontSize
+            textAlign = Paint.Align.CENTER
+        }
+    }
+    val yellow = colorResource(id = R.color.yellow)
+    val red = colorResource(id = R.color.red)
+    val blue = colorResource(id = R.color.blue)
+    val textPaintRevenues = remember {
+        Paint().apply {
+            color = yellow.toArgb()
+            textSize = textFontSize
+            textAlign = Paint.Align.CENTER
+        }
+    }
+    val textPaintExpenses = remember {
+        Paint().apply {
+            color = red.toArgb()
+            textSize = textFontSize
+            textAlign = Paint.Align.CENTER
+        }
+    }
+    val textPaintDebt = remember {
+        Paint().apply {
+            color = blue.toArgb()
             textSize = textFontSize
             textAlign = Paint.Align.CENTER
         }
@@ -166,22 +187,41 @@ internal fun PieDonutChart(
                 startAngle += angle.toFloat()
             }
 
-            if (clickedItemIndex != -1) {
-                drawIntoCanvas { canvas ->
-                    canvas.nativeCanvas.drawText(
-                        "${proportions[clickedItemIndex].roundToInt()}%",
-                        (canvasSize / 2) + textFontSize / 4,
-                        (canvasSize / 2) + textFontSize / 4,
-                        textPaint
-                    )
+
+            drawIntoCanvas { canvas ->
+                canvas.nativeCanvas.drawText(
+                    "${proportions[clickedItemIndex].roundToInt()}%",
+                    (canvasSize / 2) + textFontSize / 4,
+                    (canvasSize / 2) + textFontSize / 4,
+                    textPaint
+                )
+
+                if (clickedItemIndex == 0) {
                     canvas.nativeCanvas.drawText(
                         transactionTypes[clickedItemIndex],
                         canvasSize / 2 + textFontSize / 4,
                         canvasSize + canvasSize / 5 + textFontSize / 4,
-                        textPaint
+                        textPaintRevenues
+                    )
+                }
+                else if (clickedItemIndex == 1) {
+                    canvas.nativeCanvas.drawText(
+                        transactionTypes[clickedItemIndex],
+                        canvasSize / 2 + textFontSize / 4,
+                        canvasSize + canvasSize / 5 + textFontSize / 4,
+                        textPaintExpenses
+                    )
+                }
+                else if (clickedItemIndex == 2) {
+                    canvas.nativeCanvas.drawText(
+                        transactionTypes[clickedItemIndex],
+                        canvasSize / 2 + textFontSize / 4,
+                        canvasSize + canvasSize / 5 + textFontSize / 4,
+                        textPaintDebt
                     )
                 }
             }
+
         }
     }
 }

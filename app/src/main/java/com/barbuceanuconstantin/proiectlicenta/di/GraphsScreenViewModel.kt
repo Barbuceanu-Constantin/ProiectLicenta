@@ -2,6 +2,7 @@ package com.barbuceanuconstantin.proiectlicenta.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -9,6 +10,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Month
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,7 +48,7 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
     fun onStateChangedMonth(month : String) {
         _stateFlow.value = GraphsScreenUIState(
             graphChoice = _stateFlow.value.graphChoice,
-            chartType = _stateFlow.value.chartType,
+            //type trebuie resetat. Deci nu il pun aici.
             revenuesSum = _stateFlow.value.revenuesSum,
             expensesSum = _stateFlow.value.expensesSum,
             debtSum = _stateFlow.value.debtSum,
@@ -60,6 +66,82 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
                 debtSum = budgetTrackerRepository.getTransactionsCategoryListTotalSum("Datorii"),
                 month = _stateFlow.value.month
             )
+        }
+    }
+
+    fun updateMetricsMonth(month: String) {
+        var startDateString = ""
+        var endDateString = ""
+        try {
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val currentYear = LocalDate.now().year
+
+            val monthEnum = getMonthEnum(month)
+            val startDate = LocalDate.of(currentYear, monthEnum, 1)
+            val endDate = startDate.withDayOfMonth(startDate.lengthOfMonth())
+
+            startDateString = startDate.format(formatter)
+            endDateString = endDate.format(formatter)
+        } catch (e: IllegalArgumentException) {
+            println("Invalid month name: $month")
+        }
+
+        var lTrRevenue: List<CategoryAndTransactions> = listOf()
+        var lTrExpense: List<CategoryAndTransactions> = listOf()
+        var lTrDebt: List<CategoryAndTransactions> = listOf()
+        var revenuesSum = 0.0
+        var expensesSum = 0.0
+        var debtSum = 0.0
+        val parsedStartDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(startDateString)
+        val parsedEndDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(endDateString)
+
+        viewModelScope.launch(Dispatchers.IO) {
+            lTrRevenue = budgetTrackerRepository.getRevenueTransactionsByInterval(parsedStartDate!!, parsedEndDate!!)
+            lTrExpense = budgetTrackerRepository.getExpensesTransactionsByInterval(parsedStartDate, parsedEndDate)
+            lTrDebt = budgetTrackerRepository.getDebtTransactionsByInterval(parsedStartDate, parsedEndDate)
+
+            for (categTr in lTrRevenue) {
+                for (tr in categTr.transactions) {
+                    revenuesSum += tr.value
+                }
+            }
+            for (categTr in lTrExpense) {
+                for (tr in categTr.transactions) {
+                    expensesSum += tr.value
+                }
+            }
+            for (categTr in lTrDebt) {
+                for (tr in categTr.transactions) {
+                    debtSum += tr.value
+                }
+            }
+
+            _stateFlow.value = GraphsScreenUIState(
+                graphChoice = _stateFlow.value.graphChoice,
+                chartType = _stateFlow.value.chartType,
+                revenuesSum = revenuesSum,
+                expensesSum = expensesSum,
+                debtSum = debtSum,
+                month = _stateFlow.value.month
+            )
+        }
+    }
+
+    private fun getMonthEnum(month: String): Month {
+        return when (month.lowercase()) {
+            "ianuarie" -> Month.JANUARY
+            "februarie" -> Month.FEBRUARY
+            "martie" -> Month.MARCH
+            "aprilie" -> Month.APRIL
+            "mai" -> Month.MAY
+            "iunie" -> Month.JUNE
+            "iulie" -> Month.JULY
+            "august" -> Month.AUGUST
+            "septembrie" -> Month.SEPTEMBER
+            "octombrie" -> Month.OCTOBER
+            "noiembrie" -> Month.NOVEMBER
+            "decembrie" -> Month.DECEMBER
+            else -> throw IllegalArgumentException("Invalid month name: $month")
         }
     }
 }

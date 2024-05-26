@@ -146,7 +146,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
         )
     }
 
-    fun updateListsBasedOnWeek(
+    fun updateListsBasedOnInterval(
                                 startDate: Date,
                                 endDate: Date
     ) {

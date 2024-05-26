@@ -38,7 +38,8 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                            updateGraphInterval: (String) -> Unit,
                            updateChartTypeChoice: (String) -> Unit,
                            updateMonth: (String) -> Unit,
-                           updateMetricsGlobal: () -> Unit) {
+                           updateMetricsGlobal: () -> Unit,
+                           updateMetricsMonth: (String) -> Unit) {
     val lChoices = listOf(
         stringResource(id = R.string.selectie_globala),
         stringResource(id = R.string.selectie_lunara),
@@ -99,18 +100,6 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                  label = stringResource(id = R.string.selectare_graph_interval))
 
             if (graphName == stringResource(id = R.string.selectie_globala) || graphName == stringResource(id = R.string.selectie_lunara)) {
-                if (graphName == stringResource(id = R.string.selectie_lunara)) {
-                    Menu(update = updateMonth,
-                        lChoices = lMonth,
-                        value = month,
-                        label = stringResource(id = R.string.selectare_luna))
-                }
-
-                Menu(update = updateChartTypeChoice,
-                    lChoices = lChartTypeChoices,
-                    value = chartType,
-                    label = stringResource(id = R.string.selectare_graph_name))
-
                 if (graphName == stringResource(id = R.string.selectie_globala)) {
                     updateMetricsGlobal()
 
@@ -126,12 +115,55 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                         graphsScreenUIState.debtSum
                     )
 
+                    Menu(update = updateChartTypeChoice,
+                        lChoices = lChartTypeChoices,
+                        value = chartType,
+                        label = stringResource(id = R.string.selectare_graph_name))
+
                     if (chartType == "Pie Chart") {
                         PieDonutChartGraph(chartColors, chartValues, false)
                     } else if (chartType == "Donut Chart") {
                         PieDonutChartGraph(chartColors, chartValues, true)
                     } else if (chartType == "Bar Chart") {
                         BarChartGraph(chartColors, chartValues)
+                    }
+                } else if (graphName == stringResource(id = R.string.selectie_lunara)) {
+                    Menu(update = updateMonth,
+                        lChoices = lMonth,
+                        value = month,
+                        label = stringResource(id = R.string.selectare_luna))
+
+                    if (month != "") {
+                        updateMetricsMonth(month)
+
+                        println("dadadada" + graphsScreenUIState.revenuesSum)
+                        println("dadadada" + graphsScreenUIState.expensesSum)
+                        println("dadadada" + graphsScreenUIState.debtSum)
+
+                        val chartColors = listOf(
+                            colorResource(id = R.color.light_cream_yellow),
+                            colorResource(id = R.color.light_cream_red),
+                            colorResource(id = R.color.light_cream_blue)
+                        )
+
+                        val chartValues = listOf(
+                            graphsScreenUIState.revenuesSum,
+                            graphsScreenUIState.expensesSum,
+                            graphsScreenUIState.debtSum
+                        )
+
+                        Menu(update = updateChartTypeChoice,
+                            lChoices = lChartTypeChoices,
+                            value = chartType,
+                            label = stringResource(id = R.string.selectare_graph_name))
+
+                        if (chartType == "Pie Chart") {
+                            PieDonutChartGraph(chartColors, chartValues, false)
+                        } else if (chartType == "Donut Chart") {
+                            PieDonutChartGraph(chartColors, chartValues, true)
+                        } else if (chartType == "Bar Chart") {
+                            BarChartGraph(chartColors, chartValues)
+                        }
                     }
                 }
             }

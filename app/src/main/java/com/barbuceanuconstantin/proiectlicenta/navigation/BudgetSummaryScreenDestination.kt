@@ -35,9 +35,9 @@ fun BudgetSummaryScreenDestination(
         viewModel.onStateChangedMonth(month)
     }
     val updateStateTimeInterval: (Boolean, Boolean, Boolean) -> Unit =
-        { daily, weekly, monthly ->
-            viewModel.onStateChangedTimeInterval(daily, weekly, monthly)
-        }
+    { daily, weekly, monthly ->
+        viewModel.onStateChangedTimeInterval(daily, weekly, monthly)
+    }
     val updateStateDate: (String) -> Unit = { date ->
         viewModel.onStateChangedDate(date)
     }
@@ -55,7 +55,7 @@ fun BudgetSummaryScreenDestination(
         viewModel.updateListsFull()
     }
     val updateListsInterval: (Date, Date) -> Unit = { startDate, endDate ->
-        viewModel.updateListsBasedOnWeek(startDate, endDate)
+        viewModel.updateListsBasedOnInterval(startDate, endDate)
     }
 
     if (state.firstComposition) {

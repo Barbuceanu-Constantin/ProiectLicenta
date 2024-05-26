@@ -26,6 +26,9 @@ fun GraphsScreenDestination(
     val updateMetricsGlobal: () -> Unit = {
         viewModel.updateMetricsGlobal()
     }
+    val updateMetricsMonth: (String) -> Unit = {
+        viewModel.updateMetricsMonth(it)
+    }
 
     GraphsComposableScreen(
         onNavigateToHomeScreen = {
@@ -82,6 +85,7 @@ fun GraphsScreenDestination(
         updateGraphInterval = updateGraphInterval,
         updateChartTypeChoice = updateGraphType,
         updateMonth = updateMonth,
-        updateMetricsGlobal = updateMetricsGlobal
+        updateMetricsGlobal = updateMetricsGlobal,
+        updateMetricsMonth = updateMetricsMonth
     )
 }
