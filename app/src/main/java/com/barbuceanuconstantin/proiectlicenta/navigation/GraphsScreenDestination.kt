@@ -29,6 +29,9 @@ fun GraphsScreenDestination(
     val updateMetricsMonth: (String) -> Unit = {
         viewModel.updateMetricsMonth(it)
     }
+    val updateMonthComparisonType: (String) -> Unit = {
+        viewModel.onStateChangedMonthComparisonChartType(it)
+    }
 
     GraphsComposableScreen(
         onNavigateToHomeScreen = {
@@ -86,6 +89,7 @@ fun GraphsScreenDestination(
         updateChartTypeChoice = updateGraphType,
         updateMonth = updateMonth,
         updateMetricsGlobal = updateMetricsGlobal,
-        updateMetricsMonth = updateMetricsMonth
+        updateMetricsMonth = updateMetricsMonth,
+        updateMonthComparisonType = updateMonthComparisonType
     )
 }

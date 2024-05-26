@@ -59,6 +59,9 @@
     <string name="bar_chart">Bar Chart</string>
     <string name="donut_chart">Donut Chart</string>
 
+    <string name="stacked_chart">Stacked Chart</string>
+    <string name="line_chart">Line Chart</string>
+
     <string name="selectare_zi">Selectati ziua</string>
     <string name="selectare_saptamana">Selectati saptamana</string>
     <string name="selectare_luna">Selectati luna</string>

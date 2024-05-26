@@ -24,10 +24,19 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
     val stateFlow: StateFlow<GraphsScreenUIState>
         get() = _stateFlow.asStateFlow()
 
+    fun onStateChangedMonthComparisonChartType(type: String) {
+        _stateFlow.value = GraphsScreenUIState(
+            monthComparisonChartType = type,
+            graphChoice = _stateFlow.value.graphChoice
+            //Restul pot fi resetate
+        )
+    }
+
     fun onStateChangedGraphInterval(name : String) {
         _stateFlow.value = GraphsScreenUIState(
             graphChoice = name,
             //type trebuie resetat. Deci nu il pun aici.
+            //monthComparisonChartType la fel
             revenuesSum = _stateFlow.value.revenuesSum,
             expensesSum = _stateFlow.value.expensesSum,
             debtSum = _stateFlow.value.debtSum
@@ -38,6 +47,7 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
         _stateFlow.value = GraphsScreenUIState(
             graphChoice = _stateFlow.value.graphChoice,
             chartType = type,
+            //monthComparisonChartType trebuie resetat deci nu il pun aici
             revenuesSum = _stateFlow.value.revenuesSum,
             expensesSum = _stateFlow.value.expensesSum,
             debtSum = _stateFlow.value.debtSum,
@@ -49,6 +59,7 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
         _stateFlow.value = GraphsScreenUIState(
             graphChoice = _stateFlow.value.graphChoice,
             //type trebuie resetat. Deci nu il pun aici.
+            //monthComparisonChartType la fel
             revenuesSum = _stateFlow.value.revenuesSum,
             expensesSum = _stateFlow.value.expensesSum,
             debtSum = _stateFlow.value.debtSum,
@@ -61,6 +72,7 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
             _stateFlow.value = GraphsScreenUIState(
                 graphChoice = _stateFlow.value.graphChoice,
                 chartType = _stateFlow.value.chartType,
+                //monthComparisonChartType trebuie resetat deci nu il pun aici
                 revenuesSum = budgetTrackerRepository.getTransactionsCategoryListTotalSum("Active"),
                 expensesSum = budgetTrackerRepository.getTransactionsCategoryListTotalSum("Pasive"),
                 debtSum = budgetTrackerRepository.getTransactionsCategoryListTotalSum("Datorii"),
@@ -119,6 +131,7 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
             _stateFlow.value = GraphsScreenUIState(
                 graphChoice = _stateFlow.value.graphChoice,
                 chartType = _stateFlow.value.chartType,
+                //monthComparisonChartType trebuie resetat deci nu il pun aici
                 revenuesSum = revenuesSum,
                 expensesSum = expensesSum,
                 debtSum = debtSum,

@@ -39,7 +39,8 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                            updateChartTypeChoice: (String) -> Unit,
                            updateMonth: (String) -> Unit,
                            updateMetricsGlobal: () -> Unit,
-                           updateMetricsMonth: (String) -> Unit) {
+                           updateMetricsMonth: (String) -> Unit,
+                           updateMonthComparisonType: (String) -> Unit) {
     val lChoices = listOf(
         stringResource(id = R.string.selectie_globala),
         stringResource(id = R.string.selectie_lunara),
@@ -64,9 +65,14 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
         stringResource(id = R.string.noiembrie),
         stringResource(id = R.string.decembrie)
     )
+    val lMonthsComparison = listOf(
+        stringResource(id = R.string.stacked_chart),
+        stringResource(id = R.string.line_chart)
+    )
     val graphName = graphsScreenUIState.graphChoice
     val chartType = graphsScreenUIState.chartType
     val month = graphsScreenUIState.month
+    val monthComparisonType = graphsScreenUIState.monthComparisonChartType
 
     Scaffold (
         bottomBar = {
@@ -99,9 +105,41 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                  value = graphName,
                  label = stringResource(id = R.string.selectare_graph_interval))
 
-            if (graphName == stringResource(id = R.string.selectie_globala) || graphName == stringResource(id = R.string.selectie_lunara)) {
-                if (graphName == stringResource(id = R.string.selectie_globala)) {
-                    updateMetricsGlobal()
+            if (graphName == stringResource(id = R.string.selectie_globala)) {
+                updateMetricsGlobal()
+
+                val chartColors = listOf(
+                    colorResource(id = R.color.light_cream_yellow),
+                    colorResource(id = R.color.light_cream_red),
+                    colorResource(id = R.color.light_cream_blue)
+                )
+
+                val chartValues = listOf(
+                    graphsScreenUIState.revenuesSum,
+                    graphsScreenUIState.expensesSum,
+                    graphsScreenUIState.debtSum
+                )
+
+                Menu(update = updateChartTypeChoice,
+                    lChoices = lChartTypeChoices,
+                    value = chartType,
+                    label = stringResource(id = R.string.selectare_graph_name))
+
+                if (chartType == "Pie Chart") {
+                    PieDonutChartGraph(chartColors, chartValues, false)
+                } else if (chartType == "Donut Chart") {
+                    PieDonutChartGraph(chartColors, chartValues, true)
+                } else if (chartType == "Bar Chart") {
+                    BarChartGraph(chartColors, chartValues)
+                }
+            } else if (graphName == stringResource(id = R.string.selectie_lunara)) {
+                Menu(update = updateMonth,
+                    lChoices = lMonth,
+                    value = month,
+                    label = stringResource(id = R.string.selectare_luna))
+
+                if (month != "") {
+                    updateMetricsMonth(month)
 
                     val chartColors = listOf(
                         colorResource(id = R.color.light_cream_yellow),
@@ -127,41 +165,12 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                     } else if (chartType == "Bar Chart") {
                         BarChartGraph(chartColors, chartValues)
                     }
-                } else if (graphName == stringResource(id = R.string.selectie_lunara)) {
-                    Menu(update = updateMonth,
-                        lChoices = lMonth,
-                        value = month,
-                        label = stringResource(id = R.string.selectare_luna))
-
-                    if (month != "") {
-                        updateMetricsMonth(month)
-
-                        val chartColors = listOf(
-                            colorResource(id = R.color.light_cream_yellow),
-                            colorResource(id = R.color.light_cream_red),
-                            colorResource(id = R.color.light_cream_blue)
-                        )
-
-                        val chartValues = listOf(
-                            graphsScreenUIState.revenuesSum,
-                            graphsScreenUIState.expensesSum,
-                            graphsScreenUIState.debtSum
-                        )
-
-                        Menu(update = updateChartTypeChoice,
-                            lChoices = lChartTypeChoices,
-                            value = chartType,
-                            label = stringResource(id = R.string.selectare_graph_name))
-
-                        if (chartType == "Pie Chart") {
-                            PieDonutChartGraph(chartColors, chartValues, false)
-                        } else if (chartType == "Donut Chart") {
-                            PieDonutChartGraph(chartColors, chartValues, true)
-                        } else if (chartType == "Bar Chart") {
-                            BarChartGraph(chartColors, chartValues)
-                        }
-                    }
                 }
+            } else if (graphName == stringResource(id = R.string.comparatie_luni)) {
+                Menu(update = updateMonthComparisonType,
+                    lChoices = lMonthsComparison,
+                    value = monthComparisonType,
+                    label = stringResource(id = R.string.selectare_graph_name))
             }
         }
     }
