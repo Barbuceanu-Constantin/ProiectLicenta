@@ -148,4 +148,7 @@ dependencies {
 
     //CollectAsStateWithLifeCycle
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+
+    //YCharts
+    implementation("co.yml:ycharts:2.1.0")
 }

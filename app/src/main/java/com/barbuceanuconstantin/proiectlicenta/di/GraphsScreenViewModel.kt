@@ -1,12 +1,14 @@
 package com.barbuceanuconstantin.proiectlicenta.di
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,6 +21,7 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
     fun onStateChangedGraphInterval(name : String) {
         _stateFlow.value = GraphsScreenUIState(
             graphChoice = name,
+            //type trebuie resetat. Deci nu il pun aici.
             revenuesSum = _stateFlow.value.revenuesSum,
             expensesSum = _stateFlow.value.expensesSum,
             debtSum = _stateFlow.value.debtSum
@@ -31,7 +34,32 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
             chartType = type,
             revenuesSum = _stateFlow.value.revenuesSum,
             expensesSum = _stateFlow.value.expensesSum,
-            debtSum = _stateFlow.value.debtSum
+            debtSum = _stateFlow.value.debtSum,
+            month = _stateFlow.value.month
         )
+    }
+
+    fun onStateChangedMonth(month : String) {
+        _stateFlow.value = GraphsScreenUIState(
+            graphChoice = _stateFlow.value.graphChoice,
+            chartType = _stateFlow.value.chartType,
+            revenuesSum = _stateFlow.value.revenuesSum,
+            expensesSum = _stateFlow.value.expensesSum,
+            debtSum = _stateFlow.value.debtSum,
+            month = month
+        )
+    }
+
+    fun updateMetricsGlobal() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _stateFlow.value = GraphsScreenUIState(
+                graphChoice = _stateFlow.value.graphChoice,
+                chartType = _stateFlow.value.chartType,
+                revenuesSum = budgetTrackerRepository.getTransactionsCategoryListTotalSum("Active"),
+                expensesSum = budgetTrackerRepository.getTransactionsCategoryListTotalSum("Pasive"),
+                debtSum = budgetTrackerRepository.getTransactionsCategoryListTotalSum("Datorii"),
+                month = _stateFlow.value.month
+            )
+        }
     }
 }

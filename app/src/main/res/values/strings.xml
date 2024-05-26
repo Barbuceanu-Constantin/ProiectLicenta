@@ -56,7 +56,8 @@
     <string name="mesaj_alegere_varianta_demo">Doriti versiunea demo sau pornire de la 0?</string>
 
     <string name="pie_chart">Pie Chart</string>
-    <string name="bar_chart">Bar chart</string>
+    <string name="bar_chart">Bar Chart</string>
+    <string name="donut_chart">Donut Chart</string>
 
     <string name="selectare_zi">Selectati ziua</string>
     <string name="selectare_saptamana">Selectati saptamana</string>
