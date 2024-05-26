@@ -136,10 +136,6 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                     if (month != "") {
                         updateMetricsMonth(month)
 
-                        println("dadadada" + graphsScreenUIState.revenuesSum)
-                        println("dadadada" + graphsScreenUIState.expensesSum)
-                        println("dadadada" + graphsScreenUIState.debtSum)
-
                         val chartColors = listOf(
                             colorResource(id = R.color.light_cream_yellow),
                             colorResource(id = R.color.light_cream_red),
