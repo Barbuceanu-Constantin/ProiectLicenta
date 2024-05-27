@@ -35,7 +35,7 @@ fun DemoComposableScreen(
     onInitCategoryLists: () -> Unit,
     onDeleteTables: () -> Unit,
     updateTablesForDemo: () -> Unit,
-    getMainCategoryCount: () -> Unit
+    getMainCategoryCount: () -> Int
 ) {
     var isClicked1 by remember { mutableStateOf(false) }
     var isClicked2 by remember { mutableStateOf(false) }
@@ -132,8 +132,7 @@ fun DemoComposableScreen(
                         onClick = {
                             if (!isClicked1 && !isClicked2) {
                                 isClicked3 = true
-                                getMainCategoryCount()
-                                if (demoScreenUIState.mainCategoryCount == 0)
+                                if (getMainCategoryCount() == 0)
                                     onInitCategoryLists()
                                 onNavigateToHomeScreen()
                             }

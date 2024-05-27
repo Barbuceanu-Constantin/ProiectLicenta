@@ -22,7 +22,7 @@ fun DemoScreenDestination(
     val updateTablesForDemo: () -> Unit = {
         viewModel.updateTablesForDemo()
     }
-    val getMainCategoryCount: () -> Unit = {
+    val getMainCategoryCount: () -> Int = {
         viewModel.getMainCategoryCount()
     }
 

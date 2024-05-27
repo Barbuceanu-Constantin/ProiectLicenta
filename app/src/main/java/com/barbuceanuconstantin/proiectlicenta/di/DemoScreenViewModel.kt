@@ -99,16 +99,18 @@ class DemoScreenViewModel @Inject constructor(
         }
     }
 
-    fun getMainCategoryCount() {
+    fun getMainCategoryCount(): Int {
+        var size = 0
+
         val job = viewModelScope.launch(Dispatchers.IO) {
-            _stateFlow.value = DemoScreenUIState(
-                mainCategoryCount = budgetTrackerRepository.getMainCategoryCount(),
-            )
+            size = budgetTrackerRepository.getAllMainCategories().size
         }
 
         runBlocking {
             job.join() // This suspends the main thread until the 'job' coroutine completes its execution
             Log.d(ContentValues.TAG, "Main Thread can Continue...")
         }
+
+        return size
     }
 }
