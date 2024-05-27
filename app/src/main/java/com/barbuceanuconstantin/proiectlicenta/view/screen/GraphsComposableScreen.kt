@@ -17,6 +17,7 @@ import co.yml.charts.common.model.Point
 import co.yml.charts.ui.barchart.models.BarData
 import com.barbuceanuconstantin.proiectlicenta.BarChartGraph
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
+import com.barbuceanuconstantin.proiectlicenta.LineChartGraph
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.PieDonutChartGraph
 import com.barbuceanuconstantin.proiectlicenta.R
@@ -40,7 +41,8 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                            updateMonth: (String) -> Unit,
                            updateMetricsGlobal: () -> Unit,
                            updateMetricsMonth: (String) -> Unit,
-                           updateMonthComparisonType: (String) -> Unit) {
+                           updateMonthComparisonType: (String) -> Unit,
+                           updateMonthsListSum: (List<String>) -> Triple<List<Double>, List<Double>, List<Double>>) {
     val lChoices = listOf(
         stringResource(id = R.string.selectie_globala),
         stringResource(id = R.string.selectie_lunara),
@@ -73,6 +75,9 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
     val chartType = graphsScreenUIState.chartType
     val month = graphsScreenUIState.month
     val monthComparisonType = graphsScreenUIState.monthComparisonChartType
+    var lRevenues: List<Double>
+    var lExpenses: List<Double>
+    var lDebt: List<Double>
 
     Scaffold (
         bottomBar = {
@@ -171,6 +176,21 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                     lChoices = lMonthsComparison,
                     value = monthComparisonType,
                     label = stringResource(id = R.string.selectare_graph_name))
+
+                if (monthComparisonType == "Line Chart") {
+                    val triple = updateMonthsListSum(lMonth)
+                    lRevenues = triple.first
+                    lExpenses = triple.second
+                    lDebt = triple.third
+
+                    LineChartGraph(
+                        lRevenues,
+                        lExpenses,
+                        lDebt
+                    )
+                } else if (monthComparisonType == "Stacked Chart") {
+                    ;
+                }
             }
         }
     }

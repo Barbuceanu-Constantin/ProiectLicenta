@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -36,6 +37,18 @@ import co.yml.charts.common.model.Point
 import co.yml.charts.ui.barchart.BarChart
 import co.yml.charts.ui.barchart.models.BarChartData
 import co.yml.charts.ui.barchart.models.BarData
+import co.yml.charts.ui.linechart.LineChart
+import co.yml.charts.ui.linechart.model.GridLines
+import co.yml.charts.ui.linechart.model.IntersectionPoint
+import co.yml.charts.ui.linechart.model.Line
+import co.yml.charts.ui.linechart.model.LineChartData
+import co.yml.charts.ui.linechart.model.LinePlotData
+import co.yml.charts.ui.linechart.model.LineStyle
+import co.yml.charts.ui.linechart.model.LineType
+import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
+import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
+import co.yml.charts.ui.linechart.model.ShadowUnderLine
+import java.time.LocalDate
 import java.util.Collections.max
 import kotlin.math.atan2
 import kotlin.math.min
@@ -310,4 +323,139 @@ fun BarChartGraph(chartColors: List<androidx.compose.ui.graphics.Color>,
             )
         }
     }
+}
+
+@Composable
+fun LineChartGraph(
+    lRevenues: List<Double>,
+    lExpenses: List<Double>,
+    lDebt: List<Double>
+) {
+    val steps = 5
+    val maximum = max(lRevenues + lExpenses + lDebt)
+    val pointsDataRevenues: MutableList<Point> = mutableListOf()
+    val pointsDataExpenses: MutableList<Point> = mutableListOf()
+    val pointsDataDebt: MutableList<Point> = mutableListOf()
+
+    println("listR: $lRevenues")
+    println("listE: $lExpenses")
+    println("listD: $lDebt")
+
+    for (i in lRevenues.indices) {
+        pointsDataRevenues.add(Point((i).toFloat(), lRevenues[i].toFloat()))
+    }
+    pointsDataRevenues.add(Point(lRevenues.size.toFloat(), 0.0F))
+
+    for (i in lExpenses.indices) {
+        pointsDataExpenses.add(Point((i).toFloat(), lExpenses[i].toFloat()))
+    }
+    pointsDataExpenses.add(Point(lExpenses.size.toFloat(), 0.0F))
+
+    for (i in lDebt.indices) {
+        pointsDataDebt.add(Point((i).toFloat(), lDebt[i].toFloat()))
+    }
+    pointsDataDebt.add(Point(lDebt.size.toFloat(), 0.0F))
+
+    val xAxisData = AxisData.Builder()
+        .axisStepSize(dimensionResource(id = R.dimen.hundred))
+        .backgroundColor(androidx.compose.ui.graphics.Color.Transparent)
+        .steps(pointsDataRevenues.size)
+        .labelData { i -> i.toString() }
+        .labelAndAxisLinePadding(dimensionResource(id = R.dimen.margin_extra))
+        .axisLineColor(MaterialTheme.colorScheme.tertiary)
+        .axisLabelColor(MaterialTheme.colorScheme.tertiary)
+        .build()
+
+    val yAxisData = AxisData.Builder()
+        .steps(steps)
+        .backgroundColor(androidx.compose.ui.graphics.Color.Transparent)
+        .labelAndAxisLinePadding(dimensionResource(id = R.dimen.margin_extra))
+        .labelData { i ->
+            val yScale = maximum / steps
+            (i * yScale).toString()
+        }
+        .axisLineColor(MaterialTheme.colorScheme.tertiary)
+        .axisLabelColor(MaterialTheme.colorScheme.tertiary)
+        .build()
+
+    val yellow = colorResource(id = R.color.yellow)
+    val red = colorResource(id = R.color.red)
+    val blue = colorResource(id = R.color.blue)
+    val gray = colorResource(id = R.color.gray)
+
+    val lineChartData = LineChartData(
+        linePlotData = LinePlotData(
+            lines = listOf(
+                Line(
+                    dataPoints = pointsDataRevenues.toList(),
+                    LineStyle(
+                        color = yellow,
+                        lineType = LineType.SmoothCurve(isDotted = false)
+                    ),
+                    IntersectionPoint(
+                        color = MaterialTheme.colorScheme.tertiary
+                    ),
+                    SelectionHighlightPoint(color = MaterialTheme.colorScheme.primary),
+                    ShadowUnderLine(
+                        alpha = 0.5f,
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                MaterialTheme.colorScheme.inversePrimary,
+                                androidx.compose.ui.graphics.Color.Transparent
+                            )
+                        )
+                    )
+                ),
+                Line(
+                    dataPoints = pointsDataExpenses.toList(),
+                    LineStyle(
+                        color = red,
+                        lineType = LineType.SmoothCurve(isDotted = false)
+                    ),
+                    IntersectionPoint(
+                        color = MaterialTheme.colorScheme.tertiary
+                    ),
+                    SelectionHighlightPoint(color = MaterialTheme.colorScheme.primary),
+                    ShadowUnderLine(
+                        alpha = 0.5f,
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                MaterialTheme.colorScheme.inversePrimary,
+                                androidx.compose.ui.graphics.Color.Transparent
+                            )
+                        )
+                    )
+                ),
+                Line(
+                    dataPoints = pointsDataDebt.toList(),
+                    LineStyle(
+                        color = blue,
+                        lineType = LineType.SmoothCurve(isDotted = false)
+                    ),
+                    IntersectionPoint(
+                        color = MaterialTheme.colorScheme.tertiary
+                    ),
+                    SelectionHighlightPoint(color = MaterialTheme.colorScheme.primary),
+                    ShadowUnderLine(
+                        alpha = 0.5f,
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                MaterialTheme.colorScheme.inversePrimary,
+                                androidx.compose.ui.graphics.Color.Transparent
+                            )
+                        )
+                    )
+                )
+            )
+        ),
+        backgroundColor = MaterialTheme.colorScheme.surface,
+        xAxisData = xAxisData,
+        yAxisData = yAxisData,
+        gridLines = GridLines(color = gray)
+    )
+
+    LineChart(
+        modifier = Modifier.fillMaxSize(),
+        lineChartData = lineChartData
+    )
 }

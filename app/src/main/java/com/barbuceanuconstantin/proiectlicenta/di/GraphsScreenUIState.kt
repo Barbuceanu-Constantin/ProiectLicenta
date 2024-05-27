@@ -7,5 +7,5 @@ data class GraphsScreenUIState(
     val expensesSum: Double = 0.0,
     val debtSum: Double = 0.0,
     val month: String = "",
-    val monthComparisonChartType: String = ""
+    val monthComparisonChartType: String = "",
 )

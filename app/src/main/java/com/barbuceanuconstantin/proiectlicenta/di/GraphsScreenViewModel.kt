@@ -1,5 +1,7 @@
 package com.barbuceanuconstantin.proiectlicenta.di
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
@@ -10,10 +12,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Month
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
@@ -27,7 +31,7 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
     fun onStateChangedMonthComparisonChartType(type: String) {
         _stateFlow.value = GraphsScreenUIState(
             monthComparisonChartType = type,
-            graphChoice = _stateFlow.value.graphChoice
+            graphChoice = _stateFlow.value.graphChoice,
             //Restul pot fi resetate
         )
     }
@@ -39,7 +43,7 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
             //monthComparisonChartType la fel
             revenuesSum = _stateFlow.value.revenuesSum,
             expensesSum = _stateFlow.value.expensesSum,
-            debtSum = _stateFlow.value.debtSum
+            debtSum = _stateFlow.value.debtSum,
         )
     }
 
@@ -51,7 +55,7 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
             revenuesSum = _stateFlow.value.revenuesSum,
             expensesSum = _stateFlow.value.expensesSum,
             debtSum = _stateFlow.value.debtSum,
-            month = _stateFlow.value.month
+            month = _stateFlow.value.month,
         )
     }
 
@@ -63,7 +67,7 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
             revenuesSum = _stateFlow.value.revenuesSum,
             expensesSum = _stateFlow.value.expensesSum,
             debtSum = _stateFlow.value.debtSum,
-            month = month
+            month = month,
         )
     }
 
@@ -76,9 +80,96 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
                 revenuesSum = budgetTrackerRepository.getTransactionsCategoryListTotalSum("Active"),
                 expensesSum = budgetTrackerRepository.getTransactionsCategoryListTotalSum("Pasive"),
                 debtSum = budgetTrackerRepository.getTransactionsCategoryListTotalSum("Datorii"),
-                month = _stateFlow.value.month
+                month = _stateFlow.value.month,
             )
         }
+    }
+
+    fun onStateChangedMonthsListSum(lMonth: List<String>): Triple<List<Double>, List<Double>, List<Double>> {
+        val lRevenues: MutableList<Double> = mutableListOf()
+        val lExpenses: MutableList<Double> = mutableListOf()
+        val lDebt: MutableList<Double> = mutableListOf()
+        val lPairDates: MutableList<Pair<Date, Date>> = mutableListOf()
+
+        for (month in lMonth) {
+            var startDateString = ""
+            var endDateString = ""
+            try {
+                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                val currentYear = LocalDate.now().year
+
+                val monthEnum = getMonthEnum(month)
+                val startDate = LocalDate.of(currentYear, monthEnum, 1)
+                val endDate = startDate.withDayOfMonth(startDate.lengthOfMonth())
+
+                startDateString = startDate.format(formatter)
+                endDateString = endDate.format(formatter)
+
+                val parsedStartDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(startDateString)
+                val parsedEndDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(endDateString)
+
+                lPairDates.add(Pair(parsedStartDate!!, parsedEndDate!!))
+            } catch (e: IllegalArgumentException) {
+                println("Invalid month name: $month")
+            }
+        }
+
+        var lTrRevenue: List<CategoryAndTransactions>
+        var lTrExpense: List<CategoryAndTransactions>
+        var lTrDebt: List<CategoryAndTransactions>
+        var revenuesSum = 0.0
+        var expensesSum = 0.0
+        var debtSum = 0.0
+
+        val job = viewModelScope.launch(Dispatchers.IO) {
+            for (index in lPairDates.indices) {
+                val parsedStartDate = lPairDates[index].first
+                val parsedEndDate = lPairDates[index].second
+                lTrRevenue = budgetTrackerRepository.getRevenueTransactionsByInterval(parsedStartDate, parsedEndDate)
+                lTrExpense = budgetTrackerRepository.getExpensesTransactionsByInterval(parsedStartDate, parsedEndDate)
+                lTrDebt = budgetTrackerRepository.getDebtTransactionsByInterval(parsedStartDate, parsedEndDate)
+
+                revenuesSum = 0.0
+                expensesSum = 0.0
+                debtSum = 0.0
+
+                for (categTr in lTrRevenue) {
+                    for (tr in categTr.transactions) {
+                        revenuesSum += tr.value
+                    }
+                }
+                lRevenues.add(revenuesSum)
+
+                for (categTr in lTrExpense) {
+                    for (tr in categTr.transactions) {
+                        expensesSum += tr.value
+                    }
+                }
+                lExpenses.add(expensesSum)
+
+                for (categTr in lTrDebt) {
+                    for (tr in categTr.transactions) {
+                        debtSum += tr.value
+                    }
+                }
+                lDebt.add(debtSum)
+            }
+            println("HOPA $lRevenues")
+            println("HOPA ${lRevenues.toList()}")
+        }
+
+        runBlocking {
+            job.join() // This suspends the main thread until the 'job' coroutine completes its execution
+            Log.d(TAG, "Main Thread can Continue...")
+        }
+
+        val currentMonth = LocalDate.now().monthValue
+
+        return Triple(
+            lRevenues.dropLast(12 - currentMonth),
+            lExpenses.dropLast(12 - currentMonth),
+            lDebt.dropLast(12 - currentMonth)
+        )
     }
 
     fun updateMetricsMonth(month: String) {
@@ -98,9 +189,9 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
             println("Invalid month name: $month")
         }
 
-        var lTrRevenue: List<CategoryAndTransactions> = listOf()
-        var lTrExpense: List<CategoryAndTransactions> = listOf()
-        var lTrDebt: List<CategoryAndTransactions> = listOf()
+        var lTrRevenue: List<CategoryAndTransactions>
+        var lTrExpense: List<CategoryAndTransactions>
+        var lTrDebt: List<CategoryAndTransactions>
         var revenuesSum = 0.0
         var expensesSum = 0.0
         var debtSum = 0.0
@@ -135,7 +226,7 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
                 revenuesSum = revenuesSum,
                 expensesSum = expensesSum,
                 debtSum = debtSum,
-                month = _stateFlow.value.month
+                month = _stateFlow.value.month,
             )
         }
     }

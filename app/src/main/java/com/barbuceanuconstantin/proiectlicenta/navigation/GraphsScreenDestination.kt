@@ -32,6 +32,9 @@ fun GraphsScreenDestination(
     val updateMonthComparisonType: (String) -> Unit = {
         viewModel.onStateChangedMonthComparisonChartType(it)
     }
+    val updateMonthsListSum: (List<String>) -> Triple<List<Double>, List<Double>, List<Double>> = {
+        viewModel.onStateChangedMonthsListSum(it)
+    }
 
     GraphsComposableScreen(
         onNavigateToHomeScreen = {
@@ -90,6 +93,7 @@ fun GraphsScreenDestination(
         updateMonth = updateMonth,
         updateMetricsGlobal = updateMetricsGlobal,
         updateMetricsMonth = updateMetricsMonth,
-        updateMonthComparisonType = updateMonthComparisonType
+        updateMonthComparisonType = updateMonthComparisonType,
+        updateMonthsListSum = updateMonthsListSum
     )
 }
