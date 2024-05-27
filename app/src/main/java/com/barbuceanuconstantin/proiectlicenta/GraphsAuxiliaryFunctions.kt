@@ -202,39 +202,46 @@ internal fun PieDonutChart(
 
 
             drawIntoCanvas { canvas ->
-                canvas.nativeCanvas.drawText(
-                    "${proportions[clickedItemIndex].roundToInt()}%",
-                    (canvasSize / 2) + textFontSize / 4,
-                    (canvasSize / 2) + textFontSize / 4,
-                    textPaint
-                )
-
-                if (clickedItemIndex == 0) {
+                if (proportions[clickedItemIndex].isNaN()) {
                     canvas.nativeCanvas.drawText(
-                        transactionTypes[clickedItemIndex],
-                        canvasSize / 2 + textFontSize / 4,
-                        canvasSize + canvasSize / 5 + textFontSize / 4,
-                        textPaintRevenues
+                        "0%",
+                        (canvasSize / 2) + textFontSize / 4,
+                        (canvasSize / 2) + textFontSize / 4,
+                        textPaint
                     )
-                }
-                else if (clickedItemIndex == 1) {
+                } else {
                     canvas.nativeCanvas.drawText(
-                        transactionTypes[clickedItemIndex],
-                        canvasSize / 2 + textFontSize / 4,
-                        canvasSize + canvasSize / 5 + textFontSize / 4,
-                        textPaintExpenses
+                        "${proportions[clickedItemIndex].roundToInt()}%",
+                        (canvasSize / 2) + textFontSize / 4,
+                        (canvasSize / 2) + textFontSize / 4,
+                        textPaint
                     )
-                }
-                else if (clickedItemIndex == 2) {
-                    canvas.nativeCanvas.drawText(
-                        transactionTypes[clickedItemIndex],
-                        canvasSize / 2 + textFontSize / 4,
-                        canvasSize + canvasSize / 5 + textFontSize / 4,
-                        textPaintDebt
-                    )
+                    if (clickedItemIndex == 0) {
+                        canvas.nativeCanvas.drawText(
+                            transactionTypes[clickedItemIndex],
+                            canvasSize / 2 + textFontSize / 4,
+                            canvasSize + canvasSize / 5 + textFontSize / 4,
+                            textPaintRevenues
+                        )
+                    }
+                    else if (clickedItemIndex == 1) {
+                        canvas.nativeCanvas.drawText(
+                            transactionTypes[clickedItemIndex],
+                            canvasSize / 2 + textFontSize / 4,
+                            canvasSize + canvasSize / 5 + textFontSize / 4,
+                            textPaintExpenses
+                        )
+                    }
+                    else if (clickedItemIndex == 2) {
+                        canvas.nativeCanvas.drawText(
+                            transactionTypes[clickedItemIndex],
+                            canvasSize / 2 + textFontSize / 4,
+                            canvasSize + canvasSize / 5 + textFontSize / 4,
+                            textPaintDebt
+                        )
+                    }
                 }
             }
-
         }
     }
 }
