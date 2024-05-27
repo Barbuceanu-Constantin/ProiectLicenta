@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,7 +27,6 @@ import com.barbuceanuconstantin.proiectlicenta.di.DemoScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import androidx.compose.ui.text.style.TextDecoration
-import kotlinx.coroutines.delay
 
 @Composable
 fun DemoComposableScreen(
@@ -37,17 +35,11 @@ fun DemoComposableScreen(
     onInitCategoryLists: () -> Unit,
     onDeleteTables: () -> Unit,
     updateTablesForDemo: () -> Unit,
+    getMainCategoryCount: () -> Unit
 ) {
     var isClicked1 by remember { mutableStateOf(false) }
     var isClicked2 by remember { mutableStateOf(false) }
     var isClicked3 by remember { mutableStateOf(false) }
-
-    LaunchedEffect(Unit) {
-        if (isClicked1 || isClicked2 || isClicked3) {
-            delay(3000)
-            onNavigateToHomeScreen()
-        }
-    }
 
     Box(
         modifier = Modifier
@@ -100,6 +92,7 @@ fun DemoComposableScreen(
                                 onDeleteTables()
                                 onInitCategoryLists()
                                 updateTablesForDemo()
+                                onNavigateToHomeScreen()
                             }
                         }
                     ) {
@@ -120,6 +113,7 @@ fun DemoComposableScreen(
                                 isClicked2 = true
                                 onDeleteTables()
                                 onInitCategoryLists()
+                                onNavigateToHomeScreen()
                             }
                         }
                     ) {
@@ -136,8 +130,13 @@ fun DemoComposableScreen(
                     Button(
                         modifier = Modifier.height(dimensionResource(id = R.dimen.upper_middle)),
                         onClick = {
-                            if (!isClicked1 && !isClicked2)
+                            if (!isClicked1 && !isClicked2) {
                                 isClicked3 = true
+                                getMainCategoryCount()
+                                if (demoScreenUIState.mainCategoryCount == 0)
+                                    onInitCategoryLists()
+                                onNavigateToHomeScreen()
+                            }
                         }
                     ) {
                         Text(

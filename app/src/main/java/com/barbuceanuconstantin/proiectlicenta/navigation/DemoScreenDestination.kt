@@ -22,6 +22,9 @@ fun DemoScreenDestination(
     val updateTablesForDemo: () -> Unit = {
         viewModel.updateTablesForDemo()
     }
+    val getMainCategoryCount: () -> Unit = {
+        viewModel.getMainCategoryCount()
+    }
 
     //Ecran demo
     DemoComposableScreen(
@@ -36,5 +39,6 @@ fun DemoScreenDestination(
         onInitCategoryLists = onInitCategoryLists,
         onDeleteTables = onDeleteTables,
         updateTablesForDemo = updateTablesForDemo,
+        getMainCategoryCount = getMainCategoryCount
     )
 }

@@ -48,7 +48,6 @@ object DatabaseModule {
                                     "budget_tracker_database"
                                 )
                     .fallbackToDestructiveMigration() //.allowMainThreadQueries() //.createFromAsset("databases/transactions.db")
-                    .createFromAsset("databases/transactions.db")
                     .build()
     }
 }

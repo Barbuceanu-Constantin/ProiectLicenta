@@ -98,4 +98,17 @@ class DemoScreenViewModel @Inject constructor(
             Log.d(ContentValues.TAG, "Main Thread can Continue...")
         }
     }
+
+    fun getMainCategoryCount() {
+        val job = viewModelScope.launch(Dispatchers.IO) {
+            _stateFlow.value = DemoScreenUIState(
+                mainCategoryCount = budgetTrackerRepository.getMainCategoryCount(),
+            )
+        }
+
+        runBlocking {
+            job.join() // This suspends the main thread until the 'job' coroutine completes its execution
+            Log.d(ContentValues.TAG, "Main Thread can Continue...")
+        }
+    }
 }
