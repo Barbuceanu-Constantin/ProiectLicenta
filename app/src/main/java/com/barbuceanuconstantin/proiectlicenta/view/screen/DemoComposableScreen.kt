@@ -42,9 +42,11 @@ fun DemoComposableScreen(
     var isClicked2 by remember { mutableStateOf(false) }
     var isClicked3 by remember { mutableStateOf(false) }
 
-    LaunchedEffect(isClicked1, isClicked2, isClicked3) {
-        delay(3000)
-        onNavigateToHomeScreen()
+    LaunchedEffect(Unit) {
+        if (isClicked1 || isClicked2 || isClicked3) {
+            delay(3000)
+            onNavigateToHomeScreen()
+        }
     }
 
     Box(
