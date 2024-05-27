@@ -4,18 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.barbuceanuconstantin.proiectlicenta.data.Categories
-import com.barbuceanuconstantin.proiectlicenta.data.MainCategories
 import com.barbuceanuconstantin.proiectlicenta.di.DemoScreenViewModel
-import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
-import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
-import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
 import com.barbuceanuconstantin.proiectlicenta.view.screen.DemoComposableScreen
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
 @Composable
 fun DemoScreenDestination(
@@ -23,23 +13,14 @@ fun DemoScreenDestination(
     navController: NavHostController,
 ) {
     val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
-    val onInitCategoryLists: suspend () -> Unit = {
+    val onInitCategoryLists: () -> Unit = {
         viewModel.runInitCategoryLists()
     }
-    val onDeleteTables: suspend () -> Unit = {
+    val onDeleteTables: () -> Unit = {
         viewModel.onDeleteTables()
     }
-    val updateTablesForDemo: suspend () -> Unit = {
+    val updateTablesForDemo: () -> Unit = {
         viewModel.updateTablesForDemo()
-    }
-    val getCategoryCount: () -> Unit = {
-        viewModel.getCategoryCount()
-    }
-    val isEmpty: () -> Unit = {
-        viewModel.isEmpty()
-    }
-    val isEmptyTransactions: () -> Unit = {
-        viewModel.isEmptyTransactions()
     }
 
     //Ecran demo
@@ -55,8 +36,5 @@ fun DemoScreenDestination(
         onInitCategoryLists = onInitCategoryLists,
         onDeleteTables = onDeleteTables,
         updateTablesForDemo = updateTablesForDemo,
-        isEmpty = isEmpty,
-        isEmptyTransactions = isEmptyTransactions,
-        getCategoryCount = getCategoryCount
     )
 }

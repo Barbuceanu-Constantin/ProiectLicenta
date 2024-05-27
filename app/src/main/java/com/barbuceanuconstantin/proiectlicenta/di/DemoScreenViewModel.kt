@@ -1,5 +1,6 @@
 package com.barbuceanuconstantin.proiectlicenta.di
 
+import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,8 +28,8 @@ class DemoScreenViewModel @Inject constructor(
     val stateFlow: StateFlow<DemoScreenUIState>
         get() = _stateFlow.asStateFlow()
 
-    suspend fun runInitCategoryLists() {
-        withContext(Dispatchers.IO) {
+    fun runInitCategoryLists() {
+        val job = viewModelScope.launch(Dispatchers.IO) {
             try {
                 budgetTrackerRepository.insertMainCategory(MainCategories(name = "Active"))
                 budgetTrackerRepository.insertMainCategory(MainCategories(name = "Pasive"))
@@ -61,10 +62,15 @@ class DemoScreenViewModel @Inject constructor(
                 Log.e("runInitCategoryLists", "Error inserting categories", e)
             }
         }
+
+        runBlocking {
+            job.join() // This suspends the main thread until the 'job' coroutine completes its execution
+            Log.d(ContentValues.TAG, "Main Thread can Continue...")
+        }
     }
 
-    suspend fun onDeleteTables() {
-        withContext(Dispatchers.IO) {
+    fun onDeleteTables() {
+        val job = viewModelScope.launch(Dispatchers.IO) {
             budgetTrackerRepository.deleteAllMainCategories()
             budgetTrackerRepository.deleteAllBudgets()
             budgetTrackerRepository.deleteAllTransactions()
@@ -75,58 +81,21 @@ class DemoScreenViewModel @Inject constructor(
             budgetTrackerRepository.deletePrimaryKeyIndexCategories()
             budgetTrackerRepository.resetDb()
         }
+
+        runBlocking {
+            job.join() // This suspends the main thread until the 'job' coroutine completes its execution
+            Log.d(ContentValues.TAG, "Main Thread can Continue...")
+        }
     }
 
-    suspend fun updateTablesForDemo() {
-        withContext(Dispatchers.IO) {
+    fun updateTablesForDemo() {
+        val job = viewModelScope.launch(Dispatchers.IO) {
             budgetTrackerRepository.prepopulateDbForDemo()
         }
-    }
 
-    fun getCategoryCount() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _stateFlow.value = DemoScreenUIState(
-                categoryCount = budgetTrackerRepository.getCategoryCount(),
-                mainCategoryCount = _stateFlow.value.mainCategoryCount,
-                isEmpty = _stateFlow.value.isEmpty,
-                isEmptyTransactions = _stateFlow.value.isEmptyTransactions
-            )
-        }
-    }
-
-    fun getMainCategoryCount() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _stateFlow.value = DemoScreenUIState(
-                categoryCount = _stateFlow.value.categoryCount,
-                mainCategoryCount = budgetTrackerRepository.getMainCategoryCount(),
-                isEmpty = _stateFlow.value.isEmpty,
-                isEmptyTransactions = _stateFlow.value.isEmptyTransactions
-            )
-        }
-    }
-
-    fun isEmpty() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _stateFlow.value = DemoScreenUIState(
-                categoryCount = _stateFlow.value.categoryCount,
-                mainCategoryCount = _stateFlow.value.mainCategoryCount,
-                isEmpty = budgetTrackerRepository.isEmptyMainCategories() &&
-                        budgetTrackerRepository.isEmptyBudgets() &&
-                        budgetTrackerRepository.isEmptyTransactions() &&
-                        budgetTrackerRepository.isEmptyCategories(),
-                isEmptyTransactions = _stateFlow.value.isEmptyTransactions
-            )
-        }
-    }
-
-    fun isEmptyTransactions() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _stateFlow.value = DemoScreenUIState(
-                categoryCount = _stateFlow.value.categoryCount,
-                mainCategoryCount = _stateFlow.value.mainCategoryCount,
-                isEmpty = _stateFlow.value.isEmpty,
-                isEmptyTransactions = budgetTrackerRepository.isEmptyTransactions()
-            )
+        runBlocking {
+            job.join() // This suspends the main thread until the 'job' coroutine completes its execution
+            Log.d(ContentValues.TAG, "Main Thread can Continue...")
         }
     }
 }

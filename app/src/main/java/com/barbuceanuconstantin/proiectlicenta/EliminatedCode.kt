@@ -45,10 +45,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.MainCategories
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
+import com.barbuceanuconstantin.proiectlicenta.di.DemoScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.di.DemoScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.PrincipalScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.view.screen.isDateAfterOrEqualToCurrent
@@ -938,3 +940,96 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //}
 
 ///////////////////////////////////////////////////////////////////////
+
+//if (isClicked1) {
+//    isEmpty()
+//    isEmptyTransactions()
+//    LaunchedEffect(Unit) {
+//        if(demoScreenUIState.isEmpty) {
+//            runBlocking {
+//                onInitCategoryLists()
+//                isEmpty()
+//                isEmptyTransactions()
+//            }
+//
+//            runBlocking {
+//                updateTablesForDemo()
+//                isEmpty()
+//                isEmptyTransactions()
+//            }
+//        }
+//        delay(5000)
+//        onNavigateToHomeScreen()
+//    }
+//} else if (isClicked2) {
+//    LaunchedEffect(Unit) {
+//        runBlocking {
+//            onDeleteTables()
+//            isEmpty()
+//            isEmptyTransactions()
+//        }
+//
+//        runBlocking {
+//            onInitCategoryLists()
+//            isEmpty()
+//            isEmptyTransactions()
+//        }
+//
+//        delay(5000)
+//        onNavigateToHomeScreen()
+//    }
+//} else if (isClicked3) {
+//    onNavigateToHomeScreen()
+//}
+
+//val categoryCount: Int = 0,
+//val mainCategoryCount: Int = 0,
+//val isEmpty: Boolean = true,
+//val isEmptyTransactions: Boolean = true
+
+//fun getCategoryCount() {
+//    viewModelScope.launch(Dispatchers.IO) {
+//        _stateFlow.value = DemoScreenUIState(
+//            categoryCount = budgetTrackerRepository.getCategoryCount(),
+//            mainCategoryCount = _stateFlow.value.mainCategoryCount,
+//            isEmpty = _stateFlow.value.isEmpty,
+//            isEmptyTransactions = _stateFlow.value.isEmptyTransactions
+//        )
+//    }
+//}
+//
+//fun getMainCategoryCount() {
+//    viewModelScope.launch(Dispatchers.IO) {
+//        _stateFlow.value = DemoScreenUIState(
+//            categoryCount = _stateFlow.value.categoryCount,
+//            mainCategoryCount = budgetTrackerRepository.getMainCategoryCount(),
+//            isEmpty = _stateFlow.value.isEmpty,
+//            isEmptyTransactions = _stateFlow.value.isEmptyTransactions
+//        )
+//    }
+//}
+//
+//fun isEmpty() {
+//    viewModelScope.launch(Dispatchers.IO) {
+//        _stateFlow.value = DemoScreenUIState(
+//            categoryCount = _stateFlow.value.categoryCount,
+//            mainCategoryCount = _stateFlow.value.mainCategoryCount,
+//            isEmpty = budgetTrackerRepository.isEmptyMainCategories() &&
+//                    budgetTrackerRepository.isEmptyBudgets() &&
+//                    budgetTrackerRepository.isEmptyTransactions() &&
+//                    budgetTrackerRepository.isEmptyCategories(),
+//            isEmptyTransactions = _stateFlow.value.isEmptyTransactions
+//        )
+//    }
+//}
+//
+//fun isEmptyTransactions() {
+//    viewModelScope.launch(Dispatchers.IO) {
+//        _stateFlow.value = DemoScreenUIState(
+//            categoryCount = _stateFlow.value.categoryCount,
+//            mainCategoryCount = _stateFlow.value.mainCategoryCount,
+//            isEmpty = _stateFlow.value.isEmpty,
+//            isEmptyTransactions = budgetTrackerRepository.isEmptyTransactions()
+//        )
+//    }
+//}
