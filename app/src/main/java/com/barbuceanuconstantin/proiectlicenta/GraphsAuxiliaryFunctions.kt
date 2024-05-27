@@ -1,6 +1,5 @@
 package com.barbuceanuconstantin.proiectlicenta
 
-import android.graphics.Color
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -46,9 +45,7 @@ import co.yml.charts.ui.linechart.model.LinePlotData
 import co.yml.charts.ui.linechart.model.LineStyle
 import co.yml.charts.ui.linechart.model.LineType
 import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
-import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
 import co.yml.charts.ui.linechart.model.ShadowUnderLine
-import java.time.LocalDate
 import java.util.Collections.max
 import kotlin.math.atan2
 import kotlin.math.min
