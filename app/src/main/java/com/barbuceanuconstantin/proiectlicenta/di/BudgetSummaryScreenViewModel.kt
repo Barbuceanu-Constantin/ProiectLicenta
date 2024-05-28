@@ -2,6 +2,7 @@ package com.barbuceanuconstantin.proiectlicenta.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.barbuceanuconstantin.proiectlicenta.IntToMonth
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +11,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAdjusters
 import java.util.Date
 import javax.inject.Inject
 
@@ -62,10 +65,24 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
         )
     }
     fun onStateChangedDate(date: String) {
+        val month : Int = (date[5].code - 48) * 10 + (date[6].code - 48)
+        var monthName = ""
+
+        //Nu pot folosi stringResource deoarece nu sunt intr-o functie Composable.
+        val monthNames = arrayOf(
+            "ianuarie", "februarie", "martie", "aprilie", "mai", "iunie",
+            "iulie", "august", "septembrie", "octombrie", "noiembrie", "decembrie"
+        )
+
+        // Asigură-te că luna este între 1 și 12
+        if (month in 1..12) {
+            monthName = monthNames[month - 1]
+        }
+
         _stateFlow.value = BudgetSummaryScreenUIState(
             date = date,
             buttons = stateFlow.value.buttons,
-            month = stateFlow.value.month,
+            month = monthName,
             dateButton = stateFlow.value.dateButton,
             daily = stateFlow.value.daily,
             weekly = stateFlow.value.weekly,
