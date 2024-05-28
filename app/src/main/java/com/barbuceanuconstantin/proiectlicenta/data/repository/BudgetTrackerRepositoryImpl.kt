@@ -93,6 +93,7 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     override fun getAllBudgets(): List<Budgets> = budgetsDAO.getAllBudgets()
     override fun updateBudget(budget: Budgets) = budgetsDAO.updateBudget(budget)
     override fun deleteBudgetByName(name: String) = budgetsDAO.deleteBudgetByName(name)
+    override fun deleteBudgetById(id: Int) = budgetsDAO.deleteBudgetById(id)
     override suspend fun deleteAllBudgets() = budgetsDAO.deleteAllEntriesFromBudgets()
     override suspend fun resetPrimaryKeyAutoIncrementValueBudgets() = budgetsDAO.resetPrimaryKeyAutoIncrementValueBudgets()
     override suspend fun deletePrimaryKeyIndexBudgets() = budgetsDAO.deletePrimaryKeyIndexBudgets()

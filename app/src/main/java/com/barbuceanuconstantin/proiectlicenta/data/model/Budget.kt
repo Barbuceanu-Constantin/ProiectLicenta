@@ -37,11 +37,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
-import com.barbuceanuconstantin.proiectlicenta.di.EditBudgetScreenViewModel
-import com.barbuceanuconstantin.proiectlicenta.di.FixedBudgetsScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.navigation.editBudgetScreenFullPath
-import com.barbuceanuconstantin.proiectlicenta.navigation.getCategoryName
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
@@ -51,19 +48,19 @@ import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-fun CoroutineScope.launchDeleteBudgetByName(
-    delete: (String) -> Unit,
-    name: String
+fun CoroutineScope.launchDeleteBudgetById(
+    delete: (Int) -> Unit,
+    id: Int
 ) = launch {
-    delete(name)
+    delete(id)
 }
 
-fun runDeleteBudgetByName(
-    delete: (String) -> Unit,
-    name: String
+fun runDeleteBudgetById(
+    delete: (Int) -> Unit,
+    id: Int
 ) {
     runBlocking {
-        CoroutineScope(Dispatchers.Default).launchDeleteBudgetByName(delete, name)
+        CoroutineScope(Dispatchers.Default).launchDeleteBudgetById(delete, id)
     }
 }
 @Composable
@@ -160,7 +157,7 @@ fun BudgetsLazyColumn(
     buttons: Boolean,
     navController: NavController,
     updateStateButtons: (Boolean) -> Unit,
-    deleteByNameCoroutine: (String) -> Unit,
+    deleteByIdCoroutine: (Int) -> Unit,
     getCategoryName: suspend (Int) -> String,
 ) {
     val id: MutableState<Int> = remember { mutableIntStateOf(-1) }
@@ -230,7 +227,7 @@ fun BudgetsLazyColumn(
                 val budgetObj = lFixedBudgets[id.value]
                 Button(
                     onClick = {
-                        runDeleteBudgetByName(deleteByNameCoroutine, budgetObj.name)
+                        runDeleteBudgetById(deleteByIdCoroutine, budgetObj.id)
                         updateStateButtons(false)
                     }
                 ) {

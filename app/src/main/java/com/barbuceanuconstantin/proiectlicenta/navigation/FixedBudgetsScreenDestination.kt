@@ -40,8 +40,8 @@ fun FixedBudgetsScreenDestination(
     val updateState: (Boolean) -> Unit = { buttons ->
         viewModel.onStateChangedButtons(buttons)
     }
-    val deleteByName: (String) -> Unit = { name ->
-        viewModel.onDeleteByName(name)
+    val deleteById: (Int) -> Unit = { id ->
+        viewModel.onDeleteById(id)
     }
     val getCategoryName: suspend (Int) -> String = { id ->
         withContext(Dispatchers.Main) {
@@ -111,7 +111,7 @@ fun FixedBudgetsScreenDestination(
         },
         fixedBudgetsScreenUIState = state,
         updateStateButtons = updateState,
-        deleteByNameCoroutine = deleteByName,
+        deleteByIdCoroutine = deleteById,
         getCategoryName = getCategoryName
     )
 }

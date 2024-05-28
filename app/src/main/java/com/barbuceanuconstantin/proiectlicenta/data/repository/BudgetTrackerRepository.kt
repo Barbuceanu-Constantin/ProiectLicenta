@@ -68,6 +68,7 @@ interface BudgetTrackerRepository {
     fun getAllBudgets(): List<Budgets>
     fun updateBudget(budget: Budgets)
     fun deleteBudgetByName(name: String)
+    fun deleteBudgetById(id: Int)
     suspend fun deleteAllBudgets()
     suspend fun deletePrimaryKeyIndexBudgets()
     suspend fun resetPrimaryKeyAutoIncrementValueBudgets()

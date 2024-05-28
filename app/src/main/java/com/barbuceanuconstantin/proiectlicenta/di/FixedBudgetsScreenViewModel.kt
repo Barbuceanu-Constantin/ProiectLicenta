@@ -1,16 +1,11 @@
 package com.barbuceanuconstantin.proiectlicenta.di
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,8 +29,13 @@ class FixedBudgetsScreenViewModel @Inject constructor(val budgetTrackerRepositor
         )
     }
 
-    fun onDeleteByName(name:String) {
+    fun onDeleteByName(name: String) {
         budgetTrackerRepository.deleteBudgetByName(name)
+        onStateChangedList()
+    }
+
+    fun onDeleteById(id: Int) {
+        budgetTrackerRepository.deleteBudgetById(id)
         onStateChangedList()
     }
 }

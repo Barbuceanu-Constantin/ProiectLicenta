@@ -37,7 +37,7 @@ fun FixedBudgetsComposableScreen(
     onNavigateToMementosScreen: () -> Unit,
     fixedBudgetsScreenUIState: FixedBudgetsScreenUIState,
     updateStateButtons: (Boolean) -> Unit,
-    deleteByNameCoroutine: (String) -> Unit,
+    deleteByIdCoroutine: (Int) -> Unit,
     getCategoryName: suspend (Int) -> String
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
@@ -74,7 +74,7 @@ fun FixedBudgetsComposableScreen(
                               buttons,
                               navController,
                               updateStateButtons,
-                              deleteByNameCoroutine = deleteByNameCoroutine,
+                              deleteByIdCoroutine = deleteByIdCoroutine,
                               getCategoryName = getCategoryName
             )
         }
