@@ -647,34 +647,37 @@ internal fun StackedBarChartGraph(
         ) {
             values.forEachIndexed { index, item ->
                 Column(modifier = Modifier.weight(1f)) {
-                    Spacer(
-                        modifier = Modifier
-                            .padding(
-                                start = dimensionResource(id = R.dimen.thin_line),
-                                end = dimensionResource(id = R.dimen.thin_line),
-                                top = dimensionResource(id = R.dimen.thin_line)
-                            )
-                            .fillMaxHeight()
-                            .fillMaxWidth()
-                            .background(item.colors[0])
-                            .weight(item.inputs[0].toFloat())
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .padding(horizontal = dimensionResource(id = R.dimen.thin_line))
-                            .fillMaxHeight()
-                            .fillMaxWidth()
-                            .background(item.colors[1])
-                            .weight(item.inputs[1].toFloat())
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .padding(horizontal = dimensionResource(id = R.dimen.thin_line))
-                            .fillMaxHeight()
-                            .fillMaxWidth()
-                            .background(item.colors[2])
-                            .weight(item.inputs[2].toFloat())
-                    )
+                    if (item.inputs[0].toFloat() > 0)
+                        Spacer(
+                            modifier = Modifier
+                                .padding(
+                                    start = dimensionResource(id = R.dimen.thin_line),
+                                    end = dimensionResource(id = R.dimen.thin_line),
+                                    top = dimensionResource(id = R.dimen.thin_line)
+                                )
+                                .fillMaxHeight()
+                                .fillMaxWidth()
+                                .background(item.colors[0])
+                                .weight(item.inputs[0].toFloat())
+                        )
+                    if (item.inputs[1].toFloat() > 0)
+                        Spacer(
+                            modifier = Modifier
+                                .padding(horizontal = dimensionResource(id = R.dimen.thin_line))
+                                .fillMaxHeight()
+                                .fillMaxWidth()
+                                .background(item.colors[1])
+                                .weight(item.inputs[1].toFloat())
+                        )
+                    if (item.inputs[2].toFloat() > 0)
+                        Spacer(
+                            modifier = Modifier
+                                .padding(horizontal = dimensionResource(id = R.dimen.thin_line))
+                                .fillMaxHeight()
+                                .fillMaxWidth()
+                                .background(item.colors[2])
+                                .weight(item.inputs[2].toFloat())
+                        )
                     HorizontalDivider(
                         thickness = dimensionResource(id = R.dimen.very_thin_line),
                         color = colorResource(id = R.color.black)
