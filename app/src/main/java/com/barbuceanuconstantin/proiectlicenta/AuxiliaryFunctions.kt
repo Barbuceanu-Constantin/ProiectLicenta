@@ -96,6 +96,7 @@ fun MainScreenToAppBar(id: Int, scrollBehavior: TopAppBarScrollBehavior? = null,
                        onNavigateToGraphsScreen: () -> Unit,
                        onNavigateToMementosScreen: () -> Unit
 ) {
+    println("scrolBehaviour = $scrollBehavior")
     var actualScrollBehavior = scrollBehavior
     if (actualScrollBehavior == null) {
         actualScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())

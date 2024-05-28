@@ -6,12 +6,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
+import com.barbuceanuconstantin.proiectlicenta.FadingArrowIcon
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.model.BudgetsLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.data.model.MementosLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.di.MementosScreenUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,7 +31,10 @@ fun MementosComposableScreen(modifier: Modifier = Modifier,
                              onNavigateToCalendarScreen: () -> Unit,
                              onNavigateToGraphsScreen: () -> Unit,
                              onNavigateToMementosScreen: () -> Unit,
-                             mementosScreenUIState: MementosScreenUIState) {
+                             mementosScreenUIState: MementosScreenUIState,
+                             getCategoryName: suspend (Int) -> String) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+
     Scaffold (
                 bottomBar = {
                     BottomNavigationBar(
@@ -36,20 +45,26 @@ fun MementosComposableScreen(modifier: Modifier = Modifier,
                     )
                 },
                 topBar = {
-                    MainScreenToAppBar( id = R.string.mementouri,
+                    MainScreenToAppBar( id = R.string.mementouri, scrollBehavior = scrollBehavior,
                         onNavigateToBudgetSummaryScreen = onNavigateToBudgetSummaryScreen,
                         onNavigateToCalendarScreen = onNavigateToCalendarScreen,
                         onNavigateToGraphsScreen = onNavigateToGraphsScreen,
                         onNavigateToMementosScreen = onNavigateToMementosScreen
                     )
-                }
+                },
+                modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { innerPadding ->
         Column(
             modifier = modifier.fillMaxWidth().padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
+            FadingArrowIcon()
 
+            MementosLazyColumn(
+                lFixedBudgets = mementosScreenUIState.budgets,
+                getCategoryName = getCategoryName
+            )
         }
     }
 }

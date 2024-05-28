@@ -64,7 +64,7 @@ fun runDeleteBudgetById(
     }
 }
 @Composable
-private fun HeaderBudget(text: String) {
+fun HeaderBudget(text: String) {
     Column {
         Row(modifier = Modifier
             .fillMaxWidth()
@@ -150,6 +150,7 @@ fun InfoBudget(value: Double, startDate: String, endDate: String, category: Int,
         )
     }
 }
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BudgetsLazyColumn(

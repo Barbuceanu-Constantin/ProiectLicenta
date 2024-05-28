@@ -4,8 +4,33 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.barbuceanuconstantin.proiectlicenta.di.FixedBudgetsScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.MementosScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.view.screen.MementosComposableScreen
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+
+fun CoroutineScope.launchGetBudgetsLists(viewModel: MementosScreenViewModel) = launch {
+    viewModel.onStateChangedList()
+}
+fun runGetBudgetsLists(viewModel: MementosScreenViewModel) {
+    runBlocking {
+        CoroutineScope(Dispatchers.Default).launchGetBudgetsLists(viewModel)
+    }
+}
+
+suspend fun getCategoryNameMemento(id: Int, viewModel: MementosScreenViewModel): String {
+    return withContext(Dispatchers.IO) {
+        viewModel.budgetTrackerRepository.getCategoryName(id)
+    }
+}
+
+suspend fun getCategoryNameMementoAsync(id: Int, viewModel: MementosScreenViewModel): String {
+    return getCategoryNameMemento(id, viewModel)
+}
 
 @Composable
 fun MementosScreenDestination(
@@ -13,6 +38,14 @@ fun MementosScreenDestination(
     navController: NavHostController,
 ) {
     val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
+    val getCategoryName: suspend (Int) -> String = { id ->
+        withContext(Dispatchers.Main) {
+            val categoryName = getCategoryNameMementoAsync(id, viewModel)
+            categoryName
+        }
+    }
+
+    runGetBudgetsLists(viewModel)
 
     MementosComposableScreen(
         onNavigateToHomeScreen = {
@@ -65,6 +98,7 @@ fun MementosScreenDestination(
                 }
             }
         },
-        mementosScreenUIState = state
+        mementosScreenUIState = state,
+        getCategoryName = getCategoryName
     )
 }
