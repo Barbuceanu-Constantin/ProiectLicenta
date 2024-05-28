@@ -21,7 +21,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,7 +42,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import co.yml.charts.axis.AxisData
 import co.yml.charts.common.model.Point
 import co.yml.charts.ui.barchart.BarChart
@@ -273,9 +271,80 @@ private fun touchPointToAngle(
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
+
 @Composable
-fun BarChartGraph(chartColors: List<androidx.compose.ui.graphics.Color>,
-                  chartValues: List<Double>) {
+fun BarChartOnMementosScreen(
+    chartColors: List<androidx.compose.ui.graphics.Color>,
+    chartValues: List<Double>
+) {
+    val barsData = listOf(
+        BarData(point = Point(x = 0F, y = 0.toFloat()),
+            color = colorResource(id = R.color.white),
+            label = ""),
+        BarData(point = Point(x = 1F, y = chartValues[0].toFloat()),
+            color = chartColors[0],
+            label = "Actual"),
+        BarData(point = Point(x = 2F, y = chartValues[1].toFloat()),
+            color = chartColors[1],
+            label = "Prag"),
+        BarData(point = Point(x = 0F, y = 0.toFloat()),
+            color = colorResource(id = R.color.white),
+            label = "")
+    )
+
+    val maxValue = max(chartValues)
+
+    val stepSize = 5
+
+    val xAxis = AxisData.Builder()
+        .axisStepSize(dimensionResource(id = R.dimen.hundred))
+        .steps(5)
+        .bottomPadding(dimensionResource(id = R.dimen.middle))
+        .axisLabelAngle(20f)
+        .labelData { index -> barsData[index].label }
+        .axisLineColor(MaterialTheme.colorScheme.tertiary)
+        .axisLabelColor(MaterialTheme.colorScheme.tertiary)
+        .build()
+
+    val yAxis = AxisData.Builder()
+        .steps(stepSize)
+        .labelAndAxisLinePadding(dimensionResource(id = R.dimen.middle))
+        .axisOffset(dimensionResource(id = R.dimen.margin_extra))
+        .labelData { index -> (index * (maxValue / stepSize)).toString() }
+        .axisLineColor(MaterialTheme.colorScheme.tertiary)
+        .axisLabelColor(MaterialTheme.colorScheme.tertiary)
+        .build()
+
+    val barChartData = BarChartData(
+        chartData = barsData,
+        xAxisData = xAxis,
+        yAxisData = yAxis,
+        backgroundColor = MaterialTheme.colorScheme.surface
+    )
+
+    Box (
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                start = dimensionResource(id = R.dimen.margin),
+                end = dimensionResource(id = R.dimen.margin)
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            BarChart(
+                modifier = Modifier,
+                barChartData = barChartData
+            )
+        }
+    }
+}
+
+@Composable
+fun BarChartOnGraphsScreen(chartColors: List<androidx.compose.ui.graphics.Color>,
+                           chartValues: List<Double>) {
     val barsData = listOf(
         BarData(point = Point(x = 0F, y = 0.toFloat()),
                 color = colorResource(id = R.color.white),

@@ -28,12 +28,6 @@ class FixedBudgetsScreenViewModel @Inject constructor(val budgetTrackerRepositor
                                                         budgets = budgetTrackerRepository.getAllBudgets()
         )
     }
-
-    fun onDeleteByName(name: String) {
-        budgetTrackerRepository.deleteBudgetByName(name)
-        onStateChangedList()
-    }
-
     fun onDeleteById(id: Int) {
         budgetTrackerRepository.deleteBudgetById(id)
         onStateChangedList()

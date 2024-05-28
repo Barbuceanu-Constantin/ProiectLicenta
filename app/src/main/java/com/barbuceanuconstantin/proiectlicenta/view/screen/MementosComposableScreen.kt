@@ -19,6 +19,7 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.model.BudgetsLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.data.model.MementosLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.di.MementosScreenUIState
+import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,7 +33,8 @@ fun MementosComposableScreen(modifier: Modifier = Modifier,
                              onNavigateToGraphsScreen: () -> Unit,
                              onNavigateToMementosScreen: () -> Unit,
                              mementosScreenUIState: MementosScreenUIState,
-                             getCategoryName: suspend (Int) -> String) {
+                             getCategoryName: suspend (Int) -> String,
+                             getCurrentFilling: (Int, Date, Date) -> Double) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Scaffold (
@@ -63,7 +65,8 @@ fun MementosComposableScreen(modifier: Modifier = Modifier,
 
             MementosLazyColumn(
                 lFixedBudgets = mementosScreenUIState.budgets,
-                getCategoryName = getCategoryName
+                getCategoryName = getCategoryName,
+                getCurrentFilling = getCurrentFilling
             )
         }
     }

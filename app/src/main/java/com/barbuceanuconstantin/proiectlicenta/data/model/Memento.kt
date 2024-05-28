@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -26,7 +27,9 @@ import androidx.compose.ui.text.font.FontWeight
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
+import com.barbuceanuconstantin.proiectlicenta.view.charts.BarChartOnMementosScreen
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 @Composable
@@ -97,10 +100,29 @@ fun InfoMemento(value: Double, startDate: String, endDate: String, category: Int
         )
     }
 }
+
+@Composable
+fun MementoBarChart(
+    budget: Budgets,
+    getCurrentFilling: (Int, Date, Date) -> Double
+) {
+    val threshold: Double = budget.upperThreshold
+    val currentFilling: Double = getCurrentFilling(budget.categoryId, budget.startDate, budget.endDate)
+
+    val chartColors: List<Color> = listOf(
+                                            colorResource(id = R.color.light_cream_red),
+                                            colorResource(id = R.color.light_cream_green)
+    )
+    val chartValues: List<Double> = listOf(currentFilling, threshold)
+
+    BarChartOnMementosScreen(chartColors = chartColors, chartValues = chartValues)
+}
+
 @Composable
 fun MementosLazyColumn(
     lFixedBudgets: List<Budgets>,
     getCategoryName: suspend (Int) -> String,
+    getCurrentFilling: (Int, Date, Date) -> Double
 ) {
     LazyColumn(Modifier.fillMaxSize()) {
         itemsIndexed(lFixedBudgets) { index, budget ->
@@ -118,6 +140,10 @@ fun MementosLazyColumn(
                     SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(budget.endDate),
                     budget.categoryId,
                     getCategoryName
+                )
+                MementoBarChart(
+                    lFixedBudgets[index],
+                    getCurrentFilling = getCurrentFilling
                 )
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))

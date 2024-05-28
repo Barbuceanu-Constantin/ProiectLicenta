@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import com.barbuceanuconstantin.proiectlicenta.view.charts.BarChartGraph
+import com.barbuceanuconstantin.proiectlicenta.view.charts.BarChartOnGraphsScreen
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.view.charts.LineChartGraph
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
@@ -134,7 +134,7 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                 } else if (chartType == "Donut Chart") {
                     PieDonutChartGraph(chartColors, chartValues, true)
                 } else if (chartType == "Bar Chart") {
-                    BarChartGraph(chartColors, chartValues)
+                    BarChartOnGraphsScreen(chartColors, chartValues)
                 }
             } else if (graphName == stringResource(id = R.string.selectie_lunara)) {
                 Menu(update = updateMonth,
@@ -167,7 +167,7 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                     } else if (chartType == "Donut Chart") {
                         PieDonutChartGraph(chartColors, chartValues, true)
                     } else if (chartType == "Bar Chart") {
-                        BarChartGraph(chartColors, chartValues)
+                        BarChartOnGraphsScreen(chartColors, chartValues)
                     }
                 }
             } else if (graphName == stringResource(id = R.string.comparatie_luni)) {

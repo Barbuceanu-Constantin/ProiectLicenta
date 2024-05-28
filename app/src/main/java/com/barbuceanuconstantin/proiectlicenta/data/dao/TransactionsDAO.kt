@@ -8,7 +8,6 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
-import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
 @Dao
@@ -295,7 +294,25 @@ interface TransactionsDAO {
     }
 
     @Query("SELECT * FROM transactions")
-    fun getAllTransactions() : Flow<List<Transactions>>
+    fun getAllTransactions() : List<Transactions>
+
+    @Query("SELECT * FROM transactions where category_id = :categoryId")
+    fun getTransactionsByCategory(categoryId: Int): List<Transactions>
+
+    @Transaction
+    fun getTransactionsByCategoryAndInterval(
+        categoryId: Int,
+        startDate: Date,
+        endDate: Date
+    ): Double {
+        val list = getTransactionsByCategory(categoryId)
+        val filteredList = list.filter { it.date in startDate..endDate }
+        var sum = 0.0
+        for (tr in filteredList) {
+            sum += tr.value
+        }
+        return sum
+    }
 
     @Transaction
     @Query("SELECT * FROM categories where main_category == :mainCategory order by name ASC")

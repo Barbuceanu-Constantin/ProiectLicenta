@@ -1038,3 +1038,9 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //                    println("dadada6 " + index)
 //                    println("dadada7 " + item.colors[index])
 //                }
+
+//fun onDeleteByName(name: String) {
+//    budgetTrackerRepository.deleteBudgetByName(name)
+//    onStateChangedList()
+//}
+

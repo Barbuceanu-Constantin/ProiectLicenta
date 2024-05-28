@@ -46,7 +46,12 @@ interface BudgetTrackerRepository {
     suspend fun insertTransaction(transaction: Transactions)
     fun isEmptyTransactions(): Boolean
     suspend fun prepopulateDbForDemo()
-    fun getAllTransactions(): Flow<List<Transactions>>
+    fun getAllTransactions(): List<Transactions>
+    fun getTransactionsByCategoryAndInterval(
+        categoryId: Int,
+        startDate: Date,
+        endDate: Date
+    ): Double
     fun getTransactionsRevenuesSumByDay(currentDate: Date): Double
     fun getTransactionsExpensesSumByDay(currentDate: Date): Double
     fun getRevenueTransactionsByDate(currentDate: Date): List<CategoryAndTransactions>

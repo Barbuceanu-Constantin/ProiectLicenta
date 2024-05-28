@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.util.Date
 
 fun CoroutineScope.launchGetBudgetsLists(viewModel: MementosScreenViewModel) = launch {
     viewModel.onStateChangedList()
@@ -43,6 +44,9 @@ fun MementosScreenDestination(
             val categoryName = getCategoryNameMementoAsync(id, viewModel)
             categoryName
         }
+    }
+    val getCurrentFilling: (Int, Date, Date) -> Double = { categId, startDate, endDate ->
+        viewModel.getCurrentBudgetFilling(categId, startDate, endDate)
     }
 
     runGetBudgetsLists(viewModel)
@@ -99,6 +103,7 @@ fun MementosScreenDestination(
             }
         },
         mementosScreenUIState = state,
-        getCategoryName = getCategoryName
+        getCategoryName = getCategoryName,
+        getCurrentFilling = getCurrentFilling
     )
 }
