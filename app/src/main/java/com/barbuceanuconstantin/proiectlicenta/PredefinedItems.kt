@@ -1,6 +1,6 @@
 package com.barbuceanuconstantin.proiectlicenta
 
-var subcategorysPredefiniteActive = mutableListOf(
+var revenuesPredefinedSubcategories = mutableListOf(
     "Salariu",
     "Bursa",
     "Bani parinti",
@@ -9,7 +9,7 @@ var subcategorysPredefiniteActive = mutableListOf(
     "Vanzare legume"
 )
 
-var subcategorysPredefinitePasive = mutableListOf(
+var expensesPredefinedSubcategories = mutableListOf(
     "Mancare",
     "Sanatate",
     "Divertisment",
@@ -26,7 +26,7 @@ var subcategorysPredefinitePasive = mutableListOf(
     "Internet"
 )
 
-var subcategorysPredefiniteDatorii = mutableListOf(
+var DebtPredefinedSubcategories = mutableListOf(
     "Leasing auto"
 )
 

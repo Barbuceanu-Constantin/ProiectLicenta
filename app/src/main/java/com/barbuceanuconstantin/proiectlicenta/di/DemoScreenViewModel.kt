@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.MainCategories
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
-import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteActive
-import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefiniteDatorii
-import com.barbuceanuconstantin.proiectlicenta.subcategorysPredefinitePasive
+import com.barbuceanuconstantin.proiectlicenta.revenuesPredefinedSubcategories
+import com.barbuceanuconstantin.proiectlicenta.DebtPredefinedSubcategories
+import com.barbuceanuconstantin.proiectlicenta.expensesPredefinedSubcategories
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,7 +34,7 @@ class DemoScreenViewModel @Inject constructor(
                 budgetTrackerRepository.insertMainCategory(MainCategories(name = "Active"))
                 budgetTrackerRepository.insertMainCategory(MainCategories(name = "Pasive"))
                 budgetTrackerRepository.insertMainCategory(MainCategories(name = "Datorii"))
-                for (category in subcategorysPredefiniteActive) {
+                for (category in revenuesPredefinedSubcategories) {
                     budgetTrackerRepository.insertCategory(
                         Categories(
                             mainCategory = "Active",
@@ -42,7 +42,7 @@ class DemoScreenViewModel @Inject constructor(
                         )
                     )
                 }
-                for (category in subcategorysPredefinitePasive) {
+                for (category in expensesPredefinedSubcategories) {
                     budgetTrackerRepository.insertCategory(
                         Categories(
                             mainCategory = "Pasive",
@@ -50,7 +50,7 @@ class DemoScreenViewModel @Inject constructor(
                         )
                     )
                 }
-                for (category in subcategorysPredefiniteDatorii) {
+                for (category in DebtPredefinedSubcategories) {
                     budgetTrackerRepository.insertCategory(
                         Categories(
                             mainCategory = "Datorii",
