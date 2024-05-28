@@ -1,24 +1,35 @@
-package com.barbuceanuconstantin.proiectlicenta
+package com.barbuceanuconstantin.proiectlicenta.view.charts
 
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.drawscope.Fill
@@ -31,6 +42,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import co.yml.charts.axis.AxisData
 import co.yml.charts.common.model.Point
 import co.yml.charts.ui.barchart.BarChart
@@ -46,6 +59,8 @@ import co.yml.charts.ui.linechart.model.LineStyle
 import co.yml.charts.ui.linechart.model.LineType
 import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
 import co.yml.charts.ui.linechart.model.ShadowUnderLine
+import com.barbuceanuconstantin.proiectlicenta.R
+import java.time.LocalDate
 import java.util.Collections.max
 import kotlin.math.atan2
 import kotlin.math.min
@@ -341,10 +356,6 @@ fun LineChartGraph(
     val pointsDataExpenses: MutableList<Point> = mutableListOf()
     val pointsDataDebt: MutableList<Point> = mutableListOf()
 
-    println("listR: $lRevenues")
-    println("listE: $lExpenses")
-    println("listD: $lDebt")
-
     for (i in lRevenues.indices) {
         pointsDataRevenues.add(Point((i).toFloat(), lRevenues[i].toFloat()))
     }
@@ -462,4 +473,149 @@ fun LineChartGraph(
         modifier = Modifier.fillMaxSize(),
         lineChartData = lineChartData
     )
+}
+
+@Composable
+internal fun stackedBarChartInputs(
+    valuesRevenues: List<Double>,
+    valuesExpenses: List<Double>,
+    valuesDebt: List<Double>
+) = (0..<LocalDate.now().monthValue).map { key1 ->
+                                                val inputs = (0..2).map { key2 ->
+                                                    if (key2 == 0) {
+                                                        valuesRevenues[key1]
+                                                    } else if (key2 == 1) {
+                                                        valuesExpenses[key1]
+                                                    } else {
+                                                        valuesDebt[key1]
+                                                    }
+                                                }.toPercent()
+                                                StackedData(
+                                                    inputs = inputs,
+                                                    colors = listOf(
+                                                        colorResource(id = R.color.light_cream_yellow),
+                                                        colorResource(id = R.color.light_cream_red),
+                                                        colorResource(id = R.color.light_cream_blue)
+                                                    )
+                                                )
+}
+
+private fun List<Double>.toPercent(): List<Double> {
+    return this.map { item ->
+        item / this.sum()
+    }
+}
+
+@Composable
+internal fun StackedBarChartGraph(
+    valuesRevenues: List<Double>,
+    valuesExpenses: List<Double>,
+    valuesDebt: List<Double>,
+    maxHeight: Dp = dimensionResource(id = R.dimen.stacked_bar_chart_height)
+) {
+    val borderColor = colorResource(id = R.color.black)
+    val density = LocalDensity.current
+    val strokeWidth = with(density) { dimensionResource(id = R.dimen.very_thin_line).toPx() }
+
+    val values: List<StackedData> = stackedBarChartInputs(
+        valuesRevenues = valuesRevenues,
+        valuesExpenses = valuesExpenses,
+        valuesDebt = valuesDebt
+    )
+
+    Column {
+        Text(
+            text = "100%",
+            modifier = Modifier.padding(
+                                        start = dimensionResource(id = R.dimen.margin),
+                                        end = dimensionResource(id = R.dimen.margin),
+                                        top = dimensionResource(id = R.dimen.gap)
+                                    )
+        )
+        Row(
+            modifier = Modifier.then(
+                Modifier
+                    .fillMaxWidth()
+                    .height(maxHeight)
+                    .padding(
+                        start = dimensionResource(id = R.dimen.margin),
+                        end = dimensionResource(id = R.dimen.margin),
+                        bottom = dimensionResource(id = R.dimen.gap)
+                    )
+                    .drawBehind {
+                        // draw X-Axis
+                        drawLine(
+                            color = borderColor,
+                            start = Offset(0f, size.height),
+                            end = Offset(size.width, size.height),
+                            strokeWidth = strokeWidth
+                        )
+                        // draw Y-Axis
+                        drawLine(
+                            color = borderColor,
+                            start = Offset(0f, 0f),
+                            end = Offset(0f, size.height),
+                            strokeWidth = strokeWidth
+                        )
+                        // draw second Y-Axis
+                        drawLine(
+                            color = borderColor,
+                            start = Offset(size.width, size.height),
+                            end = Offset(size.width, 0f),
+                            strokeWidth = strokeWidth
+                        )
+                        // draw second X-Axis
+                        drawLine(
+                            color = borderColor,
+                            start = Offset(size.width, 0f),
+                            end = Offset(0f, 0f),
+                            strokeWidth = strokeWidth
+                        )
+                    }
+            ),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Bottom
+        ) {
+            values.forEachIndexed { index, item ->
+                Column(modifier = Modifier.weight(1f)) {
+                    Spacer(
+                        modifier = Modifier
+                            .padding(
+                                start = dimensionResource(id = R.dimen.thin_line),
+                                end = dimensionResource(id = R.dimen.thin_line),
+                                top = dimensionResource(id = R.dimen.thin_line)
+                            )
+                            .fillMaxHeight()
+                            .fillMaxWidth()
+                            .background(item.colors[0])
+                            .weight(item.inputs[0].toFloat())
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .padding(horizontal = dimensionResource(id = R.dimen.thin_line))
+                            .fillMaxHeight()
+                            .fillMaxWidth()
+                            .background(item.colors[1])
+                            .weight(item.inputs[1].toFloat())
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .padding(horizontal = dimensionResource(id = R.dimen.thin_line))
+                            .fillMaxHeight()
+                            .fillMaxWidth()
+                            .background(item.colors[2])
+                            .weight(item.inputs[2].toFloat())
+                    )
+                    HorizontalDivider(
+                        thickness = dimensionResource(id = R.dimen.very_thin_line),
+                        color = colorResource(id = R.color.black)
+                    )
+                    Text(
+                        text = (index + 1).toString(),
+                        modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.thin_line))
+                    )
+                }
+            }
+        }
+    }
 }

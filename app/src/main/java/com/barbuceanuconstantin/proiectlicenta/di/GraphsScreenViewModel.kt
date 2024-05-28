@@ -154,8 +154,6 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
                 }
                 lDebt.add(debtSum)
             }
-            println("HOPA $lRevenues")
-            println("HOPA ${lRevenues.toList()}")
         }
 
         runBlocking {

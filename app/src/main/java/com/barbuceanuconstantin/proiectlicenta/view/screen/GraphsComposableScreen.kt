@@ -13,14 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import co.yml.charts.common.model.Point
-import co.yml.charts.ui.barchart.models.BarData
-import com.barbuceanuconstantin.proiectlicenta.BarChartGraph
+import com.barbuceanuconstantin.proiectlicenta.view.charts.BarChartGraph
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
-import com.barbuceanuconstantin.proiectlicenta.LineChartGraph
+import com.barbuceanuconstantin.proiectlicenta.view.charts.LineChartGraph
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
-import com.barbuceanuconstantin.proiectlicenta.PieDonutChartGraph
+import com.barbuceanuconstantin.proiectlicenta.view.charts.PieDonutChartGraph
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.view.charts.StackedBarChartGraph
 import com.barbuceanuconstantin.proiectlicenta.di.GraphsScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.Menu
 
@@ -189,7 +188,15 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                         lDebt
                     )
                 } else if (monthComparisonType == "Stacked Chart") {
-                    ;
+                    val triple = updateMonthsListSum(lMonth)
+                    lRevenues = triple.first
+                    lExpenses = triple.second
+                    lDebt = triple.third
+                    StackedBarChartGraph(
+                        lRevenues,
+                        lExpenses,
+                        lDebt
+                    )
                 }
             }
         }

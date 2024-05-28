@@ -1033,3 +1033,8 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //        )
 //    }
 //}
+
+//                item.inputs.forEachIndexed { index, input ->
+//                    println("dadada6 " + index)
+//                    println("dadada7 " + item.colors[index])
+//                }
