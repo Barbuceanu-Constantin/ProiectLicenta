@@ -12,7 +12,8 @@ import java.util.Date
             entity = Categories::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("category_id"),
-            onUpdate = ForeignKey.CASCADE
+            onUpdate = ForeignKey.CASCADE,
+            onDelete = ForeignKey.CASCADE
         )]
 )
 data class Budgets(

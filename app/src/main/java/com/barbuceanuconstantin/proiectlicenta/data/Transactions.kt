@@ -13,7 +13,8 @@ import java.util.Date
         entity = Categories::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("category_id"),
-        onUpdate = CASCADE
+        onUpdate = CASCADE,
+        onDelete = CASCADE
     )]
 )
 data class Transactions(
