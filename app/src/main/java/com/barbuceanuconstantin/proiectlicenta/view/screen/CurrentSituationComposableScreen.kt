@@ -33,7 +33,6 @@ fun CurrentSituationComposableScreen(
     deleteById: (Int) -> Unit,
     updateUpdateId: (Int) -> Unit,
     idUpdate: Int,
-    onStateChangedFirstComposition: (Boolean) -> Unit,
     updateDate: (String) -> Unit
 ) {
     Scaffold (
@@ -66,7 +65,6 @@ fun CurrentSituationComposableScreen(
                     categoriesA = categoriesA,
                     categoriesP = categoriesP,
                     categoriesD = categoriesD,
-                    onStateChangedFirstComposition = onStateChangedFirstComposition,
                     updateDate = updateDate
                 )
             } else if (!incomes && expenses) {
@@ -84,7 +82,6 @@ fun CurrentSituationComposableScreen(
                     categoriesA = categoriesA,
                     categoriesP = categoriesP,
                     categoriesD = categoriesD,
-                    onStateChangedFirstComposition = onStateChangedFirstComposition,
                     updateDate = updateDate
                 )
             }

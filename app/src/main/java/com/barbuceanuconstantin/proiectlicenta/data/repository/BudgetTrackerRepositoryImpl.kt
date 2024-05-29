@@ -72,11 +72,11 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     override fun isEmptyTransactions(): Boolean = transactionsDAO.isEmptyTransactions()
     override suspend fun prepopulateDbForDemo() = transactionsDAO.prepopulateDbForDemo()
     override fun getAllTransactions(): List<Transactions> = transactionsDAO.getAllTransactions()
-    override fun getTransactionsByCategoryAndInterval(
+    override fun getTransactionsSumByCategoryAndInterval(
         categoryId: Int,
         startDate: Date,
         endDate: Date
-    ): Double = transactionsDAO.getTransactionsByCategoryAndInterval(categoryId, startDate, endDate)
+    ): Double = transactionsDAO.getTransactionsSumByCategoryAndInterval(categoryId, startDate, endDate)
     override fun getTransactionsRevenuesSumByDay(currentDate: Date): Double = transactionsDAO.getTransactionsSumByDay(currentDate, "Active")
     override fun getTransactionsExpensesSumByDay(currentDate: Date): Double = transactionsDAO.getTransactionsSumByDay(currentDate, "Pasive")
     override fun getRevenueTransactionsByDate(currentDate: Date): List<CategoryAndTransactions> = transactionsDAO.getTransactionsByDate(currentDate, "Active")

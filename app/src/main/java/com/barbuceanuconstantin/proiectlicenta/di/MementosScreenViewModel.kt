@@ -33,7 +33,7 @@ class MementosScreenViewModel @Inject constructor(val budgetTrackerRepository: B
         var total: Double = 0.0
 
         val job = viewModelScope.launch(Dispatchers.IO) {
-            total = budgetTrackerRepository.getTransactionsByCategoryAndInterval(
+            total = budgetTrackerRepository.getTransactionsSumByCategoryAndInterval(
                 categoryId, startDate, endDate
             )
         }

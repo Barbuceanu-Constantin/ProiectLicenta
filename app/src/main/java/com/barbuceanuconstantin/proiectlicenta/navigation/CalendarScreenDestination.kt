@@ -14,7 +14,7 @@ import kotlinx.coroutines.runBlocking
 fun CoroutineScope.launchDeleteByIdCalendarScreen(id: Int, viewModel: CalendarScreenViewModel) = launch {
     viewModel.onDeleteById(id)
 }
-fun runDeleteBiIdCalendarScreen(id: Int, viewModel: CalendarScreenViewModel) {
+fun runDeleteByIdCalendarScreen(id: Int, viewModel: CalendarScreenViewModel) {
     runBlocking {
         CoroutineScope(Dispatchers.Default).launchDeleteByIdCalendarScreen(id = id, viewModel = viewModel)
     }
@@ -27,14 +27,6 @@ fun runGetCategoriesListsCalendarScreen(viewModel: CalendarScreenViewModel) {
         CoroutineScope(Dispatchers.Default).launchGetCategoriesListsCalendarScreen(viewModel)
     }
 }
-fun CoroutineScope.launchOnStateChangedDate(date: String, viewModel: CalendarScreenViewModel) = launch {
-    viewModel.onStateChangedDate(date)
-}
-fun runOnStateChangedDate(date: String, viewModel: CalendarScreenViewModel) {
-    runBlocking {
-        CoroutineScope(Dispatchers.Default).launchOnStateChangedDate(date, viewModel)
-    }
-}
 @Composable
 fun CalendarScreenDestination(
     viewModel: CalendarScreenViewModel = hiltViewModel<CalendarScreenViewModel>(),
@@ -43,20 +35,17 @@ fun CalendarScreenDestination(
     val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
 
     val updateDate: (String) -> Unit = { date ->
-        runOnStateChangedDate(date, viewModel)
+        viewModel.onStateChangedDate(date)
     }
     val updateIncomesExpenses: (Boolean, Boolean) -> Unit = { incomes, expenses ->
         viewModel.onStateChangedIncomesExpenses(incomes, expenses)
     }
     val updateButtons: () -> Unit =  { viewModel.onStateChangedButtons() }
     val deleteById: (Int) -> Unit = { id ->
-        runDeleteBiIdCalendarScreen(id, viewModel)
+        runDeleteByIdCalendarScreen(id, viewModel)
     }
     val updateUpdateId: (Int) -> Unit = { id ->
         viewModel.onStateChangedIdUpdate(id)
-    }
-    val onStateChangedFirstComposition: (Boolean) -> Unit = { first ->
-        viewModel.onStateChangedFirstComposition(first)
     }
 
     if(state.firstComposition) {
@@ -132,7 +121,6 @@ fun CalendarScreenDestination(
         updateUpdateId = updateUpdateId,
         categoriesA = state.categoriesA,
         categoriesP = state.categoriesP,
-        categoriesD = state.categoriesD,
-        onStateChangedFirstComposition = onStateChangedFirstComposition,
+        categoriesD = state.categoriesD
     )
 }

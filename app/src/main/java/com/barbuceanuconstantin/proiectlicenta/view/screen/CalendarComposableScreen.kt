@@ -55,7 +55,6 @@ fun CalendarComposableScreen(
     categoriesA: List<Categories>,
     categoriesP: List<Categories>,
     categoriesD: List<Categories>,
-    onStateChangedFirstComposition: (Boolean) -> Unit,
 ) {
     val date: String = calendarScreenUIState.date
     var incomes: Boolean = calendarScreenUIState.incomes
@@ -87,7 +86,6 @@ fun CalendarComposableScreen(
                                          categoriesA = categoriesA,
                                          categoriesP = categoriesP,
                                          categoriesD = categoriesD,
-                                         onStateChangedFirstComposition = onStateChangedFirstComposition,
                                          updateDate = updateDate
         )
     } else {

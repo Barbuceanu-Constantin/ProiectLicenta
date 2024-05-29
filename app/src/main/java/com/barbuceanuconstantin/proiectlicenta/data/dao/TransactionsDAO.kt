@@ -8,6 +8,7 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
+import com.barbuceanuconstantin.proiectlicenta.stripTime
 import java.util.Date
 
 @Dao
@@ -300,13 +301,16 @@ interface TransactionsDAO {
     fun getTransactionsByCategory(categoryId: Int): List<Transactions>
 
     @Transaction
-    fun getTransactionsByCategoryAndInterval(
+    fun getTransactionsSumByCategoryAndInterval(
         categoryId: Int,
         startDate: Date,
         endDate: Date
     ): Double {
         val list = getTransactionsByCategory(categoryId)
-        val filteredList = list.filter { it.date in startDate..endDate }
+
+        //Pun stripTime ca sa fie compatibil cu datele inserate.
+        //Pentru ca tuturor la introducere le fac asta.
+        val filteredList = list.filter { stripTime(it.date) in startDate..endDate }
         var sum = 0.0
         for (tr in filteredList) {
             sum += tr.value
@@ -333,13 +337,31 @@ interface TransactionsDAO {
     fun getTransactionsByDate(currentDate: Date, mainCategory: String): List<CategoryAndTransactions>{
         val list = getTransactionsCategoryListQuery(mainCategory)
 
+        //Pun stripTime ca sa fie compatibil cu datele inserate.
+        //Pentru ca tuturor la introducere le fac asta.
         list.forEach { categoryAndTransactions ->
-            val filteredTransactions = categoryAndTransactions.transactions.filter { it.date == currentDate }
+            val filteredTransactions = categoryAndTransactions.transactions.filter {
+                stripTime(it.date) == currentDate
+            }
                                                                            .sortedByDescending { it.date }
             categoryAndTransactions.transactions = filteredTransactions
         }
 
         return list
+    }
+
+    @Transaction
+    fun getTransactionsSumByDay(currentDate: Date, mainCategory: String): Double {
+        val list = getTransactionsByDate(currentDate, mainCategory)
+        var sum = 0.0
+
+        list.forEach { categoryAndTransactions ->
+            categoryAndTransactions.transactions.forEach{ it ->
+                sum += it.value
+            }
+        }
+
+        return sum
     }
 
     @Transaction
@@ -354,14 +376,6 @@ interface TransactionsDAO {
 
         return list
     }
-
-    @Transaction
-    @Query( "SELECT SUM(Transactions.value)" +
-            "FROM Categories " +
-            "LEFT JOIN Transactions ON Categories.id = Transactions.category_id " +
-            "WHERE Categories.main_category = :mainCategory " +
-            "AND Transactions.date = :currentDate")
-    fun getTransactionsSumByDay(currentDate: Date, mainCategory: String): Double
 
     @Transaction
     @Query( "SELECT SUM(Transactions.value) " +

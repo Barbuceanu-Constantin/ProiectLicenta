@@ -273,7 +273,6 @@ fun CalendarSummaryTranzactiiLazyColumn(
     categoriesD: List<Categories>,
     incomesOrExpenses: Boolean,
     updateIncomesExpenses: (Boolean, Boolean) -> Unit,
-    onStateChangedFirstComposition: (Boolean) -> Unit,
     deleteById: (Int) -> Unit,
     updateUpdateId: (Int) -> Unit,
     updateButtons: () -> Unit,
@@ -361,7 +360,6 @@ fun CalendarSummaryTranzactiiLazyColumn(
                         val gson: Gson = GsonBuilder().create()
                         val transactionJson = gson.toJson(transactionObj)
 
-                        onStateChangedFirstComposition(true)
                         navController.navigate(
                             "editTransactionScreen/$returnToCalendarIndex?transaction={transaction}"
                                 .replace(oldValue = "{transaction}", newValue = transactionJson)

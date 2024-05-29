@@ -46,10 +46,14 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
+import androidx.room.Query
+import androidx.room.Transaction
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.MainCategories
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
+import com.barbuceanuconstantin.proiectlicenta.di.CalendarScreenUIState
+import com.barbuceanuconstantin.proiectlicenta.di.CalendarScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.DemoScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.di.DemoScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.PrincipalScreenViewModel
@@ -63,6 +67,7 @@ import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import kotlin.math.roundToInt
 
 //@Composable
@@ -1043,4 +1048,76 @@ val dateButton2 = remember { mutableStateOf(false) }*/
 //    budgetTrackerRepository.deleteBudgetByName(name)
 //    onStateChangedList()
 //}
+
+//fun CoroutineScope.launchOnStateChangedDate(date: String, viewModel: CalendarScreenViewModel) = launch {
+//    viewModel.onStateChangedDate(date)
+//}
+//fun runOnStateChangedDate(date: String, viewModel: CalendarScreenViewModel) {
+//    runBlocking {
+//        CoroutineScope(Dispatchers.Default).launchOnStateChangedDate(date, viewModel)
+//    }
+//}
+
+//_stateFlow.value = CalendarScreenUIState(
+//date = date,
+//incomes = stateFlow.value.incomes,
+//expenses = stateFlow.value.expenses,
+//buttons = stateFlow.value.buttons,
+//sumRevenues = revenuesSum,
+//sumExpenses = expensesSum,
+//lTrA = lTrA,
+//lTrP = lTrP,
+//idUpdate = stateFlow.value.idUpdate,
+//idDelete = stateFlow.value.idDelete,
+//categoriesA = stateFlow.value.categoriesA,
+//categoriesP = stateFlow.value.categoriesP,
+//categoriesD = stateFlow.value.categoriesD,
+//firstComposition = false
+//)
+
+//fun onStateChangedIdDelete(idDelete: Int) {
+//    _stateFlow.value = CalendarScreenUIState(
+//        date = stateFlow.value.date,
+//        incomes = stateFlow.value.incomes,
+//        expenses = stateFlow.value.expenses,
+//        buttons = stateFlow.value.buttons,
+//        sumRevenues = stateFlow.value.sumRevenues,
+//        sumExpenses = stateFlow.value.sumExpenses,
+//        lTrA = stateFlow.value.lTrA,
+//        lTrP = stateFlow.value.lTrP,
+//        categoriesA = stateFlow.value.categoriesA,
+//        categoriesP = stateFlow.value.categoriesP,
+//        categoriesD = stateFlow.value.categoriesD,
+//        idUpdate = stateFlow.value.idUpdate,
+//        firstComposition = _stateFlow.value.firstComposition,
+//        idDelete = idDelete,
+//    )
+//}
+
+//fun onStateChangedFirstComposition(first: Boolean) {
+//    _stateFlow.value = CalendarScreenUIState(
+//        date = stateFlow.value.date,
+//        incomes = stateFlow.value.incomes,
+//        expenses = stateFlow.value.expenses,
+//        buttons = stateFlow.value.buttons,
+//        sumRevenues = stateFlow.value.sumRevenues,
+//        sumExpenses = stateFlow.value.sumExpenses,
+//        lTrA = stateFlow.value.lTrA,
+//        lTrP = stateFlow.value.lTrP,
+//        categoriesA = stateFlow.value.categoriesA,
+//        categoriesP = stateFlow.value.categoriesP,
+//        categoriesD = stateFlow.value.categoriesD,
+//        idUpdate = stateFlow.value.idUpdate,
+//        idDelete = stateFlow.value.idDelete,
+//        firstComposition = first
+//    )
+//}
+
+//@Transaction
+//@Query( "SELECT SUM(Transactions.value)" +
+//        "FROM Categories " +
+//        "LEFT JOIN Transactions ON Categories.id = Transactions.category_id " +
+//        "WHERE Categories.main_category = :mainCategory " +
+//        "AND Transactions.date = :currentDate")
+//fun getTransactionsSumByDayOldNotWorking(currentDate: Date, mainCategory: String): Double
 
