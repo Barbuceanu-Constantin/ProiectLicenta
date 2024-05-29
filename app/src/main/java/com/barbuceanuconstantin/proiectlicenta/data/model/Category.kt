@@ -71,20 +71,23 @@ private fun Subcategory(
 
     Card(
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.medium_line)),
-        modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
-                                    end = dimensionResource(id = R.dimen.margin))
-                            .combinedClickable(
-                                        onClick = { },
-                                        onLongClick = {
-                                                        val categoryObj = categorii[index]
-                                                        val gson: Gson = GsonBuilder().create()
-                                                        val categoryJson = gson.toJson(categoryObj)
-                                                        navController.navigate(
-                                                            editCategoryScreenFullPath
-                                                            .replace(oldValue = "{category}", newValue = categoryJson)
-                                                        )
-                                                      },
-                                    )
+        modifier = Modifier
+            .padding(
+                start = dimensionResource(id = R.dimen.margin),
+                end = dimensionResource(id = R.dimen.margin)
+            )
+            .combinedClickable(
+                onClick = { },
+                onLongClick = {
+                    val categoryObj = categorii[index]
+                    val gson: Gson = GsonBuilder().create()
+                    val categoryJson = gson.toJson(categoryObj)
+                    navController.navigate(
+                        editCategoryScreenFullPath
+                            .replace(oldValue = "{category}", newValue = categoryJson)
+                    )
+                },
+            )
     ) {
         if (label == "Active") color = colorA
         else if (label == "Pasive") color = colorP
@@ -95,7 +98,8 @@ private fun Subcategory(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .weight(1f)
+                    .weight(1f),
+                color = colorResource(id = R.color.black)
             )
 
             IconButton(onClick = {
