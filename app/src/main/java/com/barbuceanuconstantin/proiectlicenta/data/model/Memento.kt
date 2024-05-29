@@ -59,7 +59,8 @@ fun InfoMemento(value: Double, startDate: String, endDate: String, category: Int
                 .padding(
                     top = dimensionResource(id = R.dimen.thin_line),
                     start = dimensionResource(id = R.dimen.spacing)
-                )
+                ),
+            color = colorResource(R.color.black)
         )
 
         Text(
@@ -71,7 +72,8 @@ fun InfoMemento(value: Double, startDate: String, endDate: String, category: Int
                 .padding(
                     top = dimensionResource(id = R.dimen.thin_line),
                     start = dimensionResource(id = R.dimen.spacing)
-                )
+                ),
+            color = colorResource(R.color.black)
         )
 
         Text(
@@ -83,7 +85,8 @@ fun InfoMemento(value: Double, startDate: String, endDate: String, category: Int
                 .padding(
                     top = dimensionResource(id = R.dimen.thin_line),
                     start = dimensionResource(id = R.dimen.spacing)
-                )
+                ),
+            color = colorResource(R.color.black)
         )
 
         Text(
@@ -96,7 +99,8 @@ fun InfoMemento(value: Double, startDate: String, endDate: String, category: Int
                     top = dimensionResource(id = R.dimen.thin_line),
                     bottom = dimensionResource(id = R.dimen.thin_line),
                     start = dimensionResource(id = R.dimen.spacing)
-                )
+                ),
+            color = colorResource(R.color.black)
         )
     }
 }
@@ -110,7 +114,7 @@ fun MementoBarChart(
     val currentFilling: Double = getCurrentFilling(budget.categoryId, budget.startDate, budget.endDate)
 
     val chartColors: List<Color> = listOf(
-                                            colorResource(id = R.color.light_cream_red),
+                                            colorResource(id = R.color.dark_red),
                                             colorResource(id = R.color.light_cream_green)
     )
     val chartValues: List<Double> = listOf(currentFilling, threshold)

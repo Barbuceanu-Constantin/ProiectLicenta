@@ -59,7 +59,8 @@ private fun TotalBalance(
                     modifier = Modifier
                         .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),
-                    fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
+                    fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
+                    color = colorResource(R.color.black)
                 )
             }
             Box(
@@ -73,7 +74,8 @@ private fun TotalBalance(
                     modifier = Modifier
                         .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),
-                    fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
+                    fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
+                    color = colorResource(R.color.black)
                 )
             }
             Box(
@@ -87,7 +89,8 @@ private fun TotalBalance(
                     modifier = Modifier
                         .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),
-                    fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
+                    fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
+                    color = colorResource(R.color.black)
                 )
             }
             HorizontalDivider(

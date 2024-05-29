@@ -72,7 +72,7 @@ internal fun PieDonutChartGraph(chartColors: List<androidx.compose.ui.graphics.C
         modifier = Modifier.padding(dimensionResource(id = R.dimen.margin_extra)),
         colors = chartColors,
         inputValues = chartValues,
-        textColor = colorResource(id = R.color.black),
+        textColor = colorResource(id = R.color.gray),
         donut = donut
     )
 }
@@ -582,7 +582,7 @@ internal fun StackedBarChartGraph(
     valuesDebt: List<Double>,
     maxHeight: Dp = dimensionResource(id = R.dimen.stacked_bar_chart_height)
 ) {
-    val borderColor = colorResource(id = R.color.black)
+    val borderColor = colorResource(id = R.color.gray)
     val density = LocalDensity.current
     val strokeWidth = with(density) { dimensionResource(id = R.dimen.very_thin_line).toPx() }
 
@@ -680,7 +680,7 @@ internal fun StackedBarChartGraph(
                         )
                     HorizontalDivider(
                         thickness = dimensionResource(id = R.dimen.very_thin_line),
-                        color = colorResource(id = R.color.black)
+                        color = colorResource(id = R.color.gray)
                     )
                     Text(
                         text = (index + 1).toString(),

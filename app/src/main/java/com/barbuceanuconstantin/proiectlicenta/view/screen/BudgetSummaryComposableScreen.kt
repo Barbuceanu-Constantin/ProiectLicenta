@@ -190,7 +190,8 @@ fun BudgetSummaryComposableScreen(
             Text(text = stringResource(id = R.string.selectare_interval_timp),
                  fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
                  style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
-                                    modifier = Modifier.background(colorResource(R.color.light_cream))
+                                    modifier = Modifier.background(colorResource(R.color.light_cream)),
+                 color = colorResource(R.color.black)
             )
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))

@@ -184,7 +184,8 @@ fun Balance(
                     modifier = Modifier
                         .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),
-                    fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
+                    fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
+                    color = colorResource(R.color.black)
                 )
             } else {
                 Text(
@@ -192,7 +193,8 @@ fun Balance(
                     modifier = Modifier
                         .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),
-                    fontSize = fontDimensionResource(id = R.dimen.medium_text_size)
+                    fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
+                    color = colorResource(R.color.black)
                 )
             }
         }
@@ -589,8 +591,10 @@ fun BottomNavigationBar(
                     modifier = Modifier.size(dimensionResource(id = R.dimen.margin_extra))
                 )
             },
-            label = { Text(text = stringResource(id = R.string.acasa),
-                            fontSize = fontDimensionResource(id = R.dimen.normal_text_size)) },
+            label = { Text( text = stringResource(id = R.string.acasa),
+                            fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+                            color = colorResource(R.color.black)
+            ) },
             selected = true,
             onClick = {
                 Toast.makeText(context, string1, Toast.LENGTH_SHORT).show()
@@ -609,8 +613,10 @@ fun BottomNavigationBar(
                     modifier = Modifier.size(dimensionResource(id = R.dimen.margin_extra))
                 )
             },
-            label = { Text(text = stringResource(id = R.string.tranzactii),
-                            fontSize = fontDimensionResource(id = R.dimen.normal_text_size)) },
+            label = { Text( text = stringResource(id = R.string.tranzactii),
+                            fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+                            color = colorResource(R.color.black)
+            ) },
             selected = true,
             onClick = {
                 Toast.makeText(context, string2, Toast.LENGTH_SHORT).show()
@@ -629,8 +635,10 @@ fun BottomNavigationBar(
                     modifier = Modifier.size(dimensionResource(id = R.dimen.margin_extra))
                 )
             },
-            label = { Text(text = stringResource(id = R.string.categorii),
-                            fontSize = fontDimensionResource(id = R.dimen.normal_text_size)) },
+            label = { Text( text = stringResource(id = R.string.categorii),
+                            fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+                            color = colorResource(R.color.black)
+            ) },
             selected = true,
             onClick = {
                 Toast.makeText(context, string3, Toast.LENGTH_SHORT).show()
@@ -649,8 +657,10 @@ fun BottomNavigationBar(
                     modifier = Modifier.size(dimensionResource(id = R.dimen.margin_extra))
                 )
             },
-            label = { Text(text = stringResource(id = R.string.bugete),
-                            fontSize = fontDimensionResource(id = R.dimen.normal_text_size)) },
+            label = { Text( text = stringResource(id = R.string.bugete),
+                            fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+                            color = colorResource(R.color.black)
+            ) },
             selected = true,
             onClick = {
                 Toast.makeText(context, string4, Toast.LENGTH_SHORT).show()

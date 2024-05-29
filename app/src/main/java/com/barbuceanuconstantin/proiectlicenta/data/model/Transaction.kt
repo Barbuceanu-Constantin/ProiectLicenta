@@ -57,8 +57,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 fun CoroutineScope.launchDeleteCategoryById(
@@ -128,7 +126,8 @@ private fun Tranzactie(
                 text = "${transaction.category.name} ---> ${transaction.transaction.value} RON", fontSize = 18.sp,
                 fontWeight = FontWeight.Bold, modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = dimensionResource(id = R.dimen.margin))
+                    .padding(start = dimensionResource(id = R.dimen.margin)),
+                color = colorResource(R.color.black)
             )
             Text(
                 text = "${stringResource(id = R.string.furnizor_sau_beneficiar)} : ${transaction.transaction.payee}",
@@ -136,7 +135,8 @@ private fun Tranzactie(
                 modifier = Modifier.padding(
                     start = dimensionResource(id = R.dimen.margin),
                     top = dimensionResource(id = R.dimen.spacing)
-                )
+                ),
+                color = colorResource(R.color.black)
             )
             Text(
                 text = "${stringResource(id = R.string.data)} : ${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(transaction.transaction.date)}",
@@ -144,7 +144,8 @@ private fun Tranzactie(
                 modifier = Modifier.padding(
                     start = dimensionResource(id = R.dimen.margin),
                     top = dimensionResource(id = R.dimen.spacing)
-                )
+                ),
+                color = colorResource(R.color.black)
             )
             Text(
                 text = "${stringResource(id = R.string.descriere)} : ${transaction.transaction.description}",
@@ -152,7 +153,8 @@ private fun Tranzactie(
                 modifier = Modifier.padding(
                     start = dimensionResource(id = R.dimen.margin),
                     top = dimensionResource(id = R.dimen.spacing)
-                )
+                ),
+                color = colorResource(R.color.black)
             )
         }
     }
@@ -294,7 +296,8 @@ fun CalendarSummaryTranzactiiLazyColumn(
             Text(text = stringResource(id = R.string.Venituri) + " " + date,
                 fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
                 style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
-                modifier = Modifier.background(colorResource(R.color.light_cream))
+                modifier = Modifier.background(colorResource(R.color.light_cream)),
+                color = colorResource(R.color.black)
             )
 
             FadingArrowIcon()
@@ -304,7 +307,8 @@ fun CalendarSummaryTranzactiiLazyColumn(
             Text(text = stringResource(id = R.string.Cheltuieli) + " " + date,
                 fontSize = fontDimensionResource(id = R.dimen.medium_text_size),
                 style = TextStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
-                modifier = Modifier.background(colorResource(R.color.light_cream))
+                modifier = Modifier.background(colorResource(R.color.light_cream)),
+                color = colorResource(R.color.black)
             )
 
             FadingArrowIcon()
@@ -315,7 +319,7 @@ fun CalendarSummaryTranzactiiLazyColumn(
                 tranzactie.transactions.forEachIndexed { index, transaction ->
                     val c: Categories = tranzactii[idList].category
                     val t: Transactions = tranzactie.transactions[index]
-                    val compoundTransactionWithCategory: TransactionWithCategory = TransactionWithCategory(
+                    val compoundTransactionWithCategory = TransactionWithCategory(
                         category = c,
                         transaction = t
                     )

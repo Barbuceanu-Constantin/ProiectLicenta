@@ -77,7 +77,9 @@ fun HeaderBudget(text: String) {
                         bottom = dimensionResource(id = R.dimen.thin_line),
                         start = dimensionResource(id = R.dimen.spacing)
                     )
-                    .weight(1f))
+                    .weight(1f),
+                 color = colorResource(R.color.black)
+            )
         }
     }
 }
@@ -109,7 +111,8 @@ fun InfoBudget(value: Double, startDate: String, endDate: String, category: Int,
                 .padding(
                     top = dimensionResource(id = R.dimen.thin_line),
                     start = dimensionResource(id = R.dimen.spacing)
-                )
+                ),
+            color = colorResource(R.color.black)
         )
 
         Text(
@@ -121,7 +124,8 @@ fun InfoBudget(value: Double, startDate: String, endDate: String, category: Int,
                 .padding(
                         top = dimensionResource(id = R.dimen.thin_line),
                         start = dimensionResource(id = R.dimen.spacing)
-                )
+                ),
+            color = colorResource(R.color.black)
         )
 
         Text(
@@ -133,7 +137,8 @@ fun InfoBudget(value: Double, startDate: String, endDate: String, category: Int,
                 .padding(
                     top = dimensionResource(id = R.dimen.thin_line),
                     start = dimensionResource(id = R.dimen.spacing)
-                )
+                ),
+            color = colorResource(R.color.black)
         )
 
         Text(
@@ -146,7 +151,8 @@ fun InfoBudget(value: Double, startDate: String, endDate: String, category: Int,
                     top = dimensionResource(id = R.dimen.thin_line),
                     bottom = dimensionResource(id = R.dimen.thin_line),
                     start = dimensionResource(id = R.dimen.spacing)
-                )
+                ),
+            color = colorResource(R.color.black)
         )
     }
 }
