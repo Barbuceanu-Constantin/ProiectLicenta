@@ -33,12 +33,16 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun InfoMemento(value: Double, startDate: String, endDate: String, category: Int,
-               getCategoryName: suspend (Int) -> String) {
+fun InfoMemento(value: Double, startDateStr: String, endDateStr: String,
+                category: Int, startDate: Date, endDate: Date,
+                getCategoryName: suspend (Int) -> String,
+                getCurrentFilling: (Int, Date, Date) -> Double) {
     // Remember the category name to avoid recomposition
     var categoryName by remember(category) {
         mutableStateOf("")
     }
+
+    val currentFilling: Double = getCurrentFilling(category, startDate, endDate)
 
     // Launch coroutine to fetch category name
     LaunchedEffect(category) {
@@ -77,7 +81,7 @@ fun InfoMemento(value: Double, startDate: String, endDate: String, category: Int
         )
 
         Text(
-            text = stringResource(id = R.string.data_inceput) + " $startDate",
+            text = stringResource(id = R.string.consum_curent) + " $currentFilling",
             fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -90,7 +94,20 @@ fun InfoMemento(value: Double, startDate: String, endDate: String, category: Int
         )
 
         Text(
-            text = stringResource(id = R.string.data_final) + " $endDate",
+            text = stringResource(id = R.string.data_inceput) + " $startDateStr",
+            fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = dimensionResource(id = R.dimen.thin_line),
+                    start = dimensionResource(id = R.dimen.spacing)
+                ),
+            color = colorResource(R.color.black)
+        )
+
+        Text(
+            text = stringResource(id = R.string.data_final) + " $endDateStr",
             fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -143,7 +160,10 @@ fun MementosLazyColumn(
                     SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(budget.startDate),
                     SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(budget.endDate),
                     budget.categoryId,
-                    getCategoryName
+                    budget.startDate,
+                    budget.endDate,
+                    getCategoryName,
+                    getCurrentFilling
                 )
                 MementoBarChart(
                     lFixedBudgets[index],

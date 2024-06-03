@@ -82,6 +82,7 @@
     <string name="mesaj_selectare_categorie_principala">Alegeti categoria principala (obligatoriu):</string>
     <string name="mesaj_selectare_subcategory">Alegeti subcategoria: </string>
     <string name="mesaj_selectare_valuta">Alegeti valuta: </string>
+    <string name="consum_curent">Consum curent: </string>
 
     <string name="modificare">Modificare</string>
     <string name="stergere">Stergere</string>
