@@ -91,8 +91,10 @@ fun EditBudgetScreenDestination(
                 updateDate2(budgetObject.endDate)
             if (state.filledText == "")
                 updateFilledText(budgetObject.name)
-            if (state.category == 0)
+            if (state.category == 0) {
                 updateCategory(budgetObject.categoryId)
+                viewModel.onUpdateCategoryName(budgetObject.categoryId)
+            }
             if (state.valueSum == "")
                 updateValueSum(budgetObject.upperThreshold.toString())
         }
