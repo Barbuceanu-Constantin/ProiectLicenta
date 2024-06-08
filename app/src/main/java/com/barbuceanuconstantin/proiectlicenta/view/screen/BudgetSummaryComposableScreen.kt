@@ -34,7 +34,7 @@ import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.TimeIntervalSegmentedButton
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
-import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.data.model.TransactionsLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.getStartAndEndDateOfWeek
 import com.barbuceanuconstantin.proiectlicenta.di.BudgetSummaryScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
@@ -210,7 +210,7 @@ fun BudgetSummaryComposableScreen(
                 SelectDay(date, updateStateDateButton)
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 FadingArrowIcon(budgetSummary = true)
-                TranzactiiLazyColumn(
+                TransactionsLazyColumn(
                     tranzactii = (  budgetSummaryScreenUIState.expensesTransactions +
                                     budgetSummaryScreenUIState.revenueTransactions +
                                     budgetSummaryScreenUIState.debtTransactions),
@@ -237,7 +237,7 @@ fun BudgetSummaryComposableScreen(
                 SelectWeek(date, updateStateDateButton, updateListsInterval)
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 FadingArrowIcon(budgetSummary = true)
-                TranzactiiLazyColumn(
+                TransactionsLazyColumn(
                     tranzactii = (  budgetSummaryScreenUIState.expensesTransactions +
                                     budgetSummaryScreenUIState.revenueTransactions +
                                     budgetSummaryScreenUIState.debtTransactions),
@@ -268,7 +268,7 @@ fun BudgetSummaryComposableScreen(
                             updateListsMonth = updateListsInterval)
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 FadingArrowIcon(budgetSummary = true)
-                TranzactiiLazyColumn(
+                TransactionsLazyColumn(
                     tranzactii = (  budgetSummaryScreenUIState.expensesTransactions +
                                     budgetSummaryScreenUIState.revenueTransactions +
                                     budgetSummaryScreenUIState.debtTransactions),
@@ -292,7 +292,7 @@ fun BudgetSummaryComposableScreen(
                 updateListsFull()
                 HorizontalDivider(thickness = dimensionResource(id = R.dimen.very_thin_line), color = colorResource(id = R.color.gray))
                 FadingArrowIcon(budgetSummary = true)
-                TranzactiiLazyColumn(
+                TransactionsLazyColumn(
                     tranzactii = (  budgetSummaryScreenUIState.expensesTransactions +
                                     budgetSummaryScreenUIState.revenueTransactions +
                                     budgetSummaryScreenUIState.debtTransactions),

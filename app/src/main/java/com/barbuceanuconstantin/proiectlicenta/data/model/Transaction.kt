@@ -162,7 +162,7 @@ private fun Tranzactie(
 }
 
 @Composable
-fun TranzactiiLazyColumn(
+fun TransactionsLazyColumn(
     categoriesA: List<Categories>,
     categoriesP: List<Categories>,
     categoriesD: List<Categories>,
@@ -267,7 +267,7 @@ fun TranzactiiLazyColumn(
 }
 
 @Composable
-fun CalendarSummaryTranzactiiLazyColumn(
+fun CalendarSummaryTransactionsLazyColumn(
     navController: NavController,
     tranzactii: List<CategoryAndTransactions>,
     categoriesA: List<Categories>,

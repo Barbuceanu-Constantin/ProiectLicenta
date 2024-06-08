@@ -12,7 +12,7 @@ import com.barbuceanuconstantin.proiectlicenta.EditTopAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
-import com.barbuceanuconstantin.proiectlicenta.data.model.CalendarSummaryTranzactiiLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.data.model.CalendarSummaryTransactionsLazyColumn
 
 @Composable
 fun CurrentSituationComposableScreen(
@@ -51,7 +51,7 @@ fun CurrentSituationComposableScreen(
                 .padding(innerPadding)
         ) {
             if (incomes && !expenses) {
-                CalendarSummaryTranzactiiLazyColumn(
+                CalendarSummaryTransactionsLazyColumn(
                     tranzactii = lTrA,
                     incomesOrExpenses = true,
                     date = date,
@@ -68,7 +68,7 @@ fun CurrentSituationComposableScreen(
                     updateDate = updateDate
                 )
             } else if (!incomes && expenses) {
-                CalendarSummaryTranzactiiLazyColumn(
+                CalendarSummaryTransactionsLazyColumn(
                     tranzactii = lTrP,
                     incomesOrExpenses = false,
                     date = date,

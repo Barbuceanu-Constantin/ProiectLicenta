@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -22,7 +21,7 @@ import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.SegmentedButton3
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
-import com.barbuceanuconstantin.proiectlicenta.data.model.TranzactiiLazyColumn
+import com.barbuceanuconstantin.proiectlicenta.data.model.TransactionsLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.di.TransactionsScreenUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,7 +87,7 @@ fun TransactionsComposableScreen(
             FadingArrowIcon()
 
             if (showA && !showP && !showD) {
-                TranzactiiLazyColumn(
+                TransactionsLazyColumn(
                                         categoriesA = categoriesA,
                                         categoriesP = categoriesP,
                                         categoriesD = categoriesD,
@@ -102,7 +101,7 @@ fun TransactionsComposableScreen(
                                         modifier = Modifier.fillMaxHeight().fillMaxWidth()
                 )
             } else if (showP && !showA && !showD) {
-                TranzactiiLazyColumn(
+                TransactionsLazyColumn(
                                         categoriesA = categoriesA,
                                         categoriesP = categoriesP,
                                         categoriesD = categoriesD,
@@ -116,7 +115,7 @@ fun TransactionsComposableScreen(
                                         modifier = Modifier.fillMaxHeight().fillMaxWidth()
                 )
             } else if (showD && !showA && !showP) {
-                TranzactiiLazyColumn(
+                TransactionsLazyColumn(
                                         categoriesA = categoriesA,
                                         categoriesP = categoriesP,
                                         categoriesD = categoriesD,
@@ -130,7 +129,7 @@ fun TransactionsComposableScreen(
                                         modifier = Modifier.fillMaxHeight().fillMaxWidth()
                 )
             } else if (showA && showP && showD) {
-                TranzactiiLazyColumn(
+                TransactionsLazyColumn(
                                         categoriesA = categoriesA,
                                         categoriesP = categoriesP,
                                         categoriesD = categoriesD,
@@ -145,7 +144,7 @@ fun TransactionsComposableScreen(
                 )
             } else  if (showA && showP) {
                 //showA && showP && !showD
-                TranzactiiLazyColumn(
+                TransactionsLazyColumn(
                                         categoriesA = categoriesA,
                                         categoriesP = categoriesP,
                                         categoriesD = categoriesD,
@@ -160,7 +159,7 @@ fun TransactionsComposableScreen(
                 )
             } else if (showA) {
                 //showA && showD && !showP
-                TranzactiiLazyColumn(
+                TransactionsLazyColumn(
                                         categoriesA = categoriesA,
                                         categoriesP = categoriesP,
                                         categoriesD = categoriesD,
@@ -175,7 +174,7 @@ fun TransactionsComposableScreen(
                 )
             } else if (showP) {
                 //!showA && showP && showD
-                TranzactiiLazyColumn(
+                TransactionsLazyColumn(
                                         categoriesA = categoriesA,
                                         categoriesP = categoriesP,
                                         categoriesD = categoriesD,
