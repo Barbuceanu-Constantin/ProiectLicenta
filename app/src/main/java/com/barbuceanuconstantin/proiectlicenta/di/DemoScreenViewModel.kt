@@ -64,8 +64,7 @@ class DemoScreenViewModel @Inject constructor(
         }
 
         runBlocking {
-            job.join() // This suspends the main thread until the 'job' coroutine completes its execution
-            Log.d(ContentValues.TAG, "Main Thread can Continue...")
+            job.join()
         }
     }
 
@@ -83,8 +82,7 @@ class DemoScreenViewModel @Inject constructor(
         }
 
         runBlocking {
-            job.join() // This suspends the main thread until the 'job' coroutine completes its execution
-            Log.d(ContentValues.TAG, "Main Thread can Continue...")
+            job.join()
         }
     }
 
@@ -94,8 +92,7 @@ class DemoScreenViewModel @Inject constructor(
         }
 
         runBlocking {
-            job.join() // This suspends the main thread until the 'job' coroutine completes its execution
-            Log.d(ContentValues.TAG, "Main Thread can Continue...")
+            job.join()
         }
     }
 
@@ -107,8 +104,7 @@ class DemoScreenViewModel @Inject constructor(
         }
 
         runBlocking {
-            job.join() // This suspends the main thread until the 'job' coroutine completes its execution
-            Log.d(ContentValues.TAG, "Main Thread can Continue...")
+            job.join()
         }
 
         return size

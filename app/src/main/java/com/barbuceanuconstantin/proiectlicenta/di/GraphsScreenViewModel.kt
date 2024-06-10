@@ -157,8 +157,7 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
         }
 
         runBlocking {
-            job.join() // This suspends the main thread until the 'job' coroutine completes its execution
-            Log.d(TAG, "Main Thread can Continue...")
+            job.join()
         }
 
         val currentMonth = LocalDate.now().monthValue
