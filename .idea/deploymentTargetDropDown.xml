@@ -5,19 +5,19 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="checkGetTransactionsByCategory()">
+      <entry key="checkGetTransactionsByDate()">
+        <State />
+      </entry>
+      <entry key="checkGetTransactionsByInterval()">
         <State />
       </entry>
       <entry key="checkGetTransactionsCategoryList()">
         <State />
       </entry>
-      <entry key="checkGetTransactionsCategoryListQuery()">
+      <entry key="checkGetTransactionsCategoryListTotalSum()">
         <State />
       </entry>
-      <entry key="checkGetTransactionsSumByCategoryAndInterval()">
-        <State />
-      </entry>
-      <entry key="checkTransactionsGetInsertUpdateDelete()">
+      <entry key="checkGetTransactionsSumByDay()">
         <State />
       </entry>
     </value>

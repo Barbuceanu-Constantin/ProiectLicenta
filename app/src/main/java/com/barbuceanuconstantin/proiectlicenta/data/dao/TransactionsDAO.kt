@@ -322,8 +322,8 @@ interface TransactionsDAO {
     @Query("SELECT * FROM categories where main_category == :mainCategory order by name ASC")
     fun getTransactionsCategoryListQuery(mainCategory: String) : List<CategoryAndTransactions>
 
-    //Functie care sorteaza descrescator listele din rezultatul
-    //getTransactionsCategoryListQuery, pentru ca order by nu are efect.
+    //Functie care sorteaza descrescator dupa data listele din rezultatul
+    //getTransactionsCategoryListQuery
     fun getTransactionsCategoryList(mainCategory: String) : List<CategoryAndTransactions> {
         val list = getTransactionsCategoryListQuery(mainCategory)
 
