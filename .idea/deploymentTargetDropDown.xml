@@ -5,7 +5,19 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="checkBudgetsGetInsertionUpdateDeletion()">
+      <entry key="checkGetTransactionsByCategory()">
+        <State />
+      </entry>
+      <entry key="checkGetTransactionsCategoryList()">
+        <State />
+      </entry>
+      <entry key="checkGetTransactionsCategoryListQuery()">
+        <State />
+      </entry>
+      <entry key="checkGetTransactionsSumByCategoryAndInterval()">
+        <State />
+      </entry>
+      <entry key="checkTransactionsGetInsertUpdateDelete()">
         <State />
       </entry>
     </value>
