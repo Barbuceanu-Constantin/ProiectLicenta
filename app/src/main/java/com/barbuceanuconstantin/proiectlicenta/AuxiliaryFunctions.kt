@@ -72,6 +72,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -222,7 +223,8 @@ fun FloatingActionButtonCustom(navigateAction: () -> Unit) {
             pressedElevation = dimensionResource(id = R.dimen.margin),
             hoveredElevation = dimensionResource(id = R.dimen.spacing),
             focusedElevation = dimensionResource(id = R.dimen.very_thin_line)
-        )) {
+        ),
+        modifier = Modifier.testTag("fab")) {
         Icon(Icons.Default.Add, contentDescription = "Add")
     }
 }
@@ -625,6 +627,7 @@ fun BottomNavigationBar(
             alwaysShowLabel = true,
             selectedContentColor = colorResource(id = R.color.black),
             unselectedContentColor = colorResource(id = R.color.gray),
+            modifier = Modifier.testTag("Tranzactii")
         )
         BottomNavigationItem(
             icon = {

@@ -10,8 +10,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.FadingArrowIcon
@@ -24,7 +27,7 @@ import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.model.TransactionsLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.di.TransactionsScreenUIState
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun TransactionsComposableScreen(
     lTrA: List<CategoryAndTransactions>,
@@ -74,11 +77,10 @@ fun TransactionsComposableScreen(
                                 onNavigateToGraphsScreen = onNavigateToGraphsScreen,
                                 onNavigateToMementosScreen = onNavigateToMementosScreen
             )
-        }
+        },
+        modifier = Modifier.semantics{ testTagsAsResourceId = true }
     ) { innerPadding ->
-        Column( modifier = Modifier
-            .fillMaxWidth()
-            .padding(innerPadding),
+        Column( modifier = Modifier.fillMaxWidth().padding(innerPadding),
                 horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.margin_extra)))
 

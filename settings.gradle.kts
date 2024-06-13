@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "ProiectLicenta"
 include(":app")
- 
+include(":benchmark")

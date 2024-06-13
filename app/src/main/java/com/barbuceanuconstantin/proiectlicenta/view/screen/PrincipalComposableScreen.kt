@@ -20,10 +20,13 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -104,7 +107,7 @@ private fun TotalBalance(
         Balance(revenuesSum, expensesSum, debtSum, false)
     }
 }
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -> Unit,
                               onNavigateToHomeScreen: () -> Unit,
@@ -140,7 +143,8 @@ fun PrincipalComposableScreen(onNavigateToEditTransactionScreen: (index : Int) -
                                         onNavigateToGraphsScreen = onNavigateToGraphsScreen,
                                         onNavigateToMementosScreen = onNavigateToMementosScreen
                     )
-                }
+                },
+                modifier = Modifier.semantics { testTagsAsResourceId = true }
     ) { innerPadding ->
         Column(
             modifier = Modifier.fillMaxWidth().padding(innerPadding),

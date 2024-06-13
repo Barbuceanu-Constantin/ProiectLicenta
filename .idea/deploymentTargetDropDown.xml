@@ -2,22 +2,22 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AddTransactionsAndScroll()">
+        <State />
+      </entry>
+      <entry key="NavigateToEditTransactionsScreen()">
+        <State />
+      </entry>
+      <entry key="Prepopulate()">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="checkGetTransactionsByDate()">
+      <entry key="navigateToEditTransactionsScreen()">
         <State />
       </entry>
-      <entry key="checkGetTransactionsByInterval()">
-        <State />
-      </entry>
-      <entry key="checkGetTransactionsCategoryList()">
-        <State />
-      </entry>
-      <entry key="checkGetTransactionsCategoryListTotalSum()">
-        <State />
-      </entry>
-      <entry key="checkGetTransactionsSumByDay()">
+      <entry key="startup()">
         <State />
       </entry>
     </value>
