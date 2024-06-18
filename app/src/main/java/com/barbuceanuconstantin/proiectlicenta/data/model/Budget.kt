@@ -37,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
+import com.barbuceanuconstantin.proiectlicenta.di.FixedBudgetsScreenUIState
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
 import com.barbuceanuconstantin.proiectlicenta.navigation.editBudgetScreenFullPath
 import com.google.gson.Gson
@@ -46,6 +47,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 fun CoroutineScope.launchDeleteBudgetById(
@@ -122,8 +124,8 @@ fun InfoBudget(value: Double, startDate: String, endDate: String, category: Int,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                        top = dimensionResource(id = R.dimen.thin_line),
-                        start = dimensionResource(id = R.dimen.spacing)
+                    top = dimensionResource(id = R.dimen.thin_line),
+                    start = dimensionResource(id = R.dimen.spacing)
                 ),
             color = colorResource(R.color.black)
         )
@@ -166,22 +168,93 @@ fun BudgetsLazyColumn(
     updateStateButtons: (Boolean) -> Unit,
     deleteByIdCoroutine: (Int) -> Unit,
     getCategoryName: suspend (Int) -> String,
+    getTotalRevenues: (Date, Date) -> Unit,
+    state: FixedBudgetsScreenUIState
 ) {
     val id: MutableState<Int> = remember { mutableIntStateOf(-1) }
+
+    if (lFixedBudgets.isNotEmpty()) {
+        var totalBudgetsSum = 0.0
+        var lowestDate = lFixedBudgets[0].startDate
+        var highestDate = lFixedBudgets[0].endDate
+        lFixedBudgets.forEach { budget ->
+            totalBudgetsSum += budget.upperThreshold
+            if (budget.startDate < lowestDate)
+                lowestDate = budget.startDate
+            if (budget.endDate > highestDate)
+                highestDate = budget.endDate
+        }
+        getTotalRevenues(lowestDate, highestDate)
+
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
+        val lowestDateString = formatter.format(lowestDate)
+        val highestDateString = formatter.format(highestDate)
+
+        Card(
+            shape = RoundedCornerShape(dimensionResource(id = R.dimen.medium_line)),
+            modifier = Modifier
+                .padding(
+                    start = dimensionResource(id = R.dimen.margin),
+                    end = dimensionResource(id = R.dimen.margin)
+                )
+        ) {
+            Column(
+                modifier = Modifier.background(color = colorResource(id = R.color.light_cream_green))
+            ) {
+                Text(text = stringResource(id = R.string.suma_totala_bugete) + " " + totalBudgetsSum.toString(),
+                     fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+                     fontWeight = FontWeight.Bold,
+                     color = colorResource(R.color.black)
+                )
+                if (state.revenues > totalBudgetsSum) {
+                    Text(
+                        text = stringResource(id = R.string.suma_totala_venituri) + " " + state.revenues.toString(),
+                        fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+                        fontWeight = FontWeight.Bold,
+                        color = colorResource(R.color.black)
+                    )
+                } else {
+                    Text(
+                        text = stringResource(id = R.string.suma_totala_venituri) + " " + state.revenues.toString(),
+                        fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+                        fontWeight = FontWeight.Bold,
+                        color = colorResource(R.color.red)
+                    )
+                    Text(
+                        text = stringResource(id = R.string.avertisment_venituri_bugete),
+                        fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+                        fontWeight = FontWeight.Bold,
+                        color = colorResource(R.color.red)
+                    )
+                }
+
+                Text(text = stringResource(id = R.string.interval_total_timp) + "\n" + lowestDateString + " <-> " + highestDateString,
+                    fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(R.color.black)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_line)))
+    }
 
     LazyColumn(Modifier.fillMaxSize()) {
         itemsIndexed(lFixedBudgets) { index, budget ->
             Card(
                 shape = RoundedCornerShape(dimensionResource(id = R.dimen.medium_line)),
-                modifier = Modifier.padding(start = dimensionResource(id = R.dimen.margin),
-                                            end = dimensionResource(id = R.dimen.margin))
-                                    .combinedClickable(
-                                                        onClick = { },
-                                                        onLongClick = {
-                                                                        updateStateButtons(!buttons)
-                                                                        id.value = index
-                                                                      },
-                                                    )
+                modifier = Modifier
+                    .padding(
+                        start = dimensionResource(id = R.dimen.margin),
+                        end = dimensionResource(id = R.dimen.margin)
+                    )
+                    .combinedClickable(
+                        onClick = { },
+                        onLongClick = {
+                            updateStateButtons(!buttons)
+                            id.value = index
+                        },
+                    )
             ) {
                 HeaderBudget(text = budget.name)
                 InfoBudget(

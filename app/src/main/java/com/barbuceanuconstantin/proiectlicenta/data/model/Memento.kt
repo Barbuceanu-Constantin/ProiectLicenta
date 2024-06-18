@@ -81,7 +81,7 @@ fun InfoMemento(value: Double, startDateStr: String, endDateStr: String,
         )
 
         Text(
-            text = stringResource(id = R.string.consum_curent) + " $currentFilling",
+            text = stringResource(id = R.string.consum_curent) + " $currentFilling" + " ( " + String.format("%.2f", (100 * currentFilling / value)) + "% )",
             fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -134,7 +134,10 @@ fun MementoBarChart(
                                             colorResource(id = R.color.dark_red),
                                             colorResource(id = R.color.light_cream_green)
     )
-    val chartValues: List<Double> = listOf(currentFilling, threshold)
+
+    val max = if (currentFilling < threshold) threshold else currentFilling
+
+    val chartValues: List<Double> = listOf((100 * currentFilling) / max, 100.0)
 
     BarChartOnMementosScreen(chartColors = chartColors, chartValues = chartValues)
 }

@@ -97,6 +97,7 @@
     <string name="avertisment_completare_campuri">Completati toate campurile!</string>
     <string name="avertisment_categorie_deja_existenta">Numele introdus exista deja !</string>
     <string name="avertisment_neselectare_categorie">Nu ati selectat categoria principala</string>
+    <string name="avertisment_venituri_bugete">Atentie!!! Veniturile sunt mai mici decat bugetele. Nu dispuneti de suficiente fonduri.</string>
 
     <string name="introduceti_detalii_buget">Introduceti detalii buget</string>
     <string name="furnizor_sau_beneficiar">Furnizor/Beneficiar</string>
@@ -178,4 +179,8 @@
     <string name="editare_categorii">Editare categorii</string>
     <string name="editare_bugete">Editare bugete</string>
     <string name="situatie_zilnica">Situatie curenta</string>
+
+    <string name="suma_totala_bugete">Suma totala a bugetelor = </string>
+    <string name="suma_totala_venituri">Suma totala a veniturilor = </string>
+    <string name="interval_total_timp">Intervalul total de timp : </string>
 </resources>

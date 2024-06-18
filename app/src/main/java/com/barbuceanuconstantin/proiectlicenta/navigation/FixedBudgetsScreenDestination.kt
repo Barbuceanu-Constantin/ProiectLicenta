@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.util.Date
 
 fun CoroutineScope.launchGetBudgetsLists(viewModel: FixedBudgetsScreenViewModel) = launch {
     viewModel.onStateChangedList()
@@ -48,6 +49,9 @@ fun FixedBudgetsScreenDestination(
             val categoryName = getCategoryNameAsync(id, viewModel)
             categoryName
         }
+    }
+    val getTotalRevenues: (Date, Date) -> Unit = { startDate, endDate ->
+        viewModel.getTotalRevenues(startDate, endDate)
     }
 
     runGetBudgetsLists(viewModel)
@@ -112,6 +116,7 @@ fun FixedBudgetsScreenDestination(
         fixedBudgetsScreenUIState = state,
         updateStateButtons = updateState,
         deleteByIdCoroutine = deleteById,
-        getCategoryName = getCategoryName
+        getCategoryName = getCategoryName,
+        getTotalRevenues = getTotalRevenues
     )
 }
