@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -31,6 +33,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -42,6 +45,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import co.yml.charts.axis.AxisData
 import co.yml.charts.common.model.Point
 import co.yml.charts.ui.barchart.BarChart
@@ -273,10 +277,11 @@ private fun touchPointToAngle(
 ////////////////////////////////////////////////////////////////////////////////////
 
 @Composable
-fun BarChartOnMementosScreen(
+fun BarChartOnMementosScreenYChart(
     chartColors: List<androidx.compose.ui.graphics.Color>,
     chartValues: List<Double>
 ) {
+    //Not working as expected
     val barsData = listOf(
         BarData(point = Point(x = 0F, y = 0.toFloat()),
             color = colorResource(id = R.color.white),
@@ -340,6 +345,73 @@ fun BarChartOnMementosScreen(
             )
         }
     }
+}
+
+@Composable
+fun BarChartOnMementosScreen(
+    modifier: Modifier = Modifier,
+    values: List<Double>,
+) {
+    val borderColor = MaterialTheme.colorScheme.primary
+    val density = LocalDensity.current
+    val strokeWidth = with(density) { 1.dp.toPx() }
+    val maxHeight = dimensionResource(id = R.dimen.hundred)
+
+    Row(
+        modifier = modifier.then(
+            Modifier
+                .fillMaxWidth()
+                .height(maxHeight)
+                .drawBehind {
+                    // draw X-Axis
+                    drawLine(
+                        color = borderColor,
+                        start = Offset(0f, size.height),
+                        end = Offset(size.width, size.height),
+                        strokeWidth = strokeWidth
+                    )
+                    // draw Y-Axis
+                    drawLine(
+                        color = borderColor,
+                        start = Offset(0f, 0f),
+                        end = Offset(0f, size.height),
+                        strokeWidth = strokeWidth
+                    )
+                }
+        ),
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.Bottom
+    ) {
+        Bar(
+            value = values[0],
+            color = colorResource(id = R.color.dark_red),
+            maxHeight = maxHeight,
+        )
+        Bar(
+            value = values[1],
+            color = colorResource(id = R.color.light_green),
+            maxHeight = maxHeight
+        )
+    }
+}
+
+@Composable
+private fun RowScope.Bar(
+    value: Double,
+    color: Color,
+    maxHeight: Dp
+) {
+    val itemHeight = remember(value) { value * maxHeight.value / 100 }
+    val width = dimensionResource(id = R.dimen.middle)
+
+    Spacer(
+        modifier = Modifier
+            .padding(horizontal = 5.dp)
+            .height(itemHeight.dp)
+            .width(width)
+            .background(color)
+    )
+
 }
 
 @Composable

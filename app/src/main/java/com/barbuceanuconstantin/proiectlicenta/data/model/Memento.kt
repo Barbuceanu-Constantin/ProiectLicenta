@@ -27,8 +27,13 @@ import androidx.compose.ui.text.font.FontWeight
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
+import com.barbuceanuconstantin.proiectlicenta.stripTime
 import com.barbuceanuconstantin.proiectlicenta.view.charts.BarChartOnMementosScreen
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Period
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.Locale
 
@@ -77,7 +82,7 @@ fun InfoMemento(value: Double, startDateStr: String, endDateStr: String,
                     top = dimensionResource(id = R.dimen.thin_line),
                     start = dimensionResource(id = R.dimen.spacing)
                 ),
-            color = colorResource(R.color.black)
+            color = colorResource(R.color.light_green)
         )
 
         Text(
@@ -90,7 +95,7 @@ fun InfoMemento(value: Double, startDateStr: String, endDateStr: String,
                     top = dimensionResource(id = R.dimen.thin_line),
                     start = dimensionResource(id = R.dimen.spacing)
                 ),
-            color = colorResource(R.color.black)
+            color = colorResource(R.color.dark_red)
         )
 
         Text(
@@ -114,11 +119,86 @@ fun InfoMemento(value: Double, startDateStr: String, endDateStr: String,
                 .fillMaxWidth()
                 .padding(
                     top = dimensionResource(id = R.dimen.thin_line),
-                    bottom = dimensionResource(id = R.dimen.thin_line),
                     start = dimensionResource(id = R.dimen.spacing)
                 ),
             color = colorResource(R.color.black)
         )
+
+
+        val dateFormatter: DateTimeFormatter =  DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val currentDate = LocalDate.now()
+
+        val from = LocalDate.parse(currentDate.format(dateFormatter), dateFormatter)
+        val to = LocalDate.parse(endDateStr, dateFormatter)
+        val period = Period.between(from, to)
+        var nrOfDays = period.days
+        if (nrOfDays < 0)
+            nrOfDays = 0
+
+        Text(
+            text = stringResource(id = R.string.au_mai_ramas) + " $nrOfDays " + stringResource(id = R.string.zile_ramase),
+            fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = dimensionResource(id = R.dimen.thin_line),
+                    start = dimensionResource(id = R.dimen.spacing)
+                ),
+            color = colorResource(R.color.black)
+        )
+
+        if (currentFilling > value) {
+            val dif = currentFilling - value
+            Text(
+                text = "!!! " + stringResource(id = R.string.ati_depasit) + " $dif " + " !!!",
+                fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        top = dimensionResource(id = R.dimen.thin_line),
+                        bottom = dimensionResource(id = R.dimen.thin_line),
+                        start = dimensionResource(id = R.dimen.spacing)
+                    ),
+                color = colorResource(R.color.black)
+            )
+        } else {
+            val dif = value - currentFilling
+            if (currentFilling >= 0 && value - currentFilling < 100) {
+                Text(
+                    text = stringResource(id = R.string.mai_aveti_putin) + " $dif " + stringResource(
+                        id = R.string.pana_la
+                    ),
+                    fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            top = dimensionResource(id = R.dimen.thin_line),
+                            bottom = dimensionResource(id = R.dimen.thin_line),
+                            start = dimensionResource(id = R.dimen.spacing)
+                        ),
+                    color = colorResource(R.color.black)
+                )
+            } else {
+                Text(
+                    text = stringResource(id = R.string.mai_aveti) + " $dif " + stringResource(
+                        id = R.string.pana_la
+                    ),
+                    fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            top = dimensionResource(id = R.dimen.thin_line),
+                            bottom = dimensionResource(id = R.dimen.thin_line),
+                            start = dimensionResource(id = R.dimen.spacing)
+                        ),
+                    color = colorResource(R.color.black)
+                )
+            }
+        }
     }
 }
 
@@ -130,16 +210,10 @@ fun MementoBarChart(
     val threshold: Double = budget.upperThreshold
     val currentFilling: Double = getCurrentFilling(budget.categoryId, budget.startDate, budget.endDate)
 
-    val chartColors: List<Color> = listOf(
-                                            colorResource(id = R.color.dark_red),
-                                            colorResource(id = R.color.light_cream_green)
-    )
-
     val max = if (currentFilling < threshold) threshold else currentFilling
-
     val chartValues: List<Double> = listOf((100 * currentFilling) / max, 100.0)
 
-    BarChartOnMementosScreen(chartColors = chartColors, chartValues = chartValues)
+    BarChartOnMementosScreen(values = chartValues)
 }
 
 @Composable

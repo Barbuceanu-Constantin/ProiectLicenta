@@ -183,4 +183,11 @@
     <string name="suma_totala_bugete">Suma totala a bugetelor = </string>
     <string name="suma_totala_venituri">Suma totala a veniturilor = </string>
     <string name="interval_total_timp">Intervalul total de timp : </string>
+
+    <string name="au_mai_ramas">Au mai ramas </string>
+    <string name="zile_ramase">zile pana la termenul final al bugetului.</string>
+    <string name="ati_depasit">Ati depasit pragul bugetului cu </string>
+    <string name="mai_aveti_putin">Atentie! Mai aveti</string>
+    <string name="mai_aveti">Mai aveti</string>
+    <string name="pana_la">pana la depasirea pragului.</string>
 </resources>
