@@ -35,6 +35,15 @@ fun GraphsScreenDestination(
     val updateMonthsListSum: (List<String>) -> Triple<List<Double>, List<Double>, List<Double>> = {
         viewModel.onStateChangedMonthsListSum(it)
     }
+    val updateCategory: (String) -> Unit = { it ->
+        viewModel.onStateChangeCategory(it)
+    }
+    val getCategoryMonthAverages: (List<String>, Int) -> List<Float> = { list, id ->
+        viewModel.onStateChangedCategoryMonthAverage(list, id)
+    }
+    val getId: (String, String) -> Int = { name, main ->
+        viewModel.getId(name, main)
+    }
 
     GraphsComposableScreen(
         onNavigateToHomeScreen = {
@@ -94,6 +103,9 @@ fun GraphsScreenDestination(
         updateMetricsGlobal = updateMetricsGlobal,
         updateMetricsMonth = updateMetricsMonth,
         updateMonthComparisonType = updateMonthComparisonType,
-        updateMonthsListSum = updateMonthsListSum
+        updateMonthsListSum = updateMonthsListSum,
+        updateCategory = updateCategory,
+        getCategoryMonthAverages =  getCategoryMonthAverages,
+        getId = getId
     )
 }

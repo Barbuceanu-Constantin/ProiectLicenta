@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,9 +14,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Month
+import java.time.Period
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
@@ -28,15 +33,56 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
     val stateFlow: StateFlow<GraphsScreenUIState>
         get() = _stateFlow.asStateFlow()
 
+    fun onStateChangeCategory(category: String) {
+        _stateFlow.value = GraphsScreenUIState(
+            graphChoice = _stateFlow.value.graphChoice,
+            monthComparisonChartType = _stateFlow.value.monthComparisonChartType,
+            category = category,
+            allCategories = _stateFlow.value.allCategories,
+            revenueCategories = _stateFlow.value.revenueCategories,
+            expenseCategories = _stateFlow.value.expenseCategories,
+            debtCategories = _stateFlow.value.debtCategories
+            //Restul se reseteaza
+        )
+    }
+
     fun onStateChangedMonthComparisonChartType(type: String) {
         _stateFlow.value = GraphsScreenUIState(
             monthComparisonChartType = type,
             graphChoice = _stateFlow.value.graphChoice,
+            allCategories = _stateFlow.value.allCategories,
+            revenueCategories = _stateFlow.value.revenueCategories,
+            expenseCategories = _stateFlow.value.expenseCategories,
+            debtCategories = _stateFlow.value.debtCategories
             //Restul pot fi resetate
         )
     }
 
     fun onStateChangedGraphInterval(name : String) {
+        var lCategories = listOf<Categories>()
+        var lCategoriesRevenues = listOf<Categories>()
+        var lCategoriesExpenses = listOf<Categories>()
+        var lCategoriesDebt = listOf<Categories>()
+        var lCategoriesString = listOf<String>()
+        var lCategoriesStringRevenues = listOf<String>()
+        var lCategoriesStringExpenses = listOf<String>()
+        var lCategoriesStringDebt = listOf<String>()
+        if (name == "Comparatie luni") {
+            val job = viewModelScope.launch(Dispatchers.IO) {
+                lCategories = budgetTrackerRepository.getAllCategories()
+                lCategoriesRevenues = budgetTrackerRepository.getRevenueCategories()
+                lCategoriesExpenses = budgetTrackerRepository.getSpendingCategories()
+                lCategoriesDebt = budgetTrackerRepository.getDebtCategories()
+            }
+            runBlocking {
+                job.join()
+            }
+            lCategoriesString = lCategories.map { category -> category.name }
+            lCategoriesStringRevenues = lCategoriesRevenues.map { category -> category.name }
+            lCategoriesStringExpenses = lCategoriesExpenses.map { category -> category.name }
+            lCategoriesStringDebt = lCategoriesDebt.map { category -> category.name }
+        }
+
         _stateFlow.value = GraphsScreenUIState(
             graphChoice = name,
             //type trebuie resetat. Deci nu il pun aici.
@@ -44,6 +90,10 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
             revenuesSum = _stateFlow.value.revenuesSum,
             expensesSum = _stateFlow.value.expensesSum,
             debtSum = _stateFlow.value.debtSum,
+            allCategories = lCategoriesString,
+            revenueCategories = lCategoriesStringRevenues,
+            expenseCategories = lCategoriesStringExpenses,
+            debtCategories = lCategoriesStringDebt
         )
     }
 
@@ -83,6 +133,81 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
                 month = _stateFlow.value.month,
             )
         }
+    }
+
+    fun getId(name: String, main: String): Int {
+        var id = 0
+
+        val job = viewModelScope.launch(Dispatchers.IO) {
+            id = budgetTrackerRepository.getCategoryId(name, main)
+        }
+
+        runBlocking {
+            job.join()
+        }
+
+        return id
+    }
+
+    fun onStateChangedCategoryMonthAverage(lMonth: List<String>, category: Int): List<Float> {
+        val lCategoryMonthAverages: MutableList<Float> = mutableListOf()
+        val lPairDates: MutableList<Pair<Date, Date>> = mutableListOf()
+
+        for (month in lMonth) {
+            var startDateString = ""
+            var endDateString = ""
+            try {
+                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                val currentYear = LocalDate.now().year
+
+                val monthEnum = getMonthEnum(month)
+                val startDate = LocalDate.of(currentYear, monthEnum, 1)
+                val endDate = startDate.withDayOfMonth(startDate.lengthOfMonth())
+
+                startDateString = startDate.format(formatter)
+                endDateString = endDate.format(formatter)
+
+                val parsedStartDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(startDateString)
+                val parsedEndDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(endDateString)
+
+                lPairDates.add(Pair(parsedStartDate!!, parsedEndDate!!))
+            } catch (e: IllegalArgumentException) {
+                println("Invalid month name: $month")
+            }
+        }
+
+        var sum = 0.0
+
+        val job = viewModelScope.launch(Dispatchers.IO) {
+            for (index in lPairDates.indices) {
+                val parsedStartDate = lPairDates[index].first
+                val parsedEndDate = lPairDates[index].second
+                sum = budgetTrackerRepository.getTransactionsSumByCategoryAndInterval(category, parsedStartDate, parsedEndDate)
+
+                val dateFormatter: DateTimeFormatter =  DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+                val from = LocalDate.parse(parsedStartDate.toLocalDate().format(dateFormatter), dateFormatter)
+                val to = LocalDate.parse(parsedEndDate.toLocalDate().format(dateFormatter), dateFormatter)
+                val period = Period.between(from, to)
+                var nrOfDays = period.days
+
+                sum = sum / nrOfDays
+                val formattedSum = String.format(Locale.US, "%.2f", sum).toFloat()
+                lCategoryMonthAverages += formattedSum
+            }
+        }
+
+        runBlocking {
+            job.join()
+        }
+
+        val currentMonth = LocalDate.now().monthValue
+
+        return lCategoryMonthAverages.dropLast(12 - currentMonth)
+    }
+
+    private fun Date.toLocalDate(): LocalDate {
+        return this.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
     }
 
     fun onStateChangedMonthsListSum(lMonth: List<String>): Triple<List<Double>, List<Double>, List<Double>> {

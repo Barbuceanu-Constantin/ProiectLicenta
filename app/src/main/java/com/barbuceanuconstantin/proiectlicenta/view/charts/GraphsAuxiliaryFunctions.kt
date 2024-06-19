@@ -60,6 +60,7 @@ import co.yml.charts.ui.linechart.model.LinePlotData
 import co.yml.charts.ui.linechart.model.LineStyle
 import co.yml.charts.ui.linechart.model.LineType
 import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
+import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
 import co.yml.charts.ui.linechart.model.ShadowUnderLine
 import com.barbuceanuconstantin.proiectlicenta.R
 import java.time.LocalDate
@@ -486,6 +487,85 @@ fun BarChartOnGraphsScreen(chartColors: List<androidx.compose.ui.graphics.Color>
 }
 
 @Composable
+fun LineChartGraphAverages(listAverages: List<Float>, mainCateg: String) {
+    val steps = 5
+    val maximum = max(listAverages)
+    val pointsDataAverages: MutableList<Point> = mutableListOf()
+
+    val yellow = colorResource(id = R.color.yellow)
+    val red = colorResource(id = R.color.red)
+    val blue = colorResource(id = R.color.blue)
+    val gray = colorResource(id = R.color.gray)
+    val color = if (mainCateg == "Active") yellow
+                else if (mainCateg == "Pasive") red
+                else blue
+
+    for (i in listAverages.indices) {
+        pointsDataAverages.add(Point((i).toFloat(), listAverages[i].toFloat()))
+    }
+    pointsDataAverages.add(Point(listAverages.size.toFloat(), 0.0F))
+
+    val xAxisData = AxisData.Builder()
+        .axisStepSize(dimensionResource(id = R.dimen.hundred))
+        .backgroundColor(Color.Transparent)
+        .steps(pointsDataAverages.size)
+        .labelData { i -> i.toString() }
+        .labelAndAxisLinePadding(dimensionResource(id = R.dimen.margin_extra))
+        .axisLineColor(MaterialTheme.colorScheme.tertiary)
+        .axisLabelColor(MaterialTheme.colorScheme.tertiary)
+        .build()
+
+    val yAxisData = AxisData.Builder()
+        .steps(steps)
+        .backgroundColor(Color.Transparent)
+        .labelAndAxisLinePadding(dimensionResource(id = R.dimen.margin_extra))
+        .labelData { i ->
+            val yScale = maximum / steps
+            (i * yScale).toString()
+        }
+        .axisLineColor(MaterialTheme.colorScheme.tertiary)
+        .axisLabelColor(MaterialTheme.colorScheme.tertiary)
+        .build()
+
+    val lineChartData = LineChartData(
+        linePlotData = LinePlotData(
+            lines = listOf(
+                Line(
+                    dataPoints = pointsDataAverages.toList(),
+                    LineStyle(
+                        color = color,
+                        lineType = LineType.SmoothCurve(isDotted = false)
+                    ),
+                    IntersectionPoint(
+                        color = MaterialTheme.colorScheme.tertiary
+                    ),
+                    SelectionHighlightPoint(color = MaterialTheme.colorScheme.primary),
+                    ShadowUnderLine(
+                        alpha = 0.5f,
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                MaterialTheme.colorScheme.inversePrimary,
+                                Color.Transparent
+                            )
+                        )
+                    ),
+                    SelectionHighlightPopUp()
+                )
+            )
+        ),
+        backgroundColor = MaterialTheme.colorScheme.surface,
+        xAxisData = xAxisData,
+        yAxisData = yAxisData,
+        gridLines = GridLines(color = gray)
+    )
+
+    LineChart(
+        modifier = Modifier.fillMaxSize(),
+        lineChartData = lineChartData
+    )
+}
+
+@Composable
 fun LineChartGraph(
     lRevenues: List<Double>,
     lExpenses: List<Double>,
@@ -514,7 +594,7 @@ fun LineChartGraph(
 
     val xAxisData = AxisData.Builder()
         .axisStepSize(dimensionResource(id = R.dimen.hundred))
-        .backgroundColor(androidx.compose.ui.graphics.Color.Transparent)
+        .backgroundColor(Color.Transparent)
         .steps(pointsDataRevenues.size)
         .labelData { i -> i.toString() }
         .labelAndAxisLinePadding(dimensionResource(id = R.dimen.margin_extra))
@@ -524,7 +604,7 @@ fun LineChartGraph(
 
     val yAxisData = AxisData.Builder()
         .steps(steps)
-        .backgroundColor(androidx.compose.ui.graphics.Color.Transparent)
+        .backgroundColor(Color.Transparent)
         .labelAndAxisLinePadding(dimensionResource(id = R.dimen.margin_extra))
         .labelData { i ->
             val yScale = maximum / steps
@@ -557,7 +637,7 @@ fun LineChartGraph(
                         brush = Brush.verticalGradient(
                             colors = listOf(
                                 MaterialTheme.colorScheme.inversePrimary,
-                                androidx.compose.ui.graphics.Color.Transparent
+                                Color.Transparent
                             )
                         )
                     )
@@ -577,7 +657,7 @@ fun LineChartGraph(
                         brush = Brush.verticalGradient(
                             colors = listOf(
                                 MaterialTheme.colorScheme.inversePrimary,
-                                androidx.compose.ui.graphics.Color.Transparent
+                                Color.Transparent
                             )
                         )
                     )
@@ -597,7 +677,7 @@ fun LineChartGraph(
                         brush = Brush.verticalGradient(
                             colors = listOf(
                                 MaterialTheme.colorScheme.inversePrimary,
-                                androidx.compose.ui.graphics.Color.Transparent
+                                Color.Transparent
                             )
                         )
                     )

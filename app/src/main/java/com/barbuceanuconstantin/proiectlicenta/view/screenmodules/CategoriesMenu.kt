@@ -65,7 +65,7 @@ fun CategoriesMenu(
                 textFilledSize = coordinates.size.toSize()
             },
             enabled = true,
-            label = { Text(text = stringResource(id = R.string.selectare_subcategory)) },
+            label = { Text(text = stringResource(id = R.string.selectare_categorie)) },
             trailingIcon = { Icon(icon, "", Modifier.clickable {
                                                                                 expanded1 = !expanded1
                                                                                 expanded2 = !expanded2

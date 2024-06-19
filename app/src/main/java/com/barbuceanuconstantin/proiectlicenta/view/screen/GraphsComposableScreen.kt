@@ -21,6 +21,7 @@ import com.barbuceanuconstantin.proiectlicenta.view.charts.PieDonutChartGraph
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.view.charts.StackedBarChartGraph
 import com.barbuceanuconstantin.proiectlicenta.di.GraphsScreenUIState
+import com.barbuceanuconstantin.proiectlicenta.view.charts.LineChartGraphAverages
 import com.barbuceanuconstantin.proiectlicenta.view.screenmodules.Menu
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,7 +42,10 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                            updateMetricsGlobal: () -> Unit,
                            updateMetricsMonth: (String) -> Unit,
                            updateMonthComparisonType: (String) -> Unit,
-                           updateMonthsListSum: (List<String>) -> Triple<List<Double>, List<Double>, List<Double>>) {
+                           updateMonthsListSum: (List<String>) -> Triple<List<Double>, List<Double>, List<Double>>,
+                           updateCategory: (String) -> Unit,
+                           getCategoryMonthAverages: (List<String>, Int) -> List<Float>,
+                           getId: (String, String) -> Int) {
     val lChoices = listOf(
         stringResource(id = R.string.selectie_globala),
         stringResource(id = R.string.selectie_lunara),
@@ -68,12 +72,16 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
     )
     val lMonthsComparison = listOf(
         stringResource(id = R.string.stacked_chart),
-        stringResource(id = R.string.line_chart)
+        stringResource(id = R.string.line_chart),
+        stringResource(id = R.string.media_lunara)
     )
+    val lCategories = graphsScreenUIState.allCategories
+
     val graphName = graphsScreenUIState.graphChoice
     val chartType = graphsScreenUIState.chartType
     val month = graphsScreenUIState.month
     val monthComparisonType = graphsScreenUIState.monthComparisonChartType
+    val category = graphsScreenUIState.category
     var lRevenues: List<Double>
     var lExpenses: List<Double>
     var lDebt: List<Double>
@@ -197,6 +205,39 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                         lExpenses,
                         lDebt
                     )
+                } else if (monthComparisonType == "Media lunara pe categorii") {
+                    Menu(update = updateCategory,
+                        lChoices = lCategories,
+                        value = category,
+                        label = stringResource(id = R.string.selectare_categorie),
+                        categories = true,
+                        revenueCategories = graphsScreenUIState.revenueCategories,
+                        expenseCategories = graphsScreenUIState.expenseCategories,
+                        debtCategories = graphsScreenUIState.debtCategories)
+
+                    var idCategory = 0
+                    if (graphsScreenUIState.revenueCategories.contains(category)) {
+                        idCategory = getId(category, "Active")
+                        val listAverages = getCategoryMonthAverages(lMonth, idCategory)
+                        LineChartGraphAverages(
+                            listAverages,
+                            "Active"
+                        )
+                    } else if (graphsScreenUIState.expenseCategories.contains(category)) {
+                        idCategory = getId(category, "Pasive")
+                        val listAverages = getCategoryMonthAverages(lMonth, idCategory)
+                        LineChartGraphAverages(
+                            listAverages,
+                            "Pasive"
+                        )
+                    } else {
+                        idCategory = getId(category, "Datorii")
+                        val listAverages = getCategoryMonthAverages(lMonth, idCategory)
+                        LineChartGraphAverages(
+                            listAverages,
+                            "Datorii"
+                        )
+                    }
                 }
             }
         }
