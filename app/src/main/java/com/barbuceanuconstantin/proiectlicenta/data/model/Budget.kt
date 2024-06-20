@@ -118,7 +118,7 @@ fun InfoBudget(value: Double, startDate: String, endDate: String, category: Int,
         )
 
         Text(
-            text = stringResource(id = R.string.prag_superior) + " $value",
+            text = stringResource(id = R.string.prag_superior) + " $value" + " RON",
             fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -201,14 +201,14 @@ fun BudgetsLazyColumn(
             Column(
                 modifier = Modifier.background(color = colorResource(id = R.color.light_cream_green))
             ) {
-                Text(text = stringResource(id = R.string.suma_totala_bugete) + " " + totalBudgetsSum.toString(),
+                Text(text = stringResource(id = R.string.suma_totala_bugete) + " " + totalBudgetsSum.toString() + " RON",
                      fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
                      fontWeight = FontWeight.Bold,
                      color = colorResource(R.color.black)
                 )
                 if (state.revenues > totalBudgetsSum) {
                     Text(
-                        text = stringResource(id = R.string.suma_totala_venituri) + " " + state.revenues.toString(),
+                        text = stringResource(id = R.string.suma_totala_venituri) + " " + state.revenues.toString() + " RON",
                         fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
                         fontWeight = FontWeight.Bold,
                         color = colorResource(R.color.black)

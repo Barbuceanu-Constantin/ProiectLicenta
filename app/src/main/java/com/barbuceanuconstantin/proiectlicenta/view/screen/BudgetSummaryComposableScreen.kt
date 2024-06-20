@@ -315,7 +315,7 @@ fun BudgetSummaryComposableScreen(
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
 
-            Text(text = stringResource(id = R.string.bilant) + budgetSummaryScreenUIState.balance,
+            Text(text = stringResource(id = R.string.bilant) + budgetSummaryScreenUIState.balance  + " RON",
                  modifier = Modifier
                      .fillMaxWidth()
                      .padding(

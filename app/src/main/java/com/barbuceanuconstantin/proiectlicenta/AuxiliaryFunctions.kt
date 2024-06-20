@@ -180,8 +180,8 @@ fun Balance(
             if (!calendar) {
                 Text(
                     text = stringResource(id = R.string.balanta) + " :\n A - P - D = " +
-                            (revenuesSum - expensesSum - debtSum).toString() + "\n A - P = " +
-                            (revenuesSum - expensesSum),
+                            (revenuesSum - expensesSum - debtSum).toString() + " RON\n A - P = " +
+                            (revenuesSum - expensesSum) + " RON",
                     modifier = Modifier
                         .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),
@@ -190,7 +190,7 @@ fun Balance(
                 )
             } else {
                 Text(
-                    text = stringResource(id = R.string.balanta) + " : \n A - P = " + (revenuesSum - expensesSum),
+                    text = stringResource(id = R.string.balanta) + " : \n A - P = " + (revenuesSum - expensesSum) + " RON",
                     modifier = Modifier
                         .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),

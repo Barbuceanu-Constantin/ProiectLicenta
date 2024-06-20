@@ -149,7 +149,7 @@ fun CalendarComposableScreen(
                             }
                     ) {
                         Text(
-                            text = stringResource(id = R.string.venit_zi_curenta) + " : " + revenuesSum.toString(),
+                            text = stringResource(id = R.string.venit_zi_curenta) + " : " + revenuesSum.toString() + " RON",
                             modifier = Modifier
                                 .padding(start = dimensionResource(id = R.dimen.medium_line))
                                 .align(Alignment.CenterStart),
@@ -169,7 +169,7 @@ fun CalendarComposableScreen(
                             }
                     ) {
                         Text(
-                            text = stringResource(id = R.string.cheltuieli_zi_curenta) + " : " + expensesSum.toString(),
+                            text = stringResource(id = R.string.cheltuieli_zi_curenta) + " : " + expensesSum.toString() + " RON",
                             modifier = Modifier
                                 .padding(start = dimensionResource(id = R.dimen.medium_line))
                                 .align(Alignment.CenterStart),

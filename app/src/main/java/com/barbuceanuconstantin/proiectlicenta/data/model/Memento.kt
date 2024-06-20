@@ -73,7 +73,7 @@ fun InfoMemento(value: Double, startDateStr: String, endDateStr: String,
         )
 
         Text(
-            text = stringResource(id = R.string.prag_superior) + " $value",
+            text = stringResource(id = R.string.prag_superior) + " $value" + " RON",
             fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -86,7 +86,7 @@ fun InfoMemento(value: Double, startDateStr: String, endDateStr: String,
         )
 
         Text(
-            text = stringResource(id = R.string.consum_curent) + " $currentFilling" + " ( " + String.format("%.2f", (100 * currentFilling / value)) + "% )",
+            text = stringResource(id = R.string.consum_curent) + " $currentFilling" + " RON " + " ( " + String.format("%.2f", (100 * currentFilling / value)) + "% )",
             fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -151,7 +151,7 @@ fun InfoMemento(value: Double, startDateStr: String, endDateStr: String,
         if (currentFilling > value) {
             val dif = currentFilling - value
             Text(
-                text = "!!! " + stringResource(id = R.string.ati_depasit) + " $dif " + " !!!",
+                text = "!!! " + stringResource(id = R.string.ati_depasit) + " $dif " + " RON !!!",
                 fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
@@ -167,7 +167,7 @@ fun InfoMemento(value: Double, startDateStr: String, endDateStr: String,
             val dif = value - currentFilling
             if (currentFilling >= 0 && value - currentFilling < 100) {
                 Text(
-                    text = stringResource(id = R.string.mai_aveti_putin) + " $dif " + stringResource(
+                    text = stringResource(id = R.string.mai_aveti_putin) + " $dif RON " + stringResource(
                         id = R.string.pana_la
                     ),
                     fontSize = fontDimensionResource(id = R.dimen.normal_text_size),
@@ -183,7 +183,7 @@ fun InfoMemento(value: Double, startDateStr: String, endDateStr: String,
                 )
             } else {
                 Text(
-                    text = stringResource(id = R.string.mai_aveti) + " $dif " + stringResource(
+                    text = stringResource(id = R.string.mai_aveti) + " $dif RON " + stringResource(
                         id = R.string.pana_la
                     ),
                     fontSize = fontDimensionResource(id = R.dimen.normal_text_size),

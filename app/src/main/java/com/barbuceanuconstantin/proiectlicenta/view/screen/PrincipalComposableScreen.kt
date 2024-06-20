@@ -58,7 +58,7 @@ private fun TotalBalance(
                     .background(color = colorResource(R.color.light_cream_yellow))
             ) {
                 Text(
-                    text = stringResource(id = R.string.active) + " : " + revenuesSum.toString(),
+                    text = stringResource(id = R.string.active) + " : " + revenuesSum.toString() + " RON",
                     modifier = Modifier
                         .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),
@@ -73,7 +73,7 @@ private fun TotalBalance(
                     .background(color = colorResource(R.color.light_cream_red))
             ) {
                 Text(
-                    text = stringResource(id = R.string.pasive) + " : " + expensesSum.toString(),
+                    text = stringResource(id = R.string.pasive) + " : " + expensesSum.toString() + " RON",
                     modifier = Modifier
                         .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),
@@ -88,7 +88,7 @@ private fun TotalBalance(
                     .background(color = colorResource(R.color.light_cream_blue))
             ) {
                 Text(
-                    text = stringResource(id = R.string.datorii) + " : " + debtSum.toString(),
+                    text = stringResource(id = R.string.datorii) + " : " + debtSum.toString() + " RON",
                     modifier = Modifier
                         .padding(start = dimensionResource(id = R.dimen.medium_line))
                         .align(Alignment.CenterStart),
