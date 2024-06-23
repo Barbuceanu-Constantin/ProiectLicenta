@@ -126,27 +126,31 @@ fun EditTransactionScreenDestination(
         }
     }
 
-    if (index == returnToTransactionIndex) {
-        lambda = {
-            navController.navigate(transactionScreen) {
-                popUpTo(transactionScreen) {
-                    inclusive = true
+    when (index) {
+        returnToTransactionIndex -> {
+            lambda = {
+                navController.navigate(transactionScreen) {
+                    popUpTo(transactionScreen) {
+                        inclusive = true
+                    }
                 }
             }
         }
-    } else if (index == returnToBudgetSummaryIndex) {
-        lambda = {
-            navController.navigate("budgetSummaryScreen") {
-                popUpTo("budgetSummaryScreen") {
-                    inclusive = true
+        returnToBudgetSummaryIndex -> {
+            lambda = {
+                navController.navigate("budgetSummaryScreen") {
+                    popUpTo("budgetSummaryScreen") {
+                        inclusive = true
+                    }
                 }
             }
         }
-    } else if (index == returnToCalendarIndex) {
-        lambda = {
-            navController.navigate(calendarScreen) {
-                popUpTo(calendarScreen) {
-                    inclusive = true
+        returnToCalendarIndex -> {
+            lambda = {
+                navController.navigate(calendarScreen) {
+                    popUpTo(calendarScreen) {
+                        inclusive = true
+                    }
                 }
             }
         }

@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.barbuceanuconstantin.proiectlicenta.di.FixedBudgetsScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.di.MementosScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.view.screen.MementosComposableScreen
 import kotlinx.coroutines.CoroutineScope

@@ -223,7 +223,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
     }
 
     fun onUpdateCategoryName(id: Int) {
-        var categoryName = ""
+        var categoryName : String
         _stateFlow.value = EditBudgetScreenUIState(
             date1 = _stateFlow.value.date1,
             date2 = _stateFlow.value.date2,

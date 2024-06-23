@@ -19,7 +19,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -27,13 +26,11 @@ import androidx.compose.ui.text.font.FontWeight
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.fontDimensionResource
-import com.barbuceanuconstantin.proiectlicenta.stripTime
 import com.barbuceanuconstantin.proiectlicenta.view.charts.BarChartOnMementosScreen
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.Locale
 

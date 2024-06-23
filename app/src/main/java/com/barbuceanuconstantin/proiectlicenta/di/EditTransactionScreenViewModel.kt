@@ -2,7 +2,6 @@ package com.barbuceanuconstantin.proiectlicenta.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.barbuceanuconstantin.proiectlicenta.data.Budgets
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
@@ -218,7 +217,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
         }
     }
     fun onUpdateCategoryName(id: Int) {
-        var categoryName = ""
+        var categoryName : String
         _stateFlow.value = EditTransactionScreenUIState(
             showA = _stateFlow.value.showA,
             showP = _stateFlow.value.showP,

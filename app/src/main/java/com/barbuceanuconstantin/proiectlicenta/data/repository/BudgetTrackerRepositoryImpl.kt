@@ -12,7 +12,6 @@ import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.data.dao.DatabaseDAO
 import com.barbuceanuconstantin.proiectlicenta.data.dao.TransactionsDAO
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.util.Date

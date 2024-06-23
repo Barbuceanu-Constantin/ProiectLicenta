@@ -242,10 +242,10 @@ fun TransactionsLazyColumn(
 
     LazyColumn(modifier = modifier.fillMaxWidth()) {
         itemsIndexed(tranzactii) { idList, tranzactie ->
-            tranzactie.transactions.forEachIndexed { index, transaction ->
+            tranzactie.transactions.forEachIndexed { index, _ ->
                 val c: Categories = tranzactii[idList].category
                 val t: Transactions = tranzactie.transactions[index]
-                val compoundTransactionWithCategory: TransactionWithCategory = TransactionWithCategory(
+                val compoundTransactionWithCategory = TransactionWithCategory(
                     category = c,
                     transaction = t
                 )
@@ -316,7 +316,7 @@ fun CalendarSummaryTransactionsLazyColumn(
 
         LazyColumn(modifier = modifier.fillMaxWidth()) {
             itemsIndexed(tranzactii) { idList, tranzactie ->
-                tranzactie.transactions.forEachIndexed { index, transaction ->
+                tranzactie.transactions.forEachIndexed { index, _ ->
                     val c: Categories = tranzactii[idList].category
                     val t: Transactions = tranzactie.transactions[index]
                     val compoundTransactionWithCategory = TransactionWithCategory(

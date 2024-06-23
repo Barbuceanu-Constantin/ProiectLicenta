@@ -71,12 +71,11 @@ fun EditCategoryScreenDestination(
     if (categoryObject != null) {
         viewModel.onAddCategory(categoryObject)
         if (state.showA && !state.showP && !state.showD && !state.readyToUpdate) {
-            if (categoryObject.mainCategory == "Active")
-                updateState(true, false, false)
-            else if (categoryObject.mainCategory == "Pasive")
-                updateState(false, true, false)
-            else if (categoryObject.mainCategory == "Datorii")
-                updateState(false, false, true)
+            when (categoryObject.mainCategory) {
+                "Active" -> updateState(true, false, false)
+                "Pasive" -> updateState(false, true, false)
+                else -> updateState(false, false, true)
+            }
             updateFilledText(categoryObject.name)
             viewModel.onUpdateReadyToUpdate(true)
         }
