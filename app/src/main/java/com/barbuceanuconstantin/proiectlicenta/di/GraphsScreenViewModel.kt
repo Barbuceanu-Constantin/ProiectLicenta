@@ -1,7 +1,5 @@
 package com.barbuceanuconstantin.proiectlicenta.di
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
@@ -14,8 +12,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.math.BigDecimal
-import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Month
@@ -154,8 +150,8 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
         val lPairDates: MutableList<Pair<Date, Date>> = mutableListOf()
 
         for (month in lMonth) {
-            var startDateString = ""
-            var endDateString = ""
+            var startDateString : String
+            var endDateString : String
             try {
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                 val currentYear = LocalDate.now().year
@@ -176,7 +172,7 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
             }
         }
 
-        var sum = 0.0
+        var sum : Double
 
         val job = viewModelScope.launch(Dispatchers.IO) {
             for (index in lPairDates.indices) {
@@ -189,9 +185,9 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
                 val from = LocalDate.parse(parsedStartDate.toLocalDate().format(dateFormatter), dateFormatter)
                 val to = LocalDate.parse(parsedEndDate.toLocalDate().format(dateFormatter), dateFormatter)
                 val period = Period.between(from, to)
-                var nrOfDays = period.days
+                val nrOfDays = period.days
 
-                sum = sum / nrOfDays
+                sum /= nrOfDays
                 val formattedSum = String.format(Locale.US, "%.2f", sum).toFloat()
                 lCategoryMonthAverages += formattedSum
             }
@@ -217,8 +213,8 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
         val lPairDates: MutableList<Pair<Date, Date>> = mutableListOf()
 
         for (month in lMonth) {
-            var startDateString = ""
-            var endDateString = ""
+            var startDateString : String
+            var endDateString : String
             try {
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                 val currentYear = LocalDate.now().year
@@ -242,9 +238,9 @@ class GraphsScreenViewModel @Inject constructor(val budgetTrackerRepository: Bud
         var lTrRevenue: List<CategoryAndTransactions>
         var lTrExpense: List<CategoryAndTransactions>
         var lTrDebt: List<CategoryAndTransactions>
-        var revenuesSum = 0.0
-        var expensesSum = 0.0
-        var debtSum = 0.0
+        var revenuesSum : Double
+        var expensesSum : Double
+        var debtSum : Double
 
         val job = viewModelScope.launch(Dispatchers.IO) {
             for (index in lPairDates.indices) {

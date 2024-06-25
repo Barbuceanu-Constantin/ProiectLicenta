@@ -1,6 +1,5 @@
 package com.barbuceanuconstantin.proiectlicenta.di
 
-import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

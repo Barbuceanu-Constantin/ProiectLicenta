@@ -215,7 +215,7 @@ fun GraphsComposableScreen(modifier: Modifier = Modifier,
                         expenseCategories = graphsScreenUIState.expenseCategories,
                         debtCategories = graphsScreenUIState.debtCategories)
 
-                    var idCategory = 0
+                    var idCategory : Int
                     if (graphsScreenUIState.revenueCategories.contains(category)) {
                         idCategory = getId(category, "Active")
                         val listAverages = getCategoryMonthAverages(lMonth, idCategory)

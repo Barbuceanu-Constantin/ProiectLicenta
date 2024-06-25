@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
 import com.barbuceanuconstantin.proiectlicenta.navigation.AppNavHost
 import com.barbuceanuconstantin.proiectlicenta.navigation.demoScreen
-import com.barbuceanuconstantin.proiectlicenta.navigation.homeScreen
 import com.barbuceanuconstantin.proiectlicenta.ui.theme.ProiectLicentaTheme
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -22,6 +22,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
@@ -29,7 +30,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.barbuceanuconstantin.proiectlicenta.R
 import com.barbuceanuconstantin.proiectlicenta.data.Categories
-import com.barbuceanuconstantin.proiectlicenta.di.CategoriesScreenViewModel
 import com.barbuceanuconstantin.proiectlicenta.navigation.editCategoryScreenFullPath
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -67,7 +67,7 @@ private fun Subcategory(
     val colorA = colorResource(R.color.light_cream_yellow)
     val colorP = colorResource(R.color.light_cream_red)
     val colorD = colorResource(R.color.light_cream_blue)
-    var color = colorResource(R.color.light_cream_gray)
+    var color: Color
 
     Card(
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.medium_line)),
@@ -89,9 +89,11 @@ private fun Subcategory(
                 },
             )
     ) {
-        if (label == "Active") color = colorA
-        else if (label == "Pasive") color = colorP
-        else if (label == "Datorii") color = colorD
+        color = when(label) {
+            "Active" -> colorA
+            "Pasive" -> colorP
+            else -> colorD
+        }
         Row(modifier = Modifier.background(color)) {
             Text(
                 text = text, fontSize = 14.sp,

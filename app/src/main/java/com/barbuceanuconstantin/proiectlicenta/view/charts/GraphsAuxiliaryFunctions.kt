@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -70,7 +69,7 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 
 @Composable
-internal fun PieDonutChartGraph(chartColors: List<androidx.compose.ui.graphics.Color>,
+internal fun PieDonutChartGraph(chartColors: List<Color>,
                                 chartValues: List<Double>,
                                 donut: Boolean) {
     PieDonutChart(
@@ -85,9 +84,9 @@ internal fun PieDonutChartGraph(chartColors: List<androidx.compose.ui.graphics.C
 @Composable
 internal fun PieDonutChart(
     modifier: Modifier = Modifier,
-    colors: List<androidx.compose.ui.graphics.Color>,
+    colors: List<Color>,
     inputValues: List<Double>,
-    textColor: androidx.compose.ui.graphics.Color,
+    textColor: Color,
     donut: Boolean
 ) {
     val chartDegrees = 360f // circle shape
@@ -231,29 +230,32 @@ internal fun PieDonutChart(
                         (canvasSize / 2) + textFontSize / 4,
                         textPaint
                     )
-                    if (clickedItemIndex == 0) {
-                        canvas.nativeCanvas.drawText(
-                            transactionTypes[clickedItemIndex],
-                            canvasSize / 2 + textFontSize / 4,
-                            canvasSize + canvasSize / 5 + textFontSize / 4,
-                            textPaintRevenues
-                        )
-                    }
-                    else if (clickedItemIndex == 1) {
-                        canvas.nativeCanvas.drawText(
-                            transactionTypes[clickedItemIndex],
-                            canvasSize / 2 + textFontSize / 4,
-                            canvasSize + canvasSize / 5 + textFontSize / 4,
-                            textPaintExpenses
-                        )
-                    }
-                    else if (clickedItemIndex == 2) {
-                        canvas.nativeCanvas.drawText(
-                            transactionTypes[clickedItemIndex],
-                            canvasSize / 2 + textFontSize / 4,
-                            canvasSize + canvasSize / 5 + textFontSize / 4,
-                            textPaintDebt
-                        )
+
+                    when(clickedItemIndex) {
+                        0 -> {
+                            canvas.nativeCanvas.drawText(
+                                transactionTypes[clickedItemIndex],
+                                canvasSize / 2 + textFontSize / 4,
+                                canvasSize + canvasSize / 5 + textFontSize / 4,
+                                textPaintRevenues
+                            )
+                        }
+                        1 -> {
+                            canvas.nativeCanvas.drawText(
+                                transactionTypes[clickedItemIndex],
+                                canvasSize / 2 + textFontSize / 4,
+                                canvasSize + canvasSize / 5 + textFontSize / 4,
+                                textPaintExpenses
+                            )
+                        }
+                        2 -> {
+                            canvas.nativeCanvas.drawText(
+                                transactionTypes[clickedItemIndex],
+                                canvasSize / 2 + textFontSize / 4,
+                                canvasSize + canvasSize / 5 + textFontSize / 4,
+                                textPaintDebt
+                            )
+                        }
                     }
                 }
             }
@@ -279,7 +281,7 @@ private fun touchPointToAngle(
 
 @Composable
 fun BarChartOnMementosScreenYChart(
-    chartColors: List<androidx.compose.ui.graphics.Color>,
+    chartColors: List<Color>,
     chartValues: List<Double>
 ) {
     //Not working as expected
@@ -397,7 +399,7 @@ fun BarChartOnMementosScreen(
 }
 
 @Composable
-private fun RowScope.Bar(
+private fun Bar(
     value: Double,
     color: Color,
     maxHeight: Dp
@@ -416,7 +418,7 @@ private fun RowScope.Bar(
 }
 
 @Composable
-fun BarChartOnGraphsScreen(chartColors: List<androidx.compose.ui.graphics.Color>,
+fun BarChartOnGraphsScreen(chartColors: List<Color>,
                            chartValues: List<Double>) {
     val barsData = listOf(
         BarData(point = Point(x = 0F, y = 0.toFloat()),
@@ -496,12 +498,14 @@ fun LineChartGraphAverages(listAverages: List<Float>, mainCateg: String) {
     val red = colorResource(id = R.color.red)
     val blue = colorResource(id = R.color.blue)
     val gray = colorResource(id = R.color.gray)
-    val color = if (mainCateg == "Active") yellow
-                else if (mainCateg == "Pasive") red
-                else blue
+    val color = when (mainCateg) {
+        "Active" -> yellow
+        "Pasive" -> red
+        else -> blue
+    }
 
     for (i in listAverages.indices) {
-        pointsDataAverages.add(Point((i).toFloat(), listAverages[i].toFloat()))
+        pointsDataAverages.add(Point((i).toFloat(), listAverages[i]))
     }
     pointsDataAverages.add(Point(listAverages.size.toFloat(), 0.0F))
 
@@ -703,12 +707,10 @@ internal fun stackedBarChartInputs(
     valuesDebt: List<Double>
 ) = (0..<LocalDate.now().monthValue).map { key1 ->
                                                 val inputs = (0..2).map { key2 ->
-                                                    if (key2 == 0) {
-                                                        valuesRevenues[key1]
-                                                    } else if (key2 == 1) {
-                                                        valuesExpenses[key1]
-                                                    } else {
-                                                        valuesDebt[key1]
+                                                    when (key2) {
+                                                        0 -> valuesRevenues[key1]
+                                                        1 -> valuesExpenses[key1]
+                                                        else -> valuesDebt[key1]
                                                     }
                                                 }.toPercent()
                                                 StackedData(
