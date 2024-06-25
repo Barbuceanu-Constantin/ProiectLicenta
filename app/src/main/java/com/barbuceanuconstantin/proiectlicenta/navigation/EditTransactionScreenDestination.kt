@@ -111,10 +111,13 @@ fun EditTransactionScreenDestination(
                 updateState(false, false, true)
         }
     } else {
-        when (index) {
-            showAIndex -> updateState(true, false, false)
-            showPIndex -> updateState(false, true, false)
-            showDIndex -> updateState(false, false, true)
+        if (state.predefinedCategorySet == false) {
+            when (index) {
+                showAIndex -> updateState(true, false, false)
+                showPIndex -> updateState(false, true, false)
+                showDIndex -> updateState(false, false, true)
+            }
+            viewModel.onStateChangedPredefinedCategorySet(true)
         }
     }
 

@@ -19,6 +19,27 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
     private val _stateFlow = MutableStateFlow(EditTransactionScreenUIState())
     val stateFlow: StateFlow<EditTransactionScreenUIState>
         get() = _stateFlow.asStateFlow()
+
+    fun onStateChangedPredefinedCategorySet(set: Boolean) {
+        _stateFlow.value = EditTransactionScreenUIState(
+            showA = _stateFlow.value.showA,
+            showP = _stateFlow.value.showP,
+            showD = _stateFlow.value.showD,
+            category = _stateFlow.value.category,
+            description = _stateFlow.value.description,
+            payee = _stateFlow.value.payee,
+            date = _stateFlow.value.date,
+            valueSum = _stateFlow.value.valueSum,
+            transaction = _stateFlow.value.transaction,
+            readyToGo = _stateFlow.value.readyToGo,
+            alertDialog = _stateFlow.value.alertDialog,
+            listCategoriesExpenses = _stateFlow.value.listCategoriesExpenses,
+            listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
+            listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
+            categoryName = _stateFlow.value.categoryName,
+            predefinedCategorySet = set
+        )
+    }
     fun onAddTransaction(transaction: Transactions) {
         _stateFlow.value = EditTransactionScreenUIState(
             showA = _stateFlow.value.showA,
@@ -36,6 +57,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
             listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
             categoryName = _stateFlow.value.categoryName,
+            predefinedCategorySet = _stateFlow.value.predefinedCategorySet
         )
     }
     fun onStateChanged(showA: Boolean, showP: Boolean, showD: Boolean) {
@@ -55,6 +77,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
             listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
             categoryName = _stateFlow.value.categoryName,
+            predefinedCategorySet = _stateFlow.value.predefinedCategorySet
         )
     }
     fun onUpdateCategory(category: Int) {
@@ -74,6 +97,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
             listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
             categoryName = _stateFlow.value.categoryName,
+            predefinedCategorySet = _stateFlow.value.predefinedCategorySet
         )
     }
     fun onUpdateDescription(description: String) {
@@ -93,6 +117,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
             listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
             categoryName = _stateFlow.value.categoryName,
+            predefinedCategorySet = _stateFlow.value.predefinedCategorySet
         )
     }
     fun onUpdatePayee(payee: String) {
@@ -112,6 +137,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
             listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
             categoryName = _stateFlow.value.categoryName,
+            predefinedCategorySet = _stateFlow.value.predefinedCategorySet
         )
     }
     fun onUpdateDate(date: Date) {
@@ -131,6 +157,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
             listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
             categoryName = _stateFlow.value.categoryName,
+            predefinedCategorySet = _stateFlow.value.predefinedCategorySet
         )
     }
     fun onUpdateValueSum(valueSum: String) {
@@ -150,6 +177,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
             listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
             categoryName = _stateFlow.value.categoryName,
+            predefinedCategorySet = _stateFlow.value.predefinedCategorySet
         )
     }
     fun onUpdateReadyToGo(readyToGo: Boolean) {
@@ -169,6 +197,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
             listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
             categoryName = _stateFlow.value.categoryName,
+            predefinedCategorySet = _stateFlow.value.predefinedCategorySet
         )
     }
     fun onUpdateAlertDialog(alertDialog: Boolean) {
@@ -188,6 +217,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
             listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
             categoryName = _stateFlow.value.categoryName,
+            predefinedCategorySet = _stateFlow.value.predefinedCategorySet
         )
     }
     fun onUpdateCategoryNameSimple(name: String, main: String) {
@@ -207,7 +237,8 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             alertDialog = _stateFlow.value.alertDialog,
             listCategoriesExpenses = _stateFlow.value.listCategoriesExpenses,
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
-            listCategoriesDebts = _stateFlow.value.listCategoriesDebts
+            listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
+            predefinedCategorySet = _stateFlow.value.predefinedCategorySet
         )
         viewModelScope.launch(Dispatchers.IO) {
             categoryId = budgetTrackerRepository.getCategoryId(name, main)
@@ -234,6 +265,7 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             listCategoriesRevenue = _stateFlow.value.listCategoriesRevenue,
             listCategoriesDebts = _stateFlow.value.listCategoriesDebts,
             categoryName = _stateFlow.value.categoryName,
+            predefinedCategorySet = _stateFlow.value.predefinedCategorySet
         )
         viewModelScope.launch(Dispatchers.IO) {
             categoryName = budgetTrackerRepository.getCategoryName(id)
@@ -261,7 +293,8 @@ class EditTransactionScreenViewModel @Inject constructor(val budgetTrackerReposi
             categoryName = _stateFlow.value.categoryName,
             listCategoriesExpenses = expensesCategoriesList,
             listCategoriesRevenue = revenueCategoriesList,
-            listCategoriesDebts = debtsCategoriesList
+            listCategoriesDebts = debtsCategoriesList,
+            predefinedCategorySet = _stateFlow.value.predefinedCategorySet
         )
 
         viewModelScope.launch(Dispatchers.IO) {

@@ -25,5 +25,6 @@ data class EditTransactionScreenUIState(
     val listCategoriesRevenue: List<Categories> = listOf(),
     val listCategoriesExpenses: List<Categories> = listOf(),
     val listCategoriesDebts: List<Categories> = listOf(),
-    val transaction: Transactions? = null
+    val transaction: Transactions? = null,
+    val predefinedCategorySet: Boolean = false
 )
