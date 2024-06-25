@@ -2,6 +2,7 @@ package com.barbuceanuconstantin.proiectlicenta.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.barbuceanuconstantin.proiectlicenta.data.Categories
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -28,9 +29,9 @@ class PrincipalScreenViewModel @Inject constructor(val budgetTrackerRepository: 
     }
 
     fun updateMetrics() {
-        var revenuesSum = 0.0
-        var expensesSum = 0.0
-        var debtSum = 0.0
+        var revenuesSum: Double = 0.0
+        var expensesSum: Double = 0.0
+        var debtSum: Double = 0.0
         _stateFlow.value = PrincipalScreenUIState(
             selectedIndex = _stateFlow.value.selectedIndex,
             revenuesSum = revenuesSum,

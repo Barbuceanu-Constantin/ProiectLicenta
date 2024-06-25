@@ -21,7 +21,7 @@ interface TransactionsDAO {
 
     @Transaction
     fun prepopulateDbForDemo() {
-        val transactionsList = listOf(
+        val transactionsList = listOf<Transactions>(
             Transactions(1,"Market","Vegetable Sale",50.0,6,Date(1717113600000)),
             Transactions(2,"Gas Station","Gas Purchase",60.0,16,Date(1717113600000)),
             Transactions(3,"Supermarket","Groceries",50.0,7,Date(1717027200000)),
@@ -358,7 +358,7 @@ interface TransactionsDAO {
         var sum = 0.0
 
         list.forEach { categoryAndTransactions ->
-            categoryAndTransactions.transactions.forEach{
+            categoryAndTransactions.transactions.forEach{ it ->
                 sum += it.value
             }
         }

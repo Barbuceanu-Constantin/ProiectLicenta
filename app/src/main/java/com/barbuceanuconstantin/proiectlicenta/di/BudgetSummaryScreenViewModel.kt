@@ -2,6 +2,7 @@ package com.barbuceanuconstantin.proiectlicenta.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.barbuceanuconstantin.proiectlicenta.IntToMonth
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +11,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAdjusters
 import java.util.Date
 import javax.inject.Inject
 
@@ -164,7 +167,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
                                 startDate: Date,
                                 endDate: Date
     ) {
-        var balance = 0.0
+        var balance: Double = 0.0
         viewModelScope.launch(Dispatchers.IO) {
             _stateFlow.value = BudgetSummaryScreenUIState(
                 date = _stateFlow.value.date,
@@ -207,7 +210,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
     }
 
     fun updateListsBasedOnDay(date: Date) {
-        var balance = 0.0
+        var balance: Double = 0.0
         viewModelScope.launch(Dispatchers.IO) {
             _stateFlow.value = BudgetSummaryScreenUIState(
                 date = _stateFlow.value.date,
@@ -250,7 +253,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
     }
 
     fun updateListsFull() {
-        var balance = 0.0
+        var balance: Double = 0.0
         viewModelScope.launch(Dispatchers.IO) {
             _stateFlow.value = BudgetSummaryScreenUIState(
                 date = _stateFlow.value.date,
@@ -294,7 +297,7 @@ class BudgetSummaryScreenViewModel @Inject constructor(val budgetTrackerReposito
 
     fun onStateChangedLists() {
         //Se apeleaza la inceput doar o data
-        var balance = 0.0
+        var balance: Double = 0.0
         viewModelScope.launch(Dispatchers.IO) {
             _stateFlow.value = BudgetSummaryScreenUIState(
                 date = _stateFlow.value.date,

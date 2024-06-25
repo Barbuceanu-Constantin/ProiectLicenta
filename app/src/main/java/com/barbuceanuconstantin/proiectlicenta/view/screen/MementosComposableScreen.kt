@@ -16,6 +16,7 @@ import com.barbuceanuconstantin.proiectlicenta.BottomNavigationBar
 import com.barbuceanuconstantin.proiectlicenta.FadingArrowIcon
 import com.barbuceanuconstantin.proiectlicenta.MainScreenToAppBar
 import com.barbuceanuconstantin.proiectlicenta.R
+import com.barbuceanuconstantin.proiectlicenta.data.model.BudgetsLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.data.model.MementosLazyColumn
 import com.barbuceanuconstantin.proiectlicenta.di.MementosScreenUIState
 import java.util.Date

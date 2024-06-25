@@ -1,16 +1,25 @@
 package com.barbuceanuconstantin.proiectlicenta.di
 
+import android.content.ContentValues
+import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.barbuceanuconstantin.proiectlicenta.data.CategoryAndTransactions
+import com.barbuceanuconstantin.proiectlicenta.data.Transactions
 import com.barbuceanuconstantin.proiectlicenta.data.repository.BudgetTrackerRepository
+import com.barbuceanuconstantin.proiectlicenta.navigation.budgetSummaryScreen
 import com.barbuceanuconstantin.proiectlicenta.stripTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Date
@@ -24,8 +33,8 @@ class CalendarScreenViewModel @Inject constructor(val budgetTrackerRepository: B
         get() = _stateFlow.asStateFlow()
 
     fun onStateChangedDate(date: String) {
-        var revenuesSum : Double
-        var expensesSum : Double
+        var revenuesSum: Double = 0.0
+        var expensesSum: Double = 0.0
         var lTrA: List<CategoryAndTransactions>
         var lTrP: List<CategoryAndTransactions>
         viewModelScope.launch(Dispatchers.IO) {
