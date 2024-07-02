@@ -26,6 +26,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -104,6 +106,8 @@ fun EditBudgetScreen(
     updateAlertDialog: (Boolean) -> Unit,
     nullCheckFields: () -> Boolean,
     checkNameExistence: (String) -> Boolean) {
+
+    val nameChanged = remember { mutableStateOf(false) }
 
     val date1: Date = editBudgetScreenUIState.date1
     val date2: Date = editBudgetScreenUIState.date2
@@ -197,7 +201,11 @@ fun EditBudgetScreen(
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.middle)))
 
             OutlinedTextField(
-                value = filledText, onValueChange = { onUpdateFilledText(it) },
+                value = filledText,
+                onValueChange = {
+                                    onUpdateFilledText(it)
+                                    nameChanged.value = true
+                                },
                 textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
                 label = { Text(text = stringResource(R.string.denumire)) },
                 maxLines = 1,
@@ -348,7 +356,7 @@ fun EditBudgetScreen(
                                                 R.string.avertisment_data_continut_data_inceput
                                             )
                                         else if (checkNameExistence(filledText)) {
-                                            if (budget == null) {
+                                            if (budget == null || (nameChanged.value && editBudgetScreenUIState.initialName != editBudgetScreenUIState.filledText)) {
                                                 onUpdateOpenWarningDialog(
                                                     true,
                                                     R.string.avertisment_nume_preexistent

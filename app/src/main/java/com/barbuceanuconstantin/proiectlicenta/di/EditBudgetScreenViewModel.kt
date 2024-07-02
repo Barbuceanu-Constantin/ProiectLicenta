@@ -27,6 +27,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             category = budget.categoryId,
             filledText = budget.name,
             valueSum = budget.upperThreshold.toString(),
+            initialName = budget.name,
             openWarningDialog = _stateFlow.value.openWarningDialog,
             idWarningString = _stateFlow.value.idWarningString,
             budget = budget,
@@ -49,6 +50,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             alertDialog = _stateFlow.value.alertDialog,
             expenseCategoriesList = _stateFlow.value.expenseCategoriesList,
             categoryName = _stateFlow.value.categoryName,
+            initialName = _stateFlow.value.initialName
         )
     }
     fun onUpdateDate2(date2: Date) {
@@ -65,6 +67,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             alertDialog = _stateFlow.value.alertDialog,
             expenseCategoriesList = _stateFlow.value.expenseCategoriesList,
             categoryName = _stateFlow.value.categoryName,
+            initialName = _stateFlow.value.initialName
         )
     }
     fun onUpdateCategory(category: Int) {
@@ -81,6 +84,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             alertDialog = _stateFlow.value.alertDialog,
             expenseCategoriesList = _stateFlow.value.expenseCategoriesList,
             categoryName = _stateFlow.value.categoryName,
+            initialName = _stateFlow.value.initialName
         )
     }
     fun onUpdateFilledText(filledText: String) {
@@ -97,6 +101,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             alertDialog = _stateFlow.value.alertDialog,
             expenseCategoriesList = _stateFlow.value.expenseCategoriesList,
             categoryName = _stateFlow.value.categoryName,
+            initialName = _stateFlow.value.initialName
         )
     }
     fun onUpdateValueSum(valueSum: String) {
@@ -113,6 +118,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             alertDialog = _stateFlow.value.alertDialog,
             expenseCategoriesList = _stateFlow.value.expenseCategoriesList,
             categoryName = _stateFlow.value.categoryName,
+            initialName = _stateFlow.value.initialName
         )
     }
     fun onUpdateOpenWarningDialog(openWarningDialog: Boolean, idWarningString: Int) {
@@ -129,6 +135,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             alertDialog = _stateFlow.value.alertDialog,
             expenseCategoriesList = _stateFlow.value.expenseCategoriesList,
             categoryName = _stateFlow.value.categoryName,
+            initialName = _stateFlow.value.initialName
         )
     }
     fun onUpdateReadyToGo(readyToGo: Boolean) {
@@ -145,6 +152,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             alertDialog = _stateFlow.value.alertDialog,
             expenseCategoriesList = _stateFlow.value.expenseCategoriesList,
             categoryName = _stateFlow.value.categoryName,
+            initialName = _stateFlow.value.initialName
         )
     }
     fun onUpdateAlertDialog(alertDialog: Boolean) {
@@ -161,6 +169,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             alertDialog = alertDialog,
             expenseCategoriesList = _stateFlow.value.expenseCategoriesList,
             categoryName = _stateFlow.value.categoryName,
+            initialName = _stateFlow.value.initialName
         )
     }
     fun nullCheckFields(): Boolean {
@@ -203,7 +212,9 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             readyToGo = _stateFlow.value.readyToGo,
             alertDialog = _stateFlow.value.alertDialog,
             expenseCategoriesList = expensesCategoriesList,
-            categoryName = _stateFlow.value.categoryName,)
+            categoryName = _stateFlow.value.categoryName,
+            initialName = _stateFlow.value.initialName
+        )
 
         viewModelScope.launch(Dispatchers.IO) {
             expensesCategoriesList = budgetTrackerRepository.getSpendingCategories()
@@ -226,6 +237,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             alertDialog = _stateFlow.value.alertDialog,
             expenseCategoriesList = _stateFlow.value.expenseCategoriesList,
             categoryName = name,
+            initialName = _stateFlow.value.initialName
         )
         viewModelScope.launch(Dispatchers.IO) {
             categoryId = budgetTrackerRepository.getCategoryId(name, main)
@@ -250,6 +262,7 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
             alertDialog = _stateFlow.value.alertDialog,
             expenseCategoriesList = _stateFlow.value.expenseCategoriesList,
             categoryName = _stateFlow.value.categoryName,
+            initialName = _stateFlow.value.initialName
         )
         viewModelScope.launch(Dispatchers.IO) {
             categoryName = budgetTrackerRepository.getCategoryName(id)
