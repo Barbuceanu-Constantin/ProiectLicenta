@@ -3,11 +3,13 @@ package com.barbuceanuconstantin.proiectlicenta.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.util.Date
 
 @Entity(
         tableName = "budgets",
+        indices = [Index(value = ["name"], unique = true)],
         foreignKeys = [ForeignKey(
             entity = Categories::class,
             parentColumns = arrayOf("id"),

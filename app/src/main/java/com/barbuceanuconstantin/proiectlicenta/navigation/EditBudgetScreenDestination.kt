@@ -66,6 +66,9 @@ fun EditBudgetScreenDestination(
     val nullCheckFields: () -> Boolean = {
         viewModel.nullCheckFields()
     }
+    val checkNameExistence: (String) -> Boolean = { name ->
+        viewModel.nameCheckExistence(name)
+    }
     val addBudget: (Budgets) -> Unit = { budget ->
         viewModel.onAddBudget(budget)
     }
@@ -128,6 +131,7 @@ fun EditBudgetScreenDestination(
         updateCoroutine = updateBudget,
         updateAlertDialog = updateAlertDialog,
         nullCheckFields = nullCheckFields,
-        updateCategoryNameSimple = updateCategoryNameSimple
+        updateCategoryNameSimple = updateCategoryNameSimple,
+        checkNameExistence = checkNameExistence
     )
 }

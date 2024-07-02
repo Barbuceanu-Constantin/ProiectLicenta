@@ -95,6 +95,7 @@ class BudgetTrackerRepositoryImpl @Inject constructor(
     override suspend fun insertBudget(budget: Budgets) = budgetsDAO.insertBudget(budget)
     override fun isEmptyBudgets(): Boolean = budgetsDAO.isEmptyBudgets()
     override fun getAllBudgets(): List<Budgets> = budgetsDAO.getAllBudgets()
+    override fun getBudgetByName(name: String) : List<Budgets> = budgetsDAO.getBudgetByName(name)
     override fun updateBudget(budget: Budgets) = budgetsDAO.updateBudget(budget)
     override fun deleteBudgetByName(name: String) = budgetsDAO.deleteBudgetByName(name)
     override fun deleteBudgetById(id: Int) = budgetsDAO.deleteBudgetById(id)

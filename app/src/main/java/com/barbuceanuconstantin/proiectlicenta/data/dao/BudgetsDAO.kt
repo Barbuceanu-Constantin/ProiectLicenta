@@ -18,6 +18,9 @@ interface BudgetsDAO {
     @Query("SELECT (SELECT COUNT(*) FROM budgets) == 0")
     fun isEmptyBudgets(): Boolean
 
+    @Query("SELECT * FROM budgets WHERE name = :name")
+    fun getBudgetByName(name: String) : List<Budgets>
+
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun updateBudget(budget: Budgets)
 

@@ -191,4 +191,6 @@
     <string name="mai_aveti_putin">Atentie! Mai aveti</string>
     <string name="mai_aveti">Mai aveti</string>
     <string name="pana_la">pana la depasirea pragului.</string>
+
+    <string name="avertisment_nume_preexistent">Numele introdus exista deja. Introduceti alt nume!</string>
 </resources>

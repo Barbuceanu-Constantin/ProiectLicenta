@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.Date
 import javax.inject.Inject
 
@@ -165,6 +166,18 @@ class EditBudgetScreenViewModel @Inject constructor(val budgetTrackerRepository:
     fun nullCheckFields(): Boolean {
         return _stateFlow.value.category != 0 && _stateFlow.value.filledText != ""
                 && _stateFlow.value.valueSum != ""
+    }
+    fun nameCheckExistence(name: String) : Boolean {
+        var ok = true
+
+        val job = viewModelScope.launch(Dispatchers.IO) {
+            ok = budgetTrackerRepository.getBudgetByName(name).isNotEmpty()
+        }
+        runBlocking {
+            job.join()
+        }
+
+        return ok
     }
     suspend fun insertBudget(budget: Budgets) {
         viewModelScope.launch(Dispatchers.IO) {

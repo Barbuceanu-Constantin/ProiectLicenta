@@ -70,6 +70,7 @@ interface BudgetTrackerRepository {
     suspend fun insertBudget(budget: Budgets)
     fun isEmptyBudgets(): Boolean
     fun getAllBudgets(): List<Budgets>
+    fun getBudgetByName(name: String) : List<Budgets>
     fun updateBudget(budget: Budgets)
     fun deleteBudgetByName(name: String)
     fun deleteBudgetById(id: Int)

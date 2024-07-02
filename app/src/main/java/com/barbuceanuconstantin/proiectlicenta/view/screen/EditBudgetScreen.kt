@@ -102,7 +102,8 @@ fun EditBudgetScreen(
     updateCoroutine: suspend (Budgets) -> Unit,
     editBudgetScreenUIState: EditBudgetScreenUIState,
     updateAlertDialog: (Boolean) -> Unit,
-    nullCheckFields: () -> Boolean) {
+    nullCheckFields: () -> Boolean,
+    checkNameExistence: (String) -> Boolean) {
 
     val date1: Date = editBudgetScreenUIState.date1
     val date2: Date = editBudgetScreenUIState.date2
@@ -302,7 +303,7 @@ fun EditBudgetScreen(
                                 val selectedDate: Calendar = Calendar.getInstance()
                                 selectedDate.set(year1, month1, dayOfMonth1)
 
-                                // Data de final trebuie sa fie dupa data curenta si dupa data de inceput.
+                                // Data de final trebuie sa fie dupa data de inceput.
                                 verifyFinalDate(
                                     selectedDate, localDate, onUpdateDate2 = onUpdateDate2,
                                     onUpdateOpenWarningDialog = onUpdateOpenWarningDialog
@@ -333,17 +334,24 @@ fun EditBudgetScreen(
                 Button(onClick = {
                                     val date1Str: String = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date1)
                                     val date2Str: String = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date2)
+
                                     //Trebuie sa si adaug bugetul in viewState
-                                    if (date2Str >= date1Str) {
+                                    if (date2Str >= date1Str && !checkNameExistence(editBudgetScreenUIState.filledText)) {
                                         if (!readyToGo) {
                                             updateReadyToGo(true)
                                         }
                                     }
                                     else {
-                                        onUpdateOpenWarningDialog(
-                                            true,
-                                            R.string.avertisment_data_continut_data_inceput
-                                        )
+                                        if (date2Str < date1Str)
+                                            onUpdateOpenWarningDialog(
+                                                true,
+                                                R.string.avertisment_data_continut_data_inceput
+                                            )
+                                        else if (checkNameExistence(filledText))
+                                            onUpdateOpenWarningDialog(
+                                                true,
+                                                R.string.avertisment_nume_preexistent
+                                            )
                                     }
                                 },
                         modifier = Modifier

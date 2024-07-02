@@ -11,7 +11,7 @@ import com.barbuceanuconstantin.proiectlicenta.data.dao.TransactionsDAO
 
 @Database(
             entities = [Categories::class, MainCategories::class, Transactions::class, Budgets::class],
-            version = 1, exportSchema = true
+            version = 1, exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class BudgetTrackerDatabase: RoomDatabase() {
