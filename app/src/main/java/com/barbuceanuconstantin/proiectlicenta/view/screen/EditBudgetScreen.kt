@@ -347,11 +347,18 @@ fun EditBudgetScreen(
                                                 true,
                                                 R.string.avertisment_data_continut_data_inceput
                                             )
-                                        else if (checkNameExistence(filledText))
-                                            onUpdateOpenWarningDialog(
-                                                true,
-                                                R.string.avertisment_nume_preexistent
-                                            )
+                                        else if (checkNameExistence(filledText)) {
+                                            if (budget == null) {
+                                                onUpdateOpenWarningDialog(
+                                                    true,
+                                                    R.string.avertisment_nume_preexistent
+                                                )
+                                            } else {
+                                                if (!readyToGo) {
+                                                    updateReadyToGo(true)
+                                                }
+                                            }
+                                        }
                                     }
                                 },
                         modifier = Modifier
