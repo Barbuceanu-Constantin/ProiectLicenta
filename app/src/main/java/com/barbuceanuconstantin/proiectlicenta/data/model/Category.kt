@@ -106,7 +106,7 @@ private fun Subcategory(
 
             IconButton(onClick = {
                 runDeleteCategoryByName(deleteByNameCoroutine, text, label)
-            }) {
+            }, modifier = Modifier.padding(end = dimensionResource(id = R.dimen.almost_hundred))) {
                 Icon(
                     Icons.Filled.Delete, contentDescription = "Favorite",
                     tint = colorResource(id = R.color.black)
