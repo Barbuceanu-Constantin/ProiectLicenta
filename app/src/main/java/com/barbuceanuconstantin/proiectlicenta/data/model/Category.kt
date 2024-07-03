@@ -106,7 +106,7 @@ private fun Subcategory(
 
             IconButton(onClick = {
                 runDeleteCategoryByName(deleteByNameCoroutine, text, label)
-            }, modifier = Modifier.padding(end = dimensionResource(id = R.dimen.almost_hundred))) {
+            }) {
                 Icon(
                     Icons.Filled.Delete, contentDescription = "Favorite",
                     tint = colorResource(id = R.color.black)
@@ -132,7 +132,10 @@ fun CategoriesLazyColumn(
                         categorii = categorii,
                         deleteByNameCoroutine = deleteByNameCoroutine
             )
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
+            if (index == categorii.size - 1)
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.almost_hundred)))
+            else
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.thin_line)))
         }
     }
 }
